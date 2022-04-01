@@ -1,11 +1,12 @@
 import React, { Suspense } from 'react';
 import router from './router'
-import './App.css';
+// @ts-ignore
+import styles from './App.less';
 
 function App() {
   const loading = <div>Loading ...</div>
   return (
-    <div className="App">
+    <div className={styles.app}>
       <Suspense fallback={loading}>
         {router}
       </Suspense>
