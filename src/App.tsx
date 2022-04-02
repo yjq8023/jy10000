@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
-import router from './router'
-// @ts-ignore
+import router from './router';
 import styles from './App.less';
 
 function App() {

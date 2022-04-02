@@ -1,9 +1,9 @@
 import { Outlet, Link } from 'react-router-dom'
-export default () => {
+const Home = () => {
   return <div>
-    <h1>Home11</h1>
+    <h1>Home11234</h1>
     <div>
-      <Link to='page1'>to page1</Link>
+      <Link to='page1'>to page11</Link>
       <br/>
       <Link to='page2'>to page2</Link>
       <br/>
@@ -14,3 +14,4 @@ export default () => {
     </div>
   </div>
 }
+export default Home
