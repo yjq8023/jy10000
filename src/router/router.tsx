@@ -1,15 +1,15 @@
-import { lazy } from 'react';
+import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-const Home = lazy(() => import('./pages/Home'));
-const Page1 = lazy(() => import('./pages/page1'));
-const Page2 = lazy(() => import('./pages/page2'));
-const Login = lazy(() => import('./pages/Login'));
+const Home = lazy(() => import('../pages/Home'));
+const Page1 = lazy(() => import('../pages/page1'));
+const Page2 = lazy(() => import('../pages/page2'));
+const Login = lazy(() => import('../pages/Login'));
 
-type routerConfig = {
+type routerConfigProps = {
   path: string
   element: any
-  children?: routerConfig[]
+  children?: routerConfigProps[]
 }
 export const routerConfig = [
   {
@@ -32,7 +32,8 @@ export const routerConfig = [
   },
 ];
 
-export const renderRoutes = (routerConfig: routerConfig[]) => routerConfig.map(({ children, ...routeProps }) => (
+export const renderRoutes = (routerConfigData: routerConfigProps[]) => routerConfigData.map(({ children, ...routeProps }) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
   <Route {...routeProps}>
     {children && renderRoutes(children)}
   </Route>
