@@ -68,7 +68,8 @@
     "test": "node scripts/test.js",
     "eslint": "eslint --ext .js,.tsx,.ts src",
     "eslintfix": "eslint --fix --ext .js,.tsx,.ts src",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "pre": "prettier --write"
   },
   "eslintConfig": {
     "extends": [
@@ -169,8 +170,7 @@
   },
   "lint-staged": {
     "**/*": [
-      "prettier --write",
-      "eslint",
+      "eslint --fix",
       "git add"
     ]
   }
