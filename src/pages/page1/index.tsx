@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { demoState, transformDemoState } from '../../store/atom';
+import { demoState, transformDemoState } from '@/store/atom';
 
 export default function Page1() {
   const [text, setText] = useRecoilState(demoState);
