@@ -166,7 +166,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,vue}": [
+    "*.{js,tsx,ts}": [
       "prettier --write",
       "yarn lint",
       "git add"
