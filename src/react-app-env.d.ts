@@ -70,8 +70,7 @@ declare module '*.module.sass' {
   export default classes;
 }
 
-declare module "*.less" {
+declare module '*.less' {
   const content: { [className: string]: string };
   export default content;
 }
-
