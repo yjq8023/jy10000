@@ -21,7 +21,7 @@ module.exports = {
   ],
   rules: {
     'import/extensions': [2, 'never', { 'web.js': 'never', json: 'never' }],
-    'import/no-extraneous-dependencies': [2, { devDependencies: true }],
+    'import/no-extraneous-dependencies': 'off',
     'import/no-unresolved': 'off',
     'react/jsx-filename-extension': 'off',
     'max-len': 'off',

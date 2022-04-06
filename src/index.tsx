@@ -5,6 +5,8 @@ import { RecoilRoot } from 'recoil';
 import './index.less';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import '@sinohealth/butterfly-ui-antd/dist/@sinohealth/butterfly-ui-antd.css';
+import '@sinohealth/butterfly-ui-components/lib/index.css';
 
 ReactDOM.render(
   <React.StrictMode>

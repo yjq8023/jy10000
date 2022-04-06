@@ -1646,10 +1646,10 @@
   resolved "https://registry.npmmirror.com/@rushstack/eslint-patch/-/eslint-patch-1.1.1.tgz"
   integrity sha512-BUyKJGdDWqvWC5GEhyOiUrGNi9iJUr4CU0O2WxJL6QJhHeeA/NVBalH+FeK0r/x/W0rPymXt5s78TDS7d6lCwg==
 
-"@sinohealth/butterfly-ui-antd@1.0.1-alpha.1":
-  version "1.0.1-alpha.1"
-  resolved "http://192.168.16.59:8081/repository/npm-releases-repository/@sinohealth/butterfly-ui-antd/-/butterfly-ui-antd-1.0.1-alpha.1.tgz#d368b022884ddaa970da1c2d042a6139d7062cce"
-  integrity sha512-LP57sxSH+9AKS6r6Ai4s/h96GL0JH2iCYwbDFYL5y6Eg9NRoEuL1G59Fqu742UehvKabGS7iUqpTYGU3fWWjow==
+"@sinohealth/butterfly-ui-antd@1.0.1-alpha.2":
+  version "1.0.1-alpha.2"
+  resolved "http://192.168.16.59:8081/repository/npm-releases-repository/@sinohealth/butterfly-ui-antd/-/butterfly-ui-antd-1.0.1-alpha.2.tgz#9f7030116c4abe5f481849dce811526f7f182ca1"
+  integrity sha512-8Lc/DywjioQxa4+c5WfqtdWg5aQbg630hFKdNIEjGOwCC7a6o0//p4mB30TKSOGH3jUrTXgdfSHw/Si9d8kDrA==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.7.0"
@@ -1695,13 +1695,13 @@
     rc-util "^5.19.3"
     scroll-into-view-if-needed "^2.2.25"
 
-"@sinohealth/butterfly-ui-components@^1.0.1-alpha.1":
-  version "1.0.1-alpha.1"
-  resolved "http://192.168.16.59:8081/repository/npm-releases-repository/@sinohealth/butterfly-ui-components/-/butterfly-ui-components-1.0.1-alpha.1.tgz#f936e2c8444c65a2ef6002fae38673d0c1cf4907"
-  integrity sha512-pgrGlyCa7HFrsE0Nah5nfuQSy6CW7HgyGJGVn1zhHfe3emxFHygfOGFYh0l2V8dD1iZvRjELNkBjjmDKUbV9Kw==
+"@sinohealth/butterfly-ui-components@^1.0.1-alpha.2":
+  version "1.0.1-alpha.2"
+  resolved "http://192.168.16.59:8081/repository/npm-releases-repository/@sinohealth/butterfly-ui-components/-/butterfly-ui-components-1.0.1-alpha.2.tgz#c4d944367d0c7ddc4c60360903998b1aac3a8539"
+  integrity sha512-MghXAsnd8nPZB2WxvofL3vDETdOFCPgHyMsfYmJQTn8EzZz0CHkLv9zvfwOUep05R2IVBduHGfkB6APTdg4lwg==
   dependencies:
     "@babel/runtime" "^7.17.8"
-    "@sinohealth/butterfly-ui-antd" "1.0.1-alpha.1"
+    "@sinohealth/butterfly-ui-antd" "1.0.1-alpha.2"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
