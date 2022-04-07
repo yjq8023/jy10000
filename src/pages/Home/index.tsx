@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { LayoutPage } from '@sinohealth/butterfly-ui-components/lib';
-import { useMenuConfig } from '@/hooks/index';
+// import { useMenuConfig } from '@/hooks/index';
+import { useMenuConfig } from '@/hooks';
 
 function Home() {
   const [key, setKey] = useState(Date.now());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [menuConfig, setMenuConfig] = useState({});
+  const [menuConfig, setMenuConfig] = useState<any>({});
   const navigate = useNavigate();
   const [headerMenuList, sideMenuList, defaultSelected] = useMenuConfig();
 
@@ -34,10 +35,19 @@ function Home() {
   }, [defaultSelected]);
   const logo = (<div>中康患者管理平台</div>);
   const toolbar = (<div>用户信息</div>);
+  const loading = <div style={{ position: 'absolute' }}>Loading ...</div>;
+  // @ts-ignore
   return (
     <div>
-      {/* @ts-ignore */}
-      {isLoaded && (<LayoutPage key={key} menuConfig={menuConfig} collapsed={false} logo={logo} toolbar={toolbar}><Outlet /></LayoutPage>)}
+      {
+        isLoaded && (
+        <LayoutPage key={key} menuConfig={menuConfig} collapsed={false} logo={logo} toolbar={toolbar}>
+          <Suspense fallback={loading}>
+            <Outlet />
+          </Suspense>
+        </LayoutPage>
+        )
+      }
     </div>
   );
 }

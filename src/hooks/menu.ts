@@ -53,17 +53,20 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
   const [defaultSelected, setDefaultSelected] = useState<defaultSelectedDataProps>({});
   const [sideMenu, setSideState] = useState<MenuItem[]>([]);
   const [headerMenu, setHeaderState] = useState<MenuItem[]>([]);
+  const changeDefaultSelected = (data: MenuItem[]) => {
+    const defaultSelectedData = getDefaultSelectedMenu(data);
+    setDefaultSelected(defaultSelectedData);
+    if (defaultSelectedData.sideMenuData && defaultSelectedData.sideMenuData.length > 0) {
+      setSideState(defaultSelectedData.sideMenuData);
+    }
+  };
   // 初始化菜单数据
   useEffect(() => {
     getMenuConfig().then((data) => {
       setMenuConfig(data);
-      const defaultSelectedData = getDefaultSelectedMenu(data);
-      setDefaultSelected(defaultSelectedData);
-      if (defaultSelectedData.sideMenuData && defaultSelectedData.sideMenuData.length > 0) {
-        setSideState(defaultSelectedData.sideMenuData);
-      }
+      changeDefaultSelected(data);
     });
-  }, [navigate]);
+  }, []);
   // 提取头部菜单数据以及设置头部菜单和左侧菜单联动逻辑
   useEffect(() => {
     const menuList = menuConfig.map((item) => ({
@@ -72,6 +75,7 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
       onClick() {
         setSideState(item.children);
         navigate(getNoOnePath(item.children));
+        changeDefaultSelected(menuConfig);
       },
     }));
     setHeaderState(menuList);
