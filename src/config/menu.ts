@@ -36,11 +36,11 @@ const menuConfig: MenuItemProps[] = [
         label: '系统分析',
         children: [
           {
-            path: '/page1',
+            path: '/page11',
             label: '订单查询',
           },
           {
-            path: '/page2',
+            path: '/page22',
             label: '经营状况',
           },
         ],

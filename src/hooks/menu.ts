@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   getMenuConfig,
   mapMenuConfig,
@@ -36,7 +37,18 @@ function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProp
     headerMenuSelectedKeys, sideMenuSelectedKeys, defaultOpenKeys, sideMenuData,
   };
 }
+
+function getNoOnePath(menuConfig: MenuItem[]): string {
+  let path = '';
+  mapMenuConfig(menuConfig, (item: any) => {
+    if (item.path && !path) {
+      path = item.path;
+    }
+  });
+  return path;
+}
 export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataProps] {
+  const navigate = useNavigate();
   const [menuConfig, setMenuConfig] = useState<MenuItem[]>([]);
   const [defaultSelected, setDefaultSelected] = useState<defaultSelectedDataProps>({});
   const [sideMenu, setSideState] = useState<MenuItem[]>([]);
@@ -51,7 +63,7 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
         setSideState(defaultSelectedData.sideMenuData);
       }
     });
-  }, []);
+  }, [navigate]);
   // 提取头部菜单数据以及设置头部菜单和左侧菜单联动逻辑
   useEffect(() => {
     const menuList = menuConfig.map((item) => ({
@@ -59,6 +71,7 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
       children: [],
       onClick() {
         setSideState(item.children);
+        navigate(getNoOnePath(item.children));
       },
     }));
     setHeaderState(menuList);
