@@ -1,11 +1,11 @@
 import React, { lazy } from 'react';
 import Home from '../pages/Home';
+import Login from '../pages/Login';
 // const Home = lazy(() => import('../pages/Home'));
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const Page1 = lazy(() => import('../pages/page1'));
 const Page2 = lazy(() => import('../pages/page2'));
-const Login = lazy(() => import('../pages/Login'));
 
 const routerConfig = [
   {
