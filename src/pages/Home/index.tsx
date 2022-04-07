@@ -9,6 +9,7 @@ function Home() {
   const [menuConfig, setMenuConfig] = useState({});
   const navigate = useNavigate();
   const [headerMenuList, sideMenuList, defaultSelected] = useMenuConfig();
+
   // 拼装菜单数据，配置内容跟Menu组件保持一致，增加了menuList数据渲染
   useEffect(() => {
     setMenuConfig({

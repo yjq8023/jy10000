@@ -17,6 +17,7 @@ module.exports = {
   },
   plugins: [
     'react',
+    'prettier',
     '@typescript-eslint',
   ],
   rules: {
