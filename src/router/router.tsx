@@ -8,9 +8,9 @@ type routerConfigProps = {
   children?: routerConfigProps[]
 }
 
-export const renderRoutes = (routerConfigData: routerConfigProps[]) => routerConfigData.map(({ children, ...routeProps }) => (
+export const renderRoutes = (routerConfigData: any[]) => routerConfigData.map(({ children, ...routeProps }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
-  <Route {...routeProps}>
+  <Route {...routeProps} key={routeProps.path}>
     {children && renderRoutes(children)}
   </Route>
 ));

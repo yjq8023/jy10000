@@ -11,6 +11,19 @@ const routerConfig = [
     element: <Home />,
     children: [
       {
+        path: '/prescrip',
+        children: [
+          {
+            path: 'order/list',
+            element: <Page1 />,
+          },
+          {
+            path: 'order/detail',
+            element: <Page2 />,
+          },
+        ],
+      },
+      {
         path: '/page1',
         element: <Page1 />,
       },

@@ -3,7 +3,7 @@ import router from './router/router';
 import styles from './App.less';
 
 function App() {
-  const loading = <div>Loading ...</div>;
+  const loading = <div style={{ position: 'absolute' }}>Loading ...</div>;
   return (
     <div className={styles.app}>
       <Suspense fallback={loading}>

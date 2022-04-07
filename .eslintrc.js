@@ -25,5 +25,6 @@ module.exports = {
     'import/no-unresolved': 'off',
     'react/jsx-filename-extension': 'off',
     'max-len': 'off',
+    'no-use-before-define': 'off',
   },
 };
