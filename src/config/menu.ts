@@ -8,11 +8,11 @@ const menuConfig: MenuItemProps[] = [
         label: '模板页面',
         children: [
           {
-            path: 'page1',
+            path: '/page1',
             label: '页面一',
           },
           {
-            path: 'page2',
+            path: '/page2',
             label: '页面二',
           },
         ],
@@ -36,11 +36,11 @@ const menuConfig: MenuItemProps[] = [
         label: '系统分析',
         children: [
           {
-            path: 'page1',
+            path: '/page1',
             label: '订单查询',
           },
           {
-            path: 'page2',
+            path: '/page2',
             label: '经营状况',
           },
         ],

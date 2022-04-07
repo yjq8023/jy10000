@@ -12,6 +12,7 @@ type defaultSelectedDataProps = {
   defaultOpenKeys?: string[],
   sideMenuData?: MenuItem[],
 }
+// 根据当前路由获取默认菜单数据
 function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProps {
   const { pathname } = window.location;
   const headerMenuSelectedKeys: string[] = [];
@@ -40,6 +41,7 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
   const [defaultSelected, setDefaultSelected] = useState<defaultSelectedDataProps>({});
   const [sideMenu, setSideState] = useState<MenuItem[]>([]);
   const [headerMenu, setHeaderState] = useState<MenuItem[]>([]);
+  // 初始化菜单数据
   useEffect(() => {
     getMenuConfig().then((data) => {
       setMenuConfig(data);
@@ -50,6 +52,7 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
       }
     });
   }, []);
+  // 提取头部菜单数据以及设置头部菜单和左侧菜单联动逻辑
   useEffect(() => {
     const menuList = menuConfig.map((item) => ({
       ...item,

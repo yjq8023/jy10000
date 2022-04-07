@@ -9,6 +9,7 @@ function Home() {
   const [menuConfig, setMenuConfig] = useState({});
   const navigate = useNavigate();
   const [headerMenuList, sideMenuList, defaultSelected] = useMenuConfig();
+  // 拼装菜单数据，配置内容跟Menu组件保持一致，增加了menuList数据渲染
   useEffect(() => {
     setMenuConfig({
       sideMenu: {
@@ -26,6 +27,7 @@ function Home() {
     });
     setIsLoaded(true);
   }, [headerMenuList, sideMenuList, defaultSelected]);
+  // 每次刷新默认选中数据，重新渲染layoutPage组件。否则默认数据不会生效
   useEffect(() => {
     setKey(Date.now());
   }, [defaultSelected]);
