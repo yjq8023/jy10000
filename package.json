@@ -71,7 +71,7 @@
     "eslint": "eslint --ext .js,.tsx,.ts src",
     "eslintfix": "eslint --fix --ext .js,.tsx,.ts src",
     "lint-staged": "lint-staged",
-    "pre": "prettier --write"
+    "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\" --loglevel warn"
   },
   "eslintConfig": {
     "extends": [
@@ -152,6 +152,7 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
+    "@umijs/fabric": "^2.10.2",
     "eslint": "^8.12.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.25.4",
@@ -172,6 +173,7 @@
   },
   "lint-staged": {
     "**/*": [
+      "prettier",
       "eslint --fix",
       "git add"
     ]
