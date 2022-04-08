@@ -1,0 +1,14 @@
+node_modules
+dist
+/.vscode
+lib
+es
+.github
+.husky
+scripts
+public
+config
+yarn.lock
+package-lock.json
+
+

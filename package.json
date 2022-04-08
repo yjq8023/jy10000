@@ -71,7 +71,8 @@
     "eslint": "eslint --ext .js,.tsx,.ts src",
     "eslintfix": "eslint --fix --ext .js,.tsx,.ts src",
     "lint-staged": "lint-staged",
-    "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\" --loglevel warn"
+    "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\" --loglevel warn",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -173,9 +174,8 @@
   },
   "lint-staged": {
     "**/*": [
-      "prettier",
-      "eslint --fix",
-      "git add"
+      "eslint --fix src",
+      "prettier --write --ignore-unknown"
     ]
   }
 }
