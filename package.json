@@ -173,8 +173,10 @@
     }
   },
   "lint-staged": {
+    "src/**": [
+      "eslint --fix ./src"
+    ],
     "**/*": [
-      "eslint --fix src",
       "prettier --write --ignore-unknown"
     ]
   }
