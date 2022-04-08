@@ -1,18 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  getMenuConfig,
-  mapMenuConfig,
-  mapMenuParent,
-  MenuItem,
-} from '@/config/menu';
+import { getMenuConfig, mapMenuConfig, mapMenuParent, MenuItem } from '@/config/menu';
 
 type defaultSelectedDataProps = {
-  headerMenuSelectedKeys?: string[],
-  sideMenuSelectedKeys?: string[],
-  defaultOpenKeys?: string[],
-  sideMenuData?: MenuItem[],
-}
+  headerMenuSelectedKeys?: string[];
+  sideMenuSelectedKeys?: string[];
+  defaultOpenKeys?: string[];
+  sideMenuData?: MenuItem[];
+};
 // 根据当前路由获取默认菜单数据
 function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProps {
   const { pathname } = window.location;
@@ -34,7 +29,10 @@ function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProp
     }
   });
   return {
-    headerMenuSelectedKeys, sideMenuSelectedKeys, defaultOpenKeys, sideMenuData,
+    headerMenuSelectedKeys,
+    sideMenuSelectedKeys,
+    defaultOpenKeys,
+    sideMenuData,
   };
 }
 

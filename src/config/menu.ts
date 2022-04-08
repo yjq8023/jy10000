@@ -60,17 +60,19 @@ export class MenuItem {
     Object.assign(this, props);
     this.parent = props.parent || null;
     this.key = props.key || props.path || getUuid();
-    this.children = props.children ? props.children.map((config) => new MenuItem({ ...config, parent: this })) : [];
+    this.children = props.children
+      ? props.children.map((config) => new MenuItem({ ...config, parent: this }))
+      : [];
   }
 }
 
 export type MenuItemProps = {
-  label: string,
-  key?: string,
-  path?: string,
-  parent?: MenuItem,
-  children?: MenuItemProps[]
-}
+  label: string;
+  key?: string;
+  path?: string;
+  parent?: MenuItem;
+  children?: MenuItemProps[];
+};
 
 export function mapMenuConfig(menu: MenuItem[], fn: any) {
   menu.forEach((item) => {

@@ -33,21 +33,25 @@ function Home() {
   useEffect(() => {
     setKey(Date.now());
   }, [defaultSelected]);
-  const logo = (<div>中康患者管理平台</div>);
-  const toolbar = (<div>用户信息</div>);
+  const logo = <div>中康患者管理平台</div>;
+  const toolbar = <div>用户信息</div>;
   const loading = <div style={{ position: 'absolute' }}>Loading ...</div>;
   // @ts-ignore
   return (
     <div>
-      {
-        isLoaded && (
-        <LayoutPage key={key} menuConfig={menuConfig} collapsed={false} logo={logo} toolbar={toolbar}>
+      {isLoaded && (
+        <LayoutPage
+          key={key}
+          menuConfig={menuConfig}
+          collapsed={false}
+          logo={logo}
+          toolbar={toolbar}
+        >
           <Suspense fallback={loading}>
             <Outlet />
           </Suspense>
         </LayoutPage>
-        )
-      }
+      )}
     </div>
   );
 }

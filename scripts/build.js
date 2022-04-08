@@ -54,7 +54,8 @@ checkBrowsers(paths.appPath, isInteractive)
   .then(() =>
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
-    measureFileSizesBeforeBuild(paths.appBuild))
+    measureFileSizesBeforeBuild(paths.appBuild),
+  )
   .then((previousFileSizes) => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
@@ -70,14 +71,12 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log(chalk.yellow('Compiled with warnings.\n'));
         console.log(warnings.join('\n\n'));
         console.log(
-          `\nSearch for the ${
-            chalk.underline(chalk.yellow('keywords'))
-          } to learn more about each warning.`,
+          `\nSearch for the ${chalk.underline(
+            chalk.yellow('keywords'),
+          )} to learn more about each warning.`,
         );
         console.log(
-          `To ignore, add ${
-            chalk.cyan('// eslint-disable-next-line')
-          } to the line before.\n`,
+          `To ignore, add ${chalk.cyan('// eslint-disable-next-line')} to the line before.\n`,
         );
       } else {
         console.log(chalk.green('Compiled successfully.\n'));
@@ -97,13 +96,7 @@ checkBrowsers(paths.appPath, isInteractive)
       const publicUrl = paths.publicUrlOrPath;
       const { publicPath } = config.output;
       const buildFolder = path.relative(process.cwd(), paths.appBuild);
-      printHostingInstructions(
-        appPackage,
-        publicUrl,
-        publicPath,
-        buildFolder,
-        useYarn,
-      );
+      printHostingInstructions(appPackage, publicUrl, publicPath, buildFolder, useYarn);
     },
     (err) => {
       const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
@@ -145,9 +138,7 @@ function build(previousFileSizes) {
 
         // Add additional information for postcss errors
         if (Object.prototype.hasOwnProperty.call(err, 'postcssNode')) {
-          errMessage
-            += `\nCompileError: Begins at CSS selector ${
-              err.postcssNode.selector}`;
+          errMessage += `\nCompileError: Begins at CSS selector ${err.postcssNode.selector}`;
         }
 
         messages = formatWebpackMessages({
@@ -168,10 +159,9 @@ function build(previousFileSizes) {
         return reject(new Error(messages.errors.join('\n\n')));
       }
       if (
-        process.env.CI
-        && (typeof process.env.CI !== 'string'
-          || process.env.CI.toLowerCase() !== 'false')
-        && messages.warnings.length
+        process.env.CI &&
+        (typeof process.env.CI !== 'string' || process.env.CI.toLowerCase() !== 'false') &&
+        messages.warnings.length
       ) {
         // Ignore sourcemap warnings in CI builds. See #8227 for more info.
         const filteredWarnings = messages.warnings.filter(
@@ -180,8 +170,8 @@ function build(previousFileSizes) {
         if (filteredWarnings.length) {
           console.log(
             chalk.yellow(
-              '\nTreating warnings as errors because process.env.CI = true.\n'
-                + 'Most CI servers set it automatically.\n',
+              '\nTreating warnings as errors because process.env.CI = true.\n' +
+                'Most CI servers set it automatically.\n',
             ),
           );
           return reject(new Error(filteredWarnings.join('\n\n')));
