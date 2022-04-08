@@ -20,5 +20,8 @@ module.exports = {
     'react/jsx-filename-extension': 'off',
     'max-len': 'off',
     'no-use-before-define': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'object-curly-newline': 'off',
+    'linebreak-style': ['off', 'windows'],
   },
 };
