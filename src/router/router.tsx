@@ -15,6 +15,4 @@ export const renderRoutes = (routerConfigData: any[]) =>
       {children && renderRoutes(children)}
     </Route>
   ));
-let a = 1234;
-a++;
 export default <Routes>{renderRoutes(routerConfig)}</Routes>;
