@@ -15,5 +15,5 @@ export const renderRoutes = (routerConfigData: any[]) =>
       {children && renderRoutes(children)}
     </Route>
   ));
-const a = 1;
+const a = 12;
 export default <Routes>{renderRoutes(routerConfig)}</Routes>;
