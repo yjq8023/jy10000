@@ -11,7 +11,7 @@ type routerConfigProps = {
 export const renderRoutes = (routerConfigData: any[]) =>
   routerConfigData.map(({ children, ...routeProps }) => (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <Route {...routeProps} key={routeProps.path}>
+    <Route {...routeProps} key={routeProps.path} state={{ test: 1 }}>
       {children && renderRoutes(children)}
     </Route>
   ));
