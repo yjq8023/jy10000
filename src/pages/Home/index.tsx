@@ -20,13 +20,13 @@ function Home() {
       sideMenu: collapsedNow
         ? { menuList: [] }
         : {
-            menuList: sideMenuList,
-            defaultSelectedKeys: defaultSelected.sideMenuSelectedKeys,
-            defaultOpenKeys: defaultSelected.defaultOpenKeys,
-            onSelect(item: any) {
-              navigate(item.key);
-            },
+          menuList: sideMenuList,
+          defaultSelectedKeys: defaultSelected.sideMenuSelectedKeys,
+          defaultOpenKeys: defaultSelected.defaultOpenKeys,
+          onSelect(item: any) {
+            navigate(item.key);
           },
+        },
       headerMenu: {
         menuList: headerMenuList,
         defaultSelectedKeys: defaultSelected.headerMenuSelectedKeys,

@@ -48,7 +48,7 @@ export const setCookies = (key: string, value: any) => {
  * @param key 存储的健
  */
 export const getCookies = (key: string) =>
-  Cookies.get(key) ? JSON.parse(decodeURIComponent(escape(window.atob(Cookies.get(key))))) : null;
+  (Cookies.get(key) ? JSON.parse(decodeURIComponent(escape(window.atob(Cookies.get(key))))) : null);
 
 /**
  * 移除 cookie 中的数据
