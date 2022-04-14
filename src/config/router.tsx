@@ -24,7 +24,6 @@ const routerConfig: routerConfigItem[] = [
           {
             path: 'order/list',
             element: <Page1 />,
-            hideInMenu: true,
           },
           {
             path: 'order/detail',

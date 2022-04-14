@@ -78,6 +78,9 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
     }));
     setHeaderState(menuList);
   }, [menuConfig]);
+  useEffect(() => {
+    changeDefaultSelected(menuConfig);
+  }, [navigate]);
   return [headerMenu, sideMenu, defaultSelected];
 }
 
