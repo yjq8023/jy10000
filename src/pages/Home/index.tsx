@@ -5,7 +5,6 @@ import { useMenuConfig } from '@/hooks';
 import { hideInMenuPages } from '@/config/router';
 
 function Home() {
-  const [isLoaded, setIsLoaded] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [menuConfig, setMenuConfig] = useState<any>({});
   const navigate = useNavigate();
@@ -19,32 +18,31 @@ function Home() {
       sideMenu: collapsedNow
         ? { menuList: [] }
         : {
+            key: Date.now(),
             menuList: sideMenuList,
-            selectedKeys: defaultSelected.sideMenuSelectedKeys,
-            openKeys: defaultSelected.defaultOpenKeys,
+            defaultSelectedKeys: defaultSelected.sideMenuSelectedKeys,
+            defaultOpenKeys: defaultSelected.defaultOpenKeys,
             onSelect(item: any) {
               navigate(item.key);
             },
           },
       headerMenu: {
+        key: Date.now(),
         menuList: headerMenuList,
-        selectedKeys: defaultSelected.headerMenuSelectedKeys,
+        defaultSelectedKeys: defaultSelected.headerMenuSelectedKeys,
       },
     });
-    setIsLoaded(true);
   }, [headerMenuList, sideMenuList, defaultSelected, location]);
   const logo = <div>中康患者管理平台</div>;
   const toolbar = <div>用户信息</div>;
   const loading = <div style={{ position: 'absolute' }}>Loading ...</div>;
   return (
     <div>
-      {isLoaded && (
-        <LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>
-          <Suspense fallback={loading}>
-            <Outlet />
-          </Suspense>
-        </LayoutPage>
-      )}
+      <LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>
+        <Suspense fallback={loading}>
+          <Outlet />
+        </Suspense>
+      </LayoutPage>
     </div>
   );
 }
