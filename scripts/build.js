@@ -22,6 +22,11 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const printBuildError = require('react-dev-utils/printBuildError');
+const paths = require('../config/paths');
+// We require that you explicitly set browsers and do not fall back to
+// browserslist defaults.
+const { checkBrowsers } = require('react-dev-utils/browsersHelper');
+const configFactory = require('../config/webpack.config');
 
 const { measureFileSizesBeforeBuild } = FileSizeReporter;
 const { printFileSizesAfterBuild } = FileSizeReporter;
@@ -43,12 +48,6 @@ const writeStatsJson = argv.indexOf('--stats') !== -1;
 
 // Generate configuration
 const config = configFactory('production');
-
-// We require that you explicitly set browsers and do not fall back to
-// browserslist defaults.
-const { checkBrowsers } = require('react-dev-utils/browsersHelper');
-const paths = require('../config/paths');
-const configFactory = require('../config/webpack.config');
 
 checkBrowsers(paths.appPath, isInteractive)
   .then(() =>
@@ -157,25 +156,6 @@ function build(previousFileSizes) {
           messages.errors.length = 1;
         }
         return reject(new Error(messages.errors.join('\n\n')));
-      }
-      if (
-        process.env.CI &&
-        (typeof process.env.CI !== 'string' || process.env.CI.toLowerCase() !== 'false') &&
-        messages.warnings.length
-      ) {
-        // Ignore sourcemap warnings in CI builds. See #8227 for more info.
-        const filteredWarnings = messages.warnings.filter(
-          (w) => !/Failed to parse source map/.test(w),
-        );
-        if (filteredWarnings.length) {
-          console.log(
-            chalk.yellow(
-              '\nTreating warnings as errors because process.env.CI = true.\n' +
-                'Most CI servers set it automatically.\n',
-            ),
-          );
-          return reject(new Error(filteredWarnings.join('\n\n')));
-        }
       }
 
       const resolveArgs = {

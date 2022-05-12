@@ -3,15 +3,14 @@ import axios from 'axios';
 import qs from 'qs';
 import { message } from '@sinohealth/butterfly-ui-components/lib';
 import { getToken } from '@/utils/cookies';
+import { baseURL } from '@/config/base';
 
 // 默认配置
 axios.defaults.timeout = 15000;
 axios.defaults.withCredentials = true;
 // @ts-ignore
 axios.defaults.headers['Content-Type'] = 'application/json';
-// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-const { NODE_ENV } = process.env;
-const baseURL = NODE_ENV === 'development' ? 'http://192.168.16.58:8805' : '/';
+
 // 普通请求实例
 const request = axios.create({
   baseURL,
@@ -26,7 +25,7 @@ const requestFd = axios.create({
     'Content-Type': 'application/x-www-form-urlencoded',
   },
   transformRequest: [
-    function (data) {
+    (data) => {
       Object.keys(data).forEach((key) => {
         if (typeof data[key] === 'object') {
           // eslint-disable-next-line no-param-reassign
@@ -40,27 +39,40 @@ const requestFd = axios.create({
 
 request.interceptors.request.use((conf: any) => conf);
 function beforeRequest(options: any) {
-  // eslint-disable-next-line no-param-reassign
-  options.headers.Authorization = getToken();
-  return options;
+  const newOptions = { ...options };
+  const token = getToken();
+  if (token) {
+    newOptions.headers.Authorization = token;
+  }
+  return newOptions;
 }
 function resolve(response: any) {
   const { data } = response;
+  if (response.config.isFile) {
+    return Promise.resolve(response);
+  }
   if (data.code === 200) {
+    if (response.config.isReturnAllData) {
+      return Promise.resolve(data);
+    }
     return Promise.resolve(data.result);
   }
-  message.error(`Server Error: ${data.message || '服务器出错了，请稍后再试！'}`);
+  message.error(`${data.message || '服务器出错了，请稍后再试！'}`);
   return Promise.reject(data);
 }
 function reject(error: any) {
   let errorMessageText = error.message;
   if (error.response) {
+    if (error.response.status === 401) {
+      message.error('登录状态已过期，请重新登录');
+      window.location.href = '/login';
+    }
     errorMessageText = error.response.data && error.response.data.message;
   } else if (error.request) {
     errorMessageText = error.request;
   }
-  message.error(`Server error: ${errorMessageText || '服务器出错了，请稍后再试！'}`);
-  return Promise.reject(error);
+  message.error(`${errorMessageText || '服务器出错了，请稍后再试！'}`);
+  return Promise.reject(error.response.data);
 }
 request.interceptors.request.use(beforeRequest);
 request.interceptors.response.use(resolve, reject);

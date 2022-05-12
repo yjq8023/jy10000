@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1442px" height="902px" viewBox="0 0 1442 902" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>主题背景BG</title>
+    <defs>
+        <polygon id="path-1" points="1441.04409 528.109285 1171.45716 900.857743 1440 900.910801"></polygon>
+        <filter x="-4.1%" y="-3.0%" width="108.2%" height="105.9%" filterUnits="objectBoundingBox" id="filter-2">
+            <feGaussianBlur stdDeviation="8" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="6" dy="3" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.0864412197   0 0 0 0 0.182161099   0 0 0 0 0.376167187  0 0 0 0.3 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <polygon id="path-3" points="440.630729 0 775 431.589972 344.132576 900.910801 -7.835399e-14 900.589972 -7.835399e-14 0.589972381"></polygon>
+        <filter x="-1.3%" y="-1.1%" width="102.6%" height="102.2%" filterUnits="objectBoundingBox" id="filter-4">
+            <feGaussianBlur stdDeviation="8" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="-4" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.0864412197   0 0 0 0 0.182161099   0 0 0 0 0.376167187  0 0 0 0.3 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="登录页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="账号登录-未输入" transform="translate(0.000000, 1.000000)">
+            <g id="主题背景BG" transform="translate(-0.000000, -0.589972)">
+                <rect id="矩形" fill="#46A0C0" x="1.13686838e-13" y="0.589972381" width="1440" height="900"></rect>
+                <g id="路径-2">
+                    <use fill="#217BA0" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                </g>
+                <g id="路径">
+                    <use fill="#217BA0" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="62px" viewBox="0 0 50 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 69备份 2</title>
+    <defs>
+        <linearGradient x1="23.6622052%" y1="4.88613554%" x2="77.7979435%" y2="95.1645033%" id="linearGradient-1">
+            <stop stop-color="#74D4EB" offset="0%"></stop>
+            <stop stop-color="#217BA0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="审方配药" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="处方首页-卡片-待接单" transform="translate(-727.000000, -102.000000)">
+            <g id="编组-9备份-4" transform="translate(212.000000, 76.000000)">
+                <g id="编组-27" transform="translate(491.000000, 0.000000)">
+                    <g id="编组-69备份-2" transform="translate(24.000000, 26.000000)">
+                        <g id="编组-68">
+                            <rect id="矩形" fill="url(#linearGradient-1)" opacity="0.797944" x="0" y="0" width="44.4444444" height="55.5555556" rx="8"></rect>
+                            <rect id="矩形" fill="#FFFFFF" x="8.88888889" y="13.3333333" width="26.6666667" height="5.55555556" rx="1.5"></rect>
+                            <rect id="矩形备份-13" fill="#FFFFFF" x="8.88888889" y="23.3333333" width="13.3333333" height="5.55555556" rx="1.5"></rect>
+                        </g>
+                        <g id="编组-67" transform="translate(20.000000, 31.111111)">
+                            <rect id="矩形" fill="#D8D8D8" x="0" y="0" width="30" height="30" rx="14"></rect>
+                            <g id="编组-70" transform="translate(12.863037, 11.370860) rotate(-45.000000) translate(-12.863037, -11.370860) translate(5.640814, 2.916007)" fill="#FFFFFF">
+                                <rect id="矩形备份-18" transform="translate(7.222222, 15.243040) rotate(90.000000) translate(-7.222222, -15.243040) " x="5.55555556" y="8.02081742" width="3.33333333" height="14.4444444" rx="1"></rect>
+                                <rect id="矩形备份-22" x="-0.00594454433" y="8.50894042" width="3.33333333" height="8" rx="1"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -11,18 +11,31 @@ type defaultSelectedDataProps = {
 // 根据当前路由获取默认菜单数据
 function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProps {
   const { pathname } = window.location;
-  const headerMenuSelectedKeys: string[] = [];
+  let headerMenuSelectedKeys: string[] = [];
   const sideMenuSelectedKeys: string[] = [];
   const defaultOpenKeys: string[] = [];
   let sideMenuData: never[] = [];
   mapMenuConfig(menuConfig, (item: any) => {
+    // 当没有任意菜单与当前页面匹配时，采取模糊匹配
+    if (
+      pathname.indexOf(item.key) > -1 &&
+      item.key !== pathname &&
+      headerMenuSelectedKeys.length === 0
+    ) {
+      if (item.parent) {
+        defaultOpenKeys.push(item.key);
+      } else {
+        headerMenuSelectedKeys.push(item.key);
+      }
+    }
+    // 当有菜单与页面匹配时
     if (item.key === pathname) {
       sideMenuSelectedKeys.push(item.key);
       mapMenuParent(item, (parent: any) => {
         if (parent.parent) {
           defaultOpenKeys.push(parent.key);
         } else {
-          headerMenuSelectedKeys.push(parent.key);
+          headerMenuSelectedKeys = [parent.key];
           sideMenuData = parent.children;
         }
       });

@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil';
 import App from './App';
 import '@sinohealth/butterfly-ui-antd/dist/@sinohealth/butterfly-ui-antd.css';
 import '@sinohealth/butterfly-ui-components/lib/index.css';
+import '@/style/iconfont/iconfont.css';
 
 ReactDOM.render(
   <React.StrictMode>

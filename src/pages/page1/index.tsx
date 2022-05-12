@@ -7,6 +7,7 @@ export default function Page1() {
   const text2 = useRecoilValue(transformDemoState);
   return (
     <div>
+      <span className="iconfont icon-qiehuanjigou" />
       <h3>待配送 (56)</h3>
       <div>{text}</div>
       <div>{text2}</div>

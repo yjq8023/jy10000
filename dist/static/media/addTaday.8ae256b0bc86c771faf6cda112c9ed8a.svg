@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="62px" viewBox="0 0 50 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 69备份</title>
+    <defs>
+        <linearGradient x1="23.6622052%" y1="4.88613554%" x2="77.7979435%" y2="95.1645033%" id="linearGradient-1">
+            <stop stop-color="#74D4EB" offset="0%"></stop>
+            <stop stop-color="#217BA0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="审方配药" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="处方首页-卡片-待接单" transform="translate(-482.000000, -102.000000)">
+            <g id="编组-9备份-4" transform="translate(212.000000, 76.000000)">
+                <g id="编组-26" transform="translate(246.000000, 0.000000)">
+                    <g id="编组-69备份" transform="translate(24.000000, 26.000000)">
+                        <g id="编组-68">
+                            <rect id="矩形" fill="url(#linearGradient-1)" opacity="0.797944" x="0" y="0" width="44.4444444" height="55.5555556" rx="8"></rect>
+                            <rect id="矩形" fill="#FFFFFF" x="8.88888889" y="13.3333333" width="26.6666667" height="5.55555556" rx="1.5"></rect>
+                            <rect id="矩形备份-13" fill="#FFFFFF" x="8.88888889" y="23.3333333" width="13.3333333" height="5.55555556" rx="1.5"></rect>
+                        </g>
+                        <g id="编组-67" transform="translate(20.000000, 31.111111)">
+                            <rect id="矩形" fill="#A1EBE3" x="0" y="0" width="30" height="30" rx="14"></rect>
+                            <g id="编组-71" transform="translate(7.777778, 7.777778)" fill="#FFFFFF">
+                                <path d="M6.55555556,-3.18323146e-12 L7.88888889,-3.18323146e-12 C8.44117364,-3.18333291e-12 8.88888889,0.44771525 8.88888889,1 L8.88888889,13.4444444 C8.88888889,13.9967292 8.44117364,14.4444444 7.88888889,14.4444444 L6.55555556,14.4444444 C6.00327081,14.4444444 5.55555556,13.9967292 5.55555556,13.4444444 L5.55555556,1 C5.55555556,0.44771525 6.00327081,-3.18313e-12 6.55555556,-3.18323146e-12 Z" id="矩形备份-18" transform="translate(7.222222, 7.222222) scale(-1, 1) rotate(90.000000) translate(-7.222222, -7.222222) "></path>
+                                <rect id="矩形" x="5.55555556" y="0" width="3.33333333" height="14.4444444" rx="1"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

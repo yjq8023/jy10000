@@ -14,18 +14,17 @@ function Home() {
   useEffect(() => {
     const collapsedNow = hideInMenuPages.indexOf(location.pathname) > -1;
     setCollapsed(collapsedNow);
+    const sideMenuConfig = {
+      key: Date.now(),
+      menuList: sideMenuList,
+      defaultSelectedKeys: defaultSelected.sideMenuSelectedKeys,
+      defaultOpenKeys: defaultSelected.defaultOpenKeys,
+      onSelect(item: any) {
+        navigate(item.key);
+      },
+    };
     setMenuConfig({
-      sideMenu: collapsedNow
-        ? { menuList: [] }
-        : {
-            key: Date.now(),
-            menuList: sideMenuList,
-            defaultSelectedKeys: defaultSelected.sideMenuSelectedKeys,
-            defaultOpenKeys: defaultSelected.defaultOpenKeys,
-            onSelect(item: any) {
-              navigate(item.key);
-            },
-          },
+      sideMenu: collapsedNow ? { menuList: [] } : sideMenuConfig,
       headerMenu: {
         key: Date.now(),
         menuList: headerMenuList,

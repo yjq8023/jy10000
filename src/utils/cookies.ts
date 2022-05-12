@@ -42,26 +42,31 @@ export const setCookies = (key: string, value: any) => {
     expires: EXPIRES,
   });
 };
-
+export const setLocalStorage = (key: string, value: any) => {
+  localStorage.setItem(key, window.btoa(unescape(encodeURIComponent(JSON.stringify(value)))));
+};
+export const removeLocalStorage = (key: string) => {
+  localStorage.removeItem(key);
+};
+// @ts-ignore
+// @ts-ignore
 /**
  * 获取 cookie 中的数据
- * @param key 存储的健
+ * @param key 存储的健名
  */
 export const getCookies = (key: string) =>
-  (Cookies.get(key) ? JSON.parse(decodeURIComponent(escape(window.atob(Cookies.get(key))))) : null);
+  Cookies.get(key)
+    ? JSON.parse(decodeURIComponent(escape(window.atob(Cookies.get(key) || ''))))
+    : null;
 
+export const getLocalStorage = (key: string) =>
+  localStorage.getItem(key)
+    ? JSON.parse(decodeURIComponent(escape(window.atob(localStorage.getItem(key) || ''))))
+    : null;
 /**
  * 移除 cookie 中的数据
  * @param key 存储的健
  */
 export const removeCookies = (key: string) => {
   Cookies.remove(key);
-};
-
-/**
- * 移除 cookie 中的全部数据
- * @param key 存储的健
- */
-export const clearCookies = (key: string) => {
-  Cookies.clear(key);
 };
