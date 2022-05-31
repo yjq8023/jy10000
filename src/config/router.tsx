@@ -1,11 +1,10 @@
 import React, { lazy } from 'react';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
+import Home from '../pages/home';
 // const Home = lazy(() => import('../pages/Home'));
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
-const Page1 = lazy(() => import('../pages/page1'));
-const Page2 = lazy(() => import('../pages/page2'));
+const Index = lazy(() => import('../pages/index'));
+const PatientList = lazy(() => import('../pages/patient/patientList'));
 
 type routerConfigItem = {
   path: string;
@@ -19,31 +18,19 @@ const routerConfig: routerConfigItem[] = [
     element: <Home />,
     children: [
       {
-        path: 'prescrip',
-        children: [
-          {
-            path: 'order/list',
-            element: <Page1 />,
-          },
-          {
-            path: 'order/detail',
-            element: <Page2 />,
-          },
-        ],
+        path: 'index',
+        element: <Index />,
+        hideInMenu: true,
       },
       {
-        path: '/page1',
-        element: <Page1 />,
-      },
-      {
-        path: '/page2',
-        element: <Login />,
+        path: '/patient/list',
+        element: <PatientList />,
       },
     ],
   },
   {
-    path: 'login',
-    element: <Login />,
+    path: '*',
+    element: <div>404 page</div>,
   },
 ];
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {

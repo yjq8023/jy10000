@@ -5,7 +5,7 @@ import { useMenuConfig } from '@/hooks';
 import { hideInMenuPages } from '@/config/router';
 
 function Home() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [menuConfig, setMenuConfig] = useState<any>({});
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,7 +32,7 @@ function Home() {
       },
     });
   }, [headerMenuList, sideMenuList, defaultSelected, location]);
-  const logo = <div>中康患者管理平台</div>;
+  const logo = <div>中康全病程管理服务平台</div>;
   const toolbar = <div>用户信息</div>;
   const loading = <div style={{ position: 'absolute' }}>Loading ...</div>;
   return (

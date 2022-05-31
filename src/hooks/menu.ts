@@ -84,9 +84,14 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
       ...item,
       children: [],
       onClick() {
-        setSideState(item.children);
-        navigate(getNoOnePath(item.children));
-        changeDefaultSelected(menuConfig);
+        if (item.children) {
+          setSideState(item.children);
+          navigate(getNoOnePath(item.children));
+          changeDefaultSelected(menuConfig);
+        }
+        if (item.path) {
+          navigate(item.path);
+        }
       },
     }));
     setHeaderState(menuList);

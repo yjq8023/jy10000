@@ -2,48 +2,25 @@ import { getUuid } from '@/utils';
 
 const menuConfig: MenuItemProps[] = [
   {
-    label: '模版菜单',
-    children: [
-      {
-        label: '模板页面',
-        children: [
-          {
-            path: '/page1',
-            label: '页面一',
-          },
-          {
-            path: '/page2',
-            label: '页面二',
-          },
-        ],
-      },
-    ],
+    label: '首页',
+    key: 'index',
+    path: 'index',
   },
   {
-    label: '处方流转',
-    key: 'test',
+    label: '患者管理',
+    key: 'patient',
     children: [
       {
-        label: '处方管理',
-        children: [
-          {
-            path: '/prescrip/order/list',
-            label: '审方订单',
-          },
-        ],
+        label: '患者列表',
+        path: '/patient/list',
       },
       {
-        label: '系统分析',
-        children: [
-          {
-            path: '/page11',
-            label: '订单查询',
-          },
-          {
-            path: '/page22',
-            label: '经营状况',
-          },
-        ],
+        label: '患者咨询',
+        path: '/patient/consult',
+      },
+      {
+        label: '患者邀请',
+        path: '/patient/invite',
       },
     ],
   },
@@ -55,6 +32,8 @@ export class MenuItem {
   key: string = '';
 
   children: MenuItem[];
+
+  path: string = '';
 
   constructor(props: MenuItemProps) {
     Object.assign(this, props);
