@@ -25,7 +25,14 @@ export const randomLenNum = (len: number, date?: boolean) => {
   return random;
 };
 
+export function getBase64(img: any, callback: any) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
 export default {
   getUuid,
   randomLenNum,
+  getBase64,
 };

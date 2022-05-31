@@ -1,0 +1,48 @@
+@import '../../../style/var';
+.loginPage {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  color: @break-color4;
+  background-image: url('../../../assets/images/user/bg.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  .loginBody {
+    width: 1200px;
+    height: 700px;
+    margin: auto;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 5px;
+    > div {
+      display: inline-block;
+      width: 50%;
+      height: 100%;
+      vertical-align: top;
+    }
+    .left {
+      background-image: url('../../../assets/images/user/loginBg.png');
+      background-repeat: no-repeat;
+      background-size: contain;
+      .logo {
+        display: inline-block;
+        width: 321px;
+        height: 147px;
+        margin-top: 80px;
+        margin-left: 53px;
+        background-image: url('../../../assets/images/user/logo.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+      .bb {
+        margin-left: 60px;
+        color: #ffffff;
+        font-size: 12px;
+        line-height: 15px;
+      }
+    }
+    .right {
+      padding: 95px 120px 0;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+@import '@/style/var';
+.loginTypeTabs {
+  display: flex;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 40px;
+  .tabItem {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    &:hover {
+      color: @primary-color;
+    }
+  }
+  .active {
+    position: relative;
+    color: @primary-color;
+    &:after {
+      position: absolute;
+      bottom: -2px;
+      left: calc(50% - 20px);
+      width: 40px;
+      height: 2px;
+      background-color: @primary-color;
+      content: '';
+    }
+  }
+}

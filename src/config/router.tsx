@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import Home from '../pages/home';
-// const Home = lazy(() => import('../pages/Home'));
+import Login from '../pages/user/login';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const Index = lazy(() => import('../pages/index'));
@@ -27,6 +27,10 @@ const routerConfig: routerConfigItem[] = [
         element: <PatientList />,
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <Login/>,
   },
   {
     path: '*',

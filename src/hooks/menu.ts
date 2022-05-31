@@ -18,9 +18,9 @@ function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProp
   mapMenuConfig(menuConfig, (item: any) => {
     // 当没有任意菜单与当前页面匹配时，采取模糊匹配
     if (
-      pathname.indexOf(item.key) > -1 &&
-      item.key !== pathname &&
-      headerMenuSelectedKeys.length === 0
+      pathname.indexOf(item.key) > -1
+      && item.key !== pathname
+      && headerMenuSelectedKeys.length === 0
     ) {
       if (item.parent) {
         defaultOpenKeys.push(item.key);

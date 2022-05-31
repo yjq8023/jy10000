@@ -1,0 +1,65 @@
+@import '@/style/var';
+.accountLogin {
+  margin-top: 60px;
+  :global(.ant-btn-primary[disabled]) {
+    color: #fff;
+    background-color: #46a0c0;
+    border-color: #46a0c0;
+  }
+  :global(.ant-form-item-explain) {
+    display: none;
+  }
+  :global(.ant-input-affix-wrapper-lg) {
+    margin-bottom: 20px;
+    padding: 5.5px 11px;
+  }
+  :global(.ant-checkbox-wrapper > span:last-child) {
+    padding-right: 0;
+    color: @break-color3;
+  }
+  :global(.anticon) {
+    color: @break-color4;
+  }
+  .formItem {
+    margin-top: 27px;
+    margin-bottom: 16px;
+  }
+  .docItem {
+    margin-bottom: 24px;
+  }
+  .codeImg {
+    height: 25px;
+  }
+  .errMessageBox {
+    height: 38px;
+    .message {
+      padding: 9px 18px;
+      line-height: 20px;
+      border-radius: 4px;
+      :global(.anticon) {
+        padding-right: 10px;
+      }
+    }
+    .errMessage {
+      color: @break-color2;
+      border: 1px solid @error-color;
+      background-color: #ffe3dc;
+      :global(.anticon) {
+        color: @error-color;
+      }
+    }
+    .warMessage {
+      border: 1px solid @warning-color;
+      background-color: #FFFBE6;
+      :global(.anticon) {
+        padding-right: 10px;
+        color: @warning-color;
+      }
+    }
+  }
+  .passwordBtn {
+    float: right;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
