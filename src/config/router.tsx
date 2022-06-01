@@ -1,6 +1,7 @@
 import React, { lazy } from 'react';
 import Home from '../pages/home';
 import Login from '../pages/user/login';
+import { Navigate } from 'react-router-dom';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const Index = lazy(() => import('../pages/index'));
@@ -17,6 +18,10 @@ const routerConfig: routerConfigItem[] = [
     path: '/',
     element: <Home />,
     children: [
+      {
+        path: '/',
+        element: <Navigate to="/index" replace />,
+      },
       {
         path: 'index',
         element: <Index />,
