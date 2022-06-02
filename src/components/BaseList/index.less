@@ -1,0 +1,50 @@
+@import "@/style/var";
+.listPage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .searchForm {
+    flex: 0 0 auto;
+    overflow: hidden;
+    :global(.ant-form-item) {
+      margin-bottom: 0;
+    }
+  }
+  .body {
+    flex-grow: 1;
+    position: relative;
+    .listHeader {
+      .title {
+        height: 20px;
+        line-height: 20px;
+        padding-left: 16px;
+        position: relative;
+        margin-bottom: 18px;
+        &:before {
+          content: '';
+          width: 4px;
+          height: 20px;
+          position: absolute;
+          left: 0;
+          top: 0;
+          background-color: @primary-color;
+          display: inline-block;
+          border-radius: 2px;
+        }
+      }
+      .toolbar {
+        text-align: right;
+        margin-top: -9px;
+      }
+    }
+    .fixedTable {
+      :global(.ant-table) {
+        min-height: calc(1000px);
+      }
+    }
+    .pagination {
+      padding: 10px 0;
+      bottom: 0;
+    }
+  }
+}
