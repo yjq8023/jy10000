@@ -54,13 +54,10 @@ const SearchForm = (props: any = {}) => {
             </Col>
             <Col span={8}>
               <Form.Item name="name" label="患者性别">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="disabled" disabled>
-                    Disabled
-                  </Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select placeholder="请选择患者性别">
+                  <Option value="jack">男</Option>
+                  <Option value="lucy">女</Option>
+                  <Option value="Yiminghe">全部</Option>
                 </Select>
               </Form.Item>
             </Col>
