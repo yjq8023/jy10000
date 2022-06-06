@@ -12,6 +12,10 @@ const breadcrumbMap = {
       label: '患者列表',
       path: '/patient/list',
     },
+    add: {
+      label: '患者建档',
+      path: '/patient/add',
+    },
   },
 };
 const PageHeader = () => {

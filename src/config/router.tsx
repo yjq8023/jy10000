@@ -5,7 +5,8 @@ import { Navigate } from 'react-router-dom';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const Index = lazy(() => import('../pages/index'));
-const PatientList = lazy(() => import('../pages/patient/patientList'));
+const PatientList = lazy(() => import('../pages/patient/list'));
+const PatientAdd = lazy(() => import('../pages/patient/add'));
 
 type routerConfigItem = {
   path: string;
@@ -31,6 +32,10 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/patient/list',
         element: <PatientList />,
+      },
+      {
+        path: '/patient/add',
+        element: <PatientAdd />,
       },
     ],
   },

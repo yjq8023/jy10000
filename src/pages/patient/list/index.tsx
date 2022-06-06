@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
-import SearchForm from '@/pages/patient/patientList/components/SearchForm';
-import ListBody from '@/pages/patient/patientList/components/ListBody';
+import SearchForm from './components/SearchForm';
+import ListBody from './components/ListBody';
 
 function PatientList() {
   const list = useList();
@@ -34,7 +35,7 @@ function PatientList() {
     });
   };
   const Toolbar = () => {
-    return <Button type="primary"><PlusCircleOutlined />新增患者</Button>;
+    return <Link to="/patient/add"><Button type="primary"><PlusCircleOutlined />新增患者</Button></Link>;
   };
   return (
     <div className="content-page">
