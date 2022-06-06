@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import lodash from 'lodash';
 import { Breadcrumb } from '@sinohealth/butterfly-ui-components/lib';
 import style from './index.less';
-
+// todo: 与路由表结合生成面包屑地图数据
 const breadcrumbMap = {
   patient: {
     label: '患者管理',
