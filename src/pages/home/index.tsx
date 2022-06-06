@@ -3,8 +3,9 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutPage } from '@sinohealth/butterfly-ui-components/lib';
 import { useMenuConfig } from '@/hooks';
 import { hideInMenuPages } from '@/config/router';
+import PageHeader from '@/components/PageHeader';
 
-function Home() {
+function Home(props: any) {
   const [collapsed, setCollapsed] = useState(true);
   const [menuConfig, setMenuConfig] = useState<any>({});
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ function Home() {
     <div>
       <LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>
         <Suspense fallback={loading}>
+          <PageHeader />
           <Outlet />
         </Suspense>
       </LayoutPage>

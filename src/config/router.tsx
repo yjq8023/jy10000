@@ -12,6 +12,7 @@ type routerConfigItem = {
   element?: React.ReactNode;
   hideInMenu?: boolean;
   children?: routerConfigItem[];
+  meta?: any;
 };
 const routerConfig: routerConfigItem[] = [
   {
