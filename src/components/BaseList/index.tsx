@@ -84,7 +84,7 @@ function BaseList(props: ListPageProps, ref: any) {
       <Card className={style.searchForm}>
         <SearchForm form={form} onFinish={() => onSearch()} />
       </Card>
-      <Card className={style.body} style={{ marginTop: '12px' }}>
+      <Card className={style.body}>
         <Row className={style.listHeader}>
           <Col span={12}>
             <div className={style.title}>{listTitle}</div>
