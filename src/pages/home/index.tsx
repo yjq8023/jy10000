@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutPage } from '@sinohealth/butterfly-ui-components/lib';
+import { LayoutPage, Spin } from '@sinohealth/butterfly-ui-components/lib';
 import { useMenuConfig } from '@/hooks';
 import { hideInMenuPages } from '@/config/router';
 import PageHeader from '@/components/PageHeader';
@@ -35,7 +35,11 @@ function Home(props: any) {
   }, [headerMenuList, sideMenuList, defaultSelected, location]);
   const logo = <div>中康全病程管理服务平台</div>;
   const toolbar = <div>用户信息</div>;
-  const loading = <div style={{ position: 'absolute' }}>Loading ...</div>;
+  const loading = (
+    <div style={{ display: 'flex', height: 'calc(100vh - 360px)' }}>
+      <Spin size="large" style={{ margin: 'auto' }} />
+    </div>
+  );
   return (
     <div>
       <LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>

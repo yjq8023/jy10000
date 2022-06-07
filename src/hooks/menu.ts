@@ -8,8 +8,14 @@ type defaultSelectedDataProps = {
   defaultOpenKeys?: string[];
   sideMenuData?: MenuItem[];
 };
+type getDefaultSelectedMenuRes = {
+  headerMenuSelectedKeys: string[];
+  sideMenuSelectedKeys: string[];
+  defaultOpenKeys: string[];
+  sideMenuData: MenuItem[];
+};
 // 根据当前路由获取默认菜单数据
-function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProps {
+function getDefaultSelectedMenu(menuConfig: MenuItem[]): getDefaultSelectedMenuRes {
   const { pathname } = window.location;
   let headerMenuSelectedKeys: string[] = [];
   const sideMenuSelectedKeys: string[] = [];
@@ -18,14 +24,15 @@ function getDefaultSelectedMenu(menuConfig: MenuItem[]): defaultSelectedDataProp
   mapMenuConfig(menuConfig, (item: any) => {
     // 当没有任意菜单与当前页面匹配时，采取模糊匹配
     if (
-      pathname.indexOf(item.key) > -1
-      && item.key !== pathname
-      && headerMenuSelectedKeys.length === 0
+      pathname.indexOf(item.key) > -1 &&
+      item.key !== pathname &&
+      headerMenuSelectedKeys.length === 0
     ) {
       if (item.parent) {
         defaultOpenKeys.push(item.key);
       } else {
         headerMenuSelectedKeys.push(item.key);
+        sideMenuData = item.children;
       }
     }
     // 当有菜单与页面匹配时
@@ -66,7 +73,11 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
   const [headerMenu, setHeaderState] = useState<MenuItem[]>([]);
   const changeDefaultSelected = (data: MenuItem[]) => {
     const defaultSelectedData = getDefaultSelectedMenu(data);
-    setDefaultSelected(defaultSelectedData);
+    setDefaultSelected({
+      ...defaultSelectedData,
+      defaultOpenKeys: defaultSelectedData.defaultOpenKeys.length > 0 ? defaultSelectedData.defaultOpenKeys : defaultSelected.defaultOpenKeys,
+      sideMenuSelectedKeys: defaultSelectedData.sideMenuSelectedKeys.length > 0 ? defaultSelectedData.sideMenuSelectedKeys : defaultSelected.sideMenuSelectedKeys,
+    });
     if (defaultSelectedData.sideMenuData && defaultSelectedData.sideMenuData.length > 0) {
       setSideState(defaultSelectedData.sideMenuData);
     }
