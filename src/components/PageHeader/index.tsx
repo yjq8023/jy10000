@@ -3,21 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 // @ts-ignore
 import lodash from 'lodash';
 import { Breadcrumb } from '@sinohealth/butterfly-ui-components/lib';
+import { breadcrumbMap } from '@/config/router';
 import style from './index.less';
-// todo: 与路由表结合生成面包屑地图数据
-const breadcrumbMap = {
-  patient: {
-    label: '患者管理',
-    list: {
-      label: '患者列表',
-      path: '/patient/list',
-    },
-    add: {
-      label: '患者建档',
-      path: '/patient/add',
-    },
-  },
-};
+
 const PageHeader = () => {
   const location = useLocation();
   const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -27,7 +15,7 @@ const PageHeader = () => {
     return (
       <Breadcrumb.Item key={url}>
         {
-          item?.path ? <Link style={{ color: '#217BA0' }} to={item?.path || ''}>{item?.label || '--'}</Link> : item?.label || '--'
+          item?.path ? <Link to={item?.path || ''}>{item?.label || '--'}</Link> : item?.label || '--'
         }
       </Breadcrumb.Item>
     );

@@ -7,6 +7,7 @@ import { Navigate } from 'react-router-dom';
 const Index = lazy(() => import('../pages/index'));
 const PatientList = lazy(() => import('../pages/patient/list'));
 const PatientAdd = lazy(() => import('../pages/patient/add'));
+const PatientDetail = lazy(() => import('../pages/patient/detail'));
 
 type routerConfigItem = {
   path: string;
@@ -37,6 +38,10 @@ const routerConfig: routerConfigItem[] = [
         path: '/patient/add',
         element: <PatientAdd />,
       },
+      {
+        path: '/patient/detail',
+        element: <PatientDetail />,
+      },
     ],
   },
   {
@@ -48,6 +53,26 @@ const routerConfig: routerConfigItem[] = [
     element: <div>404 page</div>,
   },
 ];
+
+// todo: 与路由表结合生成面包屑地图数据
+export const breadcrumbMap = {
+  patient: {
+    label: '患者管理',
+    path: '/patient/list',
+    list: {
+      label: '患者列表',
+      path: '/patient/list',
+    },
+    add: {
+      label: '患者建档',
+      path: '/patient/add',
+    },
+    detail: {
+      label: '患者档案',
+      path: '/patient/detail',
+    },
+  },
+};
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {
   config.forEach((item) => {
     fn && fn(item, parentPath);

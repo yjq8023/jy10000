@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tag, Button, Row, Col } from '@sinohealth/butterfly-ui-components/lib';
 import { MobileTwoTone } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import style from './index.less';
 
 function ListBody(props: any) {
@@ -42,9 +43,11 @@ function ListBody(props: any) {
               订单时间：<span className={style.text}>{item.createTime}</span>
             </div>
           </div>
-          <Button block type="primary">
-            查看详情
-          </Button>
+          <Link to="/patient/detail">
+            <Button block type="primary">
+              查看详情
+            </Button>
+          </Link>
         </div>
       </div>
     );
