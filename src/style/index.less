@@ -8,3 +8,24 @@
   //width: 100%;
   //height: 100%;
 }
+:global(.but-card) {
+  :global(.ant-card-head) {
+    border-bottom: none;
+    padding: 0 16px;
+    :global(.ant-card-head-title) {
+      &:before {
+        content: ' ';
+        display: inline-block;
+        width: 4px;
+        height: 18px;
+        background-color: @primary-color;
+        vertical-align: text-top;
+        border-radius: 2px;
+        margin-right: 6px;
+      }
+    }
+  }
+  :global(.ant-card-body) {
+    padding-top: 16px;
+  }
+}

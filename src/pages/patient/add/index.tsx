@@ -16,7 +16,7 @@ function PatientAdd() {
   };
   return (
     <div className={style.addPage}>
-      <Card title="基本信息" className={style.body}>
+      <Card title="基本信息" className={`${style.body} but-card`}>
         <Form
           form={form}
           labelCol={{ xl: 6, xxl: 5 }}
