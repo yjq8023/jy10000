@@ -47,7 +47,7 @@ function FollowPlanMap(props: FollowPlanMapProps) {
     while (listData.length > 0) {
       const cList = listData.splice(0, 5);
       const itemBox = (
-        <div className={style.planRow}>
+        <div className={style.planRow} key={Date.now() + Math.random()}>
           {/* eslint-disable-next-line no-loop-func */}
           {cList.map((item, i) => {
             return renderPlanItem(item, rowNum * 5 + i);
