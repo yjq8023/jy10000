@@ -14,18 +14,19 @@ export type fetchApiRes = {
 };
 type ListPageProps = {
   list?: { current: any }
-  listTitle: string;
-  SearchForm: any;
+  ListTitle: any;
+  SearchForm?: any;
   Body?: any;
   columns?: any[];
-  fetchApi: (pagination: paginationType, searchFormData: any) => Promise<fetchApiRes>; // 查询接口
+  fetchApi: (params: any) => Promise<fetchApiRes>; // 查询接口
   Toolbar?: any;
   fixed?: boolean; // 是否让表格占满屏幕，固定高度
 };
 function BaseList(props: ListPageProps, ref: any) {
-  const { list, SearchForm, Body, columns = [], fetchApi, Toolbar, listTitle, fixed } = props;
+  const { list, SearchForm, Body, columns = [], fetchApi, Toolbar, ListTitle, fixed } = props;
   const [form] = Form.useForm();
   const [listData, setListData] = useState<any[]>([]);
+  const [titleParams, setTitleParams] = useState<any>({});
   const [pagination, setPagination] = useState<paginationType>({
     current: 1,
     pageSize: 10,
@@ -39,10 +40,15 @@ function BaseList(props: ListPageProps, ref: any) {
       return `共 ${totalNum} 条数据`;
     },
   };
-  const fetchListData = (pageConfig?: any) => {
-    const paginationNow = pageConfig || pagination;
+  const fetchListData = (paramsConfig = {}) => {
     const formVal = form.getFieldsValue();
-    fetchApi(paginationNow, formVal).then((res: fetchApiRes) => {
+    const params = {
+      ...pagination,
+      ...formVal,
+      ...titleParams,
+      ...paramsConfig,
+    };
+    fetchApi(params).then((res: fetchApiRes) => {
       setListData(res.listData);
       setPagination(res.pagination);
     });
@@ -56,6 +62,15 @@ function BaseList(props: ListPageProps, ref: any) {
       current: 1,
     };
     setPagination(p);
+    fetchListData(p);
+  };
+  const onTitleParamsChange = (params: any) => {
+    setTitleParams(params);
+    const p = {
+      ...params,
+      ...pagination,
+      current: 1,
+    };
     fetchListData(p);
   };
   useEffect(() => {
@@ -81,13 +96,20 @@ function BaseList(props: ListPageProps, ref: any) {
   };
   return (
     <div className={style.listPage}>
-      <Card className={style.searchForm}>
-        <SearchForm form={form} onFinish={() => onSearch()} />
-      </Card>
+      {
+        SearchForm && (
+          <Card className={style.searchForm}>
+            <SearchForm form={form} onFinish={() => onSearch()} />
+          </Card>
+        )
+      }
       <Card className={style.body}>
         <Row className={style.listHeader}>
           <Col span={12}>
-            <div className={style.title}>{listTitle}</div>
+            { typeof ListTitle === 'string'
+              ? <div className={style.title}>{ListTitle}</div>
+              : <ListTitle onChange={onTitleParamsChange} />
+            }
           </Col>
           <Col span={12}>
             {Toolbar && (

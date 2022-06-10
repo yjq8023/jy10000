@@ -8,8 +8,8 @@ import ListBody from './components/ListBody';
 
 function PatientList() {
   const list = useList();
-  const fetchAPi = (pagination: paginationType, params: any) => {
-    console.log(pagination);
+  const fetchAPi = (params: any) => {
+    console.log('params');
     console.log(params);
     return new Promise<{listData: any[], pagination: any}>((res) => {
       // @ts-ignore
@@ -27,7 +27,7 @@ function PatientList() {
       res({
         listData: data,
         pagination: {
-          current: pagination.current,
+          current: params.current,
           pageSize: 10,
           total: 100,
         },
@@ -39,7 +39,7 @@ function PatientList() {
   };
   return (
     <div className="content-page">
-      <ListPage listTitle="患者档案" list={list} fetchApi={fetchAPi} SearchForm={SearchForm} Body={ListBody} Toolbar={Toolbar} />
+      <ListPage ListTitle="患者档案" list={list} fetchApi={fetchAPi} SearchForm={SearchForm} Body={ListBody} Toolbar={Toolbar} />
     </div>
   );
 }

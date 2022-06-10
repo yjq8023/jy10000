@@ -24,6 +24,20 @@ const menuConfig: MenuItemProps[] = [
       },
     ],
   },
+  {
+    label: '小程序管理',
+    key: 'weapp',
+    children: [
+      {
+        label: '平台栏目管理',
+        path: '/weapp/column',
+      },
+      {
+        label: '病种项目管理',
+        path: '/weapp/project',
+      },
+    ],
+  },
 ];
 
 export class MenuItem {

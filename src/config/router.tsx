@@ -8,6 +8,8 @@ const Index = lazy(() => import('../pages/index'));
 const PatientList = lazy(() => import('../pages/patient/list'));
 const PatientAdd = lazy(() => import('../pages/patient/add'));
 const PatientDetail = lazy(() => import('../pages/patient/detail'));
+const WeappColumn = lazy(() => import('../pages/weapp/column'));
+const WeappProject = lazy(() => import('../pages/weapp/project'));
 
 type routerConfigItem = {
   path: string;
@@ -41,6 +43,14 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/patient/detail',
         element: <PatientDetail />,
+      },
+      {
+        path: '/weapp/column',
+        element: <WeappColumn />,
+      },
+      {
+        path: '/weapp/project',
+        element: <WeappProject />,
       },
     ],
   },
