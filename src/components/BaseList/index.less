@@ -14,12 +14,19 @@
     flex-grow: 1;
     position: relative;
     margin-top: 8px;
+    :global(.ant-card-body) {
+      padding-top: 15px;
+      :global(.ant-tabs) {
+        margin-top: -9px;
+      }
+    }
     .listHeader {
       .title {
-        height: 20px;
+        padding: 5px 0 5px 16px;
         line-height: 20px;
-        padding-left: 16px;
         position: relative;
+        font-size: 16px;
+        font-weight: 500;
         margin-bottom: 18px;
         &:before {
           content: '';
@@ -27,7 +34,7 @@
           height: 20px;
           position: absolute;
           left: 0;
-          top: 0;
+          top: 5px;
           background-color: @primary-color;
           display: inline-block;
           border-radius: 2px;
@@ -35,7 +42,6 @@
       }
       .toolbar {
         text-align: right;
-        margin-top: -9px;
       }
     }
     .fixedTable {
