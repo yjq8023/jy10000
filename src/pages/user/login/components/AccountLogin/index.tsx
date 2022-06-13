@@ -158,7 +158,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
             rules={[{ validator: agreementValid, message: '请先阅读勾选服务条款与隐私协议' }]}
           >
             <Checkbox>
-              登录即同意《中康处方流转平台》
+              同意《中康全病程管理服务平台》
               <a href="/user-agreement.html" target="_blank">
                 服务条款
               </a>

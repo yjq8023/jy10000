@@ -1,6 +1,7 @@
 import React, { lazy } from 'react';
 import Home from '../pages/home';
 import Login from '../pages/user/login';
+import Password from '../pages/user/password';
 import { Navigate } from 'react-router-dom';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
@@ -56,7 +57,11 @@ const routerConfig: routerConfigItem[] = [
   },
   {
     path: '/login',
-    element: <Login/>,
+    element: <Login />,
+  },
+  {
+    path: '/password',
+    element: <Password />,
   },
   {
     path: '*',
