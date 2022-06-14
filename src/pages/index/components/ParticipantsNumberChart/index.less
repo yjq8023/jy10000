@@ -1,0 +1,20 @@
+@import "@/style/var";
+.box {
+  box-shadow: 0 2px 10px 0 rgba(222,229,240,0.80);
+  border-radius: 12px;
+  padding: 21px 20px 24px;
+  .header {
+    color: @break-color2;
+    .title {
+      font-weight: 500;
+      :global(.anticon) {
+        color: @primary-color;
+        margin-right: 8px;
+      }
+    }
+    .time {
+      float: right;
+      color: @break-color4;
+    }
+  }
+}

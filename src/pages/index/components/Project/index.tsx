@@ -26,9 +26,9 @@ function Project() {
       bgColor: '#8221A0',
     },
   ];
-  const renderItem = (item: any) => {
+  const renderItem = (item: any, index: number) => {
     return (
-      <div className={style.item} style={{ backgroundColor: item.bgColor }}>
+      <div className={style.item} style={{ backgroundColor: item.bgColor }} key={index}>
         <EllipsisOutlined className={style.icon} />
         <div className={style.title}>{item.title}</div>
         <div className={style.currentNum}>

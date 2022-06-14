@@ -30,13 +30,13 @@ function Task() {
       bgColor: '#C04646',
     },
   ];
-  const renderItem = (item: any) => {
+  const renderItem = (item: any, index: number) => {
     const iconCls = cls({
       iconfont: true,
       [item.icon]: true,
     });
     return (
-      <Col span={6}>
+      <Col span={6} key={index}>
         <div className={style.item}>
           <div className={style.label}>{item.label}</div>
           <div className={style.value}>{item.value}</div>
