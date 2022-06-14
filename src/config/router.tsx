@@ -11,6 +11,9 @@ const PatientAdd = lazy(() => import('../pages/patient/add'));
 const PatientDetail = lazy(() => import('../pages/patient/detail'));
 const WeappColumn = lazy(() => import('../pages/weapp/column'));
 const WeappProject = lazy(() => import('../pages/weapp/project'));
+const PatientConsult = lazy(() => import('../pages/patient/consult'));
+const OrganList = lazy(() => import('../pages/setting/organList'));
+const UserList = lazy(() => import('../pages/setting/userList'));
 
 type routerConfigItem = {
   path: string;
@@ -46,12 +49,24 @@ const routerConfig: routerConfigItem[] = [
         element: <PatientDetail />,
       },
       {
+        path: '/patient/consult',
+        element: <PatientConsult />,
+      },
+      {
         path: '/weapp/column',
         element: <WeappColumn />,
       },
       {
         path: '/weapp/project',
         element: <WeappProject />,
+      },
+      {
+        path: '/setting/organList',
+        element: <OrganList />,
+      },
+      {
+        path: '/setting/userList',
+        element: <UserList />,
       },
     ],
   },
@@ -85,6 +100,22 @@ export const breadcrumbMap = {
     detail: {
       label: '患者档案',
       path: '/patient/detail',
+    },
+    consult: {
+      label: '患者咨询',
+      path: '/patient/consult',
+    },
+  },
+  setting: {
+    label: '配置',
+    path: '/setting/organList',
+    organList: {
+      label: '机构管理',
+      path: '/setting/organList',
+    },
+    userList: {
+      label: '用户管理',
+      path: '/setting/userList',
     },
   },
 };

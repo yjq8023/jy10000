@@ -1,0 +1,120 @@
+@import '@/style/var';
+
+.patient-consult {
+  display: flex;
+  height: calc(100% - 80.45px);
+  // flex-shrink: 0;
+  overflow: auto;
+  > div {
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+  }
+  &-list {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 420px;
+    margin-right: 8px;
+    padding: 20px 16px 10px;
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      .title {
+        position: relative;
+        padding-left: 12px;
+        font-size: 16px;
+        &::after {
+          position: absolute;
+          top: 4px;
+          left: 0;
+          display: block;
+          width: 4px;
+          height: 18px;
+          background: @primary-color;
+          border-radius: 2px;
+          content: '';
+        }
+      }
+      .desc {
+        color: @primary-color;
+        font-size: 16px;
+      }
+    }
+    &-search {
+      background: rgba(0, 0, 0, 0.01);
+      border-radius: 6px;
+      :global(.ant-input) {
+        background: rgba(0, 0, 0, 0.01);
+      }
+      :global(.ant-input-suffix) {
+        color: #ddd;
+      }
+    }
+    &-items {
+      margin-top: 20px;
+      overflow: auto;
+      .active {
+        background-color: #effaff;
+      }
+      .item {
+        display: flex;
+        margin-bottom: 8px;
+        padding: 16px 12px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        overflow: hidden;
+        &-avatar {
+          flex-shrink: 0;
+        }
+        &-content {
+          margin-left: 12px;
+          &-name {
+            span:first-child {
+              color: @primary-color;
+              font-weight: 500;
+              font-size: 16px;
+              line-height: 20px;
+              letter-spacing: 0;
+            }
+            span:last-child {
+              margin-left: 8px;
+              color: @break-color4;
+              font-weight: 400;
+              font-size: 12px;
+              line-height: 20px;
+            }
+          }
+          &-msg {
+            width: 100%;
+            overflow: hidden;
+            color: @break-color3;
+            font-weight: 400;
+            font-size: 14px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+          &-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            line-height: 20px;
+            > div:first-child {
+              color: @primary-color;
+            }
+
+            > div:last-child {
+              color: @break-color4;
+            }
+          }
+        }
+      }
+    }
+  }
+  &-window {
+    // flex-shrink: 0;
+    flex-grow: 1;
+  }
+}
