@@ -3,6 +3,7 @@ import { Tag, Button, Row, Col } from '@sinohealth/butterfly-ui-components/lib';
 import { MobileTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import style from './index.less';
+import Empty from '@/components/Empty';
 
 function ListBody(props: any) {
   const { listData = [] } = props;
@@ -54,6 +55,7 @@ function ListBody(props: any) {
   };
   return (
     <div className={style.cardList}>
+      { listData.length === 0 && <Empty />}
       <Row gutter={[18, 20]}>
         {listData.map((item: any) => (
           <Col lg={6} xxl={4} key={item.id}>

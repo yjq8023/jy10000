@@ -101,7 +101,7 @@ function WeappColumn() {
   };
   return (
     <div>
-      <BaseList ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} />
+      <BaseList ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} fixed />
     </div>
   );
 }
