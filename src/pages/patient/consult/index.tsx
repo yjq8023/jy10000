@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar, Input } from '@sinohealth/butterfly-ui-components/lib';
 import styles from './index.less';
+import ChatPanel from './components/ChatPanel';
 
 function PatientConsult() {
   const onSubmit = (formValues: any) => {};
@@ -41,7 +42,9 @@ function PatientConsult() {
           ))}
         </div>
       </div>
-      <div className={styles['patient-consult-window']}>123</div>
+      <div className={styles['patient-consult-window']}>
+        <ChatPanel />
+      </div>
     </div>
   );
 }

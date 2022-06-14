@@ -61,15 +61,19 @@
       }
       .item {
         display: flex;
+        justify-content: start;
+        width: 100%;
         margin-bottom: 8px;
         padding: 16px 12px 12px;
+        overflow: hidden;
         border-radius: 8px;
         cursor: pointer;
-        overflow: hidden;
         &-avatar {
           flex-shrink: 0;
         }
         &-content {
+          width: 0;
+          flex: 1;
           margin-left: 12px;
           &-name {
             span:first-child {

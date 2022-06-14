@@ -1,0 +1,45 @@
+@import '@/style/var';
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  &-avatar {
+    margin-right: 16px;
+  }
+  &-name {
+    margin-right: 12px;
+    color: @break-color2;
+    font-weight: 500;
+    font-size: 20px;
+    height: 28px;
+    line-height: 28px;
+  }
+  &-info {
+    display: flex;
+    align-items: center;
+    &-age {
+      width: 40px;
+      height: 22px;
+      margin-right: 4px;
+      color: #f53f3f;
+      font-size: 12px;
+      line-height: 22px;
+      background: rgba(245, 63, 102, 0.12);
+      border-radius: 11px;
+      text-align: center;
+      span {
+        font-size: 14px;
+      }
+    }
+    &-phone {
+      color: @break-color4;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+    }
+  }
+  &-close {
+    flex-grow: 1;
+    text-align: right;
+  }
+}
