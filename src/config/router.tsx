@@ -118,6 +118,18 @@ export const breadcrumbMap = {
       path: '/setting/userList',
     },
   },
+  weapp: {
+    label: '小程序管理',
+    path: '/weapp/column',
+    column: {
+      label: '平台栏目管理',
+      path: '/patient/column',
+    },
+    project: {
+      label: '平台栏目管理',
+      path: '/patient/project',
+    },
+  }
 };
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {
   config.forEach((item) => {

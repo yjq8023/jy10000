@@ -2,18 +2,24 @@ import React from 'react';
 import { Tag, Button, Row, Col } from '@sinohealth/butterfly-ui-components/lib';
 import { MobileTwoTone } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import cls from 'classnames';
 import style from './index.less';
+import Empty from '@/components/Empty';
 
 function ListBody(props: any) {
   const { listData = [] } = props;
-  const renderCardItem = (item: any) => {
-    const isWoman = item.gender === 'female';
-    const patientName = '马时刻';
-    const age = 12;
-    const patientPhone = 15521381406;
+  const renderCardItem = (item: Patient.Item) => {
+    const isWoman = item.sex === 'female';
+    const patientName = item.name;
+    const age = item.age;
+    const patientPhone = item.phone;
+    const tagClass = cls({
+      [style.tag]: true,
+      [style.tag0]: item.wxBindStatus === '1',
+    });
     return (
       <div className={style.listItem}>
-        <MobileTwoTone className={style.tag} />
+        <MobileTwoTone className={tagClass} />
         <div>
           <div className={style.userInfo}>
             <div className={style.userName}>
@@ -34,13 +40,16 @@ function ListBody(props: any) {
           </div>
           <div className={style.preInfo}>
             <div>
-              档案号：<span className={style.text}>{item.deliveryCategory}</span>
+              档案号：<span className={style.text}>{item.number}</span>
             </div>
             <div>
-              处方金额：<span className={style.text}>¥{item.prescriptionAmount}</span>
+              主要诊断：<span className={style.text}>{item.mainDisease}</span>
             </div>
             <div>
-              订单时间：<span className={style.text}>{item.createTime}</span>
+              管理项目：<span className={style.text}>{item.diseaseProjectName}</span>
+            </div>
+            <div>
+              个案管理师：<span className={style.text}>{item.caseManager}</span>
             </div>
           </div>
           <Link to="/patient/detail">
@@ -54,6 +63,7 @@ function ListBody(props: any) {
   };
   return (
     <div className={style.cardList}>
+      { listData.length === 0 && <div style={{ display: 'flex' }}><Empty /></div>}
       <Row gutter={[18, 20]}>
         {listData.map((item: any) => (
           <Col lg={6} xxl={4} key={item.id}>

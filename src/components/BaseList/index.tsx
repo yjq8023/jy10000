@@ -20,7 +20,7 @@ type ListPageProps = {
   columns?: any[];
   fetchApi: (params: any) => Promise<fetchApiRes>; // 查询接口
   Toolbar?: any;
-  fixed?: boolean; // 是否让表格占满屏幕，固定高度
+  fixed?: number | boolean; // 是否让表格占满屏幕，固定高度, 值为表格到页头距离
 };
 function BaseList(props: ListPageProps, ref: any) {
   const { list, SearchForm, Body, columns = [], fetchApi, Toolbar, ListTitle, fixed } = props;
@@ -120,9 +120,12 @@ function BaseList(props: ListPageProps, ref: any) {
           </Col>
         </Row>
         <Body columns={columns} listData={listData} fixed={fixed} />
-        <div className={style.pagination}>
-          <Pagination {...pagination} {...paginationConfig} onChange={onPaginationChange} />
-        </div>
+        {
+          pagination.total > 0 &&
+          <div className={style.pagination}>
+            <Pagination {...pagination} {...paginationConfig} onChange={onPaginationChange} />
+          </div>
+        }
       </Card>
     </div>
   );

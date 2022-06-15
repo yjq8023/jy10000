@@ -1,5 +1,6 @@
 @import '@/style/var';
 .cardList {
+  margin-bottom: 24px;
   @media (min-width: 1600px) {
     :global(.ant-col-xxl-4) {
       max-width: 20%;
@@ -26,17 +27,9 @@
       color: #96D4F5;
       border: none;
     }
-    .tag3 {
-      background-image: linear-gradient(180deg, #67B7E2 0%, #217BA0 100%);
-    }
-    .tag2 {
-      background-image: linear-gradient(180deg, #FFE78A 0%, #FFC464 100%);
-    }
-    .tag1 {
-      background-image: linear-gradient(180deg, #FFCE8A 0%, #FF8147 100%);
-    }
     .tag0 {
-      background-image: linear-gradient(180deg, #FF8585 0%, #FF5656 100%);
+      color: #FFFFFF;
+      background: rgba(0,0,0,0.15);
     }
     .userInfo {
       border-bottom: 1px solid #F7F7F7;
@@ -51,8 +44,20 @@
     }
     .preInfo {
       padding-bottom: 15px;
+      >div {
+        line-height: 24px;
+        display: inline-block;
+        width: 100%;
+      }
       .text {
         color: @break-color3;
+        width: calc(100% - 100px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -4px;
       }
     }
     :global(.ant-btn-primary) {

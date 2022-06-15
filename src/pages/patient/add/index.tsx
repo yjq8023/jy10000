@@ -9,7 +9,8 @@ import ArrayFormItem from '@/components/ArrayFormItem';
 const { Option } = Select;
 const { useForm } = Form;
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
-function PatientAdd() {
+function PatientAdd(props: any) {
+  const { onBack } = props;
   const [form] = useForm();
   const handleSubmit = () => {
     form.submit();
@@ -18,9 +19,12 @@ function PatientAdd() {
     console.log('onSubmit');
     console.log(formValues);
   };
+  const onCancel = () => {
+    if (onBack) {
+      onBack();
+    }
+  };
   const renderArrayFormChildren = (field: any, options: any) => {
-    console.log('item');
-    console.log(field);
     const { remove } = options;
     return (
       <div className={style.arrayFormItemBox}>
@@ -153,7 +157,7 @@ function PatientAdd() {
         </Form>
       </Card>
       <div className="actionBar">
-        <Button>取消</Button>
+        <Button onClick={onCancel}>取消</Button>
         &nbsp;
         &nbsp;
         <Button type="primary" onClick={handleSubmit}>保存</Button>

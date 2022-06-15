@@ -5,6 +5,8 @@ import { useMenuConfig } from '@/hooks';
 import { hideInMenuPages } from '@/config/router';
 import PageHeader from '@/components/PageHeader';
 
+import style from './index.less';
+
 function Home(props: any) {
   const [collapsed, setCollapsed] = useState(true);
   const [menuConfig, setMenuConfig] = useState<any>({});
@@ -44,8 +46,12 @@ function Home(props: any) {
     <div>
       <LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>
         <Suspense fallback={loading}>
-          <PageHeader />
-          <Outlet />
+          <div className={style.homeBody} style={{ padding: collapsed ? '0' : '8px' }}>
+            <PageHeader />
+            <div className={style.homeBodyContent}>
+              <Outlet />
+            </div>
+          </div>
         </Suspense>
       </LayoutPage>
     </div>

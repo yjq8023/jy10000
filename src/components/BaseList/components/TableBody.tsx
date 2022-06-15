@@ -4,11 +4,11 @@ import { Table } from '@sinohealth/butterfly-ui-components/lib';
 interface TableBodyProps {
   columns: any[],
   listData: any[],
-  fixed: boolean,
+  fixed: number | boolean,
 }
-const offsetNum = 148; // 表格计算满屏时的偏差值。表格高度 = 屏幕高度 - 表格距离顶部高度 - offsetNum
 function TableBody(props: TableBodyProps) {
   const { columns, listData, fixed } = props;
+  const offsetNum = typeof fixed === 'number' ? fixed : 128; // 表格计算满屏时的偏差值。表格高度 = 屏幕高度 - 表格距离顶部高度 - offsetNum
   const tableRef = useRef<any>();
   const [scroll, setScroll] = useState({});
   useEffect(() => {

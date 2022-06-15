@@ -141,7 +141,7 @@ function WeappProject() {
   };
   return (
     <div>
-      <BaseList ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} SearchForm={SearchForm} />
+      <BaseList ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} SearchForm={SearchForm} fixed />
     </div>
   );
 }
