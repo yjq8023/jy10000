@@ -24,24 +24,29 @@ const SearchForm = (props: any = {}) => {
   const [showMore, setShowMore] = useState(false);
   return (
     <Form
-      labelCol={{ xl: 6, xxl: 4 }}
-      wrapperCol={{ xl: 18, xxl: 20 }}
+      labelCol={{ xl: 7 }}
+      wrapperCol={{ xl: 17 }}
       labelAlign="left"
       colon={false}
       {...props}
     >
-      <Row gutter={[120, 24]}>
-        <Col span={8}>
+      <Row gutter={[60, 24]}>
+        <Col span={6}>
           <Form.Item name="number" label="档案号">
             <Input placeholder="请输入档案号" />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={6}>
           <Form.Item name="patientName" label="患者姓名">
             <Input placeholder="请输入患者姓名" />
           </Form.Item>
         </Col>
-        <Col span={8} style={{ textAlign: 'right' }}>
+        <Col span={6}>
+          <Form.Item name="phone" label="患者手机">
+            <Input placeholder="请输入患者手机号码" />
+          </Form.Item>
+        </Col>
+        <Col span={6} style={{ textAlign: 'right' }}>
           <Button htmlType="submit">
             重置
           </Button>
@@ -58,12 +63,7 @@ const SearchForm = (props: any = {}) => {
         </Col>
         { showMore && (
           <>
-            <Col span={8}>
-              <Form.Item name="phone" label="电话号">
-                <Input placeholder="请输入患者电话号码" />
-              </Form.Item>
-            </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Form.Item name="sex" label="患者性别">
                 <Select placeholder="请选择患者性别">
                   <Option value="man">男</Option>
@@ -72,22 +72,31 @@ const SearchForm = (props: any = {}) => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Row>
                 <Col span={12}>
-                  <Form.Item name="startAge" label="患者年龄" labelCol={{ xl: 10, xxl: 8 }}>
-                    <Input style={{ width: '120px' }} placeholder="开始年龄" />
+                  <Form.Item name="startAge" label="年龄范围" labelCol={{ xl: 14 }}>
+                    <Input style={{ width: '100px' }} placeholder="开始年龄" />
                     {/* <span style={{ width: '40px', textAlign: 'center', display: 'inline-block' }}>--</span> */}
                   </Form.Item>
                 </Col>
-                <Col span={12}>
+                <Col span={4}>
+                  <div style={{ textAlign: 'right' }}>--</div>
+                </Col>
+                <Col span={8}>
                   <Form.Item name="endAge" label="患者年龄" noStyle>
-                    <Input style={{ width: '120px' }} placeholder="结束年龄" />
+                    <Input style={{ width: '100px', float: 'right' }} placeholder="结束年龄" />
                   </Form.Item>
                 </Col>
               </Row>
             </Col>
-            <Col span={8}>
+            <Col span={6}>
+              <Form.Item name="wxBindStatus" label="微信">
+                <Checkbox.Group options={weappOptions} />
+              </Form.Item>
+            </Col>
+            <Col span={6} />
+            <Col span={6}>
               <Form.Item name="projectId" label="管理项目">
                 <Select>
                   <Option value="jack">Jack</Option>
@@ -99,7 +108,7 @@ const SearchForm = (props: any = {}) => {
                 </Select>
               </Form.Item>
             </Col>
-            <Col span={8}>
+            <Col span={6}>
               <Form.Item name="caseManagerId" label="个案管理师">
                 <Select>
                   <Option value="jack">Jack</Option>
@@ -109,11 +118,6 @@ const SearchForm = (props: any = {}) => {
                   </Option>
                   <Option value="Yiminghe">yiminghe</Option>
                 </Select>
-              </Form.Item>
-            </Col>
-            <Col span={8}>
-              <Form.Item name="wxBindStatus" label="微信">
-                <Checkbox.Group options={weappOptions} />
               </Form.Item>
             </Col>
           </>
