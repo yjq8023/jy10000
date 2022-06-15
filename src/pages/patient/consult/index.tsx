@@ -22,7 +22,7 @@ function PatientConsult() {
           suffix={<div className="iconfont icon-search" />}
         />
         <div className={styles['patient-consult-list-items']}>
-          {[1, 23, 4, 5, 4].map((v) => (
+          {[1, 23, 4, 5, 9].map((v) => (
             <div className={`${styles.item} ${v === 1 ? styles.active : ''}`} key={v}>
               <Avatar className={styles['item-avatar']} size={54}>pang</Avatar>
               <div className={styles['item-content']}>

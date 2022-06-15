@@ -19,9 +19,11 @@ const ChatHeader: React.FC<ChatHeaderPropsType> = () => {
             45
           </div>
           <div className={styles['chat-header-info-phone']}>（13246855768）</div>
-          <div>患者档案</div>
+          <div className={styles['chat-header-info-word']}>
+            患者档案 <span className="iconfont icon-arrow-right" />
+          </div>
         </div>
-        <div>
+        <div className={styles['chat-header-pro']}>
           <span>#乳腺癌随访管理项目</span>
           <span>医生：王志明 ｜ 个案管理师：林溪</span>
         </div>

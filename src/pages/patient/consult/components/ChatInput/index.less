@@ -1,1 +1,13 @@
 @import '@/style/var';
+.chat-input {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-end;
+  box-sizing: border-box;
+  min-height: 100px;
+  padding: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  &-textarea {
+    min-height: 100% !important;
+  }
+}
