@@ -4,6 +4,8 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
+import SimpleModal from '@/components/SimpleModal';
+import OrganForm from './components/OrganForm';
 
 function OrganList() {
   const list = useList();
@@ -146,12 +148,13 @@ function OrganList() {
   ];
   const Toolbar = () => {
     return (
-      <Link to="/patient/add">
+      <>
         <Button type="primary">
           <PlusCircleOutlined />
           增加机构
         </Button>
-      </Link>
+        <OrganForm visible={true} />
+      </>
     );
   };
   return (
