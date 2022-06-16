@@ -66,18 +66,17 @@ const SearchForm = (props: any = {}) => {
             </Col>
             <Col span={span}>
               <Row>
-                <Col span={12}>
-                  <Form.Item name="startAge" label="年龄范围" labelCol={{ xl: 14 }}>
-                    <Input style={{ width: '100px' }} placeholder="开始年龄" />
-                    {/* <span style={{ width: '40px', textAlign: 'center', display: 'inline-block' }}>--</span> */}
+                <Col span={15}>
+                  <Form.Item name="startAge" label="年龄范围" labelCol={{ xl: 11 }}>
+                    <Input style={{ marginLeft: '2px' }} placeholder="开始年龄" />
                   </Form.Item>
                 </Col>
-                <Col span={4}>
-                  <div style={{ textAlign: 'right' }}>--</div>
+                <Col span={1}>
+                  <div style={{ textAlign: 'center' }}>--</div>
                 </Col>
                 <Col span={8}>
                   <Form.Item name="endAge" label="患者年龄" noStyle>
-                    <Input style={{ width: '100px', float: 'right' }} placeholder="结束年龄" />
+                    <Input placeholder="结束年龄" />
                   </Form.Item>
                 </Col>
               </Row>
