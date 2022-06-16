@@ -2,11 +2,12 @@ import React from 'react';
 import { Card, Form, Row, Col, Button, Input, Select, DatePicker } from '@sinohealth/butterfly-ui-components/lib';
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import style from './index.less';
-import UserNameInput from '@/components/UserNameInput';
+import moment from 'moment';
+import UserAutoComplete from '@/components/UserAutoComplete';
 import AddressSelect from '@/components/AddressSelect';
 import ArrayFormItem from '@/components/ArrayFormItem';
 import { savePatient } from '@/services/patient';
+import style from './index.less';
 
 const { Option } = Select;
 const { useForm } = Form;
@@ -29,16 +30,18 @@ function PatientAdd(props: any) {
   const onCancel = () => {
     if (onBack) {
       onBack();
+      return;
     }
+    navigate(-1);
   };
-  const handelImportUserInfo = (data: any, isMyPatient: boolean) => {
-    console.log(isMyPatient);
-    console.log(data);
-    if (isMyPatient) {
-      navigate(`/patient/detail?id=${data.id}`);
-    } else {
-      form.setFieldsValue(data);
-    }
+  const handelImportUserInfo = (data: any) => {
+    form.setFieldsValue({
+      name: data.name,
+      phone: data.phone,
+      idCard: data.idCard,
+      sex: data.sex,
+      birthDay: moment(data.birthDay),
+    });
   };
   const renderArrayFormChildren = (field: any, options: any) => {
     const { remove } = options;
@@ -72,30 +75,36 @@ function PatientAdd(props: any) {
           <Row gutter={100}>
             <Col span={8}>
               <Form.Item name="name" label="姓名" rules={requiredRule}>
-                <UserNameInput placeholder="请输入姓名" onImportUser={handelImportUserInfo} />
+                <UserAutoComplete onImportUser={handelImportUserInfo}>
+                  <Input placeholder="请输入姓名" />
+                </UserAutoComplete>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="idCard" label="身份证号" rules={requiredRule}>
-                <Input placeholder="请输入患者身份证号" />
+                <UserAutoComplete onImportUser={handelImportUserInfo}>
+                  <Input placeholder="请输入患者身份证号" />
+                </UserAutoComplete>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="sex" label="性别" rules={requiredRule}>
                 <Select placeholder="请选择性别">
-                  <Option value="male">男</Option>
-                  <Option value="female">女</Option>
+                  <Option value="MALE">男</Option>
+                  <Option value="FEMALE">女</Option>
                 </Select>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="phone" label="手机号码" rules={requiredRule}>
-                <Input placeholder="请输入患者手机号码" />
+                <UserAutoComplete onImportUser={handelImportUserInfo}>
+                  <Input placeholder="请输入患者手机号码" />
+                </UserAutoComplete>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="birthDay" label="出生年月" rules={requiredRule}>
-                <DatePicker picker="month" style={{ width: '100%' }} />
+                <DatePicker picker="month" format="YYYY-MM" style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -104,7 +113,7 @@ function PatientAdd(props: any) {
               </Form.Item>
             </Col>
             <Col span={16}>
-              <Form.Item name="mainDisease" label="主要诊断" required>
+              <Form.Item name="mainDisease" label="主要诊断" rules={requiredRule}>
                 <Input placeholder="请输入主要诊断结果" />
               </Form.Item>
             </Col>
