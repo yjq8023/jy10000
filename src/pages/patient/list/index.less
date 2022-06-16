@@ -5,3 +5,16 @@
   cursor: pointer;
   user-select: none;
 }
+.radioBtn {
+  margin-right: 16px;
+  vertical-align: bottom;
+  :global(.ant-radio-button-wrapper) {
+    padding: 0 8px;
+    color: @break-color4;
+    //font-size: 18px;
+  }
+  :global(.ant-radio-button-wrapper-checked) {
+    color: @primary-color;
+  }
+
+}
