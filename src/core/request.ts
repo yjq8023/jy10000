@@ -51,23 +51,23 @@ function resolve(response: any) {
   if (response.config.isFile) {
     return Promise.resolve(response);
   }
-  if (data.code === 200) {
+  if (data.success) {
     if (response.config.isReturnAllData) {
-      return Promise.resolve(data);
+      return Promise.resolve(data.data);
     }
     return Promise.resolve(data.result);
   }
-  message.error(`${data.message || '服务器出错了，请稍后再试！'}`);
+  message.error(`${data.errMessage || '服务器出错了，请稍后再试！'}`);
   return Promise.reject(data);
 }
 function reject(error: any) {
-  let errorMessageText = error.message;
+  let errorMessageText = error.errMessage;
   if (error.response) {
     if (error.response.status === 401) {
       message.error('登录状态已过期，请重新登录');
       window.location.href = '/login';
     }
-    errorMessageText = error.response.data && error.response.data.message;
+    errorMessageText = error.response.data && error.response.data.errMessage;
   } else if (error.request) {
     errorMessageText = error.request;
   }
