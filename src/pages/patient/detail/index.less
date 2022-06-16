@@ -30,15 +30,29 @@
         color: @break-color3;
       }
     }
-    .userinfoItem {
+    .userInfoList {
       display: inline-block;
-      vertical-align: middle;
-      padding: 0 25px;
-      border-right: 1px solid rgba(0,0,0,0.10);
-      color: @break-color2;
-      :first-child {
-        color: @break-color4;
-        font-size: 12px;
+      .userinfoItem {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 0 25px;
+        border-right: 1px solid rgba(0,0,0,0.10);
+        color: @break-color2;
+        :first-child {
+          color: @break-color4;
+          font-size: 12px;
+        }
+        :last-child {
+          max-width: 260px;
+          display: inline-block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          vertical-align: middle;
+        }
+      }
+      :last-child {
+        border-right: none;
       }
     }
   }

@@ -13,38 +13,39 @@ import TabMedicalRecord from './components/TabMedicalRecord';
 const { TabPane } = Tabs;
 function PatientDetail() {
   const isMan = false;
+  const userInfo: Patient.Item = {
+    id: 1110,
+    number: '000001',
+    name: '小妹妹',
+    idCard: '440921188765456789',
+    phone: '15521381433',
+    mainDisease: '乳腺癌、子宫癌、乳腺癌、子宫癌乳腺癌、子宫癌乳腺癌、子宫癌乳腺癌、子宫癌乳腺癌、子宫癌',
+    history: '肾虚',
+  };
   const userInfoItem = (item: any) => {
     return (
       <div className={style.userinfoItem}>
         <div>{item.label}</div>
-        <div>{item.value}</div>
+        <div title={item.value}>{item.value}</div>
       </div>
     );
   };
   const userData = [
     {
       label: '档案号',
-      value: '000111222',
+      value: userInfo.number,
     },
     {
       label: '联系电话',
-      value: '15521381406',
-    },
-    {
-      label: '主要诊断',
-      value: '乳腺癌',
+      value: userInfo.phone,
     },
     {
       label: '过敏史',
-      value: '花粉',
+      value: userInfo.history,
     },
     {
-      label: '既往史',
-      value: '-',
-    },
-    {
-      label: '跟进人员',
-      value: '林夕',
+      label: '主要诊断',
+      value: userInfo.mainDisease,
     },
   ];
   return (
@@ -55,7 +56,9 @@ function PatientDetail() {
           <div>小妹妹</div>
           <div><span className={`iconfont ${isMan ? 'icon-nan' : 'icon-nv'}`} /> 18岁</div>
         </div>
-        {userData.map((item) => userInfoItem(item))}
+        <div className={style.userInfoList}>
+          {userData.map((item) => userInfoItem(item))}
+        </div>
         <div className={style.actionBar}>
           <Button type="primary" ghost><CommentOutlined /> 即时聊天</Button>
           &nbsp;

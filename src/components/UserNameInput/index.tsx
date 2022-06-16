@@ -2,8 +2,8 @@ import { AutoComplete, Input, InputProps, Tag } from '@sinohealth/butterfly-ui-c
 import React from 'react';
 import style from './index.less';
 
-const renderItem = (data: any) => {
-  const isMyPatient = data.type === 1;
+const renderItem = (data: any, onSelect: (c: any, isMyPatient: boolean) => void) => {
+  const isMyPatient = Number(data.type) === 1;
   return {
     value: data.value,
     disabled: isMyPatient,
@@ -14,7 +14,7 @@ const renderItem = (data: any) => {
         <span
           style={{ float: 'right' }}
         >
-          <a>
+          <a onClick={() => onSelect(data, isMyPatient)}>
             {isMyPatient ? '进入档案' : '引用档案'}
           </a>
         </span>
@@ -23,26 +23,44 @@ const renderItem = (data: any) => {
   };
 };
 
-const options = [
-  renderItem({
-    value: '梁梅梅',
-    type: 1,
-    text: '梁梅梅，18046855766，441225197901020028',
-  }),
-  renderItem({
-    value: '范冰冰',
-    type: 2,
-    text: '范冰冰，18046855766，441225197901020028',
-  }),
-  renderItem({
-    value: '杨幂',
-    type: 2,
-    text: '杨幂，18046855766，441225197901020028',
-  }),
-];
-
-const UserNameInput: React.FC<InputProps> = (props) => {
-  const { onChange, ...otherProps } = props;
+interface UserNameInputProps extends InputProps {
+  onImportUser: (data: any, isMyPatient: boolean) => void
+}
+const UserNameInput: React.FC<UserNameInputProps> = (props) => {
+  const { onChange, onImportUser, ...otherProps } = props;
+  const data = [
+    {
+      id: 1,
+      type: '1',
+      name: '梁梅梅1',
+      phone: '15521371244',
+      idCard: '440921231271615267',
+    },
+    {
+      id: 2,
+      type: '2',
+      name: '梁梅梅2',
+      phone: '15521371244',
+      idCard: '440921231271615267',
+    },
+    {
+      id: 3,
+      type: '2',
+      name: '梁梅梅3',
+      phone: '15521371244',
+      idCard: '440921231271615267',
+    },
+  ];
+  const handleImport = (item: any, isMyPatient: boolean) => {
+    const index = data.map((c) => c.id).indexOf(item.value);
+    const itemData = data[index];
+    onImportUser(itemData, isMyPatient);
+  };
+  const options = data.map((item) => renderItem({
+    value: item.id,
+    type: item.type,
+    text: [item.name, item.phone, item.idCard].join(', '),
+  }, handleImport));
   return (
     <AutoComplete
       dropdownClassName="certain-category-search-dropdown"
