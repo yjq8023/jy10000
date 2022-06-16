@@ -33,6 +33,10 @@ const routerConfig: routerConfigItem[] = [
         hideInMenu: true,
       },
       {
+        path: 'message',
+        element:  <PatientList />,
+      },
+      {
         path: '/patient/list',
         element: <PatientList />,
       },

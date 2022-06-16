@@ -5,6 +5,12 @@ const menuConfig: MenuItemProps[] = [
     label: '首页',
     key: 'index',
     path: 'index',
+    children: [
+      {
+        label: '申请通知',
+        path: '/message',
+      }
+    ],
   },
   {
     label: '患者管理',
