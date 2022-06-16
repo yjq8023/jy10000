@@ -6,6 +6,7 @@ import { hideInMenuPages } from '@/config/router';
 import PageHeader from '@/components/PageHeader';
 
 import style from './index.less';
+import MessagePage from '@/components/messagePage';
 
 function Home(props: any) {
   const [collapsed, setCollapsed] = useState(true);
@@ -36,7 +37,19 @@ function Home(props: any) {
     });
   }, [headerMenuList, sideMenuList, defaultSelected, location]);
   const logo = <div>中康全病程管理服务平台</div>;
-  const toolbar = <div>用户信息</div>;
+  const toolbar = (
+    <div className={style.headerToolbar}>
+      <MessagePage
+        unreas={0}
+        // unreas={unrea}
+        ifOpMsgCount={() => {
+          // setUnrea(Math.random()); // 刷新红点数
+          // setVisible(!visible);
+        }}
+      />
+      <div>用户信息</div>
+    </div>
+  );
   const loading = (
     <div style={{ display: 'flex', height: 'calc(100vh - 360px)' }}>
       <Spin size="large" style={{ margin: 'auto' }} />

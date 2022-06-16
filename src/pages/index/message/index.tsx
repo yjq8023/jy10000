@@ -4,13 +4,11 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
-import SimpleModal from '@/components/SimpleModal';
-import OrganForm from './components/OrganForm';
 import { getPageChain } from '@/services/setting';
 
-function OrganList() {
-  const [showOrganForm, setShowOrganForm] = useState(false);
+function UserList() {
   const list = useList();
+  const [showUserForm, setShowUserForm] = useState(false);
   const fetchAPi = (params: any) => {
     console.log('params');
     console.log(params);
@@ -38,17 +36,52 @@ function OrganList() {
       },
     },
     {
-      title: '机构名称',
+      title: '用户名称',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: '机构地址',
+      title: '用户账号',
       dataIndex: 'address',
       key: 'address',
     },
     {
-      title: '建立时间',
+      title: '所属机构',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: '用户角色',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: '用户职称',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: '职称级别',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: '所在科室',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: '执业医院',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: '用户描述',
+      dataIndex: 'address',
+      key: 'address',
+    },
+    {
+      title: '更新时间',
       dataIndex: 'createTime',
       key: 'createTime',
     },
@@ -78,23 +111,15 @@ function OrganList() {
   ];
   const Toolbar = () => {
     return (
-      <>
-        <Button
-          type="primary"
-          onClick={() => {
-            setShowOrganForm(true);
-          }}
-        >
-          <PlusCircleOutlined />
-          增加机构
-        </Button>
-        <OrganForm
-          visible={showOrganForm}
-          onCancel={() => {
-            setShowOrganForm(false);
-          }}
-        />
-      </>
+      <Button
+        type="primary"
+        onClick={() => {
+          setShowUserForm(true);
+        }}
+      >
+        <PlusCircleOutlined />
+        增加用户
+      </Button>
     );
   };
   return (
@@ -111,4 +136,4 @@ function OrganList() {
   );
 }
 
-export default OrganList;
+export default UserList;

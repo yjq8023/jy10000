@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
 import UserForm from './components/UserForm';
+import { getPageChain } from '@/services/setting';
 
 function UserList() {
   const list = useList();
@@ -12,81 +13,9 @@ function UserList() {
   const fetchAPi = (params: any) => {
     console.log('params');
     console.log(params);
-    return new Promise<{ listData: any[]; pagination: any }>((res) => {
-      // @ts-ignore
-      const data = [
-        {
-          name: '小用户名称红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 1,
-          id: 1,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 2,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 3,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 4,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 5,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 6,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 7,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 8,
-        },
-        {
-          name: '小红',
-          address: '阿斯蒂芬拉',
-          createTime: '2020-06-54',
-          age: 2,
-          id: 9,
-        },
-      ];
-      res({
-        listData: data,
-        pagination: {
-          current: params.current,
-          pageSize: 10,
-          total: 100,
-        },
-      });
+    return getPageChain(params).then((res) => {
+      console.log(res);
+      return res;
     });
   };
   const renderActionDom = (itemData: any) => {
