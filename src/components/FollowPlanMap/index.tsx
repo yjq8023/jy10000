@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import { Badge } from '@sinohealth/butterfly-ui-components/lib';
 import style from './index.less';
 
 type FollowPlanMapProps = {
@@ -61,7 +62,16 @@ function FollowPlanMap(props: FollowPlanMapProps) {
   };
   return (
     <div className={style.followPlanMap}>
-      {renderPlanList()}
+      <div className={style.legend}>
+        <Badge status="success" text="个案管理师通知" />
+        <Badge status="error" text="系统通知" />
+        <Badge status="default" text="已完成或已失效任务" />
+        <Badge status="processing" text="正在执行任务" />
+        <Badge status="warning" text="待执行任务" />
+      </div>
+      <div className={style.mapBox}>
+        {renderPlanList()}
+      </div>
     </div>
   );
 }

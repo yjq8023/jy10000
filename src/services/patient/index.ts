@@ -21,6 +21,11 @@ export const getPatientList = (params: getPatientListParams) => {
   });
 };
 
+export const savePatient = (params: any) => {
+  return request.post<any, CommonApi.CommonListRes<Patient.Item>>(`${prefix}/save`, params);
+};
+
 export default {
   getPatientList,
+  savePatient,
 };
