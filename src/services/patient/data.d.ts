@@ -11,15 +11,17 @@
 declare namespace Patient {
   type Item = {
     id: number; // 患者ID
-    number: string; // 患者档案号
-    name: string; // 患者名称
-    age: number; // 患者年龄
-    phone: string; // 患者手机号码
-    mainDisease: string; // 主要诊断
-    diseaseProjectName: string; // 管理项目
-    caseManager: string; // 个案管理师
-    wxBindStatus: '1' | '0'; // 微信是否绑定1：绑定0：无
-    sex: string; // 性别
-    pic: string; // 头像
+    number?: string; // 患者档案号
+    idCard?: string; // 身份证
+    history?: string; // 既往史
+    name?: string; // 患者名称
+    age?: number; // 患者年龄
+    phone?: string; // 患者手机号码
+    mainDisease?: string; // 主要诊断
+    diseaseProjectName?: string; // 管理项目
+    caseManager?: string; // 个案管理师
+    wxBindStatus?: '1' | '0'; // 微信是否绑定1：绑定0：无
+    sex?: string; // 性别
+    pic?: string; // 头像
   }
 }

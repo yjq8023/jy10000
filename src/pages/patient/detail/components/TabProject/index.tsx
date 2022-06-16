@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Badge } from '@sinohealth/butterfly-ui-components/lib';
+import { Card, Button, Badge, Tabs } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender } from '@sinohealth/butterfly-formily-engine';
 import FollowPlanMap from '@/components/FollowPlanMap';
 import style from './index.less';
@@ -97,32 +97,69 @@ const planItem = {
     },
   ],
 };
-const l = 18;
+const l = 12;
 // @ts-ignore
 const followPlanMapData = new Array(l).fill(planItem, 0, l);
+const projectListData = [
+  {
+
+  },
+];
 function TabProject() {
+  const renderProjectList = (projectItem?: any) => {
+    return (
+      <div className={style.projectListItem}>
+        <div className={style.projectListHeader}>
+          <span>1</span>
+          前列腺随访管理项目
+          <a className={style.action}>结束该管理项目</a>
+        </div>
+      </div>
+    );
+  };
+  const renderProjectForm = (projectItem: any) => {
+    return (
+      <div className={style.projectListItem}>
+        <div className={style.projectListHeader}>
+          <Badge status="processing" />
+          前列腺随访管理项目
+          <a className={style.action}>填写前置信息</a>
+        </div>
+        {
+          projectItem.schema && (
+            <div className={style.formBox}>
+              <FormRender schema={schema} />
+            </div>
+          )
+        }
+      </div>
+    );
+  };
   return (
     <div>
       <Card className="but-card" title="已加入的管理项目" extra={<Button type="primary">添加管理项目</Button>}>
         <div className={style.projectList}>
-          <span>1</span>
-          乳腺癌随访管理项目
-          <a className={style.action}>结束该管理项目</a>
-        </div>
-        <div className={style.projectList}>
-          <span>2</span>
-          前列腺随访管理项目
-          <a className={style.action}>结束该管理项目</a>
+          {renderProjectList()}
+          {renderProjectList()}
+          {renderProjectList()}
         </div>
       </Card>
       <Card className="but-card" title="智能推荐管理项目随访路径前置信息">
-        <div className={style.projectBeforeInfo}>
-          <div className={style.title}><Badge color="#217BA0" />乳腺癌随访管理项目信息</div>
-          <FormRender schema={schema} />
+        <div className={style.projectList}>
+          {renderProjectForm({})}
+          {renderProjectForm({ schema: 1 })}
+          {renderProjectForm({})}
         </div>
       </Card>
       <Card className="but-card" title="已加入管理项目计划路径">
-        <FollowPlanMap data={followPlanMapData} />
+        <Tabs defaultActiveKey="1" type="card">
+          <Tabs.TabPane tab="管理项目1" key="1">
+            <FollowPlanMap data={followPlanMapData} />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="管理项目1" key="2">
+            <FollowPlanMap data={followPlanMapData} />
+          </Tabs.TabPane>
+        </Tabs>
       </Card>
     </div>
   );
