@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Badge, Button, Switch } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import SimpleModal from '@/components/SimpleModal';
 import OrganForm from './components/OrganForm';
 
 function OrganList() {
+  const [showOrganForm, setShowOrganForm] = useState(false);
   const list = useList();
   const fetchAPi = (params: any) => {
     console.log('params');
@@ -149,11 +150,21 @@ function OrganList() {
   const Toolbar = () => {
     return (
       <>
-        <Button type="primary">
+        <Button
+          type="primary"
+          onClick={() => {
+            setShowOrganForm(true);
+          }}
+        >
           <PlusCircleOutlined />
           增加机构
         </Button>
-        <OrganForm visible={true} />
+        <OrganForm
+          visible={showOrganForm}
+          onCancel={() => {
+            setShowOrganForm(false);
+          }}
+        />
       </>
     );
   };

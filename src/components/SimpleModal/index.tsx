@@ -4,6 +4,7 @@ import styles from './index.less';
 import cancelIcon from '@/assets/images/common/cancel.svg';
 
 type SimpleModalType = {
+  h2?: string;
   visible: boolean;
   width?: number;
   loading?: boolean;
@@ -18,7 +19,7 @@ const SimpleModal: React.FC<SimpleModalType> = (props) => {
       className={styles['simple-modal']}
       {...props}
     >
-      <h2 className={styles.title}>修改零售价</h2>
+      <h2 className={styles.title}>{props.h2}</h2>
       <div>{props.children}</div>
     </Modal>
   );

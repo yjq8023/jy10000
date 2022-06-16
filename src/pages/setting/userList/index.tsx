@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Badge, Button, Switch } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
+import UserForm from './components/UserForm';
 
 function UserList() {
   const list = useList();
+  const [showUserForm, setShowUserForm] = useState(false);
   const fetchAPi = (params: any) => {
     console.log('params');
     console.log(params);
@@ -181,12 +183,23 @@ function UserList() {
   ];
   const Toolbar = () => {
     return (
-      <Link to="/patient/add">
-        <Button type="primary">
+      <>
+        <Button
+          type="primary"
+          onClick={() => {
+            setShowUserForm(true);
+          }}
+        >
           <PlusCircleOutlined />
-          增加机构
+          增加用户
         </Button>
-      </Link>
+        <UserForm
+          visible={showUserForm}
+          onCancel={() => {
+            setShowUserForm(false);
+          }}
+        />
+      </>
     );
   };
   return (
