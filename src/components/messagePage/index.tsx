@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
 import { Badge } from '@sinohealth/butterfly-ui-components/lib';
+import { useNavigate } from 'react-router-dom';
 import style from './index.less';
 // import { getUnreadCount } from '@/services/messagePage/index';
 // import { pushMessage } from '@/services/prescription';
@@ -15,11 +16,13 @@ type OrderFormProps = {
  */
 // export const mgsCont = createContext(0);
 const messagePage: React.FC<OrderFormProps> = (props) => {
+  const navigate = useNavigate();
   const { ifOpMsgCount, unreas } = props;
   const [msgCount, setMsgCount] = useState<number>(0);
   const opMsgCount = () => {
     // ifOpMsgCount();
     // getMsgTime();
+    navigate('/message');
   };
 
   const [msgTime, setMsgTime] = useState<any>(null);

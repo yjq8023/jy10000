@@ -14,6 +14,7 @@ const WeappProject = lazy(() => import('../pages/weapp/project'));
 const PatientConsult = lazy(() => import('../pages/patient/consult'));
 const OrganList = lazy(() => import('../pages/setting/organList'));
 const UserList = lazy(() => import('../pages/setting/userList'));
+const Message = lazy(() => import('../pages/message'));
 
 type routerConfigItem = {
   path: string;
@@ -38,7 +39,7 @@ const routerConfig: routerConfigItem[] = [
       },
       {
         path: 'message',
-        element:  <PatientList />,
+        element:  <Message />,
       },
       {
         path: '/patient/list',
