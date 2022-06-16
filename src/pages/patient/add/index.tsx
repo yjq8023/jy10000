@@ -5,6 +5,7 @@ import style from './index.less';
 import UserNameInput from '@/components/UserNameInput';
 import AddressSelect from '@/components/AddressSelect';
 import ArrayFormItem from '@/components/ArrayFormItem';
+import { savePatient } from '@/services/patient';
 
 const { Option } = Select;
 const { useForm } = Form;
@@ -18,6 +19,10 @@ function PatientAdd(props: any) {
   const onSubmit = (formValues: any) => {
     console.log('onSubmit');
     console.log(formValues);
+    savePatient(formValues)
+      .then((res) => {
+        console.log(res);
+      });
   };
   const onCancel = () => {
     if (onBack) {

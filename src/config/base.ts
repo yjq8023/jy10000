@@ -1,5 +1,5 @@
 const { NODE_ENV } = process.env;
-export const baseURL = NODE_ENV === 'development' ? 'http://192.168.16.59:8805/' : '/';
+export const baseURL = NODE_ENV === 'development' ? 'http://dev.zmnyun.cn:20900/' : '/';
 export const socketURL =
   NODE_ENV === 'development'
     ? 'ws://dev.sdc.sinohealth.cn:30200/webSocket'
