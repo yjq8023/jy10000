@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
 import UserForm from './components/UserForm';
-import { getPageChain } from '@/services/setting';
+import { getPageChain, getPageUserInfo } from '@/services/setting';
 
 function UserList() {
   const list = useList();
@@ -13,9 +13,16 @@ function UserList() {
   const fetchAPi = (params: any) => {
     console.log('params');
     console.log(params);
-    return getPageChain(params).then((res) => {
+    return getPageUserInfo(params).then((res) => {
       console.log(res);
-      return res;
+      return {
+        listData: res.data,
+        pagination: {
+          current: res.pageIndex,
+          pageSize: res.pageSize,
+          total: res.totalCount,
+        },
+      };
     });
   };
   const renderActionDom = (itemData: any) => {
@@ -43,60 +50,60 @@ function UserList() {
     },
     {
       title: '用户账号',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
     },
     {
       title: '所属机构',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'chainName',
+      key: 'chainName',
     },
     {
       title: '用户角色',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'roleName',
+      key: 'roleName',
     },
     {
       title: '用户职称',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
       title: '职称级别',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'titleLevel',
+      key: 'titleLevel',
     },
     {
       title: '所在科室',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'department',
+      key: 'department',
     },
     {
       title: '执业医院',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'hospitalName',
+      key: 'hospitalName',
     },
     {
       title: '用户描述',
-      dataIndex: 'address',
-      key: 'address',
+      dataIndex: 'description',
+      key: 'description',
     },
     {
       title: '更新时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
+      dataIndex: 'updateTime',
+      key: 'updateTime',
     },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
       render(text: string, record: any) {
-        const isUp = Number(text) === 1;
+        const isUp = record.status !== 'disabled';
         return (
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            <Switch />
+            <Switch checked={isUp} />
           </div>
         );
       },

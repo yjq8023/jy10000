@@ -3,43 +3,66 @@ import { getTokenParams } from '@/config/base';
 import { setToken } from '@/utils/cookies';
 import { UCenter } from '@/services/user/data';
 
-const pharmacyPrefix = '/chain';
+const chainPrefix = '/chain';
 
 /**
- * 获取个人信息
+ * 获取机构信息
  * @param params
  * @returns
  */
 export const getPageChain = (params: any) => {
-  return request.post<any, any>(`${pharmacyPrefix}/pageChain`, params);
+  // @ts-ignore
+  return request.post<any, any>(`${chainPrefix}/pageChain`, params, { isReturnAllData: true });
 };
 
 /**
- * 修改个人密码
+ * 添加机构
  * @param params
  * @returns
  */
-export const updateUserPassword = (params: UCenter.UpdatePasswordReq) =>
-  request.post(`${pharmacyPrefix}/userCenter/updateUserPassword`, params);
+export const chainSave = (params: any) => {
+  // @ts-ignore
+  return request.post<any, any>(`${chainPrefix}/save`, params, { isReturnAllData: true });
+};
 
-/**
- * 修改个人资料
- * @param params
- * @returns
- */
-export const updateUserInfo = (params: UCenter.UpdateUserInfoReq) => {
-  return request.post(`${pharmacyPrefix}/userCenter/updateUserInfo`, params);
+export const chainEdit = (params: any) => {
+  // @ts-ignore
+  return request.post<any, any>(`${chainPrefix}/edit`, params, { isReturnAllData: true });
 };
 
 /**
- * 修改个人资料
+ *  设置机构状态
  * @param params
  * @returns
  */
-export const getUserResourceByScope = () => {
-  return request.get<UCenter.UserResourceByScopeResponse, any>(
-    '/api/rbac/menu/getUserResourceByScope/zmn-rx-oms-server?version=v1',
-  );
+export const setChainStatus = (params: any) => {
+  // @ts-ignore
+  return request.post<any, any>(`${chainPrefix}/setChainStatus`, params, { isReturnAllData: true });
+};
+
+/**
+ * 删除机构
+ * @param params
+ * @returns
+ */
+export const chainDelete = (id: any) => {
+  // @ts-ignore
+  return request.post<any, any>(`${chainPrefix}/delete/${id}`);
+};
+
+export const chainDetail = (id: any) => {
+  // @ts-ignore
+  return request.post<any, any>(`${chainPrefix}/detail/${id}`);
+};
+
+/**
+ * 获取机构信息
+ * @param params
+ * @returns
+ */
+export const getPageUserInfo = (params: any) => {
+  // @ts-ignore
+  return request.post<any, any>('/user/pageUserInfo', params, { isReturnAllData: true });
 };
 
 export default {};

@@ -6,23 +6,44 @@ import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
 import SimpleModal from '@/components/SimpleModal';
 import OrganForm from './components/OrganForm';
-import { getPageChain } from '@/services/setting';
+import { getPageChain, setChainStatus } from '@/services/setting';
 
 function OrganList() {
   const [showOrganForm, setShowOrganForm] = useState(false);
+  const [organId, setOrganId] = useState<number>();
   const list = useList();
   const fetchAPi = (params: any) => {
-    console.log('params');
     console.log(params);
     return getPageChain(params).then((res) => {
       console.log(res);
-      return res;
+      return {
+        listData: res.data,
+        pagination: {
+          current: res.pageIndex,
+          pageSize: res.pageSize,
+          total: res.totalCount,
+        },
+      };
     });
+  };
+  const closeOrganForm = (success?: boolean) => {
+    if (success) {
+      (list.current as any).reloadListData();
+    }
+    setOrganId(0);
+    setShowOrganForm(false);
   };
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <a>编辑</a>
+        <a
+          onClick={() => {
+            setOrganId(itemData.id);
+            setShowOrganForm(true);
+          }}
+        >
+          编辑
+        </a>
         &nbsp; &nbsp;
         <a>删除</a>
       </div>
@@ -56,13 +77,28 @@ function OrganList() {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      render(text: string, record: any) {
-        const isUp = Number(text) === 1;
+      render(text: string, record: any, index: number) {
+        const isUp = record.status === 'enabled';
         return (
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            <Switch />
+            <Switch
+              checked={isUp}
+              onChange={(value) => {
+                setChainStatus({ id: record.id, status: value ? 'enabled' : 'disabled' }).then(
+                  (res) => {
+                    const listData = (list.current as any).listData;
+                    // listData[index].status = 'disable';
+                    (list.current as any).onSetListData(
+                      listData.map((item: any, _index: number) =>
+                        _index === index ? { ...item, status: value ? 'enabled' : 'disabled' } : item,
+                      ),
+                    );
+                  },
+                );
+              }}
+            />
           </div>
         );
       },
@@ -78,23 +114,15 @@ function OrganList() {
   ];
   const Toolbar = () => {
     return (
-      <>
-        <Button
-          type="primary"
-          onClick={() => {
-            setShowOrganForm(true);
-          }}
-        >
-          <PlusCircleOutlined />
-          增加机构
-        </Button>
-        <OrganForm
-          visible={showOrganForm}
-          onCancel={() => {
-            setShowOrganForm(false);
-          }}
-        />
-      </>
+      <Button
+        type="primary"
+        onClick={() => {
+          setShowOrganForm(true);
+        }}
+      >
+        <PlusCircleOutlined />
+        增加机构
+      </Button>
     );
   };
   return (
@@ -107,6 +135,7 @@ function OrganList() {
         SearchForm={SearchForm}
         Toolbar={Toolbar}
       />
+      <OrganForm organId={organId} visible={showOrganForm} onCancel={closeOrganForm} />
     </div>
   );
 }

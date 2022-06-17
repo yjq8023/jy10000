@@ -13,7 +13,7 @@ export type fetchApiRes = {
   pagination: paginationType;
 };
 type ListPageProps = {
-  list?: { current: any }
+  list?: { current: any };
   ListTitle: any;
   SearchForm?: any;
   Body?: any;
@@ -56,6 +56,9 @@ function BaseList(props: ListPageProps, ref: any) {
   const reloadListData = () => {
     fetchListData();
   };
+  const onSetListData = (data: any[]) => {
+    setListData([...data]);
+  };
   const onSearch = () => {
     const p = {
       ...pagination,
@@ -79,6 +82,7 @@ function BaseList(props: ListPageProps, ref: any) {
         searchForm: form,
         reloadListData,
         listData,
+        onSetListData,
       };
     }
   }, [list, form, listData]);
@@ -96,20 +100,19 @@ function BaseList(props: ListPageProps, ref: any) {
   };
   return (
     <div className={style.listPage}>
-      {
-        SearchForm && (
-          <Card className={style.searchForm}>
-            <SearchForm form={form} onFinish={() => onSearch()} />
-          </Card>
-        )
-      }
+      {SearchForm && (
+        <Card className={style.searchForm}>
+          <SearchForm form={form} onFinish={() => onSearch()} />
+        </Card>
+      )}
       <Card className={style.body}>
         <Row className={style.listHeader}>
           <Col span={12}>
-            { typeof ListTitle === 'string'
-              ? <div className={style.title}>{ListTitle}</div>
-              : <ListTitle onChange={onTitleParamsChange} />
-            }
+            {typeof ListTitle === 'string' ? (
+              <div className={style.title}>{ListTitle}</div>
+            ) : (
+              <ListTitle onChange={onTitleParamsChange} />
+            )}
           </Col>
           <Col span={12}>
             {Toolbar && (
@@ -120,12 +123,11 @@ function BaseList(props: ListPageProps, ref: any) {
           </Col>
         </Row>
         <Body columns={columns} listData={listData} fixed={fixed} />
-        {
-          pagination.total > 0 &&
+        {pagination.total > 0 && (
           <div className={style.pagination}>
             <Pagination {...pagination} {...paginationConfig} onChange={onPaginationChange} />
           </div>
-        }
+        )}
       </Card>
     </div>
   );

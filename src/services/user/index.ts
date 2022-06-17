@@ -29,8 +29,8 @@ export const resetPassword = (params: any) => {
  * @param params
  * @returns
  */
-export const getUserInfo = () => {
-  return request.post<UCenter.UserInfo, any>(`${pharmacyPrefix}/userCenter/getUserInfo`);
+export const getUserInfo = (params: any) => {
+  return request.post<UCenter.UserInfo, any>(`${pharmacyPrefix}/userCenter/getUserInfo`, params);
 };
 
 /**

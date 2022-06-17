@@ -10,11 +10,10 @@ type SimpleModalType = {
   loading?: boolean;
 } & ModalProps;
 const SimpleModal: React.FC<SimpleModalType> = (props) => {
-  const [loading, setLoading] = useState(false);
   //   const [form] = Form.useForm();
   return (
     <Modal
-      confirmLoading={loading}
+      confirmLoading={props.loading}
       closeIcon={<img style={{ width: 18 }} src={cancelIcon} alt="" />}
       className={styles['simple-modal']}
       {...props}
@@ -24,5 +23,7 @@ const SimpleModal: React.FC<SimpleModalType> = (props) => {
     </Modal>
   );
 };
-
+SimpleModal.defaultProps = {
+  loading: false,
+};
 export default SimpleModal;
