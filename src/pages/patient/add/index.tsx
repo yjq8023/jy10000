@@ -1,31 +1,74 @@
 import React from 'react';
-import { Card, Form, Row, Col, Button, Input, Select, DatePicker } from '@sinohealth/butterfly-ui-components/lib';
-import { MinusCircleOutlined } from '@ant-design/icons';
+import { Card, Form, Row, Col, Button, Input, Select, DatePicker, Modal } from '@sinohealth/butterfly-ui-components/lib';
+import { MinusCircleOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import UserAutoComplete from '@/components/UserAutoComplete';
 import AddressSelect from '@/components/AddressSelect';
 import ArrayFormItem from '@/components/ArrayFormItem';
-import { savePatient } from '@/services/patient';
+import { savePatient, verifyIdCard } from '@/services/patient';
 import style from './index.less';
+import { getUserInfoFromIdCard } from '@/utils';
+import { idCardReg } from '@/utils/validate';
 
 const { Option } = Select;
 const { useForm } = Form;
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
+const defaultData = { name: '杨继强', idCard: '440921199508306814', sex: 'MALE', phone: '15521371144', birthDay: '2021-01', age: 1, mainDisease: '大叔的是', allergy: '螨虫过敏', history: '便秘', height: '158', weight: '58', bmi: '23.23', memberName: '小红', memberRelationship: '母女', memberPhone: '120123', regionals: ['110000', '110000', '110101'], address: '天安门', familyMedicalHistorys: [{ relation: '大恶棍', disease: '穿插' }, { relation: '小二哥', disease: '常常' }] };
 function PatientAdd(props: any) {
   const { onBack } = props;
   const navigate = useNavigate();
   const [form] = useForm();
+  const verifyIdCardFn = (params: any) => {
+    return new Promise((resolve, reject) => {
+      verifyIdCard(params)
+        .then((res) => {
+          console.log(res);
+          Modal.confirm({
+            title: '是否确定建档？',
+            icon: <ExclamationCircleFilled style={{ color: '#217ba0' }} />,
+            content: '',
+            onOk() {
+              resolve(res);
+            },
+            onCancel() {
+              reject();
+            },
+          });
+        })
+        .catch(() => {
+          Modal.warning({
+            title: '患者姓名与身份证号不匹配',
+            icon: <ExclamationCircleFilled style={{ color: '#faad14' }} />,
+            content: '请重新确认患者信息',
+            okText: '好的',
+            onOk() {
+              reject();
+            },
+            onCancel() {
+              reject();
+            },
+          });
+        });
+    });
+  };
   const handleSubmit = () => {
     form.submit();
   };
   const onSubmit = (formValues: any) => {
-    console.log('onSubmit');
-    console.log(formValues);
-    savePatient(formValues)
-      .then((res) => {
-        console.log(res);
-      });
+    verifyIdCardFn({
+      name: formValues.name,
+      idCard: formValues.idCard,
+    }).then((verifyToken) => {
+      savePatient({
+        ...formValues,
+        verifyToken,
+        birthDay: formValues.birthDay.format('YYYY-MM'),
+      })
+        .then((res) => {
+          console.log(res);
+        });
+    });
   };
   const onCancel = () => {
     if (onBack) {
@@ -39,8 +82,6 @@ function PatientAdd(props: any) {
       name: data.name,
       phone: data.phone,
       idCard: data.idCard,
-      sex: data.sex,
-      birthDay: moment(data.birthDay),
     });
   };
   const renderArrayFormChildren = (field: any, options: any) => {
@@ -63,6 +104,25 @@ function PatientAdd(props: any) {
       </div>
     );
   };
+  const onFormValueChange = (changedValues: any, allValues: any) => {
+    const formValues = form.getFieldsValue(true);
+    let newFormValues: any = {};
+    // 根据身份证解析性别-出生日期-年龄
+    if (formValues.idCard) {
+      const userInfo = getUserInfoFromIdCard(formValues.idCard);
+      newFormValues = {
+        ...newFormValues,
+        ...userInfo,
+      };
+    }
+    // 技术bmi
+    if (formValues.height && formValues.weight) {
+      const w = formValues.weight;
+      const h = formValues.height / 100;
+      newFormValues.bmi = (w / (h * h)).toFixed(2);
+    }
+    form.setFieldsValue(newFormValues);
+  };
   return (
     <div className={`${style.addPage} actionPage`}>
       <Card title="基本信息" className={`${style.body} but-card`}>
@@ -71,6 +131,7 @@ function PatientAdd(props: any) {
           labelAlign="left"
           colon={false}
           onFinish={onSubmit}
+          onValuesChange={onFormValueChange}
         >
           <Row gutter={100}>
             <Col span={8}>
@@ -81,7 +142,7 @@ function PatientAdd(props: any) {
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item name="idCard" label="身份证号" rules={requiredRule}>
+              <Form.Item name="idCard" label="身份证号" rules={[...requiredRule, { pattern: idCardReg, message: '身份证号格式有误' }]}>
                 <UserAutoComplete onImportUser={handelImportUserInfo}>
                   <Input placeholder="请输入患者身份证号" />
                 </UserAutoComplete>

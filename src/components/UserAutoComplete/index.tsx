@@ -2,6 +2,7 @@ import { AutoComplete, Tag } from '@sinohealth/butterfly-ui-components/lib';
 import React, { useState, useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import style from './index.less';
+import { searchPatient } from '@/services/patient';
 
 const renderItem = (data: any, onSelect: (c: any, isMyPatient: boolean) => void) => {
   const isMyPatient = Number(data.type) === 1;
@@ -34,35 +35,10 @@ const UserAutoComplete: React.FC<UserNameInputProps> = (props) => {
   const { id = '', onChange, onImportUser, children, ...otherProps } = props;
   const [data, setData] = useState<any[]>([]);
   const fetchUserListData = useCallback(_.debounce((params: any) => {
-    setData([
-      {
-        id: 1111,
-        type: '1',
-        name: '梁梅梅1',
-        phone: '15521371244',
-        idCard: '440921231271615261',
-        sex: 'MALE',
-        birthDay: '2021-01',
-      },
-      {
-        id: 2111,
-        type: '2',
-        name: '梁梅梅2',
-        phone: '15521371144',
-        idCard: '440921231271615262',
-        sex: 'MALE',
-        birthDay: '2021-01',
-      },
-      {
-        id: 3221,
-        type: '2',
-        name: '梁梅梅3',
-        phone: '155221371244',
-        idCard: '440921231271615237',
-        sex: 'MALE',
-        birthDay: '2021-01',
-      },
-    ]);
+    searchPatient(params)
+      .then((res: any) => {
+        setData(res);
+      });
   }, 500), []);
   useEffect(() => {
     fetchUserListData({

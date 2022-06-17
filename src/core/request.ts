@@ -55,7 +55,7 @@ function resolve(response: any) {
     if (response.config.isReturnAllData) {
       return Promise.resolve(data.data);
     }
-    return Promise.resolve(data.result);
+    return Promise.resolve(data.data);
   }
   message.error(`${data.errMessage || '服务器出错了，请稍后再试！'}`);
   return Promise.reject(data);
