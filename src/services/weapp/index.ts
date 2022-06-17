@@ -15,11 +15,19 @@ type getPatientListParams = {
 }
 /* 获取栏目列表 */
 export const getColumnsList = (params: getPatientListParams) => {
-  return request.post<any, CommonApi.CommonListRes<Patient.Item>>(`${prefix}/pageDisease`, {
-    entity: params,
-  });
+  return request.post(`${prefix}/pageDisease`, params);
+};
+
+export const createColumn = (params: any) => {
+  return request.post(`${prefix}/save`, params);
+};
+
+export const editColumn = (params: any) => {
+  return request.post(`${prefix}/edit`, params);
 };
 
 export default {
   getColumnsList,
+  createColumn,
+  editColumn,
 };

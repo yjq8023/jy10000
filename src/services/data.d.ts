@@ -13,12 +13,11 @@ declare namespace CommonApi {
     pageNo: number;
     pageSize: number;
     totalPage: number;
-    total: number;
-    records: T[];
+    totalCount: number;
+    data: T[];
   }
   type CommonListError = {
     message: string;
     errorCode: string;
-    records: T[];
   }
 }
