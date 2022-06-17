@@ -53,7 +53,7 @@ function resolve(response: any) {
   }
   if (data.success) {
     if (response.config.isReturnAllData) {
-      return Promise.resolve(data.data);
+      return Promise.resolve(data);
     }
     return Promise.resolve(data.data);
   }

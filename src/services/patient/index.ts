@@ -15,9 +15,8 @@ type getPatientListParams = {
 }
 /* 获取患者列表 */
 export const getPatientList = (params: getPatientListParams) => {
-  return request.post<any, CommonApi.CommonListRes<Patient.Item>>(`${prefix}/pagePatient`, {
-    entity: params,
-  });
+  // @ts-ignore
+  return request.post<any, CommonApi.CommonListRes<Patient.Item>>(`${prefix}/pagePatient`, params, { isReturnAllData: true });
 };
 
 type searchPatientProps = {

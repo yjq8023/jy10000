@@ -35,23 +35,17 @@ function PatientList() {
   const [listType, setListType] = useState('card');
   const list = useList();
   const fetchAPi = (params: any) => {
-    return Promise.resolve({
-      listData: getData(),
-      pagination: {
-        current: 1,
-        pageSize: 10,
-        total: 100,
-      },
-    });
-    // eslint-disable-next-line no-unreachable
-    return getPatientList(params)
-      .then((res) => {
+    return getPatientList({
+      ...params,
+      pageNo: params.current,
+    })
+      .then((res: any) => {
         return {
-          listData: res.records,
+          listData: res.data,
           pagination: {
-            current: params.current,
+            current: res.pageIndex,
             pageSize: res.pageSize,
-            total: res.total,
+            total: res.totalCount,
           },
         };
       });
