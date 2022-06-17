@@ -1,3 +1,4 @@
+import moment from 'moment';
 /**
  * 生成随机的uuid
  */
@@ -29,6 +30,17 @@ export function getBase64(img: any, callback: any) {
   const reader = new FileReader();
   reader.addEventListener('load', () => callback(reader.result));
   reader.readAsDataURL(img);
+}
+
+export function getUserInfoFromIdCard(IdCard: string) {
+  const birthDay = moment(IdCard.substring(6, 14), 'YYYYMMDD');
+  const sex = window.parseInt(IdCard.substr(16, 1)) % 2 === 1 ? 'MALE' : 'FEMALE';
+  const age = moment().diff(birthDay, 'year');
+  return {
+    birthDay,
+    sex,
+    age,
+  };
 }
 
 export default {

@@ -5,9 +5,10 @@ interface TableBodyProps {
   columns: any[],
   listData: any[],
   fixed: number | boolean,
+  BodyProps: any,
 }
 function TableBody(props: TableBodyProps) {
-  const { columns, listData, fixed } = props;
+  const { columns, listData, fixed, BodyProps } = props;
   const offsetNum = typeof fixed === 'number' ? fixed : 128; // 表格计算满屏时的偏差值。表格高度 = 屏幕高度 - 表格距离顶部高度 - offsetNum
   const tableRef = useRef<any>();
   const [scroll, setScroll] = useState({});
@@ -31,14 +32,18 @@ function TableBody(props: TableBodyProps) {
       });
     }
   });
+  const tableProps = {
+    ref: tableRef,
+    columns,
+    dataSource: listData,
+    scroll,
+    rowKey: (row: any) => row.id,
+    pagination: false,
+    ...BodyProps,
+  };
   return (
     <Table
-      ref={tableRef}
-      columns={columns}
-      dataSource={listData}
-      scroll={scroll}
-      rowKey={(row: any) => row.id}
-      pagination={false}
+      {...tableProps}
     />
   );
 }

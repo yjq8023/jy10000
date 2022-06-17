@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Cascader, Input, Form } from '@sinohealth/butterfly-ui-components/lib';
 import regionData from '@/assets/json/region.json';
+import { getRegionList } from '@/services/common';
 
 type AddressSelectProps = {
   names: string[]
@@ -8,6 +9,13 @@ type AddressSelectProps = {
 function AddressSelect(props: AddressSelectProps) {
   const { names } = props;
   const fieldNames = { label: 'name', value: 'id', children: 'children' };
+  useEffect(() => {
+    getRegionList()
+      .then((res) => {
+        console.log('res111');
+        console.log(res);
+      });
+  }, []);
   return (
     <div>
       <Form.Item name={names[0]} label="现住址">

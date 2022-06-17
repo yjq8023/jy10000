@@ -17,13 +17,24 @@ type ListPageProps = {
   ListTitle: any;
   SearchForm?: any;
   Body?: any;
+  BodyProps?: any; // 透传给列表内容的参数
   columns?: any[];
   fetchApi: (params: any) => Promise<fetchApiRes>; // 查询接口
   Toolbar?: any;
   fixed?: number | boolean; // 是否让表格占满屏幕，固定高度, 值为表格到页头距离
 };
 function BaseList(props: ListPageProps, ref: any) {
-  const { list, SearchForm, Body, columns = [], fetchApi, Toolbar, ListTitle, fixed } = props;
+  const {
+    list,
+    SearchForm,
+    Body,
+    BodyProps = {},
+    columns = [],
+    fetchApi,
+    Toolbar,
+    ListTitle,
+    fixed,
+  } = props;
   const [form] = Form.useForm();
   const [listData, setListData] = useState<any[]>([]);
   const [titleParams, setTitleParams] = useState<any>({});
@@ -122,7 +133,7 @@ function BaseList(props: ListPageProps, ref: any) {
             )}
           </Col>
         </Row>
-        <Body columns={columns} listData={listData} fixed={fixed} />
+        <Body columns={columns} listData={listData} fixed={fixed} BodyProps={BodyProps} />
         {pagination.total > 0 && (
           <div className={style.pagination}>
             <Pagination {...pagination} {...paginationConfig} onChange={onPaginationChange} />
@@ -138,7 +149,7 @@ BaseList.defaultProps = {
 };
 
 export const useList = () => {
-  const list = useRef();
+  const list: any = useRef();
   return list;
 };
 export default BaseList;
