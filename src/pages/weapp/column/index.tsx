@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Badge, Switch, Tabs } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import BaseList, { paginationType } from '@/components/BaseList';
+import BaseList, { useList } from '@/components/BaseList';
+import AddColumnModal from './components/AddColumnModal';
 
 const { TabPane } = Tabs;
 function WeappColumn() {
+  const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState();
+  const list = useList();
   const fetchAPi = (params: any) => {
     console.log('params');
     console.log(params);
@@ -32,12 +36,12 @@ function WeappColumn() {
     });
   };
   const Toolbar = () => {
-    return <Button type="primary"><PlusCircleOutlined />新建栏目病种</Button>;
+    return <Button type="primary" onClick={handleCreate}><PlusCircleOutlined />新建栏目病种</Button>;
   };
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <a>编辑</a>
+        <a onClick={() => handleEdit(itemData)}>编辑</a>
         &nbsp;
         &nbsp;
         <a>删除</a>
@@ -49,6 +53,7 @@ function WeappColumn() {
       title: '序号',
       dataIndex: 'index',
       key: 'index',
+      width: 160,
       render(text: string, record: any, index: number): JSX.Element {
         return <span>{index + 1}</span>;
       },
@@ -62,11 +67,13 @@ function WeappColumn() {
       title: '排序',
       dataIndex: 'sort',
       key: 'sort',
+      width: 120,
     },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
+      width: 160,
       render(text: string, record: any) {
         const isUp = Number(text) === 1;
         return (
@@ -82,6 +89,7 @@ function WeappColumn() {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
+      width: 160,
       render(text: string, record: any) {
         return renderActionDom(record);
       },
@@ -99,9 +107,26 @@ function WeappColumn() {
       </Tabs>
     );
   };
+  const handleCreate = () => {
+    setShowModal(true);
+  };
+  const handleEdit = (data: any) => {
+    setModalData(data);
+    setShowModal(true);
+  };
+  const handleCancel = () => {
+    setShowModal(false);
+  };
+  const handleCreated = () => {
+    setShowModal(false);
+    list.current?.reloadListData();
+  };
   return (
     <div>
-      <BaseList ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} fixed />
+      <BaseList list={list} ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} fixed />
+      {
+        showModal && <AddColumnModal data={modalData} onCancel={handleCancel} onOk={handleCreated} />
+      }
     </div>
   );
 }
