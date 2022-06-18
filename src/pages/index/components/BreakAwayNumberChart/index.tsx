@@ -37,7 +37,6 @@ function BreakAwayNumberChart() {
     <div className={style.box}>
       <div className={style.header}>
         <span className={style.title}>
-          <ProfileOutlined />
           患者管理脱落率
         </span>
         <span className={style.time}>

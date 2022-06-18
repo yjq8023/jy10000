@@ -58,7 +58,6 @@ function ParticipantsNumberChart() {
     <div className={style.box}>
       <div className={style.header}>
         <span className={style.title}>
-          <ProfileOutlined />
           新增管理人数
         </span>
         <span className={style.time}>
