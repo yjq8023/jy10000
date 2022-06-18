@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, ModalProps, Form, Input, InputNumber } from '@sinohealth/butterfly-ui-components/lib';
 import CustomUpload from '@/components/Upload';
 import { createColumn, editColumn } from '@/services/weapp';
@@ -10,11 +10,15 @@ function AddColumnModal(props: AddColumnModalProps) {
   const { data, onOk, onCancel } = props;
   const [form] = Form.useForm();
   const isEdit = data && data.id;
+  useEffect(() => {
+    if (isEdit) {
+      form.setFieldsValue(data);
+    }
+  }, []);
   const handleOk = (e: any) => {
     form.submit();
   };
   const handleSubmit = (formValues: any) => {
-    console.log(formValues);
     const saveColumn = isEdit ? editColumn : createColumn;
     saveColumn({
       ...data,

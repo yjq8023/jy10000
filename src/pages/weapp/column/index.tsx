@@ -1,36 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Badge, Switch, Tabs } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import AddColumnModal from './components/AddColumnModal';
 import { getColumnsList } from '@/services/weapp';
-import { isNull } from '@/utils/validate';
 
 const { TabPane } = Tabs;
 
-const sources = [
-  {
-    sourceId: 0,
-    sourceName: '健康管理服务',
-  },
-];
+type sourceItem = {
+  sourceId: string,
+  sourceName: string,
+}
 function WeappColumn() {
   const [showModal, setShowModal] = useState(false);
+  const [sources, setSources] = useState<sourceItem[]>([]);
   const [modalData, setModalData] = useState<any>();
-  const [selectedTab, setSelectedTab] = useState<any>(sources[0].sourceId);
+  const [selectedTab, setSelectedTab] = useState<any>();
   const list = useList();
+  const getParentColumnsList = () => {
+    return getColumnsList({
+      parentId: 0,
+      type: 'PLATFORM_CATEGORY',
+      pageNo: 1,
+      pageSize: 999,
+    })
+      .then((res: any) => {
+        if (res.data.length) {
+          setSources(res.data.map((item: any) => ({
+            sourceName: item.name,
+            sourceId: item.id,
+          })));
+          setSelectedTab(res.data[0].id);
+        }
+        return res;
+      });
+  };
+  const getDefaultParams = () => {
+    return new Promise((reslove, reject) => {
+      getParentColumnsList()
+        .then((res: any) => {
+          reslove({
+            parentId: res.data[0].id,
+          });
+        });
+    });
+  };
   const fetchAPi = (params: any) => {
-    console.log('params');
-    console.log(params);
     return getColumnsList({
       ...params,
+      type: 'DISEASE_CATEGORY',
       pageNo: params.current,
     })
       .then((res: any) => {
         return {
           listData: res.data,
           pagination: {
-            current: res.pageNo,
+            current: res.pageIndex,
             pageSize: res.pageSize,
             total: res.totalCount,
           },
@@ -100,14 +125,9 @@ function WeappColumn() {
   const ListTitleRef = (props: any) => {
     const { onChange } = props;
     const onSelectedTab = (val: any) => {
-      setTimeout(() => {
-        onChange({ parentId: val });
-      });
+      onChange({ parentId: val });
       setSelectedTab(val);
     };
-    useEffect(() => {
-      if (!isNull(String(selectedTab))) onSelectedTab(selectedTab);
-    }, []);
     return (
       <Tabs onChange={onSelectedTab} defaultValue={selectedTab}>
         {
@@ -140,7 +160,7 @@ function WeappColumn() {
   };
   return (
     <div>
-      <BaseList list={list} ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} fixed />
+      <BaseList getDefaultParams={getDefaultParams} list={list} ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} fixed />
       {
         showModal && <AddColumnModal data={modalData} onCancel={handleCancel} onOk={handleCreated} />
       }

@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 import Home from '../pages/home';
 import Login from '../pages/user/login';
 import { Navigate } from 'react-router-dom';
+import ProjectAdd from "@/pages/weapp/projectAdd";
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const Index = lazy(() => import('../pages/index'));
@@ -56,6 +57,10 @@ const routerConfig: routerConfigItem[] = [
         path: '/weapp/project',
         element: <WeappProject />,
       },
+      {
+        path: '/weapp/project/edit',
+        element: <ProjectAdd />,
+      },
     ],
   },
   {
@@ -91,11 +96,15 @@ export const breadcrumbMap = {
     path: '/weapp/column',
     column: {
       label: '平台栏目管理',
-      path: '/patient/column',
+      path: '/weapp/column',
     },
     project: {
-      label: '平台栏目管理',
-      path: '/patient/project',
+      label: '病种项目管理',
+      path: '/weapp/project',
+      edit: {
+        label: '编辑病种项目',
+        path: '/weapp/project/edit'
+      }
     },
   }
 };

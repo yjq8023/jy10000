@@ -14,7 +14,8 @@ export type fetchApiRes = {
   pagination: paginationType;
 };
 type ListPageProps = {
-  list?: { current: any }
+  list?: { current: any };
+  getDefaultParams?: () => Promise<any>;
   ListTitle: any;
   SearchForm?: any;
   Body?: any;
@@ -25,9 +26,10 @@ type ListPageProps = {
   fixed?: number | boolean; // 是否让表格占满屏幕，固定高度, 值为表格到页头距离
 };
 function BaseList(props: ListPageProps, ref: any) {
-  const { list, SearchForm, Body, BodyProps = {}, columns = [], fetchApi, Toolbar, ListTitle, fixed } = props;
+  const { list, getDefaultParams, SearchForm, Body, BodyProps = {}, columns = [], fetchApi, Toolbar, ListTitle, fixed } = props;
   const [form] = Form.useForm();
   const [listData, setListData] = useState<any[]>([]);
+  const [defaultParams, setDefaultParams] = useState<any>({});
   const [titleParams, setTitleParams] = useState<any>({});
   const [pagination, setPagination] = useState<paginationType>({
     current: 1,
@@ -44,12 +46,16 @@ function BaseList(props: ListPageProps, ref: any) {
   };
   const fetchListData = useCallback(_.debounce((paramsConfig = {}) => {
     const formVal = form.getFieldsValue();
+    console.log('defaultParams');
+    console.log(defaultParams);
     const params = {
+      ...defaultParams,
       ...pagination,
       ...formVal,
       ...titleParams,
       ...paramsConfig,
     };
+    console.log(params);
     fetchApi(params).then((res: fetchApiRes) => {
       setListData(res.listData);
       setPagination(res.pagination);
@@ -85,7 +91,11 @@ function BaseList(props: ListPageProps, ref: any) {
     }
   }, [list, form, listData]);
   useEffect(() => {
-    fetchListData();
+    getDefaultParams && getDefaultParams()
+      .then((params) => {
+        setDefaultParams(params);
+        fetchListData(params);
+      });
   }, []);
   const onPaginationChange = (current: number, pageSize: number) => {
     const newPagination = {
@@ -135,6 +145,7 @@ function BaseList(props: ListPageProps, ref: any) {
 
 BaseList.defaultProps = {
   Body: TableBody,
+  getDefaultParams: () => Promise.resolve({}),
 };
 
 export const useList = () => {

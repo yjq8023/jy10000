@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Badge, Switch, Tabs, Row, Col, Select, Form, Input } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 import BaseList, { paginationType } from '@/components/BaseList';
 
 const { TabPane } = Tabs;
@@ -33,7 +34,7 @@ function WeappProject() {
     });
   };
   const Toolbar = () => {
-    return <Button type="primary"><PlusCircleOutlined />新建栏目病种</Button>;
+    return <Link to="edit"><Button type="primary"><PlusCircleOutlined />新建栏目病种</Button></Link>;
   };
   const renderActionDom = (itemData: any) => {
     return (
@@ -55,21 +56,61 @@ function WeappProject() {
       },
     },
     {
-      title: '病种名称',
+      title: '项目名称',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: '排序',
-      dataIndex: 'sort',
-      key: 'sort',
+      title: '项目病种',
+      dataIndex: 'diseaseName',
+      key: 'diseaseName',
+    },
+    {
+      title: '所属机构',
+      dataIndex: 'chainName',
+      key: 'chainName',
+    },
+    {
+      title: '医生',
+      dataIndex: 'doctorName',
+      key: 'doctorName',
+    },
+    {
+      title: '医生职称',
+      dataIndex: 'doctorName',
+      key: 'doctorName',
+    },
+    {
+      title: '个案管理师',
+      dataIndex: 'caseManagerName',
+      key: 'caseManagerName',
+    },
+    {
+      title: '项目简介',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      key: 'createTime',
+    },
+    {
+      title: '医生审核',
+      dataIndex: 'needAudit',
+      key: 'needAudit',
+    },
+    {
+      title: '项目价格',
+      dataIndex: 'price',
+      key: 'price',
     },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
       render(text: string, record: any) {
-        const isUp = Number(text) === 1;
+        const isUp = text === 'ENABLE';
         return (
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '上架' : '下架'} />
