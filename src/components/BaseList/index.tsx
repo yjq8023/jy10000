@@ -134,7 +134,7 @@ function BaseList(props: ListPageProps, ref: any) {
           </Col>
         </Row>
         <Body columns={columns} listData={listData} fixed={fixed} BodyProps={BodyProps} />
-        {pagination.total > 0 && (
+        {pagination && pagination.total > 0 && (
           <div className={style.pagination}>
             <Pagination {...pagination} {...paginationConfig} onChange={onPaginationChange} />
           </div>

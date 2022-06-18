@@ -65,4 +65,23 @@ export const getPageUserInfo = (params: any) => {
   return request.post<any, any>('/user/pageUserInfo', params, { isReturnAllData: true });
 };
 
+export const userSave = (params: any) => {
+  return request.post<any, any>('/user/save', params);
+};
+
+export const userEdit = (params: any) => {
+  return request.post<any, any>('user/edit', params);
+};
+
+export const userDetail = (id: any) => {
+  return request.post<any, any>(`user/detail/${id}`);
+};
+
+export const setUserStatus = (params: any) => {
+  // @ts-ignore
+  return request.post<any, any>('user/setUserStatus', params);
+};
+export const userDelete = (id: any) => {
+  return request.post<any, any>(`user/delete/${id}`);
+};
 export default {};

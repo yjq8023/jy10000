@@ -6,12 +6,13 @@ import {
   Button,
   Input,
   Select,
-  Checkbox,
+  DatePicker,
   Slider,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { DownSquareOutlined, UpSquareOutlined } from '@ant-design/icons';
 import style from '../../index.less';
 
+const { RangePicker } = DatePicker;
 const { Option } = Select;
 const weappOptions = [
   { label: '已绑定', value: '1' },
@@ -29,11 +30,16 @@ const SearchForm = (props: any = {}) => {
     >
       <Row gutter={[120, 24]}>
         <Col span={8}>
-          <Form.Item name="name" label="用户查询">
-            <Input placeholder="请输入用户账号/用户名称" />
+          <Form.Item name="searchText" label="患者查询">
+            <Input placeholder="患者姓名/手机号码" />
           </Form.Item>
         </Col>
-        <Col span={16} style={{ textAlign: 'right' }}>
+        <Col span={8}>
+          <Form.Item label="时间范围" name="searchTime">
+            <RangePicker />
+          </Form.Item>
+        </Col>
+        <Col span={8} style={{ textAlign: 'right' }}>
           <Button htmlType="submit">重置</Button>
           &nbsp; &nbsp;
           <Button type="primary" htmlType="submit">

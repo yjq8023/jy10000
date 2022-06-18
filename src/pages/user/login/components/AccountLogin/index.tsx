@@ -10,7 +10,7 @@ import {
 import { useNavigate, Link } from 'react-router-dom';
 import { randomLenNum } from '@/utils';
 import { baseURL, loginRememberKey } from '@/config/base';
-import { getToken, getUserLinkChain, switchChain } from '@/services/user';
+import { doLogin, getToken, getUserLinkChain, switchChain } from '@/services/user';
 import style from './index.less';
 import { getLocalStorage, removeLocalStorage, setLocalStorage, setToken } from '@/utils/cookies';
 
@@ -47,15 +47,23 @@ function AccountLogin(props: { onSelectChain: () => void }) {
   };
   const handleLogin = async (formVal: { username: string; password: string; code: string }) => {
     const formData = {
-      grantType: 'password',
-      codeType: 'KAPTCHA',
+      channel: 'account',
+      captchaType: 'image',
       ...formVal,
-      randomNum,
+      seq: randomNum,
+      organizeId: '1648720895478333496',
+      scope: 'sdc-hccm',
     };
     try {
-      const token: any = await getToken(formData);
+      const token: any = await doLogin(formData, {
+        headers: {
+          organizeId: '1648720895478333496',
+          scope: 'sdc-hccm',
+        },
+      });
       setToken(token?.access_token);
       rememberUserFn(rememberUser, formData);
+      // TODO 是否需要请求机构
       const chain: any = await getUserLinkChain();
       if (Array.isArray(chain) && chain.length === 1) {
         const newToken: any = await switchChain(chain[0]);
@@ -78,7 +86,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     <img
       className={style.codeImg}
       onClick={resetRandom}
-      src={`${baseURL}api/kaptcha?randomNum=${randomNum}`}
+      src={`https://api.zmnyun.cn/uaa/captcha?seq=${randomNum}`}
       alt="验证码"
     />
   );
@@ -103,7 +111,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     <div className={style.accountLogin}>
       <Form form={form} onFinish={onFinish} onFinishFailed={getErrorMessage}>
         <div>
-          <Item noStyle name="username" rules={[{ required: true, message: '请填写用户账号' }]}>
+          <Item noStyle name="account" rules={[{ required: true, message: '请填写用户账号' }]}>
             <Input
               size="large"
               placeholder="输入登录账号"
@@ -111,7 +119,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
               onBlur={getErrorMessage}
             />
           </Item>
-          <Item noStyle name="password" rules={[{ required: true, message: '请填写登录密码' }]}>
+          <Item noStyle name="pwd" rules={[{ required: true, message: '请填写登录密码' }]}>
             <Input.Password
               size="large"
               placeholder="输入登录密码"
@@ -119,7 +127,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
               onBlur={getErrorMessage}
             />
           </Item>
-          <Item noStyle name="code" rules={[{ required: true, message: '请填写验证码' }]}>
+          <Item noStyle name="captcha" rules={[{ required: true, message: '请填写验证码' }]}>
             <Input
               size="large"
               placeholder="输入验证码"

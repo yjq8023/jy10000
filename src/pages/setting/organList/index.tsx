@@ -6,7 +6,8 @@ import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
 import SimpleModal from '@/components/SimpleModal';
 import OrganForm from './components/OrganForm';
-import { getPageChain, setChainStatus } from '@/services/setting';
+import { chainDelete, getPageChain, setChainStatus } from '@/services/setting';
+import ConfirmModel from '@/components/Confirm';
 
 function OrganList() {
   const [showOrganForm, setShowOrganForm] = useState(false);
@@ -45,7 +46,34 @@ function OrganList() {
           编辑
         </a>
         &nbsp; &nbsp;
-        <a>删除</a>
+        <a
+          onClick={() => {
+            if (itemData.status === 'enabled') {
+              ConfirmModel({
+                fun: 'warning',
+                title: '当前机构存在启用的用户账号，请先禁用后，再进行删除。',
+                centered: true,
+                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+                onOk: async () => {
+                },
+              });
+            } else {
+              ConfirmModel({
+                fun: 'error',
+                title: '是否确定删除该机构？',
+                centered: true,
+                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+                onOk: async () => {
+                  chainDelete(itemData.id).then((res) => {
+                    (list.current as any).reloadListData();
+                  });
+                },
+              });
+            }
+          }}
+        >
+          删除
+        </a>
       </div>
     );
   };
@@ -92,7 +120,9 @@ function OrganList() {
                     // listData[index].status = 'disable';
                     (list.current as any).onSetListData(
                       listData.map((item: any, _index: number) =>
-                        _index === index ? { ...item, status: value ? 'enabled' : 'disabled' } : item,
+                        _index === index
+                          ? { ...item, status: value ? 'enabled' : 'disabled' }
+                          : item,
                       ),
                     );
                   },

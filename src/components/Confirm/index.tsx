@@ -5,7 +5,7 @@ import styles from './index.less';
 
 const { confirm } = Modal;
 
-type ConfirmModelProps = ModalFuncProps & {
+export type ConfirmModelProps = ModalFuncProps & {
   fun: 'success' | 'info' | 'error' | 'warning';
   subtitle?: string;
   node?: ReactNode;
@@ -13,12 +13,12 @@ type ConfirmModelProps = ModalFuncProps & {
 
 const icons = {
   success: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
-  info: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+  info: <ExclamationCircleFilled style={{ color: '#217BA0' }} />,
   error: <ExclamationCircleFilled style={{ color: '#F53F3F' }} />,
   warning: <ExclamationCircleFilled style={{ color: '#FFBF00' }} />,
 };
 
-const btnType: any = {
+export const btnType: any = {
   success: 'primary',
   info: 'primary',
   warning: 'warning',

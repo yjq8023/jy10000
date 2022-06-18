@@ -1,30 +1,95 @@
 import React, { useState } from 'react';
-import { Badge, Button, Switch } from '@sinohealth/butterfly-ui-components/lib';
+import { Badge, Button, Switch, Input } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
-import { getPageChain } from '@/services/setting';
+import { getPageNotify, handleNotify } from '@/services/notify';
+import ConfirmModel from '@/components/Confirm';
 
-function UserList() {
+function MessageList() {
   const list = useList();
   const [showUserForm, setShowUserForm] = useState(false);
+  const [rejectReason, setRejectReason] = useState<string>('');
   const fetchAPi = (params: any) => {
     console.log('params');
     console.log(params);
-    return getPageChain(params).then((res) => {
+    return getPageNotify(params).then((res) => {
       console.log(res);
-      return res;
+      return {
+        listData: res.data,
+        pagination: {
+          current: res.pageIndex,
+          pageSize: res.pageSize,
+          total: res.totalCount,
+        },
+      };
     });
   };
   const renderActionDom = (itemData: any) => {
-    return (
-      <div>
-        <a>编辑</a>
-        &nbsp; &nbsp;
-        <a>删除</a>
-      </div>
-    );
+    if (itemData.status === 'UNHANDLE') {
+      return (
+        <div>
+          <a
+            onClick={() => {
+              ConfirmModel({
+                fun: 'info',
+                title: '是否同意通过申请',
+                // subtitle: '是否同意通过申请',
+                centered: true,
+                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+                onOk: async () => {
+                  // 修改状态的类型
+                  handleNotify({ notifyId: itemData.notifyId, status: 'APPROVED' }).then((res) => {
+                    console.log(res);
+                    (list.current as any).reloadListData();
+                  });
+                },
+              });
+            }}
+          >
+            同意
+          </a>
+          &nbsp; &nbsp;
+          <a
+            onClick={() => {
+              ConfirmModel({
+                fun: 'info',
+                title: '拒绝申请',
+                // subtitle: '是否同意通过申请',
+                centered: true,
+                node: (
+                  <div>
+                    <textarea
+                      // showCount
+                      value={rejectReason}
+                      onChange={(e: any) => {
+                        console.log(e);
+                        setRejectReason(e.target.value);
+                      }}
+                    />
+                  </div>
+                ),
+                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+                onOk: async () => {
+                  // 修改状态的类型
+                  handleNotify({
+                    notifyId: itemData.notifyId,
+                    status: 'REJECTED',
+                    rejectReason,
+                  }).then((res) => {
+                    (list.current as any).reloadListData();
+                  });
+                },
+              });
+            }}
+          >
+            拒绝
+          </a>
+        </div>
+      );
+    }
+    return <div>--</div>;
   };
   const columns = [
     {
@@ -36,104 +101,102 @@ function UserList() {
       },
     },
     {
-      title: '用户名称',
-      dataIndex: 'name',
-      key: 'name',
+      title: '申请项目',
+      dataIndex: 'projectName',
+      key: 'projectName',
     },
     {
-      title: '用户账号',
-      dataIndex: 'address',
-      key: 'address',
+      title: '患者姓名',
+      dataIndex: 'patientName',
+      key: 'patientName',
     },
     {
-      title: '所属机构',
-      dataIndex: 'address',
-      key: 'address',
+      title: '身份证号',
+      dataIndex: 'idCard',
+      key: 'idCard',
     },
     {
-      title: '用户角色',
-      dataIndex: 'address',
-      key: 'address',
+      title: '性别',
+      dataIndex: 'sex',
+      key: 'sex',
     },
     {
-      title: '用户职称',
-      dataIndex: 'address',
-      key: 'address',
+      title: '年龄',
+      dataIndex: 'age',
+      key: 'age',
     },
     {
-      title: '职称级别',
-      dataIndex: 'address',
-      key: 'address',
+      title: '手机号',
+      dataIndex: 'phone',
+      key: 'phone',
     },
     {
-      title: '所在科室',
-      dataIndex: 'address',
-      key: 'address',
+      title: '主要诊断',
+      dataIndex: 'mainDisease',
+      key: 'mainDisease',
     },
     {
-      title: '执业医院',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '用户描述',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
+      title: '病历报告',
+      dataIndex: 'picList',
+      key: 'picList',
+      render(text: string, record: any) {
+        return <a>查看</a>;
+      },
     },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
       render(text: string, record: any) {
-        const isUp = Number(text) === 1;
+        const isUp = record.status !== 'UNHANDLE';
         return (
-          <div>
-            <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
-            &nbsp;
-            <Switch />
-          </div>
+          <Badge color={isUp ? 'rgba(0,0,0,0.15)' : 'yellow'} text={isUp ? '已处理' : '未处理'} />
         );
       },
     },
     {
-      title: '操作',
+      title: '通知时间',
+      dataIndex: 'notifyTime',
+      key: 'notifyTime',
+    },
+    {
+      title: '处理',
       dataIndex: 'action',
       key: 'action',
       render(text: string, record: any) {
         return renderActionDom(record);
       },
     },
+    {
+      title: '处理结果',
+      dataIndex: 'handleResult',
+      key: 'handleResult',
+      render(text: string, record: any) {
+        if (record.status !== 'UNHANDLE') {
+          return (
+            <Badge
+              color={record.status === 'APPROVED' ? '#7ED321' : 'red'}
+              text={record.status === 'APPROVED' ? '同意' : record.handleResult || '拒绝'}
+            />
+          );
+        }
+        return <div>--</div>;
+      },
+    },
   ];
-  const Toolbar = () => {
-    return (
-      <Button
-        type="primary"
-        onClick={() => {
-          setShowUserForm(true);
-        }}
-      >
-        <PlusCircleOutlined />
-        增加用户
-      </Button>
-    );
-  };
   return (
     <div className="content-page">
       <ListPage
-        ListTitle="机构列表"
+        ListTitle="申请通知"
         list={list}
         fetchApi={fetchAPi}
         columns={columns}
         SearchForm={SearchForm}
-        Toolbar={Toolbar}
+        key="notifyId"
+        BodyProps={{ scroll: { x: 1500 } }}
       />
     </div>
   );
 }
 
-export default UserList;
+export default MessageList;

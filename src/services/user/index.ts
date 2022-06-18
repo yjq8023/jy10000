@@ -1,3 +1,4 @@
+import axios, { AxiosRequestConfig } from 'axios';
 import { request, requestFd } from '@/core/request';
 import { getTokenParams } from '@/config/base';
 import { setToken } from '@/utils/cookies';
@@ -59,6 +60,12 @@ export const getUserResourceByScope = () => {
   return request.get<UCenter.UserResourceByScopeResponse, any>(
     '/api/rbac/menu/getUserResourceByScope/zmn-rx-oms-server?version=v1',
   );
+};
+
+const loginHost = 'https://api.zmnyun.cn/uaa';
+
+export const doLogin = (params: any, config: AxiosRequestConfig = {}) => {
+  return axios.post(`${loginHost}/sso/doLogin`, params, config);
 };
 
 export default {
