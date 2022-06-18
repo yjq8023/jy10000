@@ -1,13 +1,15 @@
 import React from 'react';
 import { Button, Badge, Switch } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import BaseList from '@/components/BaseList';
+import { Link, useNavigate } from 'react-router-dom';
+import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/ScarchForm';
 import { getProjectList } from '@/services/weapp';
 import style from './index.less';
 
 function WeappProject() {
+  const list = useList();
+  const navigate = useNavigate();
   const fetchAPi = (params: any) => {
     return getProjectList({
       pageNo: params.current,
@@ -24,12 +26,16 @@ function WeappProject() {
     });
   };
   const Toolbar = () => {
-    return <Link to="edit"><Button type="primary"><PlusCircleOutlined />新建栏目病种</Button></Link>;
+    const toAdd = () => {
+      const parentId = list.current.searchForm ? list.current.searchForm.getFieldValue('categoryId') : '';
+      navigate(`add?parentId=${parentId}`);
+    };
+    return <Button type="primary" onClick={toAdd}><PlusCircleOutlined />新建栏目病种</Button>;
   };
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <a>编辑</a>
+        <Link to={`edit?id=${itemData.id}`}>编辑</Link>
         &nbsp;
         &nbsp;
         <a>删除</a>
@@ -121,7 +127,7 @@ function WeappProject() {
   ];
   return (
     <div className={style.projectList}>
-      <BaseList ListTitle="病种项目" columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} SearchForm={SearchForm} fixed />
+      <BaseList list={list} ListTitle="病种项目" columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} SearchForm={SearchForm} fixed />
     </div>
   );
 }

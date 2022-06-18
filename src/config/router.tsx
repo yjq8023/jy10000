@@ -61,6 +61,10 @@ const routerConfig: routerConfigItem[] = [
         path: '/weapp/project/edit',
         element: <ProjectAdd />,
       },
+      {
+        path: '/weapp/project/add',
+        element: <ProjectAdd />,
+      },
     ],
   },
   {
@@ -101,6 +105,10 @@ export const breadcrumbMap = {
     project: {
       label: '病种项目管理',
       path: '/weapp/project',
+      add: {
+        label: '新增病种项目',
+        path: '/weapp/project/add'
+      },
       edit: {
         label: '编辑病种项目',
         path: '/weapp/project/edit'

@@ -46,8 +46,6 @@ function BaseList(props: ListPageProps, ref: any) {
   };
   const fetchListData = useCallback(_.debounce((paramsConfig = {}) => {
     const formVal = form.getFieldsValue();
-    console.log('defaultParams');
-    console.log(defaultParams);
     const params = {
       ...defaultParams,
       ...pagination,

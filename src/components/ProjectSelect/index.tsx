@@ -12,12 +12,14 @@ interface Option {
 }
 
 interface ProjectSelectProps extends SelectProps{
+  parent?: boolean,
   value?: any,
   onChange?: (value: any) => void,
   parentId: string
 }
 const ProjectSelect: React.FC<ProjectSelectProps> = (props) => {
   const { parentId, ...otherProps } = props;
+  const isParent = parentId === '0';
   const [options, setOptions] = useState<any[]>([]);
 
   const getData = () => {
@@ -25,7 +27,7 @@ const ProjectSelect: React.FC<ProjectSelectProps> = (props) => {
       pageNo: 1,
       pageSize: 999,
       parentId,
-      type: 'DISEASE_CATEGORY',
+      type: isParent ? 'PLATFORM_CATEGORY' : 'DISEASE_CATEGORY',
     })
       .then((res: any) => {
         console.log(23);

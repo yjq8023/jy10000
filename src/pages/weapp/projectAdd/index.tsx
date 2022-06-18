@@ -1,25 +1,39 @@
-import React from 'react';
-import { Form, Input, InputNumber, Row, Col, Select, Radio } from '@sinohealth/butterfly-ui-components/lib';
+import React, { useEffect } from 'react';
+import { Form, Input, InputNumber, Row, Col, Select, Radio, Button } from '@sinohealth/butterfly-ui-components/lib';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import CustomUpload from '@/components/Upload';
 
 import style from './index.less';
+import ProjectSelect from '@/components/ProjectSelect';
 
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
 function ProjectAdd() {
-  const sourceData = {
-    sourceName: '健康管理服务',
-    sourceId: '0',
+  const [params] = useSearchParams();
+  const sourceId: any = params.get('parentId');
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  useEffect(() => {
+    form.setFieldsValue({ sourceId });
+  }, []);
+  const handleSubmit = () => {
+    form.submit();
+  };
+  const onSubmit = (formValues: any) => {
+    console.log(formValues);
+  };
+  const onCancel = () => {
+    navigate(-1);
   };
   return (
-    <div className={style.addFormBox}>
-      <Form labelCol={{ xl: 6 }}>
+    <div className={['actionPage', style.addFormBox].join(' ')}>
+      <Form form={form} labelCol={{ xl: 6 }} onFinish={onSubmit}>
         <Row gutter={20}>
           <Col span={12}>
-            <Form.Item label="所属栏目">
-              <Input disabled value={sourceData.sourceName} />
+            <Form.Item name="sourceId" label="所属栏目">
+              <ProjectSelect parentId="0" placeholder="请选择" />
             </Form.Item>
             <Form.Item name="diseaseId" label="项目病种" rules={requiredRule}>
-              <Select />
+              <ProjectSelect parentId={sourceId} />
             </Form.Item>
             <Form.Item name="name" label="项目名称" rules={requiredRule}>
               <Input />
@@ -62,6 +76,12 @@ function ProjectAdd() {
           </Col>
         </Row>
       </Form>
+      <div className="actionBar">
+        <Button onClick={onCancel}>取消</Button>
+        &nbsp;
+        &nbsp;
+        <Button type="primary" onClick={handleSubmit}>保存</Button>
+      </div>
     </div>
   );
 }
