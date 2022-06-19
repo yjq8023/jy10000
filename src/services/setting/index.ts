@@ -3,8 +3,8 @@ import { getTokenParams } from '@/config/base';
 import { setToken } from '@/utils/cookies';
 import { UCenter } from '@/services/user/data';
 
-const chainPrefix = '/chain';
-
+const chainPrefix = '/backend/chain';
+const userPrefix = '/backend/user';
 /**
  * 获取机构信息
  * @param params
@@ -62,26 +62,26 @@ export const chainDetail = (id: any) => {
  */
 export const getPageUserInfo = (params: any) => {
   // @ts-ignore
-  return request.post<any, any>('/user/pageUserInfo', params, { isReturnAllData: true });
+  return request.post<any, any>(`${userPrefix}/pageUserInfo`, params, { isReturnAllData: true });
 };
 
 export const userSave = (params: any) => {
-  return request.post<any, any>('/user/save', params);
+  return request.post<any, any>(`${userPrefix}/save`, params);
 };
 
 export const userEdit = (params: any) => {
-  return request.post<any, any>('user/edit', params);
+  return request.post<any, any>(`${userPrefix}/edit`, params);
 };
 
 export const userDetail = (id: any) => {
-  return request.post<any, any>(`user/detail/${id}`);
+  return request.post<any, any>(`${userPrefix}/detail/${id}`);
 };
 
 export const setUserStatus = (params: any) => {
   // @ts-ignore
-  return request.post<any, any>('user/setUserStatus', params);
+  return request.post<any, any>(`${userPrefix}/setUserStatus`, params);
 };
 export const userDelete = (id: any) => {
-  return request.post<any, any>(`user/delete/${id}`);
+  return request.post<any, any>(`${userPrefix}/delete/${id}`);
 };
 export default {};

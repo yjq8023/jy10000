@@ -1,5 +1,6 @@
 const { NODE_ENV } = process.env;
-export const baseURL = NODE_ENV === 'development' ? 'http://192.168.123.10:11111/' : '/';
+export const baseURL = NODE_ENV === 'development' ? 'https://hosp-hccm-dev.zmnyun.cn/' : '/';
+export const scope = 'sdc-hccm';
 export const socketURL =
   NODE_ENV === 'development'
     ? 'ws://dev.sdc.sinohealth.cn:30200/webSocket'
