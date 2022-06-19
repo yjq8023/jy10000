@@ -57,7 +57,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     };
     try {
       const token: any = await doLogin(formData);
-      setToken(token?.access_token);
+      setToken(token);
       rememberUserFn(rememberUser, formData);
       navigate('/');
       // TODO 是否需要请求机构
