@@ -16,6 +16,15 @@ export const editColumn = (params: any) => {
   return request.post(`${prefix}/disease/edit`, params);
 };
 
+export const deleteColumn = (id: string) => {
+  const url = `${prefix}/disease/delete/${id}`;
+  return request.post(url);
+};
+
+export const setColumnStatus = (params: any) => {
+  return request.post(`${prefix}/disease/setDiseaseStatus`, params);
+};
+
 export const getProjectList = (params: any) => {
   // @ts-ignore
   return request.post(`${prefix}/diseaseProject/pageDiseaseProject`, params, { isReturnAllData: true });
@@ -31,6 +40,11 @@ export const createProject = (params: any) => {
 
 export const editProject = (params: any) => {
   return request.post(`${prefix}/diseaseProject/edit`, params);
+};
+
+export const deleteProject = (id: string) => {
+  const url = `${prefix}/diseaseProject/delete/${id}`;
+  return request.post(url);
 };
 
 export const getProjectDetail = (id: string) => {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Badge, Switch, Tabs } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Badge, Switch, Tabs, Modal, message } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import AddColumnModal from './components/AddColumnModal';
-import { getColumnsList } from '@/services/weapp';
+import { deleteColumn, deleteProject, getColumnsList, setColumnStatus, setProjectStatus } from '@/services/weapp';
 
 const { TabPane } = Tabs;
 
@@ -16,7 +16,7 @@ function WeappColumn() {
   const [sources, setSources] = useState<sourceItem[]>([]);
   const [modalData, setModalData] = useState<any>();
   const [selectedTab, setSelectedTab] = useState<any>();
-  const list = useList();
+  const list: any = useList();
   const getParentColumnsList = () => {
     return getColumnsList({
       parentId: 0,
@@ -65,15 +65,38 @@ function WeappColumn() {
   const Toolbar = () => {
     return <Button type="primary" onClick={handleCreate}><PlusCircleOutlined />新建栏目病种</Button>;
   };
+  const handleDelete = (id: string) => {
+    Modal.confirm({
+      title: '是否确定删除该病种？',
+      content: '',
+      onOk() {
+        deleteColumn(id)
+          .then(() => {
+            message.success('删除成功');
+            list.current.reloadListData();
+          });
+      },
+    });
+  };
   const renderActionDom = (itemData: any) => {
     return (
       <div>
         <a onClick={() => handleEdit(itemData)}>编辑</a>
         &nbsp;
         &nbsp;
-        <a>删除</a>
+        <a onClick={() => handleDelete(itemData.id)}>删除</a>
       </div>
     );
+  };
+  const setProjectStatusFn = (isUp: any, item: any) => {
+    setColumnStatus({
+      ...item,
+      status: isUp ? 'ENABLE' : 'UNABLE',
+    })
+      .then(() => {
+        message.success(isUp ? '上架成功' : '下架成功');
+        list.current.reloadListData();
+      });
   };
   const columns = [
     {
@@ -102,12 +125,12 @@ function WeappColumn() {
       key: 'status',
       width: 160,
       render(text: string, record: any) {
-        const isUp = Number(text) === 1;
+        const isUp = text === 'ENABLE';
         return (
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '上架' : '下架'} />
             &nbsp;
-            <Switch />
+            <Switch defaultChecked={isUp} onChange={(e) => setProjectStatusFn(e, record)} />
           </div>
         );
       },

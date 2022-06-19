@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Form, Row, Col, Button, Input, Select, DatePicker, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { MinusCircleOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import UserAutoComplete from '@/components/UserAutoComplete';
 import AddressSelect from '@/components/AddressSelect';
 import ArrayFormItem from '@/components/ArrayFormItem';
@@ -14,7 +13,6 @@ import { idCardReg } from '@/utils/validate';
 const { Option } = Select;
 const { useForm } = Form;
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
-const defaultData = { name: '杨继强', idCard: '440921199508306814', sex: 'MALE', phone: '15521371144', birthDay: '2021-01', age: 1, mainDisease: '大叔的是', allergy: '螨虫过敏', history: '便秘', height: '158', weight: '58', bmi: '23.23', memberName: '小红', memberRelationship: '母女', memberPhone: '120123', regionals: ['110000', '110000', '110101'], address: '天安门', familyMedicalHistorys: [{ relation: '大恶棍', disease: '穿插' }, { relation: '小二哥', disease: '常常' }] };
 function PatientAdd(props: any) {
   const { onBack } = props;
   const navigate = useNavigate();

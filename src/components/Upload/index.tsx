@@ -5,6 +5,7 @@ import { message, Upload, UploadProps } from '@sinohealth/butterfly-ui-component
 import { getBase64 } from '@/utils';
 import { getToken } from '@/utils/cookies';
 import { baseURL } from '@/config/base';
+import add from '@/pages/patient/add';
 
 interface CustomUploadProps extends UploadProps{
   value?: any
@@ -14,18 +15,8 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
   console.log('props');
   console.log(props);
   const { value, onChange, ...otherProps } = props;
-  const [fileList, setFileList] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (value) {
-      setFileList(value.map((item: any) => {
-        return {
-          url: item,
-        };
-      }));
-    }
-  }, [value]);
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -48,13 +39,17 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
       });
     }
     if (addFile) {
-      newValues.push(addFile);
+      newValues.push({
+        uid: Date.now().toString(),
+        url: addFile.response.data,
+        thumbUrl: addFile.thumbUrl,
+        name: addFile.name,
+      });
     }
     return newValues;
   };
   const handleChange = (file: any) => {
-    const newValue = transformValue(value, file);
-    setFileList(newValue);
+    const newValue = value ? [...value, file.response.data] : [file.response.data];
     onChange && onChange(newValue);
   };
   const uploadProps: UploadProps = {

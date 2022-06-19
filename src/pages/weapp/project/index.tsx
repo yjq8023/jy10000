@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button, Badge, Switch, message } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Badge, Switch, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/ScarchForm';
-import { getProjectList, setProjectStatus } from '@/services/weapp';
+import { deleteProject, getProjectList, setProjectStatus } from '@/services/weapp';
 import style from './index.less';
 
 function WeappProject() {
-  const list = useList();
+  const list: any = useList();
   const navigate = useNavigate();
   const fetchAPi = (params: any) => {
     return getProjectList({
@@ -25,6 +25,19 @@ function WeappProject() {
       };
     });
   };
+  const handleDelete = (id: string) => {
+    Modal.confirm({
+      title: '是否确定删除该项目？',
+      content: '',
+      onOk() {
+        deleteProject(id)
+          .then(() => {
+            message.success('删除成功');
+            list.current.reloadListData();
+          });
+      },
+    });
+  };
   const Toolbar = () => {
     const toAdd = () => {
       const parentId = list.current.searchForm ? list.current.searchForm.getFieldValue('categoryId') : '';
@@ -38,7 +51,7 @@ function WeappProject() {
         <Link to={`edit?id=${itemData.id}`}>编辑</Link>
         &nbsp;
         &nbsp;
-        <a>删除</a>
+        <a onClick={() => handleDelete(itemData.id)}>删除</a>
       </div>
     );
   };
