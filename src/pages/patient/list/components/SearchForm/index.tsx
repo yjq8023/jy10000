@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Form, Row, Col, Button, Input, Select, Checkbox, Tabs } from '@sinohealth/butterfly-ui-components/lib';
 import { DownSquareOutlined, UpSquareOutlined } from '@ant-design/icons';
 import style from '../../index.less';
+import UserSelect from '@/components/UserSelect';
+import ProjectSelect from '@/components/ProjectSelect';
+import ColumnProjectSelect from '@/components/ColumnProjectSelect';
 
 const { Option } = Select;
 const weappOptions = [
@@ -92,26 +95,12 @@ const SearchForm = (props: any = {}) => {
           <Row gutter={[60, 24]}>
             <Col span={span}>
               <Form.Item name="projectId" label="管理项目">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="disabled" disabled>
-                    Disabled
-                  </Option>
-                  <Option value="Yiminghe">yiminghe</Option>
-                </Select>
+                <ColumnProjectSelect />
               </Form.Item>
             </Col>
             <Col span={span}>
               <Form.Item name="caseManagerId" label="个案管理师">
-                <Select>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="disabled" disabled>
-                    Disabled
-                  </Option>
-                  <Option value="Yiminghe">yiminghe</Option>
-                </Select>
+                <UserSelect params={{ position: 'caseManager', byUser: true }} />
               </Form.Item>
             </Col>
           </Row>
