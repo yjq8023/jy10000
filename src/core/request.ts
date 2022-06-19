@@ -3,7 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { message } from '@sinohealth/butterfly-ui-components/lib';
 import { getToken } from '@/utils/cookies';
-import { baseURL } from '@/config/base';
+import { baseURL, scope } from '@/config/base';
 
 // 默认配置
 axios.defaults.timeout = 15000;
@@ -39,11 +39,13 @@ const requestFd = axios.create({
 
 request.interceptors.request.use((conf: any) => conf);
 function beforeRequest(options: any) {
+  console.log(options);
   const newOptions = { ...options };
   const token = getToken();
   if (token) {
     newOptions.headers.Authorization = token;
   }
+  newOptions.headers.Scope = scope;
   return newOptions;
 }
 function resolve(response: any) {

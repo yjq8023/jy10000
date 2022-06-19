@@ -1,15 +1,17 @@
 import { request, requestFd } from '@/core/request';
 import { getTokenParams } from '@/config/base';
 
-const chainPrefix = '/notify';
+const notifyPrefix = '/hospital';
 
 export const getPageNotify = (params: any) => {
-  // @ts-ignore
-  return request.post<any, any>('/notify/pageNotify', params, { isReturnAllData: true });
+  return request.post<any, any>(`${notifyPrefix}/notify/pageNotify`, params, {
+    // @ts-ignore
+    isReturnAllData: true,
+  });
 };
 
 export const handleNotify = (params: any) => {
-  return request.post<any, any>('/notify/handleNotify', params);
+  return request.post<any, any>(`${notifyPrefix}/notify/handleNotify`, params);
 };
 
 export default {};
