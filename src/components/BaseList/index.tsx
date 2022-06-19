@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Card, Form, Pagination, Row, Col } from '@sinohealth/butterfly-ui-components/lib';
-import _ from 'lodash';
 import TableBody from './components/TableBody';
 import style from './index.less';
 
@@ -44,7 +43,7 @@ function BaseList(props: ListPageProps, ref: any) {
       return `共 ${totalNum} 条数据`;
     },
   };
-  const fetchListData = useCallback(_.debounce((paramsConfig = {}) => {
+  const fetchListData = useCallback((paramsConfig = {}) => {
     const formVal = form.getFieldsValue();
     const params = {
       ...defaultParams,
@@ -53,12 +52,11 @@ function BaseList(props: ListPageProps, ref: any) {
       ...titleParams,
       ...paramsConfig,
     };
-    console.log(params);
     fetchApi(params).then((res: fetchApiRes) => {
       setListData(res.listData);
       setPagination(res.pagination);
     });
-  }, 500), []);
+  }, []);
   const reloadListData = () => {
     fetchListData();
   };
@@ -95,6 +93,8 @@ function BaseList(props: ListPageProps, ref: any) {
   useEffect(() => {
     getDefaultParams && getDefaultParams()
       .then((params) => {
+        console.log('set_defaparams');
+        console.log(params);
         setDefaultParams(params);
         fetchListData(params);
       });
