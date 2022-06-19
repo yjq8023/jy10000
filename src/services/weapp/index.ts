@@ -1,25 +1,48 @@
 import { request } from '@/core/request';
 
-const prefix = '/disease';
+const prefix = '';
 
-type getPatientListParams = {
-  number: string;
-  patientName: string;
-  phone: string;
-  sex: string;
-  startAge: string;
-  endAge: string;
-  projectId: string;
-  caseManagerId: string;
-  wxBindStatus: string;
-}
 /* 获取栏目列表 */
-export const getColumnsList = (params: getPatientListParams) => {
-  return request.post<any, CommonApi.CommonListRes<Patient.Item>>(`${prefix}/pageDisease`, {
-    entity: params,
-  });
+export const getColumnsList = (params: any) => {
+  // @ts-ignore
+  return request.post(`${prefix}/disease/pageDisease`, params, { isReturnAllData: true });
+};
+
+export const createColumn = (params: any) => {
+  return request.post(`${prefix}/disease/save`, params);
+};
+
+export const editColumn = (params: any) => {
+  return request.post(`${prefix}/disease/edit`, params);
+};
+
+export const getProjectList = (params: any) => {
+  // @ts-ignore
+  return request.post(`${prefix}/diseaseProject/pageDiseaseProject`, params, { isReturnAllData: true });
+};
+
+export const setProjectStatus = (params: any) => {
+  return request.post(`${prefix}/diseaseProject/setDiseaseProjectStatus`, params);
+};
+
+export const createProject = (params: any) => {
+  return request.post(`${prefix}/diseaseProject/save`, params);
+};
+
+export const editProject = (params: any) => {
+  return request.post(`${prefix}/diseaseProject/edit`, params);
+};
+
+export const getProjectDetail = (id: string) => {
+  const url = `${prefix}/diseaseProject/detail/${id}`;
+  return request.post(url);
 };
 
 export default {
   getColumnsList,
+  createColumn,
+  editColumn,
+  setProjectStatus,
+  createProject,
+  editProject,
 };

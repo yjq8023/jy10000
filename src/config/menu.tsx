@@ -1,4 +1,5 @@
 import { getUuid } from '@/utils';
+import { MenuItemProps as AntdMenuItemProps } from '@sinohealth/butterfly-ui-components/lib';
 
 const menuConfig: MenuItemProps[] = [
   {
@@ -19,14 +20,17 @@ const menuConfig: MenuItemProps[] = [
       {
         label: '患者列表',
         path: '/patient/list',
+        icon: <span className={'iconfont icon-contacts'} />,
       },
       {
         label: '患者咨询',
         path: '/patient/consult',
+        icon: <span className={'iconfont icon-message'} />,
       },
       {
         label: '患者邀请',
         path: '/patient/invite',
+        icon: <span className={'iconfont icon-apartment'} />,
       },
     ],
   },
@@ -79,13 +83,13 @@ export class MenuItem {
   }
 }
 
-export type MenuItemProps = {
+export interface MenuItemProps extends AntdMenuItemProps {
   label: string;
   key?: string;
   path?: string;
   parent?: MenuItem;
   children?: MenuItemProps[];
-};
+}
 
 export function mapMenuConfig(menu: MenuItem[], fn: any) {
   menu.forEach((item) => {

@@ -3,6 +3,7 @@ import Home from '../pages/home';
 import Login from '../pages/user/login';
 import Password from '../pages/user/password';
 import { Navigate } from 'react-router-dom';
+import ProjectAdd from '@/pages/weapp/projectAdd';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const Index = lazy(() => import('../pages/index'));
@@ -39,7 +40,7 @@ const routerConfig: routerConfigItem[] = [
       },
       {
         path: 'message',
-        element:  <Message />,
+        element: <Message />,
       },
       {
         path: '/patient/list',
@@ -72,6 +73,14 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/setting/userList',
         element: <UserList />,
+      },
+      {
+        path: '/weapp/project/edit',
+        element: <ProjectAdd />,
+      },
+      {
+        path: '/weapp/project/add',
+        element: <ProjectAdd />,
       },
     ],
   },
@@ -128,13 +137,21 @@ export const breadcrumbMap = {
     path: '/weapp/column',
     column: {
       label: '平台栏目管理',
-      path: '/patient/column',
+      path: '/weapp/column',
     },
     project: {
-      label: '平台栏目管理',
-      path: '/patient/project',
+      label: '病种项目管理',
+      path: '/weapp/project',
+      add: {
+        label: '新增病种项目',
+        path: '/weapp/project/add',
+      },
+      edit: {
+        label: '编辑病种项目',
+        path: '/weapp/project/edit',
+      },
     },
-  }
+  },
 };
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {
   config.forEach((item) => {

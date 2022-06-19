@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload, UploadProps } from '@sinohealth/butterfly-ui-components/lib';
 
@@ -6,10 +6,26 @@ import { getBase64 } from '@/utils';
 import { getToken } from '@/utils/cookies';
 import { baseURL } from '@/config/base';
 
-const CustomUpload: React.FC<UploadProps> = (props) => {
+interface CustomUploadProps extends UploadProps{
+  value?: any
+  onChange?: (values: any) => void
+}
+const CustomUpload: React.FC<CustomUploadProps> = (props) => {
+  console.log('props');
+  console.log(props);
+  const { value, onChange, ...otherProps } = props;
+  const [fileList, setFileList] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
 
+  useEffect(() => {
+    if (value) {
+      setFileList(value.map((item: any) => {
+        return {
+          url: item,
+        };
+      }));
+    }
+  }, [value]);
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -17,34 +33,51 @@ const CustomUpload: React.FC<UploadProps> = (props) => {
     </div>
   );
 
-  const handleChange = (data: any) => {
-    console.log(data);
+  const transformValue = (oldValues: any, addFile?: any) => {
+    let newValues: any = [];
+    if (Array.isArray(oldValues)) {
+      newValues = oldValues.map((item) => {
+        if (typeof item === 'object') {
+          return item;
+        }
+        return {
+          uid: item,
+          url: item,
+          name: item,
+        };
+      });
+    }
+    if (addFile) {
+      newValues.push(addFile);
+    }
+    return newValues;
+  };
+  const handleChange = (file: any) => {
+    const newValue = transformValue(value, file);
+    setFileList(newValue);
+    onChange && onChange(newValue);
   };
   const uploadProps: UploadProps = {
     name: 'file',
-    action: `${baseURL}api/oss/upload/ALIYUN`,
+    defaultFileList: transformValue(value),
+    action: `${baseURL}upload/single`,
     headers: {
       Authorization: getToken() || '',
     },
     accept: 'image/png, image/jpeg',
     listType: 'picture-card',
-    showUploadList: false,
-    itemRender() {
-      return '';
+    itemRender(originNode, file, fileListData, actions) {
+      return <div onClick={() => actions.remove()}><img src={file.thumbUrl || file.url} alt={file.name} style={{ width: '100%' }} /></div>;
     },
     onChange(info: any) {
       if (info.file.status === 'uploading') {
         setLoading(true);
         return;
       }
+      setLoading(false);
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 上传成功`);
-        console.log(info);
-        console.log(info.file.response.result);
-        handleChange(info.file.response.result);
-        getBase64(info.file.originFileObj, (uri: string) => {
-          setImageUrl(uri);
-        });
+        handleChange(info.file);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} 上传失败`);
       }
@@ -52,15 +85,17 @@ const CustomUpload: React.FC<UploadProps> = (props) => {
     beforeUpload(file: any) {
       const isLt1M = file.size / 1024 / 1024 < 1;
       if (!isLt1M) {
-        message.error('上传头像不能大于1MB!');
+        message.error('上传图片不能大于1MB!');
       }
       return isLt1M;
     },
-    ...props,
+    ...otherProps,
   };
+  console.log('uploadProps');
+  console.log(uploadProps);
   return (
     <Upload {...uploadProps}>
-      {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+      { uploadButton}
     </Upload>
   );
 };
