@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Cascader, CascaderProps } from '@sinohealth/butterfly-ui-components/lib';
-import { getColumnsList } from '@/services/weapp';
-import { getMechanismList } from '@/services/common';
+import { Cascader } from '@sinohealth/butterfly-ui-components/lib';
+import { getMechanismList } from '@/services/weapp';
 
 interface Option {
   value: string;
