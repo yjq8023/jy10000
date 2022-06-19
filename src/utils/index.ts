@@ -43,6 +43,15 @@ export function getUserInfoFromIdCard(IdCard: string) {
   };
 }
 
+export function handelOptions(obj: any) {
+  if (!obj) return [];
+  const options = Object.keys(obj).map((key: any) => {
+    return { label: obj[key].name, value: obj[key].code };
+  });
+  console.log(options);
+  return options;
+}
+
 export default {
   getUuid,
   randomLenNum,

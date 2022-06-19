@@ -1,7 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Cascader, Form, Input, Select, Spin } from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
-import { chainDetail, chainEdit, chainSave, userDetail, userEdit, userSave } from '@/services/setting';
+import { userDetail, userEdit, userSave } from '@/services/setting';
+import { useDict } from '@/hooks/useDict';
+import { handelOptions } from '@/utils';
 
 type UserFormType = {
   userId?: string | number;
@@ -9,10 +11,13 @@ type UserFormType = {
   onCancel?: (success?: boolean) => void;
 };
 const UserForm: FC<UserFormType> = (props) => {
+  const dict = useDict();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [disableSubmit, setDisableSubmit] = useState(false);
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(dict);
+  }, []);
   useEffect(() => {
     console.log(props.userId);
     if (props.userId) {
@@ -107,31 +112,28 @@ const UserForm: FC<UserFormType> = (props) => {
           <Form.Item
             label="用户角色"
             name="role"
-            initialValue={1}
             rules={[{ required: true, message: '请选择角色（必选）' }]}
           >
-            <Select placeholder="请选择角色（必选）" options={[{ label: '测试角色', value: 1 }]} />
+            <Select placeholder="请选择角色（必选）" options={handelOptions(dict?.position)} />
           </Form.Item>
           <Form.Item
             label="用户职称"
             name="title"
-            initialValue={1}
             rules={[{ required: true, message: '请选择用户职称（必选）' }]}
           >
             <Select
               placeholder="请选择用户职称（必选）"
-              options={[{ label: '测试职称', value: 1 }]}
+              options={handelOptions(dict?.doctorTitle)}
             />
           </Form.Item>
           <Form.Item
             label="职称级别"
             name="titleLevel"
-            initialValue={1}
             rules={[{ required: true, message: '请选择职称级别（必选）' }]}
           >
             <Select
               placeholder="请选择职称级别（必选）"
-              options={[{ label: '测试职称级别', value: 1 }]}
+              options={handelOptions(dict?.technicalJobCategory)}
             />
           </Form.Item>
           <Form.Item
