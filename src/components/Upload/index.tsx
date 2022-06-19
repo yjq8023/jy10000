@@ -55,7 +55,7 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
   const uploadProps: UploadProps = {
     name: 'file',
     defaultFileList: transformValue(value),
-    action: `${baseURL}upload/single`,
+    action: `${baseURL}backend/upload/single`,
     headers: {
       Authorization: getToken() || '',
     },
