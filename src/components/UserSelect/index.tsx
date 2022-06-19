@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Select, SelectProps } from '@sinohealth/butterfly-ui-components/lib';
 import { isNull } from '@/utils/validate';
-import { getUserList } from '@/services/common';
+import { getUserList } from '@/services/weapp';
 
 interface Option {
   value: string;
