@@ -31,32 +31,7 @@ const routerConfig: routerConfigItem[] = [
     children: [
       {
         path: '/',
-        element: <Navigate to="/index" replace />,
-      },
-      {
-        path: 'index',
-        element: <Index />,
-        hideInMenu: true,
-      },
-      {
-        path: 'message',
-        element: <Message />,
-      },
-      {
-        path: '/patient/list',
-        element: <PatientList />,
-      },
-      {
-        path: '/patient/add',
-        element: <PatientAdd />,
-      },
-      {
-        path: '/patient/detail',
-        element: <PatientDetail />,
-      },
-      {
-        path: '/patient/consult',
-        element: <PatientConsult />,
+        element: <Navigate to="/weapp/column" replace />,
       },
       {
         path: '/weapp/column',

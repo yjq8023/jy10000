@@ -3,38 +3,6 @@ import { MenuItemProps as AntdMenuItemProps } from '@sinohealth/butterfly-ui-com
 
 const menuConfig: MenuItemProps[] = [
   {
-    label: '首页',
-    key: 'index',
-    path: 'index',
-    children: [
-      {
-        label: '申请通知',
-        path: '/message',
-      }
-    ],
-  },
-  {
-    label: '患者管理',
-    key: 'patient',
-    children: [
-      {
-        label: '患者列表',
-        path: '/patient/list',
-        icon: <span className={'iconfont icon-contacts'} />,
-      },
-      {
-        label: '患者咨询',
-        path: '/patient/consult',
-        icon: <span className={'iconfont icon-message'} />,
-      },
-      {
-        label: '患者邀请',
-        path: '/patient/invite',
-        icon: <span className={'iconfont icon-apartment'} />,
-      },
-    ],
-  },
-  {
     label: '小程序管理',
     key: 'weapp',
     children: [
