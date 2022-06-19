@@ -1,0 +1,114 @@
+---
+kind: pipeline
+name: build-and-deploy
+type: docker
+node:
+  name: k8s
+image_pull_secrets:
+  - dockerConfig
+environment:
+  PROJECT_NAME: sdc-hccm-backend-web
+  PROJECT_LAYER: web
+  PROJECT_VERSION: mvp
+  PROJECT_TARGET: ./dist
+  HARBOR_SERVER: harbor.zmnyun.cn
+  HARBOR_NAMESPACE: sdc
+  IMAGE_FROM: harbor.zmnyun.cn/library/nginx:1.21.5
+  PULL_SECRET: zmn-harbor
+  REQUESTS_MEM: 256Mi
+  LIMITS_MEM: 256Mi
+  PORT: 80
+  REPLICAS: 1
+volumes:
+  - name: docker-sock
+    host:
+      path: /var/run/docker.sock
+  - name: docker-daemon
+    host:
+      path: /etc/docker/daemon.json
+  - name: kube
+    host:
+      path: /root/.kube
+  - name: yarn-cache
+    host:
+      path: /opt/application/yarn-cache
+steps:
+  # npm install and build
+  - name: node-install-build
+    image: harbor.zmnyun.cn/library/alpine-node-git-yarn:node-16
+    pull: always
+    volumes:
+      - name: yarn-cache
+        path: /usr/local/share/.cache/yarn
+    commands:
+      - echo "yarn install start, project is $PROJECT_NAME"
+      - yarn install
+      - echo "yarn build start, project is $PROJECT_NAME"
+      - yarn run build
+    when:
+      branch: [ dev-* ]
+
+  # build镜像 and push镜像
+  - name: build-and-push
+    image: harbor.zmnyun.cn/sdc/sdc-docker:19.03.8
+    network_mode: host
+    pull: always
+    environment:
+      USERNAME:
+        from_secret: k8sHarborUser
+      PASSWORD:
+        from_secret: k8sHarborPwd
+    volumes:
+      - name: docker-sock
+        path: /var/run/docker.sock
+      - name: docker-daemon
+        path: /etc/docker/daemon.json
+    commands:
+      - docker login -u $USERNAME -p $PASSWORD $HARBOR_SERVER
+      - sh -x /sdc/build/h5/build.sh "$PROJECT_NAME" "$PROJECT_VERSION" "$PROJECT_TARGET" "$HARBOR_SERVER/$HARBOR_NAMESPACE" "$IMAGE_FROM" "$DRONE_COMMIT"
+    when:
+      branch: [ dev-* ]
+
+  # tag镜像 and push镜像
+  - name: tag-and-push
+    image: harbor.zmnyun.cn/sdc/sdc-docker:19.03.8
+    network_mode: host
+    pull: always
+    environment:
+      USERNAME:
+        from_secret: k8sHarborUser
+      PASSWORD:
+        from_secret: k8sHarborPwd
+    volumes:
+      - name: docker-sock
+        path: /var/run/docker.sock
+      - name: docker-daemon
+        path: /etc/docker/daemon.json
+    commands:
+      - docker login -u $USERNAME -p $PASSWORD $HARBOR_SERVER
+      - sh -x /sdc/build/tag-img.sh "$PROJECT_NAME" "$PROJECT_VERSION" "$HARBOR_SERVER/$HARBOR_NAMESPACE" "$DRONE_COMMIT"
+    when:
+      branch: [ sit-*, uat-*, demo-*, release-* ]
+
+  # deploy 部署
+  - name: deploy
+    image: harbor.zmnyun.cn/sdc/kubectl:1.22.9
+    network_mode: host
+    privileged: true
+    user: root
+    pull: always
+    volumes:
+      - name: kube
+        path: /.kube
+    commands:
+      - echo "deploy start"
+      - ls -la
+      - echo "step1 create k8s.yml file"
+      - sh -x /sdc/build/nodejs/deploy.sh "$PROJECT_NAME" "$PROJECT_LAYER" "$PROJECT_VERSION" "$DRONE_BRANCH" "$DRONE_COMMIT" "$HARBOR_SERVER/$HARBOR_NAMESPACE" "$PULL_SECRET" "$REPLICAS" "$REQUESTS_MEM" "$LIMITS_MEM" "$PORT"
+      - cat /sdc/build/nodejs/k8s.yml
+      - echo ""
+      - echo "start deploy"
+      - kubectl apply -f /sdc/build/nodejs/k8s.yml
+      - echo "deploy success"
+    when:
+      branch: [ dev-*, sit-*, uat-*, demo-* ]
