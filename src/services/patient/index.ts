@@ -1,6 +1,6 @@
 import { request } from '@/core/request';
 
-const prefix = '/backend';
+const prefix = '/hospital';
 
 type getPatientListParams = {
   number: string;
