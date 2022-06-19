@@ -1,0 +1,36 @@
+@import "@/style/var";
+.imgList {
+  width: 350px;
+  height: 600px;
+  overflow: auto;
+  border-radius: 2px;
+  .item {
+    position: relative;
+    .action {
+      position: absolute;
+      top: 8px;
+      left: 12px;
+      font-size: 18px;
+      color: #FFFFFF;
+      user-select: none;
+      >:first-child {
+        border: 2px solid #FFFFFF;
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        text-align: center;
+        line-height: 25px;
+        border-radius: 50%;
+      }
+      :global(.anticon) {
+        margin-left: 6px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+  :global(img) {
+    width: 100%;
+    height: auto;
+  }
+}

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Badge, Switch } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Badge, Switch, message } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/ScarchForm';
-import { getProjectList } from '@/services/weapp';
+import { getProjectList, setProjectStatus } from '@/services/weapp';
 import style from './index.less';
 
 function WeappProject() {
@@ -42,11 +42,22 @@ function WeappProject() {
       </div>
     );
   };
+  const setProjectStatusFn = (isUp: any, item: any) => {
+    setProjectStatus({
+      ...item,
+      status: isUp ? 'ENABLE' : 'UNABLE',
+    })
+      .then(() => {
+        message.success(isUp ? '上架成功' : '下架成功');
+        list.current.reloadListData();
+      });
+  };
   const columns = [
     {
       title: '序号',
       dataIndex: 'index',
       key: 'index',
+      width: 80,
       render(text: string, record: any, index: number): JSX.Element {
         return <span>{index + 1}</span>;
       },
@@ -55,46 +66,57 @@ function WeappProject() {
       title: '项目名称',
       dataIndex: 'name',
       key: 'name',
+      width: 160,
     },
     {
       title: '项目病种',
       dataIndex: 'diseaseName',
       key: 'diseaseName',
+      width: 140,
     },
     {
       title: '所属机构',
       dataIndex: 'chainName',
       key: 'chainName',
+      width: 140,
     },
     {
       title: '医生',
       dataIndex: 'doctorName',
       key: 'doctorName',
+      width: 100,
     },
     {
       title: '医生职称',
       dataIndex: 'doctorTitle',
       key: 'doctorTitle',
+      width: 100,
     },
     {
       title: '个案管理师',
       dataIndex: 'caseManagerName',
       key: 'caseManagerName',
+      width: 100,
     },
     {
       title: '项目简介',
       dataIndex: 'description',
       key: 'description',
+      width: 240,
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
       key: 'createTime',
+      width: 200,
     },
     {
       title: '医生审核',
       dataIndex: 'needAudit',
       key: 'needAudit',
+      render(text: any) {
+        return text ? '是' : '否';
+      },
     },
     {
       title: '项目价格',
@@ -105,13 +127,14 @@ function WeappProject() {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
+      width: 120,
       render(text: string, record: any) {
         const isUp = text === 'ENABLE';
         return (
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '上架' : '下架'} />
             &nbsp;
-            <Switch />
+            <Switch defaultChecked={isUp} onChange={(e) => setProjectStatusFn(e, record)} />
           </div>
         );
       },
@@ -120,6 +143,7 @@ function WeappProject() {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
+      width: 100,
       render(text: string, record: any) {
         return renderActionDom(record);
       },

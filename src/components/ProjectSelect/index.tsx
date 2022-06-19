@@ -30,8 +30,6 @@ const ProjectSelect: React.FC<ProjectSelectProps> = (props) => {
       type: isParent ? 'PLATFORM_CATEGORY' : 'DISEASE_CATEGORY',
     })
       .then((res: any) => {
-        console.log(23);
-        console.log(res.data);
         setOptions(res.data.map((item: any) => ({
           label: item.name,
           value: item.id,
