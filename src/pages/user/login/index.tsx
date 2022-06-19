@@ -31,7 +31,6 @@ function Login() {
           <div className={style.logo} />
           <div className={style.bb}>
             粤公网安备 44010602001253号 Copyright 2008 - 2022 Sinohealth, All Rights Reserved
-            {' '}
             <br />
             粤ICP备 17031174
           </div>

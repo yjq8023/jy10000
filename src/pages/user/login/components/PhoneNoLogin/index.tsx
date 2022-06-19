@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserOutlined, CloseCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import PhoneCodeInput from '@/components/PhoneCodeInput';
 import { setToken } from '@/utils/cookies';
-import { getToken, getUserLinkChain, switchChain } from '@/services/user';
+import { doLogin, getToken, getUserLinkChain, switchChain } from '@/services/user';
 import { validIsMobile } from '@/utils/validate';
 
 import style from '../AccountLogin/index.less';
@@ -27,12 +27,16 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
   }, []);
   const handleLogin = async (formVal: any) => {
     const formData = {
-      grantType: 'phone',
-      phoneNumber: formVal.phoneNumber,
-      code: formVal.code,
+      channel: 'phone',
+      phone: formVal.phoneNumber,
+      captcha: formVal.code,
+      organizeId: '1648720895478333496',
+      scope: 'sdc-hccm',
     };
     try {
-      const token: any = await getToken(formData);
+      const token: any = await doLogin(formData, {
+        headers: { organizeId: '1648720895478333496', scope: 'sdc-hccm' },
+      });
       setToken(token?.access_token);
       const chain: any = await getUserLinkChain();
       if (Array.isArray(chain) && chain.length === 1) {
