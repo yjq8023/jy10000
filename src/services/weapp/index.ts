@@ -1,6 +1,6 @@
 import { request } from '@/core/request';
 
-const prefix = '';
+const prefix = '/hospital ';
 
 /* 获取栏目列表 */
 export const getColumnsList = (params: any) => {
