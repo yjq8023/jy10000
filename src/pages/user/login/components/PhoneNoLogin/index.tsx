@@ -36,7 +36,7 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
     };
     try {
       const token: any = await doLogin(formData);
-      setToken(token?.access_token);
+      setToken(token);
       navigate('/');
       // TODO 默认机构 1
       // const chain: any = await getUserLinkChain();
