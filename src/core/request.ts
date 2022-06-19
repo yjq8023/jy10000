@@ -7,7 +7,7 @@ import { baseURL } from '@/config/base';
 
 // 默认配置
 axios.defaults.timeout = 15000;
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 // @ts-ignore
 axios.defaults.headers['Content-Type'] = 'application/json';
 

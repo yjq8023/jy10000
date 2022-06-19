@@ -48,6 +48,20 @@ const menuConfig: MenuItemProps[] = [
       },
     ],
   },
+  {
+    label: '配置',
+    key: 'setting',
+    children: [
+      {
+        label: '机构管理',
+        path: '/setting/organList',
+      },
+      {
+        label: '用户管理',
+        path: '/setting/userList',
+      },
+    ],
+  },
 ];
 
 export class MenuItem {
