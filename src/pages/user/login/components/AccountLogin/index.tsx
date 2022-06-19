@@ -7,9 +7,10 @@ import {
   CloseCircleOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
+import qs from 'qs';
 import { useNavigate, Link } from 'react-router-dom';
 import { randomLenNum } from '@/utils';
-import { baseURL, loginRememberKey } from '@/config/base';
+import { baseURL, loginRememberKey, scope } from '@/config/base';
 import { doLogin, getToken, getUserLinkChain, switchChain } from '@/services/user';
 import style from './index.less';
 import { getLocalStorage, removeLocalStorage, setLocalStorage, setToken } from '@/utils/cookies';
@@ -51,28 +52,24 @@ function AccountLogin(props: { onSelectChain: () => void }) {
       captchaType: 'image',
       ...formVal,
       seq: randomNum,
-      organizeId: '1648720895478333496',
-      scope: 'sdc-hccm',
+      organizeId: '1',
+      Scope: scope,
     };
     try {
-      const token: any = await doLogin(formData, {
-        headers: {
-          organizeId: '1648720895478333496',
-          scope: 'sdc-hccm',
-        },
-      });
+      const token: any = await doLogin(formData);
       setToken(token?.access_token);
       rememberUserFn(rememberUser, formData);
+      navigate('/');
       // TODO 是否需要请求机构
-      const chain: any = await getUserLinkChain();
-      if (Array.isArray(chain) && chain.length === 1) {
-        const newToken: any = await switchChain(chain[0]);
-        setToken(newToken?.access_token);
-        navigate('/');
-      }
-      if (chain.length > 1) {
-        onSelectChain();
-      }
+      // const chain: any = await getUserLinkChain();
+      // if (Array.isArray(chain) && chain.length === 1) {
+      //   const newToken: any = await switchChain(chain[0]);
+      //   setToken(newToken?.access_token);
+      //   navigate('/');
+      // }
+      // if (chain.length > 1) {
+      //   onSelectChain();
+      // }
     } catch (error: any) {
       const message = error?.response?.data?.message;
       setErrMessage(message || '登录失败');

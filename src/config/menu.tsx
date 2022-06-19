@@ -7,12 +7,14 @@ const menuConfig: MenuItemProps[] = [
     key: 'weapp',
     children: [
       {
-        label: '平台栏目管理',
+        label: '病种管理',
         path: '/weapp/column',
+        icon: <span className={'iconfont icon-deploymentunit'} />,
       },
       {
-        label: '病种项目管理',
+        label: '项目管理',
         path: '/weapp/project',
+        icon: <span className={'iconfont icon-cluster'} />,
       },
     ],
   },

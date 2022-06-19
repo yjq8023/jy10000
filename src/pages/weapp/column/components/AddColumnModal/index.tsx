@@ -41,7 +41,7 @@ function AddColumnModal(props: AddColumnModalProps) {
           <InputNumber placeholder="请输入排序权重（最多5位数）" min={1} max={99999} style={{ width: '100%' }} />
         </Form.Item>
         <Form.Item label="病种图标" name="icon">
-          <CustomUpload />
+          <CustomUpload maxCount={1} />
         </Form.Item>
       </Form>
     </Modal>

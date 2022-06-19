@@ -37,6 +37,12 @@ function WeappColumn() {
   };
   const getDefaultParams = () => {
     return new Promise((reslove, reject) => {
+      if (selectedTab !== null && selectedTab !== undefined) {
+        reslove({
+          parentId: selectedTab,
+        });
+        return;
+      }
       getParentColumnsList()
         .then((res: any) => {
           reslove({
