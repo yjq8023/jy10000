@@ -93,8 +93,6 @@ function BaseList(props: ListPageProps, ref: any) {
   useEffect(() => {
     getDefaultParams && getDefaultParams()
       .then((params) => {
-        console.log('set_defaparams');
-        console.log(params);
         setDefaultParams(params);
         fetchListData(params);
       });
