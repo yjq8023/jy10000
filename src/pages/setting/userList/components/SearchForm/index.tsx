@@ -29,7 +29,7 @@ const SearchForm = (props: any = {}) => {
     >
       <Row gutter={[120, 24]}>
         <Col span={8}>
-          <Form.Item name="name" label="用户查询">
+          <Form.Item name="searchText" label="用户查询">
             <Input placeholder="请输入用户账号/用户名称" />
           </Form.Item>
         </Col>
