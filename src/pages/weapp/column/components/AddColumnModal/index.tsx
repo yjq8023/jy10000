@@ -12,7 +12,10 @@ function AddColumnModal(props: AddColumnModalProps) {
   const isEdit = data && data.id;
   useEffect(() => {
     if (isEdit) {
-      form.setFieldsValue(data);
+      form.setFieldsValue({
+        ...data,
+        pic: [data.pic],
+      });
     }
   }, []);
   const handleOk = (e: any) => {
@@ -23,6 +26,7 @@ function AddColumnModal(props: AddColumnModalProps) {
     saveColumn({
       ...data,
       ...formValues,
+      pic: formValues.pic[0],
     })
       .then(() => {
         onOk && onOk(formValues);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, Row, Col, Select, Radio, Button, message } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Input, InputNumber, Row, Col, Radio, Button, message } from '@sinohealth/butterfly-ui-components/lib';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import CustomUpload from '@/components/Upload';
 
 import style from './index.less';
 import ProjectSelect from '@/components/ProjectSelect';
@@ -90,17 +89,8 @@ function ProjectAdd() {
           </Col>
           <Col span={12}>
             <Form.Item name="picList" label="项目详情图" rules={requiredRule}>
-              <CustomUpload maxCount={10} />
+              <ImageList />
             </Form.Item>
-            <Row>
-              <Col offset={6} span={18}>
-                <div>
-                  <div>* 最多可上传 10 张图片</div>
-                  <div>* 支持 jpg/png 格式，单张图片不超过500KB</div>
-                  <div>* 图片规格：宽度 750px，长度不限</div>
-                </div>
-              </Col>
-            </Row>
           </Col>
         </Row>
       </Form>
