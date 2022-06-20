@@ -90,7 +90,7 @@ function ProjectAdd() {
           </Col>
           <Col span={12}>
             <Form.Item name="picList" label="项目详情图" rules={requiredRule}>
-              <CustomUpload />
+              <CustomUpload maxCount={10} />
             </Form.Item>
             <Row>
               <Col offset={6} span={18}>
