@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Select, SelectProps } from '@sinohealth/butterfly-ui-components/lib';
+import { getColumnsList } from '@/services/weapp';
 import { isNull } from '@/utils/validate';
-import { getUserList } from '@/services/weapp';
-import { getUserListByUser } from '@/services/patient';
+import { getProjectByUser } from '@/services/patient';
 
 interface Option {
   value: string;
@@ -12,16 +12,16 @@ interface Option {
   loading?: boolean;
 }
 
-interface UserSelectProps extends SelectProps{
-  params: any;
+interface ProjectSelectProps extends SelectProps{
+  value?: any,
+  onChange?: (value: any) => void,
 }
-const UserSelect: React.FC<UserSelectProps> = (props) => {
-  const { params = {}, ...otherProps } = props;
+const ColumnProjectSelect: React.FC<ProjectSelectProps> = (props) => {
+  const { ...otherProps } = props;
   const [options, setOptions] = useState<any[]>([]);
 
   const getData = () => {
-    const api = params.byUser ? getUserListByUser : getUserList;
-    return api(params)
+    return getProjectByUser()
       .then((res: any) => {
         setOptions(res.map((item: any) => ({
           label: item.value,
@@ -32,8 +32,8 @@ const UserSelect: React.FC<UserSelectProps> = (props) => {
 
   useEffect(() => {
     getData();
-  }, [params]);
+  }, []);
   return <Select {...otherProps} options={options} />;
 };
 
-export default UserSelect;
+export default ColumnProjectSelect;

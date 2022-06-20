@@ -12,8 +12,6 @@ interface CustomUploadProps extends UploadProps{
   onChange?: (values: any) => void
 }
 const CustomUpload: React.FC<CustomUploadProps> = (props) => {
-  console.log('props');
-  console.log(props);
   const { value, onChange, ...otherProps } = props;
   const [loading, setLoading] = useState(false);
 
@@ -86,11 +84,9 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     },
     ...otherProps,
   };
-  console.log('uploadProps');
-  console.log(uploadProps);
   return (
     <Upload {...uploadProps}>
-      { uploadButton}
+      { (!props.maxCount || !value || props.maxCount > value.length) && uploadButton }
     </Upload>
   );
 };
