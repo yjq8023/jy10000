@@ -53,8 +53,8 @@ function PatientDetail() {
       <div className={style.userinfo}>
         <img className={style.img} src="https://test.sdc.sinohealth.com/dev/api/oss/preview/cb5a3b990d52a7c7e114689e0dd3e022" alt="头像" />
         <div className={style.username}>
-          <div>小妹妹</div>
-          <div><span className={`iconfont ${isMan ? 'icon-nan' : 'icon-nv'}`} /> 18岁</div>
+          <div>{userInfo.name}</div>
+          <div><span className={`iconfont ${isMan ? 'icon-nan' : 'icon-nv'}`} /> {userInfo.age}岁</div>
         </div>
         <div className={style.userInfoList}>
           {userData.map((item) => userInfoItem(item))}

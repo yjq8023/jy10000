@@ -49,9 +49,14 @@ export const getProjectByUser = () => {
   return request.post(`${prefix}/diseaseProject/getByChain`);
 };
 
+export const getPatientDetail = (id: string) => {
+  return request.post(`${prefix}/patient/detail/${id}`);
+};
+
 export default {
   getPatientList,
   savePatient,
   verifyIdCard,
   getUserListByUser,
+  getPatientDetail,
 };
