@@ -32,7 +32,7 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
       phone: formVal.phoneNumber,
       captcha: formVal.code,
       organizeId: '1',
-      Scope: scope,
+      scope,
     };
     try {
       const token: any = await doLogin(formData);

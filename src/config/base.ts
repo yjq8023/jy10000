@@ -1,6 +1,5 @@
 const { NODE_ENV } = process.env;
-export const baseURL = NODE_ENV === 'development' ? 'https://backend-hccm-dev.zmnyun.cn/' : '/';
-export const commonURL = "https://api.zmnyun.cn/uaa"
+export const baseURL = NODE_ENV === 'development' ? 'https://backend-hccm-dev.zmnyun.cn' : '/';
 export const scope = 'sdc-hccm';
 export const socketURL =
   NODE_ENV === 'development'

@@ -40,7 +40,13 @@ const SearchForm = (props: any = {}) => {
           </Form.Item>
         </Col>
         <Col span={8} style={{ textAlign: 'right' }}>
-          <Button htmlType="submit">重置</Button>
+          <Button
+            onClick={() => {
+              props.form.resetFields();
+            }}
+          >
+            重置
+          </Button>
           &nbsp; &nbsp;
           <Button type="primary" htmlType="submit">
             查询

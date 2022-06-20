@@ -17,6 +17,14 @@ export const getMechanismList = (params: any) => {
   return request.post(`${prefix}/chain/listByEntity`, params);
 };
 
+export const getSystemDict = () => {
+  return request.get('/sys/dict/list', {
+    headers: {
+      scope: 'scope-common',
+    },
+  });
+};
+
 export default {
   getRegionList,
 };

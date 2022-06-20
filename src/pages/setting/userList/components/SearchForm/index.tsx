@@ -33,8 +33,14 @@ const SearchForm = (props: any = {}) => {
             <Input placeholder="请输入用户账号/用户名称" />
           </Form.Item>
         </Col>
-        <Col span={16} style={{ textAlign: 'right' }}>
-          <Button htmlType="submit">重置</Button>
+        <Col
+          span={16}
+          style={{ textAlign: 'right' }}
+          onClick={() => {
+            props.form.resetFields();
+          }}
+        >
+          <Button>重置</Button>
           &nbsp; &nbsp;
           <Button type="primary" htmlType="submit">
             查询

@@ -63,6 +63,7 @@ function MessageList() {
                   <div>
                     <Input.TextArea
                       showCount
+                      placeholder="拒绝理由"
                       onChange={(e: any) => {
                         rejectReason.current = e.target.value;
                       }}

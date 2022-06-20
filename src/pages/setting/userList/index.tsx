@@ -13,9 +13,8 @@ function UserList() {
   const [showUserForm, setShowUserForm] = useState(false);
   const [userId, setUserId] = useState<number>();
   const fetchAPi = (params: any) => {
-    console.log('params');
     console.log(params);
-    return getPageUserInfo(params).then((res) => {
+    return getPageUserInfo({ ...params, pageNo: params.current }).then((res) => {
       console.log(res);
       return {
         listData: res.data,
