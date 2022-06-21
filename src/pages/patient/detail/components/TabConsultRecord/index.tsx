@@ -1,37 +1,26 @@
 import React from 'react';
-import { Dropdown, Menu } from '@sinohealth/butterfly-ui-components/lib';
-
+import { Select, Pagination } from '@sinohealth/butterfly-ui-components/lib';
 import style from './index.less';
+import RecordList from '@/pages/patient/detail/components/TabConsultRecord/components/recordList';
 
+const { Option } = Select;
 function TabConsultRecord() {
-  const items: any = [
-    {
-      key: '1',
-      label: (
-        <a>
-          全部
-        </a>
-      ),
-    },
-  ];
-  const menu = (
-    // @ts-ignore
-    <Menu items={items} />
-  );
+  const dateListData = new Array(10).fill(1);
+
   return (
     <div className={style.consultRecord}>
-      <div className={style.consultRecordList}>
-        <div className="but-title">
-          患者咨询记录
-          <Dropdown overlay={menu}>
-            <a onClick={(e) => e.preventDefault()}>
-              选择项目
-            </a>
-          </Dropdown>
-        </div>
-      </div>
+      <RecordList />
       <div className={style.consultRecordDetail}>
-        123
+        <div className={style.header}>
+          <div className={style.title}>#乳腺癌随访管理项目</div>
+          <div className={style.desc}>
+            咨询结束时间：2022-01-01  09:32:56
+            <div>
+              <span>医生：王志明</span>
+              <span>个案管理师：林溪</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

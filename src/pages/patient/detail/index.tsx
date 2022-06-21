@@ -19,10 +19,10 @@ function PatientDetail() {
   const patientUserId: any = params.get('id');
   const isMan = false;
   const getUserInfoDetail = () => {
-    getPatientDetail(patientUserId)
-      .then((res: any) => {
-        setUserInfo(res);
-      });
+    // getPatientDetail(patientUserId)
+    //   .then((res: any) => {
+    //     setUserInfo(res);
+    //   });
   };
   useEffect(() => {
     getUserInfoDetail();

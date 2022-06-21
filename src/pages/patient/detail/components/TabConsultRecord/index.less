@@ -1,16 +1,28 @@
+@import "@/style/var";
 .consultRecord {
   display: flex;
-  .consultRecordList {
-    flex:  0 1 420px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    padding: 20px;
-  }
   .consultRecordDetail {
     flex: 1;
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin-left: 15px;
     border-radius: 4px;
-    padding: 20px;
+    .header {
+      box-shadow: 0 2px 10px 0 rgba(0,0,0,0.04);
+      padding: 15px 20px;
+      .title {
+        font-size: 16px;
+        font-weight: 500;
+        color: @primary-color;
+      }
+      .desc {
+        color: @break-color3;
+        :last-child {
+          float: right;
+          span {
+            margin-left: 20px;
+          }
+        }
+      }
+    }
   }
 }

@@ -1,0 +1,63 @@
+@import "@/style/var";
+.consultRecordList {
+  flex:  0 1 420px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  height: calc(100vh - 340px);
+  overflow: auto;
+  position: relative;
+  .header {
+    margin: 20px;
+  }
+  .listBox {
+    padding: 0 20px;
+    height: calc(100% - 120px);
+    overflow: auto;
+    .listItem {
+      padding: 18px 16px;
+      color: @primary-color;
+      border-radius: 8px;
+      cursor: pointer;
+      &Active {
+        background-color: @primary-bg-color;
+        div.dateBox {
+          background-color: @secondary-color;
+          color: #fff;
+        }
+        div.body {
+          :first-child {
+            color: @primary-color;
+          }
+        }
+      }
+      .dateBox {
+        display: inline-block;
+        border: 1px solid @secondary-color;
+        border-radius: 8px;
+        padding: 4px;
+        :first-child {
+          font-size: 16px;
+          font-weight: bold;
+        }
+        :last-child {
+          font-size: 12px;
+        }
+      }
+      .body {
+        color: @break-color4;
+        display: inline-block;
+        margin-left: 16px;
+        :first-child {
+          font-size: 16px;
+          color: @break-color2;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  .pagination {
+    padding: 10px 20px;
+    background-color: #fff;
+    width: 100%;
+  }
+}
