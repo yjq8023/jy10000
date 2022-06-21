@@ -20,7 +20,7 @@ function MessageList() {
       return {
         listData: res.data,
         pagination: {
-          current: res.pageIndex,
+          current: res.pageNo,
           pageSize: res.pageSize,
           total: res.totalCount,
         },
@@ -63,6 +63,7 @@ function MessageList() {
                   <div>
                     <Input.TextArea
                       showCount
+                      placeholder="拒绝理由"
                       onChange={(e: any) => {
                         rejectReason.current = e.target.value;
                       }}

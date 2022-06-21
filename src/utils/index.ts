@@ -48,8 +48,18 @@ export function handelOptions(obj: any) {
   const options = Object.keys(obj).map((key: any) => {
     return { label: obj[key].name, value: obj[key].code };
   });
-  console.log(options);
   return options;
+}
+
+export function handleDicToObj(dictArr: any) {
+  const newDictObj: any = {};
+  Object.keys(dictArr).forEach((key) => {
+    newDictObj[key] = {};
+    dictArr[key].forEach((item: any) => {
+      newDictObj[key][item.code] = item.name;
+    });
+  });
+  return newDictObj;
 }
 
 export default {

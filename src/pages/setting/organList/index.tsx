@@ -15,12 +15,12 @@ function OrganList() {
   const list = useList();
   const fetchAPi = (params: any) => {
     console.log(params);
-    return getPageChain(params).then((res) => {
+    return getPageChain({ ...params, pageNo: params.current }).then((res) => {
       console.log(res);
       return {
         listData: res.data,
         pagination: {
-          current: res.pageIndex,
+          current: res.pageNo,
           pageSize: res.pageSize,
           total: res.totalCount,
         },
@@ -54,8 +54,7 @@ function OrganList() {
                 title: '当前机构存在启用的用户账号，请先禁用后，再进行删除。',
                 centered: true,
                 // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
-                onOk: async () => {
-                },
+                onOk: async () => {},
               });
             } else {
               ConfirmModel({

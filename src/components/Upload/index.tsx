@@ -8,14 +8,16 @@ import { baseURL } from '@/config/base';
 import add from '@/pages/patient/add';
 
 interface CustomUploadProps extends UploadProps{
-  value?: any
-  onChange?: (values: any) => void
+  value?: any;
+  onChange?: (values: any) => void;
+  renderList?: any;
+  itemRender?: (params: any) => any
 }
 const CustomUpload: React.FC<CustomUploadProps> = (props) => {
-  const { value, onChange, ...otherProps } = props;
+  const { value, onChange, renderList, children, itemRender, ...otherProps } = props;
   const [loading, setLoading] = useState(false);
 
-  const uploadButton = (
+  const uploadButton = children || (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
       <div style={{ marginTop: 8 }}>上传图片</div>
@@ -50,6 +52,14 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     const newValue = value ? [...value, file.response.data] : [file.response.data];
     onChange && onChange(newValue);
   };
+  const handleRemove = (file: any) => {
+    const newValue = value.filter((item: any) => {
+      const key = typeof item === 'string' ? item : item.uid;
+      return key !== file.response.data;
+    });
+    onChange && onChange(newValue);
+    return true;
+  };
   const uploadProps: UploadProps = {
     name: 'file',
     defaultFileList: transformValue(value),
@@ -60,8 +70,19 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     accept: 'image/png, image/jpeg',
     listType: 'picture-card',
     itemRender(originNode, file, fileListData, actions) {
+      if (itemRender) {
+        return itemRender({
+          originNode,
+          file,
+          fileListData,
+          actions,
+          onChange,
+          value,
+        });
+      }
       return <div onClick={() => actions.remove()}><img src={file.thumbUrl || file.url} alt={file.name} style={{ width: '100%' }} /></div>;
     },
+    onRemove: handleRemove,
     onChange(info: any) {
       if (info.file.status === 'uploading') {
         setLoading(true);

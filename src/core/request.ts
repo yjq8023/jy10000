@@ -23,7 +23,7 @@ const requestFd = axios.create({
   method: 'post',
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
-    Scope: scope,
+    scope,
   },
   transformRequest: [
     (data) => {
@@ -40,13 +40,12 @@ const requestFd = axios.create({
 
 request.interceptors.request.use((conf: any) => conf);
 function beforeRequest(options: any) {
-  console.log(options);
   const newOptions = { ...options };
   const token = getToken();
   if (token) {
     newOptions.headers.Authorization = token;
   }
-  newOptions.headers.Scope = scope;
+  newOptions.headers.scope = scope;
   return newOptions;
 }
 function resolve(response: any) {

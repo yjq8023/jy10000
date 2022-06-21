@@ -61,7 +61,7 @@ function WeappColumn() {
         return {
           listData: res.data,
           pagination: {
-            current: res.pageIndex,
+            current: res.pageNo,
             pageSize: res.pageSize,
             total: res.totalCount,
           },
