@@ -7,11 +7,13 @@ import SearchForm from './components/SearchForm';
 import UserForm from './components/UserForm';
 import { getPageChain, getPageUserInfo, setUserStatus, userDelete } from '@/services/setting';
 import ConfirmModel from '@/components/Confirm';
+import { useDictKeyValue } from '@/hooks/useDict';
 
 function UserList() {
   const list = useList();
   const [showUserForm, setShowUserForm] = useState(false);
   const [userId, setUserId] = useState<number>();
+  const dict = useDictKeyValue();
   const fetchAPi = (params: any) => {
     console.log(params);
     return getPageUserInfo({ ...params, pageNo: params.current }).then((res) => {
@@ -93,16 +95,19 @@ function UserList() {
       title: '用户角色',
       dataIndex: 'roleName',
       key: 'roleName',
+      render: (text: string, record: any) => <span>{dict?.position[text]}</span>,
     },
     {
       title: '用户职称',
       dataIndex: 'title',
       key: 'title',
+      render: (text: string, record: any) => <span>{dict?.doctorTitle[text]}</span>,
     },
     {
       title: '职称级别',
       dataIndex: 'titleLevel',
       key: 'titleLevel',
+      render: (text: string, record: any) => <span>{dict?.technicalJobCategory[text]}</span>,
     },
     {
       title: '所在科室',

@@ -3,8 +3,8 @@ import { request } from '@/core/request';
 const prefix = '';
 
 /* 获取行政区划数据 */
-export const getRegionList = () => {
-  return request.get(`${prefix}/sys/region/code/list`);
+export const getRegionList = (code?: string | number) => {
+  return request.get(`${prefix}/sys/region/code/list?code=${code}`);
 };
 
 /* 获取所有用户列表 */
@@ -18,11 +18,8 @@ export const getMechanismList = (params: any) => {
 };
 
 export const getSystemDict = () => {
-  return request.get('/sys/dict/list', {
-    headers: {
-      scope: 'scope-common',
-    },
-  });
+  // @ts-ignore
+  return request.get('/sys/dict/list', { isReturnAllData: true });
 };
 
 export default {

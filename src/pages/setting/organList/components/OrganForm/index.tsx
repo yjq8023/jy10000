@@ -24,11 +24,9 @@ const OrganForm: FC<OrganFormType> = (props) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [disableSubmit, setDisableSubmit] = useState(false);
-  const [regionalOptions, setRegionalOptions] = useState([]);
-  useEffect(() => {
-    loadRegionList();
-  }, []);
+  const [regionalOptions, setRegionalOptions] = useState<any>([]);
   const loadData = (selectedOptions: DefaultOptionType[]) => {
+    console.log(selectedOptions);
     const targetOption = selectedOptions[selectedOptions.length - 1];
     targetOption.loading = true;
 
@@ -72,9 +70,9 @@ const OrganForm: FC<OrganFormType> = (props) => {
   };
 
   const loadRegionList = () => {
-    getRegionList().then((res) => {
-      console.log('res111');
+    getRegionList().then((res: any) => {
       console.log(res);
+      setRegionalOptions([...res]);
     });
   };
 
@@ -137,9 +135,10 @@ const OrganForm: FC<OrganFormType> = (props) => {
           >
             <Cascader
               fieldNames={{ label: 'name', value: 'code' }}
-              options={regionalOptions}
-              loadData={loadData}
-              changeOnSelect
+              options={location}
+              // options={regionalOptions}
+              // loadData={loadData}
+              // changeOnSelect
               placeholder="请选择所属地区（必填）"
             />
           </Form.Item>
