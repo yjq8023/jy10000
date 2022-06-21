@@ -29,12 +29,18 @@ const SearchForm = (props: any = {}) => {
     >
       <Row gutter={[120, 24]}>
         <Col span={8}>
-          <Form.Item name="name" label="用户查询">
+          <Form.Item name="searchText" label="用户查询">
             <Input placeholder="请输入用户账号/用户名称" />
           </Form.Item>
         </Col>
-        <Col span={16} style={{ textAlign: 'right' }}>
-          <Button htmlType="submit">重置</Button>
+        <Col
+          span={16}
+          style={{ textAlign: 'right' }}
+          onClick={() => {
+            props.form.resetFields();
+          }}
+        >
+          <Button>重置</Button>
           &nbsp; &nbsp;
           <Button type="primary" htmlType="submit">
             查询
