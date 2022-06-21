@@ -8,9 +8,9 @@ import UserSelect from '@/components/UserSelect';
 import MechanismCascader from '@/components/MechanismCascader';
 import ImageList from '@/pages/weapp/projectAdd/Components/ImageList';
 import { createProject, editProject, getProjectDetail } from '@/services/weapp';
-import { savePatient } from '@/services/patient';
 
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
+const numberToFixed2 = [{ pattern: /^\d+(\.\d{1,2})?$/, message: '仅保留2位小数点' }];
 function ProjectAdd() {
   const [params] = useSearchParams();
   const [chainId, setChainId] = useState();
@@ -46,7 +46,6 @@ function ProjectAdd() {
     navigate(-1);
   };
   const onFieldsChange = (field: any) => {
-    console.log(field);
     if (field[0].name.indexOf('chainId') > -1) {
       setChainId(field[0].value);
     }
@@ -77,7 +76,7 @@ function ProjectAdd() {
             <Form.Item name="caseManagerId" label="个案管理师" rules={requiredRule}>
               <UserSelect params={{ position: 'caseManager', chainId }} />
             </Form.Item>
-            <Form.Item name="description" label="项目简介">
+            <Form.Item name="description" label="项目简介" rules={requiredRule}>
               <Input.TextArea rows={4} />
             </Form.Item>
             <Form.Item name="needAudit" label="是否需要医生审核" rules={requiredRule}>
@@ -92,7 +91,7 @@ function ProjectAdd() {
                 <Radio value="0">否</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item name="price" label="项目价格（元）" rules={requiredRule}>
+            <Form.Item name="price" label="项目价格（元）" rules={[...requiredRule, ...numberToFixed2]}>
               <InputNumber min={0} />
             </Form.Item>
           </Col>

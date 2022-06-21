@@ -4,7 +4,7 @@ import style from './index.less';
 import CustomUpload from '@/components/Upload';
 
 function ImageList(props: any) {
-  const [imageList, setImageList] = useState(props.value);
+  const [imageList, setImageList] = useState(props.value || []);
   const handleDelete = (item: any, index: number) => {
     imageList.splice(index, 1);
     console.log(imageList);
