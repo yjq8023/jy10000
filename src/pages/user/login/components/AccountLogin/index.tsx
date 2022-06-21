@@ -53,7 +53,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
       ...formVal,
       seq: randomNum,
       organizeId: '1',
-      Scope: scope,
+      scope,
     };
     try {
       const token: any = await doLogin(formData);
@@ -83,7 +83,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     <img
       className={style.codeImg}
       onClick={resetRandom}
-      src={`https://api.zmnyun.cn/uaa/captcha?seq=${randomNum}`}
+      src={`${baseURL}/uaa/captcha?seq=${randomNum}`}
       alt="验证码"
     />
   );
