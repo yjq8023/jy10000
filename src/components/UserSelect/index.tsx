@@ -31,6 +31,7 @@ const UserSelect: React.FC<UserSelectProps> = (props) => {
   };
 
   useEffect(() => {
+    props.onChange && props.onChange('', {} as any);
     getData();
   }, [params]);
   return <Select {...otherProps} options={options} />;

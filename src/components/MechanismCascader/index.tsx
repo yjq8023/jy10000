@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Cascader } from '@sinohealth/butterfly-ui-components/lib';
+import { TreeSelect } from '@sinohealth/butterfly-ui-components/lib';
 import { getMechanismList } from '@/services/weapp';
 
 interface Option {
@@ -12,11 +12,12 @@ interface Option {
 
 const mapChildren = (item: any) => {
   const resItem: any = {
-    label: item.name,
+    label: item.value,
     value: item.id,
   };
   if (item.children) {
-    resItem.children = resItem.children.map(mapChildren);
+    console.log(resItem);
+    resItem.children = item.children.map(mapChildren);
   }
   return resItem;
 };
@@ -27,8 +28,6 @@ const MechanismCascader: React.FC<any> = (props) => {
   const getData = () => {
     return getMechanismList(params)
       .then((res: any) => {
-        console.log(1231231231);
-        console.log(res);
         return res.map(mapChildren);
       });
   };
@@ -39,7 +38,13 @@ const MechanismCascader: React.FC<any> = (props) => {
     });
   }, [params]);
 
-  return <Cascader {...otherProps} options={options} changeOnSelect />;
+  return <TreeSelect
+    style={{ width: '100%' }}
+    {...otherProps}
+    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+    treeData={options}
+    treeDefaultExpandAll
+  />;
 };
 
 export default MechanismCascader;

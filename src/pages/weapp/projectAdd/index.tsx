@@ -7,7 +7,8 @@ import ProjectSelect from '@/components/ProjectSelect';
 import UserSelect from '@/components/UserSelect';
 import MechanismCascader from '@/components/MechanismCascader';
 import ImageList from '@/pages/weapp/projectAdd/Components/ImageList';
-import { createProject, getProjectDetail } from '@/services/weapp';
+import { createProject, editProject, getProjectDetail } from '@/services/weapp';
+import { savePatient } from '@/services/patient';
 
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
 function ProjectAdd() {
@@ -19,7 +20,7 @@ function ProjectAdd() {
   const [form] = Form.useForm();
   useEffect(() => {
     if (sourceId) {
-      form.setFieldsValue({ sourceId, chainId: 1 });
+      form.setFieldsValue({ sourceId });
     }
     if (id) {
       getProjectDetail(id).then((res) => {
@@ -31,10 +32,12 @@ function ProjectAdd() {
     form.submit();
   };
   const onSubmit = (formValues: any) => {
-    console.log(formValues);
-    createProject(formValues)
+    const api = id ? editProject : createProject;
+    api({
+      ...formValues,
+      id,
+    })
       .then((res) => {
-        console.log(res);
         message.success('保存成功！');
         onCancel();
       });
@@ -42,9 +45,15 @@ function ProjectAdd() {
   const onCancel = () => {
     navigate(-1);
   };
+  const onFieldsChange = (field: any) => {
+    console.log(field);
+    if (field[0].name.indexOf('chainId') > -1) {
+      setChainId(field[0].value);
+    }
+  };
   return (
     <div className={['actionPage', style.addFormBox].join(' ')}>
-      <Form form={form} labelCol={{ xl: 6 }} onFinish={onSubmit}>
+      <Form form={form} labelCol={{ xl: 6 }} onFinish={onSubmit} onFieldsChange={onFieldsChange}>
         <Row gutter={20}>
           <Col span={12}>
             <Form.Item name="sourceId" label="所属栏目">
@@ -68,7 +77,7 @@ function ProjectAdd() {
             <Form.Item name="caseManagerId" label="个案管理师" rules={requiredRule}>
               <UserSelect params={{ position: 'caseManager', chainId }} />
             </Form.Item>
-            <Form.Item name="descrition" label="项目简介">
+            <Form.Item name="description" label="项目简介">
               <Input.TextArea rows={4} />
             </Form.Item>
             <Form.Item name="needAudit" label="是否需要医生审核" rules={requiredRule}>
