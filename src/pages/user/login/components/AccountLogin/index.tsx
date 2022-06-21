@@ -83,7 +83,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     <img
       className={style.codeImg}
       onClick={resetRandom}
-      src={`${baseURL}/uaa/captcha?seq=${randomNum}`}
+      src={`${baseURL}uaa/captcha?seq=${randomNum}`}
       alt="验证码"
     />
   );
