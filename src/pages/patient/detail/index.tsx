@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Tabs } from '@sinohealth/butterfly-ui-components/lib';
 import { CommentOutlined, WhatsAppOutlined } from '@ant-design/icons';
+import { useSearchParams } from 'react-router-dom';
 import style from './index.less';
 import TabProject from './components/TabProject';
 import TabRecord from './components/TabRecord';
@@ -9,19 +10,23 @@ import TabConsultRecord from './components/TabConsultRecord';
 import TabUserInfo from './components/TabUserInfo';
 import TabDrugRecord from './components/TabDrugRecord';
 import TabMedicalRecord from './components/TabMedicalRecord';
+import { getPatientDetail } from '@/services/patient';
 
 const { TabPane } = Tabs;
 function PatientDetail() {
+  const [params] = useSearchParams();
+  const [userInfo, setUserInfo] = useState<Patient.Item>({} as any);
+  const patientUserId: any = params.get('id');
   const isMan = false;
-  const userInfo: Patient.Item = {
-    id: 1110,
-    number: '000001',
-    name: '小妹妹',
-    idCard: '440921188765456789',
-    phone: '15521381433',
-    mainDisease: '乳腺癌、子宫癌、乳腺癌、子宫癌乳腺癌、子宫癌乳腺癌、子宫癌乳腺癌、子宫癌乳腺癌、子宫癌',
-    history: '肾虚',
+  const getUserInfoDetail = () => {
+    // getPatientDetail(patientUserId)
+    //   .then((res: any) => {
+    //     setUserInfo(res);
+    //   });
   };
+  useEffect(() => {
+    getUserInfoDetail();
+  }, []);
   const userInfoItem = (item: any) => {
     return (
       <div className={style.userinfoItem}>
@@ -53,8 +58,8 @@ function PatientDetail() {
       <div className={style.userinfo}>
         <img className={style.img} src="https://test.sdc.sinohealth.com/dev/api/oss/preview/cb5a3b990d52a7c7e114689e0dd3e022" alt="头像" />
         <div className={style.username}>
-          <div>小妹妹</div>
-          <div><span className={`iconfont ${isMan ? 'icon-nan' : 'icon-nv'}`} /> 18岁</div>
+          <div>{userInfo.name}</div>
+          <div><span className={`iconfont ${isMan ? 'icon-nan' : 'icon-nv'}`} /> {userInfo.age}岁</div>
         </div>
         <div className={style.userInfoList}>
           {userData.map((item) => userInfoItem(item))}

@@ -1,6 +1,6 @@
 import { request } from '@/core/request';
 
-const prefix = '/hospital ';
+const prefix = '/backend';
 
 /* 获取栏目列表 */
 export const getColumnsList = (params: any) => {
@@ -52,6 +52,16 @@ export const getProjectDetail = (id: string) => {
   return request.post(url);
 };
 
+/* 获取所有用户列表 */
+export const getUserList = (params: any) => {
+  return request.post(`${prefix}/user/listByEntity`, params);
+};
+
+/* 获取所有机构列表 */
+export const getMechanismList = (params: any) => {
+  return request.post(`${prefix}/chain/listByEntity`, params);
+};
+
 export default {
   getColumnsList,
   createColumn,
@@ -59,4 +69,6 @@ export default {
   setProjectStatus,
   createProject,
   editProject,
+  getUserList,
+  getMechanismList,
 };

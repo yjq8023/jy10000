@@ -1,6 +1,6 @@
 import { request } from '@/core/request';
 
-const prefix = '/backend';
+const prefix = '/hospital';
 
 type getPatientListParams = {
   number: string;
@@ -39,8 +39,24 @@ export const verifyIdCard = (params: any) => {
   return request.post(`${prefix}/patient/verifyIdCard`, params);
 };
 
+/* 获取用户列表 */
+export const getUserListByUser = (params: any) => {
+  return request.post(`${prefix}/user/listByEntity`, params);
+};
+
+/* 获取当前用户下的项目列表 */
+export const getProjectByUser = () => {
+  return request.post(`${prefix}/diseaseProject/getByChain`);
+};
+
+export const getPatientDetail = (id: string) => {
+  return request.post(`${prefix}/patient/detail/${id}`);
+};
+
 export default {
   getPatientList,
   savePatient,
   verifyIdCard,
+  getUserListByUser,
+  getPatientDetail,
 };

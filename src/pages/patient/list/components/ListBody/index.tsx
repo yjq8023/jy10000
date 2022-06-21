@@ -52,7 +52,7 @@ function ListBody(props: any) {
               个案管理师：<span className={style.text}>{item.caseManager}</span>
             </div>
           </div>
-          <Link to="/patient/detail">
+          <Link to={`/patient/detail?id=${item.id}`}>
             <Button block type="primary">
               查看详情
             </Button>

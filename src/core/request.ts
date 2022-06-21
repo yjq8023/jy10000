@@ -40,7 +40,6 @@ const requestFd = axios.create({
 
 request.interceptors.request.use((conf: any) => conf);
 function beforeRequest(options: any) {
-  console.log(options);
   const newOptions = { ...options };
   const token = getToken();
   if (token) {
