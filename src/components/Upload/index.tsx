@@ -4,7 +4,7 @@ import { message, Upload, UploadProps } from '@sinohealth/butterfly-ui-component
 
 import { getBase64 } from '@/utils';
 import { getToken } from '@/utils/cookies';
-import { baseURL } from '@/config/base';
+import { baseURL, scope } from '@/config/base';
 import add from '@/pages/patient/add';
 
 interface CustomUploadProps extends UploadProps{
@@ -49,6 +49,7 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     return newValues;
   };
   const handleChange = (file: any) => {
+    console.log(1111);
     const newValue = value ? [...value, file.response.data] : [file.response.data];
     onChange && onChange(newValue);
   };
@@ -63,26 +64,14 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
   const uploadProps: UploadProps = {
     name: 'file',
     defaultFileList: transformValue(value),
-    action: `${baseURL}backend/upload/single`,
+    action: `${baseURL}cs/file/public/upload`,
     headers: {
-      Authorization: getToken() || '',
+      authorization: getToken() || '',
+      scope,
     },
     accept: 'image/png, image/jpeg',
     listType: 'picture-card',
-    itemRender(originNode, file, fileListData, actions) {
-      if (itemRender) {
-        return itemRender({
-          originNode,
-          file,
-          fileListData,
-          actions,
-          onChange,
-          value,
-        });
-      }
-      return <div onClick={() => actions.remove()}><img src={file.thumbUrl || file.url} alt={file.name} style={{ width: '100%' }} /></div>;
-    },
-    onRemove: handleRemove,
+    // onRemove: handleRemove,
     onChange(info: any) {
       if (info.file.status === 'uploading') {
         setLoading(true);
