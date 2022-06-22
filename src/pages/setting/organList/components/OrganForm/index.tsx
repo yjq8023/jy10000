@@ -107,7 +107,7 @@ const OrganForm: FC<OrganFormType> = (props) => {
     <SimpleModal
       visible={props.visible}
       //   closable={false}
-      h2="增加机构"
+      h2={props.organId ? '编辑机构' : '增加机构'}
       cancelButtonProps={{ type: 'info' }}
       onOk={() => {
         form.submit();
