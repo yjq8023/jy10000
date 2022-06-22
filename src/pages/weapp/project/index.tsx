@@ -79,49 +79,60 @@ function WeappProject() {
       title: '项目名称',
       dataIndex: 'name',
       key: 'name',
-      width: 160,
+      width: 200,
     },
     {
       title: '项目病种',
       dataIndex: 'diseaseName',
       key: 'diseaseName',
-      width: 140,
+      width: 200,
     },
     {
       title: '所属机构',
       dataIndex: 'chainName',
       key: 'chainName',
-      width: 140,
+      width: 160,
     },
     {
       title: '医生',
       dataIndex: 'doctorName',
       key: 'doctorName',
-      width: 100,
+      width: 120,
     },
     {
       title: '医生职称',
       dataIndex: 'doctorTitle',
       key: 'doctorTitle',
-      width: 100,
+      width: 120,
     },
     {
       title: '个案管理师',
       dataIndex: 'caseManagerName',
       key: 'caseManagerName',
-      width: 100,
+      width: 120,
     },
     {
       title: '项目简介',
       dataIndex: 'description',
       key: 'description',
-      width: 240,
+      width: 250,
+      render(text: string): JSX.Element {
+        return <span className="text-ellipsis" title={text}>{text}</span>;
+      },
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
       key: 'createTime',
       width: 200,
+    },
+    {
+      title: '患者咨询',
+      dataIndex: 'openConsult',
+      key: 'openConsult',
+      render(text: any) {
+        return text ? '是' : '否';
+      },
     },
     {
       title: '医生审核',
@@ -141,6 +152,7 @@ function WeappProject() {
       dataIndex: 'status',
       key: 'status',
       width: 120,
+      fixed: 'right',
       render(text: string, record: any) {
         const isUp = text === 'ENABLE';
         return (
@@ -157,6 +169,7 @@ function WeappProject() {
       dataIndex: 'action',
       key: 'action',
       width: 100,
+      fixed: 'right',
       render(text: string, record: any) {
         return renderActionDom(record);
       },
@@ -164,7 +177,7 @@ function WeappProject() {
   ];
   return (
     <div className={style.projectList}>
-      <BaseList list={list} ListTitle="病种项目" columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} SearchForm={SearchForm} fixed />
+      <BaseList BodyProps={{ scroll: { x: 2000 } }} list={list} ListTitle="病种项目" columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} SearchForm={SearchForm} fixed />
     </div>
   );
 }

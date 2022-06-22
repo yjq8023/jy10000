@@ -59,25 +59,25 @@ function ProjectAdd() {
               <ProjectSelect parentId="0" placeholder="请选择" />
             </Form.Item>
             <Form.Item name="diseaseId" label="项目病种" rules={requiredRule}>
-              <ProjectSelect parentId={sourceId} />
+              <ProjectSelect parentId={sourceId} placeholder="请选择" />
             </Form.Item>
             <Form.Item name="name" label="项目名称" rules={requiredRule}>
-              <Input />
+              <Input placeholder="请输入" />
             </Form.Item>
             <Form.Item label="关联AI决策流">
               <Input readOnly value="暂无" />
             </Form.Item>
             <Form.Item name="chainId" label="所属机构" rules={requiredRule}>
-              <MechanismCascader />
+              <MechanismCascader placeholder="请选择" />
             </Form.Item>
             <Form.Item name="doctorId" label="团队医生" rules={requiredRule}>
-              <UserSelect params={{ position: 'doctor', chainId }} />
+              <UserSelect params={{ position: 'doctor', chainId }} placeholder="请选择" />
             </Form.Item>
             <Form.Item name="caseManagerId" label="个案管理师" rules={requiredRule}>
-              <UserSelect params={{ position: 'caseManager', chainId }} />
+              <UserSelect params={{ position: 'caseManager', chainId }} placeholder="请选择" />
             </Form.Item>
             <Form.Item name="description" label="项目简介" rules={requiredRule}>
-              <Input.TextArea rows={4} />
+              <Input.TextArea rows={4} placeholder="请输入" />
             </Form.Item>
             <Form.Item name="needAudit" label="是否需要医生审核" rules={requiredRule}>
               <Radio.Group>
@@ -92,7 +92,7 @@ function ProjectAdd() {
               </Radio.Group>
             </Form.Item>
             <Form.Item name="price" label="项目价格（元）" rules={[...requiredRule, ...numberToFixed2]}>
-              <InputNumber min={0} />
+              <InputNumber min={0} placeholder="请输入" />
             </Form.Item>
           </Col>
           <Col span={12}>

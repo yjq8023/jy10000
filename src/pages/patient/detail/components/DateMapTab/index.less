@@ -1,0 +1,21 @@
+@import "@/style/var";
+.tab {
+  flex: 0 1 180px;
+  margin-right: 40px;
+  .tabItem {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    color: @break-color4;
+    font-size: 12px;
+    line-height: 20px;
+    &.active {
+      background-color: @primary-bg-color;
+    }
+    .title {
+      line-height: 24px;
+      font-size: 14px;
+      color: @primary-color;
+    }
+  }
+}

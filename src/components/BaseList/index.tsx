@@ -51,7 +51,7 @@ function BaseList(props: ListPageProps, ref: any) {
       ...formVal,
       ...titleParams,
       ...paramsConfig,
-      pageNo: pagination.current,
+      pageNo: paramsConfig.current || pagination.current,
     };
     fetchApi(params).then((res: fetchApiRes) => {
       setListData(res.listData);
