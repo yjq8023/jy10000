@@ -94,7 +94,7 @@ function PatientAdd(props: any) {
           </Col>
           <Col span={12}>
             <Form.Item name={[field.name, 'disease']} label="疾病名称" rules={requiredRule}>
-              <Input placeholder="请输入姓名" />
+              <Input placeholder="请输入疾病名称" />
             </Form.Item>
           </Col>
         </Row>
@@ -180,24 +180,24 @@ function PatientAdd(props: any) {
           <Row gutter={100}>
             <Col span={8}>
               <Form.Item name="allergy" label="过敏史">
-                <Input placeholder="请输入主要诊断结果" />
+                <Input placeholder="请输入过敏史" />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="history" label="既往史">
-                <Input placeholder="请输入主要诊断结果" />
+                <Input placeholder="请输入既往史" />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={100}>
             <Col span={8}>
               <Form.Item name="height" label="身高（cm）">
-                <Input placeholder="请输入家属姓名" />
+                <Input placeholder="请输入身高" />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="weight" label="体重（kg）">
-                <Input placeholder="请输家属与患者关系入" />
+                <Input placeholder="请输入体重" />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -214,7 +214,7 @@ function PatientAdd(props: any) {
             </Col>
             <Col span={8}>
               <Form.Item name="memberRelationship" label="与患者关系">
-                <Input placeholder="请输家属与患者关系入" />
+                <Input placeholder="请输入家属与患者关系" />
               </Form.Item>
             </Col>
             <Col span={8}>

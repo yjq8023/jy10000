@@ -22,11 +22,12 @@ function AddColumnModal(props: AddColumnModalProps) {
     form.submit();
   };
   const handleSubmit = (formValues: any) => {
+    console.log(formValues);
     const saveColumn = isEdit ? editColumn : createColumn;
     saveColumn({
       ...data,
       ...formValues,
-      pic: formValues.pic[0],
+      pic: formValues.pic && formValues.pic[0],
     })
       .then(() => {
         onOk && onOk(formValues);
