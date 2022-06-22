@@ -10,7 +10,7 @@ const menuConfig: MenuItemProps[] = [
       {
         label: '申请通知',
         path: '/message',
-      }
+      },
     ],
   },
   {
@@ -35,6 +35,20 @@ const menuConfig: MenuItemProps[] = [
     ],
   },
   {
+    label: '项目跟进',
+    key: 'follow',
+    children: [
+      {
+        label: '项目跟进统计',
+        path: '/follow/count',
+      },
+      {
+        label: '项目跟进列表',
+        path: '/follow/list',
+      },
+    ],
+  },
+  {
     label: '小程序管理',
     key: 'weapp',
     children: [
@@ -50,6 +64,7 @@ const menuConfig: MenuItemProps[] = [
       },
     ],
   },
+
   {
     label: '配置',
     key: 'setting',

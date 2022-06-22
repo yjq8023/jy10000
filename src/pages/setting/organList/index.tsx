@@ -84,16 +84,21 @@ function OrganList() {
       render(text: string, record: any, index: number): JSX.Element {
         return <span>{index + 1}</span>;
       },
+      width: 90,
     },
     {
       title: '机构名称',
       dataIndex: 'name',
       key: 'name',
+      minWidth: 250,
+      ellipsis: true,
     },
     {
       title: '机构地址',
       dataIndex: 'address',
       key: 'address',
+      minWidth: 300,
+      ellipsis: true,
     },
     {
       title: '建立时间',
@@ -136,6 +141,7 @@ function OrganList() {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
+      width: 150,
       render(text: string, record: any) {
         return renderActionDom(record);
       },
