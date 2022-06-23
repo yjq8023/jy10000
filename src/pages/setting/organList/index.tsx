@@ -48,27 +48,17 @@ function OrganList() {
         &nbsp; &nbsp;
         <a
           onClick={() => {
-            if (itemData.status === 'enabled') {
-              ConfirmModel({
-                fun: 'warning',
-                title: '当前机构存在启用的用户账号，请先禁用后，再进行删除。',
-                centered: true,
-                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
-                onOk: async () => {},
-              });
-            } else {
-              ConfirmModel({
-                fun: 'error',
-                title: '是否确定删除该机构？',
-                centered: true,
-                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
-                onOk: async () => {
-                  chainDelete(itemData.id).then((res) => {
-                    (list.current as any).reloadListData();
-                  });
-                },
-              });
-            }
+            ConfirmModel({
+              fun: 'error',
+              title: '是否确定删除该机构？',
+              centered: true,
+              // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+              onOk: async () => {
+                chainDelete(itemData.id).then((res) => {
+                  (list.current as any).reloadListData();
+                });
+              },
+            });
           }}
         >
           删除

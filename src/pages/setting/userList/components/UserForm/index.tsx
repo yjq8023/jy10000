@@ -1,10 +1,19 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Cascader, Form, Input, Select, Spin } from '@sinohealth/butterfly-ui-components/lib';
+import {
+  Button,
+  Cascader,
+  Form,
+  Input,
+  message,
+  Select,
+  Spin,
+} from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
-import { userDetail, userEdit, userSave } from '@/services/setting';
+import { userDetail, userEdit, userResetPassword, userSave } from '@/services/setting';
 import { useDict } from '@/hooks/useDict';
 import { handelOptions } from '@/utils';
 import MechanismCascader from '@/components/MechanismCascader';
+import ConfirmModel from '@/components/Confirm';
 
 type UserFormType = {
   userId?: string | number;
@@ -74,6 +83,19 @@ const UserForm: FC<UserFormType> = (props) => {
         });
     }
   };
+
+  const resetPassword = () => {
+    ConfirmModel({
+      fun: 'warning',
+      title: '是否将该账号现有密码清除，设置为初始密码Abc123456?',
+      centered: true,
+      onOk: async () => {
+        userResetPassword(props.userId).then((res) => {
+          message.success('密码重置成功');
+        });
+      },
+    });
+  };
   return (
     <SimpleModal
       visible={props.visible}
@@ -107,7 +129,22 @@ const UserForm: FC<UserFormType> = (props) => {
             <Input placeholder="请输入手机号码（必填）" maxLength={11} />
           </Form.Item>
           <Form.Item label="登录密码" name="password" required>
-            <Input disabled placeholder="初始密码为 Abc123456，新建用户后通过短信下发" />
+            {props.userId ? (
+              <div
+                style={{
+                  backgroundColor: '#46A0C0',
+                  color: '#fff',
+                  padding: '4px 11px',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                }}
+                onClick={resetPassword}
+              >
+                重置密码
+              </div>
+            ) : (
+              <Input disabled placeholder="初始密码为 Abc123456，新建用户后通过短信下发" />
+            )}
           </Form.Item>
           <Form.Item label="所属机构" name="chainId" initialValue="1">
             {/* <Select

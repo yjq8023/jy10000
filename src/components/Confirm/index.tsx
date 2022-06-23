@@ -5,11 +5,11 @@ import styles from './index.less';
 
 const { confirm } = Modal;
 
-export type ConfirmModelProps = ModalFuncProps & {
+export type ConfirmModelProps = {
   fun: 'success' | 'info' | 'error' | 'warning';
   subtitle?: string;
   node?: ReactNode;
-};
+} & ModalFuncProps;
 
 const icons = {
   success: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
