@@ -64,7 +64,7 @@ export function handleDicToObj(dictArr: any) {
 }
 
 export function previewFile(fileId: string) {
-  return `${baseURL}/file/preview/${fileId}`;
+  return `${baseURL}cs/file/preview/${fileId}`;
 }
 export default {
   getUuid,

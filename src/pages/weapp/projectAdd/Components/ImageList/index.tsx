@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowUpOutlined, DeleteOutlined } from '@ant-design/icons';
 import style from './index.less';
 import CustomUpload from '@/components/Upload';
+import { previewFile } from '@/utils/index';
 
 function ImageList(props: any) {
-  const [imageList, setImageList] = useState(props.value || []);
+  const { value } = props;
+  const [imageList, setImageList] = useState<any>([]);
+
+  useEffect(() => {
+    setImageList(value || []);
+  }, [value]);
+
   const handleDelete = (item: any, index: number) => {
     imageList.splice(index, 1);
-    console.log(imageList);
-    setImageList([...imageList]);
+    handleChange([...imageList]);
   };
   const handleSortUp = (item: any, index: number) => {
     const data: any = imageList.splice(index, 1);
     imageList.splice(index - 1, 0, data[0]);
-    setImageList([...imageList]);
+    handleChange([...imageList]);
   };
   const renderImageListItem = (item: any, index: number) => {
     return (
       <div className={style.item} key={item}>
-        <img src={item} alt="图片" />
+        <img src={previewFile(item)} alt="图片" />
         <div className={style.action}>
           <span>{index + 1}</span>
           { index > 0 && <ArrowUpOutlined onClick={() => handleSortUp(item, index)} />}
@@ -33,7 +39,7 @@ function ImageList(props: any) {
   };
   return (
     <div>
-      <CustomUpload onChange={handleChange} showUploadList={false} maxCount={10} listType="picture">
+      <CustomUpload value={props.value} onChange={handleChange} showUploadList={false} maxCount={10} listType="picture">
         <div className={style.uploadBtn}>
           <div className={style.icon}>
             <span className="iconfont icon-image" />

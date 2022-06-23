@@ -14,7 +14,7 @@ function AddColumnModal(props: AddColumnModalProps) {
     if (isEdit) {
       form.setFieldsValue({
         ...data,
-        pic: [data.pic],
+        pic: data.pic ? [data.pic] : [],
       });
     }
   }, []);
@@ -22,12 +22,11 @@ function AddColumnModal(props: AddColumnModalProps) {
     form.submit();
   };
   const handleSubmit = (formValues: any) => {
-    console.log(formValues);
     const saveColumn = isEdit ? editColumn : createColumn;
     saveColumn({
       ...data,
       ...formValues,
-      pic: formValues.pic && formValues.pic[0],
+      pic: formValues.pic && typeof formValues.pic[0] === 'string' ? formValues.pic[0] : '',
     })
       .then(() => {
         onOk && onOk(formValues);
