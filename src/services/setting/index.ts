@@ -84,4 +84,13 @@ export const setUserStatus = (params: any) => {
 export const userDelete = (id: any) => {
   return request.post<any, any>(`${userPrefix}/delete/${id}`);
 };
+
+/**
+ * 用户重置密码
+ * @param id
+ * @returns
+ */
+export const userResetPassword = (id: any) => {
+  return request.post<any, any>(`${userPrefix}/user/resetPassword`, { id });
+};
 export default {};
