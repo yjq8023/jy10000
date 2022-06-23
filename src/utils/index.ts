@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { baseURL } from '@/config/base';
 /**
  * 生成随机的uuid
  */
@@ -62,6 +63,9 @@ export function handleDicToObj(dictArr: any) {
   return newDictObj;
 }
 
+export function previewFile(fileId: string) {
+  return `${baseURL}/file/preview/${fileId}`;
+}
 export default {
   getUuid,
   randomLenNum,

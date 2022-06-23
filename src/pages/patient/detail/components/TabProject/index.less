@@ -8,13 +8,13 @@
       background-color: #F3F8FB;
       padding: 0 12px;
       >:first-child {
-        margin-right: 24px;
+        display: inline-block;
+        width: 38px;
       }
       .action {
         float: right;
       }
       :global(.ant-badge) {
-        margin-right: 20px;
         :global(.ant-badge-status-dot) {
           width: 10px;
           height: 10px;
@@ -23,10 +23,10 @@
     }
     .formBox {
       padding: 12px;
-      background-color: #F3F8FB;
+      background-color: #FFF;
     }
     &:nth-child(2n) {
-      .projectListHeader, .formBox {
+      .projectListHeader {
         background: #FBFCFE;
       }
     }
