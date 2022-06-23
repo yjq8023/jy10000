@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { Badge } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender, useFormilyForm } from '@sinohealth/butterfly-formily-engine';
 import style from '@/pages/patient/detail/components/TabProject/index.less';
+import ProjectPreFormEditModal from '../ProjectPreFormEditModal';
 
 const schema = {
   type: 'object',
@@ -74,31 +75,52 @@ const schema = {
     },
   },
 };
-function ProjectPreForm(props: any) {
+
+type ProjectPreFormProps = {
+  projectItem: Patient.ProjectInfo
+}
+function ProjectPreForm(props: ProjectPreFormProps) {
   const { projectItem } = props;
+  const [showEditModal, setShowEditModal] = useState(false);
   const form = useFormilyForm();
+  const isHasPreForm = projectItem.schema;
+  const isEditedPreForm = projectItem.status === '1';
   const formProps = {
-    disabled: true,
+    editable: false,
     values: {
       radio: 1,
       multiple: [1, 2],
       year: 2021,
     },
   };
+  const renderPreForm = () => {
+    if (isEditedPreForm) {
+      return (
+        <div className={style.formBox}>
+          <FormRender form={form} formProps={formProps} schema={schema} />
+        </div>
+      );
+    }
+    return null;
+  };
   return (
     <div className={style.projectListItem}>
       <div className={style.projectListHeader}>
         <Badge status="processing" />
         前列腺随访管理项目
-        <a className={style.action}>填写前置信息</a>
+        {
+          isHasPreForm && (
+            isEditedPreForm ?
+              <a className={style.action} onClick={() => setShowEditModal(true)}>查看历史前置信息</a>
+              :
+              <a className={style.action} onClick={() => setShowEditModal(true)}>填写前置信息</a>
+          )
+        }
       </div>
       {
-        projectItem.schema && (
-          <div className={style.formBox}>
-            <FormRender form={form} formProps={formProps} schema={schema} />
-          </div>
-        )
+        isHasPreForm ? renderPreForm() : <div className={style.formBox}>无</div>
       }
+      { showEditModal && <ProjectPreFormEditModal onCancel={() => setShowEditModal(false)} />}
     </div>
   );
 }

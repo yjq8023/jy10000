@@ -13,7 +13,7 @@ function FollowPlanMap(props: FollowPlanMapProps) {
       <div className={style.planCol} key={Date.now() * Math.random()}>
         <div className={style.planItem}>
           <div className={style.tag}>
-            {index}
+            {index === 0 ? 'start' : index}
           </div>
           <div className={style.itemTitle}>
             {item.title}

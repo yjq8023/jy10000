@@ -96,7 +96,7 @@ function ProjectAdd() {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="picList" label="项目详情图" rules={requiredRule}>
+            <Form.Item name="picList" label="项目详情图" required rules={requiredRule}>
               <ImageList />
             </Form.Item>
           </Col>

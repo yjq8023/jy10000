@@ -13,10 +13,13 @@ function MessageList() {
   const [showUserForm, setShowUserForm] = useState(false);
   const rejectReason = useRef<string>('');
   const fetchAPi = (params: any) => {
-    console.log('params');
-    console.log(params);
-    return getPageNotify(params).then((res) => {
-      console.log(res);
+    return getPageNotify({
+      ...params,
+      searchTime: [
+        params.searchTime[0].format('YYYY-MM-DD hh:mm:ss'),
+        params.searchTime[1].format('YYYY-MM-DD hh:mm:ss'),
+      ],
+    }).then((res) => {
       return {
         listData: res.data,
         pagination: {

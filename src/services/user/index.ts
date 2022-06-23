@@ -67,6 +67,10 @@ export const doLogin = (params: any, config: AxiosRequestConfig = {}) => {
   return requestFd.post('/uaa/sso/doLogin', params, config);
 };
 
+export const getListOrganize = (params: any, config: AxiosRequestConfig = {}) => {
+  return requestFd.post('/chain/listOrganize', params);
+};
+
 export default {
   getToken,
   getUserLinkChain,

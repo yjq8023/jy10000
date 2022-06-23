@@ -24,4 +24,11 @@ declare namespace Patient {
     sex?: string; // 性别
     pic?: string; // 头像
   }
+  type ProjectInfo = {
+    projectId: string; // 项目ID
+    projectName: string; // 项目名称
+    status?: '0' | '1'; // 项目前置信息是否已填写 0未填写 1已填写
+    formData?: any; // 项目前置信息已填表单值
+    schema?: any; // 项目前置信息表单
+  }
 }

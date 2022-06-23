@@ -53,10 +53,25 @@ export const getPatientDetail = (id: string) => {
   return request.post(`${prefix}/patient/detail/${id}`);
 };
 
+type PatientProjectRes = {
+  projectInfos: Patient.ProjectInfo[],
+  hasHistory: boolean
+}
+/* 获取患者加入的管理项目 */
+export const getPatientProject = (patientId: string) => {
+  return request.post<any, PatientProjectRes>(`${prefix}/patient/managerProject`, { patientId });
+};
+
+/* 退出管理项目 */
+export const quitProject = (id: string) => {
+  return request.post(`${prefix}/patient/endManagerProject/${id}`);
+};
+
 export default {
   getPatientList,
   savePatient,
   verifyIdCard,
   getUserListByUser,
   getPatientDetail,
+  getPatientProject,
 };
