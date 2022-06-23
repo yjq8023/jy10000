@@ -37,6 +37,12 @@ function WeappColumn() {
   };
   const getDefaultParams = () => {
     return new Promise((reslove, reject) => {
+      if (selectedTab !== null && selectedTab !== undefined) {
+        reslove({
+          parentId: selectedTab,
+        });
+        return;
+      }
       getParentColumnsList()
         .then((res: any) => {
           reslove({
@@ -55,7 +61,7 @@ function WeappColumn() {
         return {
           listData: res.data,
           pagination: {
-            current: res.pageIndex,
+            current: res.pageNo,
             pageSize: res.pageSize,
             total: res.totalCount,
           },

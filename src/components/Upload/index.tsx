@@ -2,29 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload, UploadProps } from '@sinohealth/butterfly-ui-components/lib';
 
-import { getBase64 } from '@/utils';
+import { getBase64, previewFile } from '@/utils';
 import { getToken } from '@/utils/cookies';
-import { baseURL } from '@/config/base';
-import add from '@/pages/patient/add';
+import { baseURL, scope } from '@/config/base';
 
 interface CustomUploadProps extends UploadProps{
-  value?: any
-  onChange?: (values: any) => void
+  value?: any;
+  onChange?: (values: any) => void;
+  renderList?: any;
+  itemRender?: (params: any) => any
 }
 const CustomUpload: React.FC<CustomUploadProps> = (props) => {
-  console.log('props');
-  console.log(props);
-  const { value, onChange, ...otherProps } = props;
+  const { value, onChange, renderList, children, itemRender, ...otherProps } = props;
   const [loading, setLoading] = useState(false);
 
-  const uploadButton = (
+  const uploadButton = children || (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
       <div style={{ marginTop: 8 }}>上传图片</div>
     </div>
   );
 
-  const transformValue = (oldValues: any, addFile?: any) => {
+  const transformValue = (oldValues: any) => {
     let newValues: any = [];
     if (Array.isArray(oldValues)) {
       newValues = oldValues.map((item) => {
@@ -33,38 +32,44 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
         }
         return {
           uid: item,
-          url: item,
+          url: previewFile(item),
+          thumbUrl: previewFile(item),
           name: item,
+          status: 'done',
         };
-      });
-    }
-    if (addFile) {
-      newValues.push({
-        uid: Date.now().toString(),
-        url: addFile.response.data,
-        thumbUrl: addFile.thumbUrl,
-        name: addFile.name,
       });
     }
     return newValues;
   };
-  const handleChange = (file: any) => {
-    const newValue = value ? [...value, file.response.data] : [file.response.data];
+  const handleChange = (fileList: any) => {
+    onChange && onChange(fileList.map((item: any) => {
+      if (item.status === 'done') {
+        return item.response ? item.response.data : item.uid;
+      }
+      return item;
+    }));
+  };
+  const handleRemove = (file: any) => {
+    const newValue = value.filter((item: any) => {
+      const key = typeof item === 'string' ? item : item.uid;
+      return key !== file.uid;
+    });
     onChange && onChange(newValue);
+    return true;
   };
   const uploadProps: UploadProps = {
     name: 'file',
-    defaultFileList: transformValue(value),
-    action: `${baseURL}upload/single`,
+    fileList: transformValue(value),
+    action: `${baseURL}cs/file/public/upload`,
     headers: {
-      Authorization: getToken() || '',
+      authorization: getToken() || '',
+      scope,
     },
     accept: 'image/png, image/jpeg',
     listType: 'picture-card',
-    itemRender(originNode, file, fileListData, actions) {
-      return <div onClick={() => actions.remove()}><img src={file.thumbUrl || file.url} alt={file.name} style={{ width: '100%' }} /></div>;
-    },
+    onRemove: handleRemove,
     onChange(info: any) {
+      handleChange(info.fileList);
       if (info.file.status === 'uploading') {
         setLoading(true);
         return;
@@ -72,7 +77,6 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
       setLoading(false);
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 上传成功`);
-        handleChange(info.file);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} 上传失败`);
       }
@@ -86,11 +90,9 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     },
     ...otherProps,
   };
-  console.log('uploadProps');
-  console.log(uploadProps);
   return (
     <Upload {...uploadProps}>
-      { uploadButton}
+      { (!props.maxCount || !value || props.maxCount > value.length) && uploadButton }
     </Upload>
   );
 };

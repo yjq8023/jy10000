@@ -18,7 +18,7 @@ const SimpleModal: React.FC<SimpleModalType> = (props) => {
       className={styles['simple-modal']}
       {...props}
     >
-      <h2 className={styles.title}>{props.h2}</h2>
+      { props.h2 && <h2 className={styles.title}>{props.h2}</h2>}
       <div>{props.children}</div>
     </Modal>
   );

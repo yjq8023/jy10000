@@ -3,7 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { message } from '@sinohealth/butterfly-ui-components/lib';
 import { getToken } from '@/utils/cookies';
-import { baseURL } from '@/config/base';
+import { baseURL, scope } from '@/config/base';
 
 // 默认配置
 axios.defaults.timeout = 15000;
@@ -23,6 +23,7 @@ const requestFd = axios.create({
   method: 'post',
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
+    scope,
   },
   transformRequest: [
     (data) => {
@@ -44,6 +45,7 @@ function beforeRequest(options: any) {
   if (token) {
     newOptions.headers.Authorization = token;
   }
+  newOptions.headers.scope = scope;
   return newOptions;
 }
 function resolve(response: any) {

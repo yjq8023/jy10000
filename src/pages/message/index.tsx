@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Badge, Button, Switch, Input } from '@sinohealth/butterfly-ui-components/lib';
+import React, { useEffect, useRef, useState } from 'react';
+import { Badge, Button, Switch, Input, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ListPage, { paginationType, useList } from '@/components/BaseList';
@@ -7,19 +7,23 @@ import SearchForm from './components/SearchForm';
 import { getPageNotify, handleNotify } from '@/services/notify';
 import ConfirmModel from '@/components/Confirm';
 
+const { confirm } = Modal;
 function MessageList() {
   const list = useList();
   const [showUserForm, setShowUserForm] = useState(false);
-  const [rejectReason, setRejectReason] = useState<string>('');
+  const rejectReason = useRef<string>('');
   const fetchAPi = (params: any) => {
-    console.log('params');
-    console.log(params);
-    return getPageNotify(params).then((res) => {
-      console.log(res);
+    return getPageNotify({
+      ...params,
+      searchTime: [
+        params.searchTime[0].format('YYYY-MM-DD hh:mm:ss'),
+        params.searchTime[1].format('YYYY-MM-DD hh:mm:ss'),
+      ],
+    }).then((res) => {
       return {
         listData: res.data,
         pagination: {
-          current: res.pageIndex,
+          current: res.pageNo,
           pageSize: res.pageSize,
           total: res.totalCount,
         },
@@ -60,26 +64,32 @@ function MessageList() {
                 centered: true,
                 node: (
                   <div>
-                    <textarea
-                      // showCount
-                      value={rejectReason}
+                    <Input.TextArea
+                      showCount
+                      placeholder="拒绝理由"
                       onChange={(e: any) => {
-                        console.log(e);
-                        setRejectReason(e.target.value);
+                        rejectReason.current = e.target.value;
                       }}
                     />
                   </div>
                 ),
+                onCancel: () => {
+                  rejectReason.current = '';
+                },
                 // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
                 onOk: async () => {
                   // 修改状态的类型
                   handleNotify({
                     notifyId: itemData.notifyId,
                     status: 'REJECTED',
-                    rejectReason,
-                  }).then((res) => {
-                    (list.current as any).reloadListData();
-                  });
+                    rejectReason: rejectReason.current,
+                  })
+                    .then((res) => {
+                      (list.current as any).reloadListData();
+                    })
+                    .finally(() => {
+                      rejectReason.current = '';
+                    });
                 },
               });
             }}

@@ -9,6 +9,7 @@ import { validIsMobile } from '@/utils/validate';
 
 import style from '../AccountLogin/index.less';
 import indexStyle from './index.less';
+import { scope } from '@/config/base';
 
 const { Item, useForm } = Form;
 const sendCodeTimeKey = 'zk-c-s-c';
@@ -30,23 +31,23 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
       channel: 'phone',
       phone: formVal.phoneNumber,
       captcha: formVal.code,
-      organizeId: '1648720895478333496',
-      scope: 'sdc-hccm',
+      organizeId: '1',
+      scope,
     };
     try {
-      const token: any = await doLogin(formData, {
-        headers: { organizeId: '1648720895478333496', scope: 'sdc-hccm' },
-      });
-      setToken(token?.access_token);
-      const chain: any = await getUserLinkChain();
-      if (Array.isArray(chain) && chain.length === 1) {
-        const newToken: any = await switchChain(chain[0]);
-        setToken(newToken?.access_token);
-        navigate('/');
-      }
-      if (chain.length > 1) {
-        onSelectChain();
-      }
+      const token: any = await doLogin(formData);
+      setToken(token);
+      navigate('/');
+      // TODO 默认机构 1
+      // const chain: any = await getUserLinkChain();
+      // if (Array.isArray(chain) && chain.length === 1) {
+      //   const newToken: any = await switchChain(chain[0]);
+      //   setToken(newToken?.access_token);
+      //   navigate('/');
+      // }
+      // if (chain.length > 1) {
+      //   onSelectChain();
+      // }
     } catch (error: any) {
       const message = error?.response?.data?.message;
       setErrMessage(message || '登录失败');

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Card, Form, Row, Col, Button, Input, Select, DatePicker, Modal } from '@sinohealth/butterfly-ui-components/lib';
-import { MinusCircleOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Card, Form, Row, Col, Button, Input, Select, DatePicker, Modal, message } from '@sinohealth/butterfly-ui-components/lib';
+import { MinusCircleOutlined, ExclamationCircleFilled, LoadingOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import UserAutoComplete from '@/components/UserAutoComplete';
 import AddressSelect from '@/components/AddressSelect';
@@ -15,6 +15,7 @@ const { useForm } = Form;
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
 function PatientAdd(props: any) {
   const { onBack } = props;
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [form] = useForm();
   const verifyIdCardFn = (params: any) => {
@@ -54,19 +55,24 @@ function PatientAdd(props: any) {
     form.submit();
   };
   const onSubmit = (formValues: any) => {
+    setLoading(true);
     verifyIdCardFn({
       name: formValues.name,
       idCard: formValues.idCard,
-    }).then((verifyToken) => {
-      savePatient({
-        ...formValues,
-        verifyToken,
-        birthDay: formValues.birthDay.format('YYYY-MM'),
+    })
+      .then((verifyToken) => {
+        savePatient({
+          ...formValues,
+          verifyToken,
+          birthDay: formValues.birthDay.format('YYYY-MM-DD'),
+        })
+          .then((res: any) => {
+            setLoading(false);
+            message.success('保存成功！');
+            navigate(`/patient/detail?id=${res.id}`);
+          });
       })
-        .then((res) => {
-          console.log(res);
-        });
-    });
+      .catch(() => setLoading(false));
   };
   const onCancel = () => {
     if (onBack) {
@@ -94,7 +100,7 @@ function PatientAdd(props: any) {
           </Col>
           <Col span={12}>
             <Form.Item name={[field.name, 'disease']} label="疾病名称" rules={requiredRule}>
-              <Input placeholder="请输入姓名" />
+              <Input placeholder="请输入疾病名称" />
             </Form.Item>
           </Col>
         </Row>
@@ -162,8 +168,8 @@ function PatientAdd(props: any) {
               </Form.Item>
             </Col>
             <Col span={8}>
-              <Form.Item name="birthDay" label="出生年月" rules={requiredRule}>
-                <DatePicker picker="month" format="YYYY-MM" style={{ width: '100%' }} />
+              <Form.Item name="birthDay" label="出生日期" rules={requiredRule}>
+                <DatePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -180,24 +186,24 @@ function PatientAdd(props: any) {
           <Row gutter={100}>
             <Col span={8}>
               <Form.Item name="allergy" label="过敏史">
-                <Input placeholder="请输入主要诊断结果" />
+                <Input placeholder="请输入过敏史" />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="history" label="既往史">
-                <Input placeholder="请输入主要诊断结果" />
+                <Input placeholder="请输入既往史" />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={100}>
             <Col span={8}>
               <Form.Item name="height" label="身高（cm）">
-                <Input placeholder="请输入家属姓名" />
+                <Input placeholder="请输入身高" />
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item name="weight" label="体重（kg）">
-                <Input placeholder="请输家属与患者关系入" />
+                <Input placeholder="请输入体重" />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -214,7 +220,7 @@ function PatientAdd(props: any) {
             </Col>
             <Col span={8}>
               <Form.Item name="memberRelationship" label="与患者关系">
-                <Input placeholder="请输家属与患者关系入" />
+                <Input placeholder="请输入家属与患者关系" />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -239,10 +245,13 @@ function PatientAdd(props: any) {
         </Form>
       </Card>
       <div className="actionBar">
-        <Button onClick={onCancel}>取消</Button>
+        <Button disabled={loading} onClick={onCancel}>取消</Button>
         &nbsp;
         &nbsp;
-        <Button type="primary" onClick={handleSubmit}>保存</Button>
+        <Button disabled={loading} type="primary" onClick={handleSubmit}>
+          {loading && <LoadingOutlined />}
+          保存
+        </Button>
       </div>
     </div>
   );

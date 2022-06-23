@@ -15,12 +15,12 @@ function OrganList() {
   const list = useList();
   const fetchAPi = (params: any) => {
     console.log(params);
-    return getPageChain(params).then((res) => {
+    return getPageChain({ ...params, pageNo: params.current }).then((res) => {
       console.log(res);
       return {
         listData: res.data,
         pagination: {
-          current: res.pageIndex,
+          current: res.pageNo,
           pageSize: res.pageSize,
           total: res.totalCount,
         },
@@ -48,28 +48,17 @@ function OrganList() {
         &nbsp; &nbsp;
         <a
           onClick={() => {
-            if (itemData.status === 'enabled') {
-              ConfirmModel({
-                fun: 'warning',
-                title: '当前机构存在启用的用户账号，请先禁用后，再进行删除。',
-                centered: true,
-                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
-                onOk: async () => {
-                },
-              });
-            } else {
-              ConfirmModel({
-                fun: 'error',
-                title: '是否确定删除该机构？',
-                centered: true,
-                // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
-                onOk: async () => {
-                  chainDelete(itemData.id).then((res) => {
-                    (list.current as any).reloadListData();
-                  });
-                },
-              });
-            }
+            ConfirmModel({
+              fun: 'error',
+              title: '是否确定删除该机构？',
+              centered: true,
+              // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+              onOk: async () => {
+                chainDelete(itemData.id).then((res) => {
+                  (list.current as any).reloadListData();
+                });
+              },
+            });
           }}
         >
           删除
@@ -85,16 +74,21 @@ function OrganList() {
       render(text: string, record: any, index: number): JSX.Element {
         return <span>{index + 1}</span>;
       },
+      width: 90,
     },
     {
       title: '机构名称',
       dataIndex: 'name',
       key: 'name',
+      minWidth: 250,
+      ellipsis: true,
     },
     {
       title: '机构地址',
       dataIndex: 'address',
       key: 'address',
+      minWidth: 300,
+      ellipsis: true,
     },
     {
       title: '建立时间',
@@ -137,6 +131,7 @@ function OrganList() {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
+      width: 150,
       render(text: string, record: any) {
         return renderActionDom(record);
       },

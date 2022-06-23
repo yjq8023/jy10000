@@ -12,7 +12,10 @@ function AddColumnModal(props: AddColumnModalProps) {
   const isEdit = data && data.id;
   useEffect(() => {
     if (isEdit) {
-      form.setFieldsValue(data);
+      form.setFieldsValue({
+        ...data,
+        pic: data.pic ? [data.pic] : [],
+      });
     }
   }, []);
   const handleOk = (e: any) => {
@@ -23,6 +26,7 @@ function AddColumnModal(props: AddColumnModalProps) {
     saveColumn({
       ...data,
       ...formValues,
+      pic: formValues.pic && typeof formValues.pic[0] === 'string' ? formValues.pic[0] : '',
     })
       .then(() => {
         onOk && onOk(formValues);
@@ -40,8 +44,8 @@ function AddColumnModal(props: AddColumnModalProps) {
         <Form.Item label="排序权重" name="sort">
           <InputNumber placeholder="请输入排序权重（最多5位数）" min={1} max={99999} style={{ width: '100%' }} />
         </Form.Item>
-        <Form.Item label="病种图标" name="icon">
-          <CustomUpload />
+        <Form.Item label="病种图标" name="pic">
+          <CustomUpload maxCount={1} />
         </Form.Item>
       </Form>
     </Modal>

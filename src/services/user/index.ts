@@ -62,10 +62,13 @@ export const getUserResourceByScope = () => {
   );
 };
 
-const loginHost = 'https://api.zmnyun.cn/uaa';
-
 export const doLogin = (params: any, config: AxiosRequestConfig = {}) => {
-  return axios.post(`${loginHost}/sso/doLogin`, params, config);
+  // return axios.post(`${loginHost}/sso/doLogin`, params, config);
+  return requestFd.post('/uaa/sso/doLogin', params, config);
+};
+
+export const getListOrganize = (params: any, config: AxiosRequestConfig = {}) => {
+  return requestFd.post('/chain/listOrganize', params);
 };
 
 export default {

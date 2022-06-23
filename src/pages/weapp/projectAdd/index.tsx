@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, Row, Col, Select, Radio, Button, message } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Input, InputNumber, Row, Col, Radio, Button, message } from '@sinohealth/butterfly-ui-components/lib';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import CustomUpload from '@/components/Upload';
 
 import style from './index.less';
 import ProjectSelect from '@/components/ProjectSelect';
 import UserSelect from '@/components/UserSelect';
 import MechanismCascader from '@/components/MechanismCascader';
 import ImageList from '@/pages/weapp/projectAdd/Components/ImageList';
-import { createProject, getProjectDetail } from '@/services/weapp';
+import { createProject, editProject, getProjectDetail } from '@/services/weapp';
 
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
+const numberToFixed2 = [{ pattern: /^\d+(\.\d{1,2})?$/, message: '仅保留2位小数点' }];
 function ProjectAdd() {
   const [params] = useSearchParams();
   const [chainId, setChainId] = useState();
@@ -20,7 +20,7 @@ function ProjectAdd() {
   const [form] = Form.useForm();
   useEffect(() => {
     if (sourceId) {
-      form.setFieldsValue({ sourceId, chainId: 1 });
+      form.setFieldsValue({ sourceId });
     }
     if (id) {
       getProjectDetail(id).then((res) => {
@@ -32,10 +32,12 @@ function ProjectAdd() {
     form.submit();
   };
   const onSubmit = (formValues: any) => {
-    console.log(formValues);
-    createProject(formValues)
+    const api = id ? editProject : createProject;
+    api({
+      ...formValues,
+      id,
+    })
       .then((res) => {
-        console.log(res);
         message.success('保存成功！');
         onCancel();
       });
@@ -43,34 +45,39 @@ function ProjectAdd() {
   const onCancel = () => {
     navigate(-1);
   };
+  const onFieldsChange = (field: any) => {
+    if (field[0].name.indexOf('chainId') > -1) {
+      setChainId(field[0].value);
+    }
+  };
   return (
     <div className={['actionPage', style.addFormBox].join(' ')}>
-      <Form form={form} labelCol={{ xl: 6 }} onFinish={onSubmit}>
+      <Form form={form} labelCol={{ xl: 6 }} onFinish={onSubmit} onFieldsChange={onFieldsChange}>
         <Row gutter={20}>
           <Col span={12}>
             <Form.Item name="sourceId" label="所属栏目">
               <ProjectSelect parentId="0" placeholder="请选择" />
             </Form.Item>
             <Form.Item name="diseaseId" label="项目病种" rules={requiredRule}>
-              <ProjectSelect parentId={sourceId} />
+              <ProjectSelect parentId={sourceId} placeholder="请选择" />
             </Form.Item>
             <Form.Item name="name" label="项目名称" rules={requiredRule}>
-              <Input />
+              <Input placeholder="请输入" />
             </Form.Item>
             <Form.Item label="关联AI决策流">
               <Input readOnly value="暂无" />
             </Form.Item>
             <Form.Item name="chainId" label="所属机构" rules={requiredRule}>
-              <MechanismCascader />
+              <MechanismCascader placeholder="请选择" />
             </Form.Item>
             <Form.Item name="doctorId" label="团队医生" rules={requiredRule}>
-              <UserSelect params={{ position: 'doctor', chainId }} />
+              <UserSelect params={{ position: 'doctor', chainId }} placeholder="请选择" />
             </Form.Item>
             <Form.Item name="caseManagerId" label="个案管理师" rules={requiredRule}>
-              <UserSelect params={{ position: 'caseManager', chainId }} />
+              <UserSelect params={{ position: 'caseManager', chainId }} placeholder="请选择" />
             </Form.Item>
-            <Form.Item name="descrition" label="项目简介">
-              <Input.TextArea rows={4} />
+            <Form.Item name="description" label="项目简介" rules={requiredRule}>
+              <Input.TextArea rows={4} placeholder="请输入" />
             </Form.Item>
             <Form.Item name="needAudit" label="是否需要医生审核" rules={requiredRule}>
               <Radio.Group>
@@ -84,23 +91,14 @@ function ProjectAdd() {
                 <Radio value="0">否</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item name="price" label="项目价格（元）" rules={requiredRule}>
-              <InputNumber min={0} />
+            <Form.Item name="price" label="项目价格（元）" rules={[...requiredRule, ...numberToFixed2]}>
+              <InputNumber min={0} placeholder="请输入" />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="picList" label="项目详情图" rules={requiredRule}>
-              <CustomUpload />
+            <Form.Item name="picList" label="项目详情图" required rules={requiredRule}>
+              <ImageList />
             </Form.Item>
-            <Row>
-              <Col offset={6} span={18}>
-                <div>
-                  <div>* 最多可上传 10 张图片</div>
-                  <div>* 支持 jpg/png 格式，单张图片不超过500KB</div>
-                  <div>* 图片规格：宽度 750px，长度不限</div>
-                </div>
-              </Col>
-            </Row>
           </Col>
         </Row>
       </Form>

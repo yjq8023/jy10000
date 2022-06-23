@@ -3,16 +3,49 @@ import { Cascader, Form, Input, Spin } from '@sinohealth/butterfly-ui-components
 import SimpleModal from '@/components/SimpleModal';
 import location from '@/assets/public/location.json';
 import { chainDetail, chainEdit, chainSave } from '@/services/setting';
+import { getRegionList } from '@/services/common';
 
 type OrganFormType = {
   organId?: string | number;
   visible: boolean;
   onCancel?: (success?: boolean) => void;
 };
+export interface BaseOptionType {
+  disabled?: boolean;
+  [name: string]: any;
+}
+export interface DefaultOptionType extends BaseOptionType {
+  label: React.ReactNode;
+  value?: string | number | null;
+  children?: DefaultOptionType[];
+}
+
 const OrganForm: FC<OrganFormType> = (props) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [disableSubmit, setDisableSubmit] = useState(false);
+  const [regionalOptions, setRegionalOptions] = useState<any>([]);
+  const loadData = (selectedOptions: DefaultOptionType[]) => {
+    console.log(selectedOptions);
+    const targetOption = selectedOptions[selectedOptions.length - 1];
+    targetOption.loading = true;
+
+    // load options lazily
+    setTimeout(() => {
+      targetOption.loading = false;
+      targetOption.children = [
+        {
+          label: `${targetOption.label} Dynamic 1`,
+          value: 'dynamic1',
+        },
+        {
+          label: `${targetOption.label} Dynamic 2`,
+          value: 'dynamic2',
+        },
+      ];
+      setRegionalOptions([...regionalOptions]);
+    }, 1000);
+  };
   useEffect(() => {
     console.log(props.organId);
     if (props.organId) {
@@ -20,7 +53,7 @@ const OrganForm: FC<OrganFormType> = (props) => {
       chainDetail(props.organId)
         .then((res) => {
           setDisableSubmit(false);
-          form.setFieldsValue({ ...res, location: [res.province, res.city, res.area] });
+          form.setFieldsValue({ ...res });
         })
         .catch(() => {
           console.log('错误');
@@ -36,12 +69,16 @@ const OrganForm: FC<OrganFormType> = (props) => {
     if (props.onCancel) props.onCancel(success);
   };
 
+  const loadRegionList = () => {
+    getRegionList().then((res: any) => {
+      console.log(res);
+      setRegionalOptions([...res]);
+    });
+  };
+
   const finish = (values: any) => {
     const params = {
       ...values,
-      province: values.location[0],
-      city: values.location[1],
-      area: values.location[2],
     };
     console.log(params);
     setLoading(true);
@@ -70,7 +107,7 @@ const OrganForm: FC<OrganFormType> = (props) => {
     <SimpleModal
       visible={props.visible}
       //   closable={false}
-      h2="增加机构"
+      h2={props.organId ? '编辑机构' : '增加机构'}
       cancelButtonProps={{ type: 'info' }}
       onOk={() => {
         form.submit();
@@ -93,12 +130,15 @@ const OrganForm: FC<OrganFormType> = (props) => {
           </Form.Item>
           <Form.Item
             label="所属地区"
-            name="location"
+            name="regionals"
             rules={[{ required: true, message: '所属地区' }]}
           >
             <Cascader
               fieldNames={{ label: 'name', value: 'code' }}
               options={location}
+              // options={regionalOptions}
+              // loadData={loadData}
+              // changeOnSelect
               placeholder="请选择所属地区（必填）"
             />
           </Form.Item>

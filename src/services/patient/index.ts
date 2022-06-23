@@ -1,6 +1,6 @@
 import { request } from '@/core/request';
 
-const prefix = '/patient';
+const prefix = '/hospital';
 
 type getPatientListParams = {
   number: string;
@@ -16,7 +16,7 @@ type getPatientListParams = {
 /* 获取患者列表 */
 export const getPatientList = (params: getPatientListParams) => {
   // @ts-ignore
-  return request.post<any, CommonApi.CommonListRes<Patient.Item>>(`${prefix}/pagePatient`, params, { isReturnAllData: true });
+  return request.post<any, CommonApi.CommonListRes<Patient.Item>>(`${prefix}/patient/pagePatient`, params, { isReturnAllData: true });
 };
 
 type searchPatientProps = {
@@ -26,21 +26,52 @@ type searchPatientProps = {
 }
 /* 根据基本信息查询患者 */
 export const searchPatient = (params: searchPatientProps) => {
-  return request.post(`${prefix}/searchPatient`, params);
+  return request.post(`${prefix}/patient/searchPatient`, params);
 };
 
 // 保存患者
 export const savePatient = (params: any) => {
-  return request.post(`${prefix}/save`, params);
+  return request.post(`${prefix}/patient/save`, params);
 };
 
 // 校验患者身份证
 export const verifyIdCard = (params: any) => {
-  return request.post(`${prefix}/verifyIdCard`, params);
+  return request.post(`${prefix}/patient/verifyIdCard`, params);
+};
+
+/* 获取用户列表 */
+export const getUserListByUser = (params: any) => {
+  return request.post(`${prefix}/user/listByEntity`, params);
+};
+
+/* 获取当前用户下的项目列表 */
+export const getProjectByUser = () => {
+  return request.post(`${prefix}/diseaseProject/getByChain`);
+};
+
+export const getPatientDetail = (id: string) => {
+  return request.post(`${prefix}/patient/detail/${id}`);
+};
+
+type PatientProjectRes = {
+  projectInfos: Patient.ProjectInfo[],
+  hasHistory: boolean
+}
+/* 获取患者加入的管理项目 */
+export const getPatientProject = (patientId: string) => {
+  return request.post<any, PatientProjectRes>(`${prefix}/patient/managerProject`, { patientId });
+};
+
+/* 退出管理项目 */
+export const quitProject = (id: string) => {
+  return request.post(`${prefix}/patient/endManagerProject/${id}`);
 };
 
 export default {
   getPatientList,
   savePatient,
   verifyIdCard,
+  getUserListByUser,
+  getPatientDetail,
+  getPatientProject,
 };

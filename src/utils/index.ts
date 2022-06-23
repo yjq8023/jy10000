@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { baseURL } from '@/config/base';
 /**
  * 生成随机的uuid
  */
@@ -48,10 +49,23 @@ export function handelOptions(obj: any) {
   const options = Object.keys(obj).map((key: any) => {
     return { label: obj[key].name, value: obj[key].code };
   });
-  console.log(options);
   return options;
 }
 
+export function handleDicToObj(dictArr: any) {
+  const newDictObj: any = {};
+  Object.keys(dictArr).forEach((key) => {
+    newDictObj[key] = {};
+    dictArr[key].forEach((item: any) => {
+      newDictObj[key][item.code] = item.name;
+    });
+  });
+  return newDictObj;
+}
+
+export function previewFile(fileId: string) {
+  return `${baseURL}cs/file/preview/${fileId}`;
+}
 export default {
   getUuid,
   randomLenNum,

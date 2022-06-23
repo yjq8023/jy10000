@@ -36,10 +36,10 @@ function TableBody(props: TableBodyProps) {
     ref: tableRef,
     columns,
     dataSource: listData,
-    scroll,
     rowKey: (row: any) => row.id,
     pagination: false,
     ...BodyProps,
+    scroll: BodyProps.scroll ? { ...scroll, ...BodyProps.scroll } : scroll,
   };
   return (
     <Table

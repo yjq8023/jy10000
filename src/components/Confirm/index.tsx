@@ -1,15 +1,15 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Modal, ModalFuncProps } from '@sinohealth/butterfly-ui-components/lib';
 import { ExclamationCircleFilled, QuestionCircleTwoTone } from '@ant-design/icons';
 import styles from './index.less';
 
 const { confirm } = Modal;
 
-export type ConfirmModelProps = ModalFuncProps & {
+export type ConfirmModelProps = {
   fun: 'success' | 'info' | 'error' | 'warning';
   subtitle?: string;
   node?: ReactNode;
-};
+} & ModalFuncProps;
 
 const icons = {
   success: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
