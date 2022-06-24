@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, Button, Tabs, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { useSearchParams } from 'react-router-dom';
 import FollowPlanMap from '@/components/FollowPlanMap';
@@ -7,6 +7,7 @@ import ProjectPreForm from '@/pages/patient/detail/components/TabProject/compone
 import { getPatientProject, quitProject } from '@/services/patient';
 import ConfirmModel from '@/components/Confirm';
 import { handleNotify } from '@/services/notify';
+import ProjectPreFormHistory from '@/pages/patient/detail/components/TabProject/components/ProjectPreFormHistory';
 
 const planItem = {
   title: '开始',
@@ -36,6 +37,7 @@ const followPlanMapData = new Array(l).fill(planItem, 0, l);
 
 function TabProject() {
   const [params] = useSearchParams();
+  const historyModal = useRef<any>();
   const patientId = params.get('id');
   const [hasHistoryProject, setHasHistoryProject] = useState(false);
   const [projectListData, setProjectListData] = useState<Patient.ProjectInfo[]>([]);
@@ -102,7 +104,7 @@ function TabProject() {
     );
   };
   const renderProjectForm = (projectItem: any) => {
-    return <ProjectPreForm projectItem={projectItem} />;
+    return <ProjectPreForm projectItem={projectItem} showHistoryModal={historyModal.current.openModal} />;
   };
   return (
     <div>
@@ -131,6 +133,7 @@ function TabProject() {
           }
         </Tabs>
       </Card>
+      <ProjectPreFormHistory ref={historyModal} />
     </div>
   );
 }
