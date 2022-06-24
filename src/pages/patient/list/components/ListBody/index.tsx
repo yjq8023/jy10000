@@ -14,12 +14,13 @@ function ListBody(props: any) {
     const age = item.age;
     const patientPhone = item.phone;
     const tagClass = cls({
+      'iconfont icon-phone': true,
       [style.tag]: true,
       [style.tag0]: item.wxBindStatus === '1',
     });
     return (
       <div className={style.listItem}>
-        <MobileTwoTone className={tagClass} />
+        <span className={tagClass} />
         <div>
           <div className={style.userInfo}>
             <div className={style.userName}>

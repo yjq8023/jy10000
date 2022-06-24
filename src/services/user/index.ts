@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { request, requestFd } from '@/core/request';
-import { getTokenParams } from '@/config/base';
+import { clientPrefix, getTokenParams } from '@/config/base';
 import { setToken } from '@/utils/cookies';
 import { UCenter } from '@/services/user/data';
 
@@ -14,7 +14,13 @@ export const getToken = (params: any) => {
 
 export const getUserLinkChain = () => request.get(`${pharmacyPrefix}/userCenter/listUserLinkChain`);
 
-export const sendPhoneCode = (phoneNo: string) => request.get(`/api/mobile/${phoneNo}`);
+export const sendPhoneCode = (phoneNo: string) =>
+  request.post(`${clientPrefix}/user/sendCaptcha`, {
+    recipient: phoneNo,
+    channel: 'SMS',
+    bizCategory: 'login',
+    bizCode: 'hccm',
+  });
 
 export const switchChain = (params: any) => request.post(`${prefix}/switchChain`, params);
 /**
@@ -68,7 +74,7 @@ export const doLogin = (params: any, config: AxiosRequestConfig = {}) => {
 };
 
 export const getListOrganize = (params: any, config: AxiosRequestConfig = {}) => {
-  return requestFd.post('/chain/listOrganize', params);
+  return request.post(`${clientPrefix}/chain/listOrganize`, params);
 };
 
 export default {

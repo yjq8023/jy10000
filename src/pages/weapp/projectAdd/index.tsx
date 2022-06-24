@@ -23,8 +23,9 @@ function ProjectAdd() {
       form.setFieldsValue({ sourceId });
     }
     if (id) {
-      getProjectDetail(id).then((res) => {
+      getProjectDetail(id).then((res: any) => {
         form.setFieldsValue(res);
+        setChainId(res.chainId);
       });
     }
   }, []);
@@ -48,6 +49,10 @@ function ProjectAdd() {
   const onFieldsChange = (field: any) => {
     if (field[0].name.indexOf('chainId') > -1) {
       setChainId(field[0].value);
+      form.setFieldsValue({
+        doctorId: '',
+        caseManagerId: '',
+      });
     }
   };
   return (

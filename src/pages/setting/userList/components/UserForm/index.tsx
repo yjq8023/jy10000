@@ -90,7 +90,7 @@ const UserForm: FC<UserFormType> = (props) => {
       title: '是否将该账号现有密码清除，设置为初始密码Abc123456?',
       centered: true,
       onOk: async () => {
-        userResetPassword(props.userId).then((res) => {
+        userResetPassword({ id: props.userId }).then((res) => {
           message.success('密码重置成功');
         });
       },
