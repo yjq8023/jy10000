@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, FormInstance } from '@sinohealth/butterfly-ui-components/lib';
-import { UserOutlined } from '@ant-design/icons';
+import { Form, Input, FormInstance, Select } from '@sinohealth/butterfly-ui-components/lib';
+import { UserOutlined, ApartmentOutlined } from '@ant-design/icons';
 import PhoneCodeInput from '@/components/PhoneCodeInput';
 import { validIsMobile } from '@/utils/validate';
 
@@ -10,6 +10,8 @@ function PhoneNoLoginForm(props: {
   stateKey: string;
   onSubmit: (val: any) => void;
   setMessage: (str: any) => void;
+  onPhoneNumberChange?: (e: any) => void;
+  OrganSelect?: any;
 }) {
   const { form, setMessage, onSubmit, stateKey = 'zk-p-w-t' } = props;
   const [phoneNo, setPhoneNo] = useState('');
@@ -53,8 +55,14 @@ function PhoneNoLoginForm(props: {
             placeholder="输入登录手机号码"
             prefix={<UserOutlined />}
             onBlur={getErrorMessage}
+            onChange={(e: any) => {
+              if (props.onPhoneNumberChange) {
+                props.onPhoneNumberChange(e);
+              }
+            }}
           />
         </Item>
+        {props.OrganSelect}
         <Item noStyle name="code" rules={[{ required: true, message: '请填写短信验证码' }]}>
           <PhoneCodeInput
             stateKey={stateKey}

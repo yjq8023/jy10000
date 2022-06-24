@@ -5,6 +5,7 @@ import { LockOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import style from '@/pages/user/login/components/AccountLogin/index.less';
 import { isNull, validIsPasswordReg } from '@/utils/validate';
 import { resetPassword } from '@/services/user';
+import { userResetPassword } from '@/services/setting';
 
 const { Item, useForm } = Form;
 function Step2(props: { onNext: () => void }) {
@@ -14,7 +15,7 @@ function Step2(props: { onNext: () => void }) {
   const handleNext = async (val: any) => {
     const { password } = val;
     setErrMessage('');
-    resetPassword({
+    userResetPassword({
       password,
     }).then(() => {
       props.onNext && props.onNext();

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Checkbox, Button } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Input, Checkbox, Button, Select } from '@sinohealth/butterfly-ui-components/lib';
 import { useNavigate } from 'react-router-dom';
-import { UserOutlined, CloseCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
+  ApartmentOutlined,
+} from '@ant-design/icons';
 import PhoneCodeInput from '@/components/PhoneCodeInput';
 import { setToken } from '@/utils/cookies';
-import { doLogin, getToken, getUserLinkChain, switchChain } from '@/services/user';
+import { doLogin, getListOrganize, getToken, getUserLinkChain, switchChain } from '@/services/user';
 import { validIsMobile } from '@/utils/validate';
 
 import style from '../AccountLogin/index.less';
@@ -18,6 +23,7 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
   const { onSelectChain } = props;
   const navigate = useNavigate();
   const [form] = useForm();
+  const [organOptions, setOrganOptions] = useState([]);
   const [phoneNo, setPhoneNo] = useState('');
   const [errMessage, setErrMessage] = useState('');
   const [warMessage, setWarMessage] = useState('');
@@ -31,7 +37,7 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
       channel: 'phone',
       phone: formVal.phoneNumber,
       captcha: formVal.code,
-      organizeId: '1',
+      organizeId: formVal.organizeId,
       scope,
     };
     try {
@@ -79,6 +85,26 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
       setPhoneNo(e[0].value);
     }
   };
+  const getOrganizeLit = (e: any) => {
+    const phone = e.target.value;
+    if (phone.length === 11) {
+      getListOrganize({ loginChannel: 'phone', credentials: phone })
+        .then((res: any) => {
+          if (res.length > 0) {
+            setOrganOptions(
+              res.map((item: any) => {
+                return { label: item.name, value: item.id };
+              }),
+            );
+          }
+        })
+        .catch(() => {
+          setOrganOptions([]);
+          setErrMessage('当前账号不可用');
+          setWarMessage('');
+        });
+    }
+  };
   return (
     <div className={style.accountLogin}>
       <Form
@@ -101,8 +127,20 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
               placeholder="输入登录手机号码"
               prefix={<UserOutlined />}
               onBlur={getErrorMessage}
+              onChange={getOrganizeLit}
             />
           </Item>
+          <div className={style.organizeSelectBox}>
+            <ApartmentOutlined />
+            <Item noStyle name="organizeId" rules={[{ required: true, message: '请选择机构' }]}>
+              <Select
+                className={style.organizeSelect}
+                options={organOptions}
+                size="large"
+                placeholder="选择机构"
+              />
+            </Item>
+          </div>
           <Item noStyle name="code" rules={[{ required: true, message: '请填写短信验证码' }]}>
             <PhoneCodeInput
               stateKey={sendCodeTimeKey}

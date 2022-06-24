@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
-import { Form, Button } from '@sinohealth/butterfly-ui-components/lib';
-import { ExclamationCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { Form, Button, Select } from '@sinohealth/butterfly-ui-components/lib';
+import {
+  ExclamationCircleOutlined,
+  CloseCircleOutlined,
+  ApartmentOutlined,
+} from '@ant-design/icons';
 import style from '@/pages/user/login/components/AccountLogin/index.less';
-import { getToken } from '@/services/user';
+import { doLogin, getListOrganize, getToken } from '@/services/user';
 import { setToken } from '@/utils/cookies';
 import PhoneNoLoginForm from '@/pages/user/components/PhoneNoLoginForm';
+import { scope } from '@/config/base';
 
 const stateKey = 'password-code-key';
 function Step1(props: { onNext: () => void }) {
   const [form] = Form.useForm();
   const [warMessage, setWarMessage] = useState('');
   const [errMessage, setErrMessage] = useState('');
+  const [organOptions, setOrganOptions] = useState([]);
 
   const handleNext = () => {
     setErrMessage('');
@@ -18,19 +24,42 @@ function Step1(props: { onNext: () => void }) {
     form.submit();
   };
   const onSubmit = async (val: any) => {
-    const { phoneNumber, code } = val;
+    const { phoneNumber, code, organizeId } = val;
     const formData = {
-      grantType: 'phone',
-      phoneNumber,
-      code,
+      channel: 'phone',
+      phone: phoneNumber,
+      captcha: code,
+      organizeId,
+      scope,
     };
     try {
-      const token: any = await getToken(formData);
-      setToken(token?.access_token);
+      const token: any = await doLogin(formData);
+      setToken(token);
       props.onNext && props.onNext();
     } catch (error: any) {
       const message = error?.response?.data?.message;
       setErrMessage(message || '登录失败');
+    }
+  };
+
+  const getOrganizeLit = (e: any) => {
+    const phone = e.target.value;
+    if (phone.length === 11) {
+      getListOrganize({ loginChannel: 'phone', credentials: phone })
+        .then((res: any) => {
+          if (res.length > 0) {
+            setOrganOptions(
+              res.map((item: any) => {
+                return { label: item.name, value: item.id };
+              }),
+            );
+          }
+        })
+        .catch(() => {
+          setOrganOptions([]);
+          setErrMessage('当前账号不可用');
+          setWarMessage('');
+        });
     }
   };
   return (
@@ -40,6 +69,24 @@ function Step1(props: { onNext: () => void }) {
         onSubmit={onSubmit}
         setMessage={setWarMessage}
         stateKey={stateKey}
+        onPhoneNumberChange={getOrganizeLit}
+        OrganSelect={
+          <div className={style.organizeSelectBox}>
+            <ApartmentOutlined />
+            <Form.Item
+              noStyle
+              name="organizeId"
+              rules={[{ required: true, message: '请选择机构' }]}
+            >
+              <Select
+                className={style.organizeSelect}
+                options={organOptions}
+                size="large"
+                placeholder="选择机构"
+              />
+            </Form.Item>
+          </div>
+        }
       />
       <div className={style.errMessageBox} style={{ marginBottom: '32px' }}>
         {warMessage && (

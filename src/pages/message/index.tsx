@@ -20,8 +20,8 @@ function MessageList() {
     return getPageNotify({
       ...params,
       searchTime: [
-        params.searchTime[0].format('YYYY-MM-DD hh:mm:ss'),
-        params.searchTime[1].format('YYYY-MM-DD hh:mm:ss'),
+        params.searchTime[0]?.format('YYYY-MM-DD'),
+        params.searchTime[1]?.format('YYYY-MM-DD'),
       ],
     }).then((res) => {
       console.log(res);
