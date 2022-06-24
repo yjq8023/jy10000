@@ -12,8 +12,9 @@ function AddressSelect(props: AddressSelectProps) {
   useEffect(() => {
     getRegionList()
       .then((res) => {
-        console.log('res111');
-        console.log(res);
+        // todo: 引用字典
+        // console.log('res111');
+        // console.log(res);
       });
   }, []);
   return (

@@ -121,7 +121,7 @@ function TabProject() {
         </div>
       </Card>
       <Card className="but-card" title="已加入管理项目计划路径">
-        <Tabs defaultActiveKey={projectListData[0].projectId} type="card">
+        <Tabs defaultActiveKey={projectListData[0]?.projectId} type="card">
           {
             projectListData.map((projectItem) => {
               return (
