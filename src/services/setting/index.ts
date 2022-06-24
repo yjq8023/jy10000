@@ -90,7 +90,7 @@ export const userDelete = (id: any) => {
  * @param id
  * @returns
  */
-export const userResetPassword = (id: any) => {
-  return request.post<any, any>(`${clientPrefix}/user/resetPassword`, { id });
+export const userResetPassword = (params: any) => {
+  return request.post<any, any>(`${clientPrefix}/user/resetPassword`, params);
 };
 export default {};
