@@ -102,6 +102,9 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
           setOrganOptions([]);
           setErrMessage('当前账号不可用');
           setWarMessage('');
+        })
+        .finally(() => {
+          form.setFieldsValue({ organizeId: '' });
         });
     }
   };
@@ -125,6 +128,7 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
             <Input
               size="large"
               placeholder="输入登录手机号码"
+              maxLength={11}
               prefix={<UserOutlined />}
               onBlur={getErrorMessage}
               onChange={getOrganizeLit}

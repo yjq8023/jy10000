@@ -59,6 +59,9 @@ function Step1(props: { onNext: () => void }) {
           setOrganOptions([]);
           setErrMessage('当前账号不可用');
           setWarMessage('');
+        })
+        .finally(() => {
+          form.setFieldsValue({ organizeId: '' });
         });
     }
   };

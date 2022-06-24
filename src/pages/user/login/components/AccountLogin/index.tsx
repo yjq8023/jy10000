@@ -124,6 +124,9 @@ function AccountLogin(props: { onSelectChain: () => void }) {
           setOrganOptions([]);
           setErrMessage('当前账号不可用');
           setWarMessage('');
+        })
+        .finally(() => {
+          form.setFieldsValue({ organizeId: '' });
         });
     }
   };
@@ -135,6 +138,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
             <Input
               size="large"
               placeholder="输入登录账号"
+              maxLength={11}
               prefix={<UserOutlined />}
               onBlur={getErrorMessage}
               onChange={getOrganizeLit}
