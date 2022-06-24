@@ -106,7 +106,7 @@ function WeappProject() {
       dataIndex: 'doctorTitle',
       key: 'doctorTitle',
       width: 120,
-      render: (text: string, record: any) => <span>{dict?.technicalJobCategory[text]}</span>,
+      render: (text: string, record: any) => <span>{dict?.doctorTitle[text]}</span>,
     },
     {
       title: '个案管理师',

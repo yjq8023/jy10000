@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Checkbox, Button } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Input, Checkbox, Button, Select } from '@sinohealth/butterfly-ui-components/lib';
 import {
   UserOutlined,
   LockOutlined,
   KeyOutlined,
   CloseCircleOutlined,
   ExclamationCircleOutlined,
+  ApartmentOutlined,
 } from '@ant-design/icons';
 import qs from 'qs';
 import { useNavigate, Link } from 'react-router-dom';
 import { randomLenNum } from '@/utils';
 import { baseURL, loginRememberKey, scope } from '@/config/base';
-import { doLogin, getToken, getUserLinkChain, switchChain } from '@/services/user';
+import { doLogin, getListOrganize, getToken, getUserLinkChain, switchChain } from '@/services/user';
 import style from './index.less';
 import { getLocalStorage, removeLocalStorage, setLocalStorage, setToken } from '@/utils/cookies';
 
@@ -20,6 +21,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
   const { onSelectChain } = props;
   const [form] = useForm();
   const navigate = useNavigate();
+  const [organOptions, setOrganOptions] = useState([]);
   const [rememberUser, setRememberUser] = useState(false);
   const [randomNum, setRandomNum] = useState(randomLenNum(4, true));
   const [errMessage, setErrMessage] = useState('');
@@ -52,7 +54,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
       captchaType: 'image',
       ...formVal,
       seq: randomNum,
-      organizeId: '1',
+      // organizeId: '1',
       scope,
     };
     try {
@@ -104,6 +106,27 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     setWarMessage(errorMessage.reverse().pop() || '');
     setErrMessage('');
   };
+
+  const getOrganizeLit = (e: any) => {
+    const phone = e.target.value;
+    if (phone.length === 11) {
+      getListOrganize({ loginChannel: 'account', credentials: phone })
+        .then((res: any) => {
+          if (res.length > 0) {
+            setOrganOptions(
+              res.map((item: any) => {
+                return { label: item.name, value: item.id };
+              }),
+            );
+          }
+        })
+        .catch(() => {
+          setOrganOptions([]);
+          setErrMessage('当前账号不可用');
+          setWarMessage('');
+        });
+    }
+  };
   return (
     <div className={style.accountLogin}>
       <Form form={form} onFinish={onFinish} onFinishFailed={getErrorMessage}>
@@ -114,8 +137,20 @@ function AccountLogin(props: { onSelectChain: () => void }) {
               placeholder="输入登录账号"
               prefix={<UserOutlined />}
               onBlur={getErrorMessage}
+              onChange={getOrganizeLit}
             />
           </Item>
+          <div className={style.organizeSelectBox}>
+            <ApartmentOutlined />
+            <Item noStyle name="organizeId" rules={[{ required: true, message: '请选择机构' }]}>
+              <Select
+                className={style.organizeSelect}
+                options={organOptions}
+                size="large"
+                placeholder="选择机构"
+              />
+            </Item>
+          </div>
           <Item noStyle name="pwd" rules={[{ required: true, message: '请填写登录密码' }]}>
             <Input.Password
               size="large"

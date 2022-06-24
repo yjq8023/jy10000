@@ -1,6 +1,7 @@
 const { NODE_ENV } = process.env;
-export const baseURL = NODE_ENV === 'development' ? 'https://hosp-hccm-dev.zmnyun.cn/' : '/';
+export const baseURL = NODE_ENV === 'development' ? 'https://backend-hccm-dev.zmnyun.cn/' : '/';
 export const scope = 'sdc-hccm';
+export const clientPrefix = '/backend';
 export const socketURL =
   NODE_ENV === 'development'
     ? 'ws://dev.sdc.sinohealth.cn:30200/webSocket'
@@ -10,7 +11,7 @@ export const getTokenParams = {
   clientSecret: 'healthplus-oms',
   scope: 'zmn-rx-oms-server',
 };
-export const loginRememberKey = 'zk-r-u'; // 记住密码时保存数据的key
+export const loginRememberKey = 'zk-hccm-w'; // 记住密码时保存数据的key
 export default {
   baseURL,
   getTokenParams,

@@ -1,5 +1,5 @@
 import { request, requestFd } from '@/core/request';
-import { getTokenParams } from '@/config/base';
+import { clientPrefix, getTokenParams } from '@/config/base';
 import { setToken } from '@/utils/cookies';
 import { UCenter } from '@/services/user/data';
 
@@ -90,7 +90,7 @@ export const userDelete = (id: any) => {
  * @param id
  * @returns
  */
-export const userResetPassword = (id: any) => {
-  return request.post<any, any>(`${userPrefix}/user/resetPassword`, { id });
+export const userResetPassword = (params: any) => {
+  return request.post<any, any>(`${clientPrefix}/user/resetPassword`, params);
 };
 export default {};
