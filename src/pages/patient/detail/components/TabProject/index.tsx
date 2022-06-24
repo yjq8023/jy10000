@@ -8,6 +8,7 @@ import { getPatientProject, quitProject } from '@/services/patient';
 import ConfirmModel from '@/components/Confirm';
 import { handleNotify } from '@/services/notify';
 import ProjectPreFormHistory from '@/pages/patient/detail/components/TabProject/components/ProjectPreFormHistory';
+import QuitProjectModal from '@/pages/patient/detail/components/TabProject/components/QuitProjectModal';
 
 const planItem = {
   title: '开始',
@@ -38,6 +39,7 @@ const followPlanMapData = new Array(l).fill(planItem, 0, l);
 function TabProject() {
   const [params] = useSearchParams();
   const historyModal = useRef<any>();
+  const quitModal = useRef<any>();
   const patientId = params.get('id');
   const [hasHistoryProject, setHasHistoryProject] = useState(false);
   const [projectListData, setProjectListData] = useState<Patient.ProjectInfo[]>([]);
@@ -49,9 +51,10 @@ function TabProject() {
     getPatientProject(patientId || '')
       .then((res) => {
         // setProjectListData(res.projectInfos || []);
-        setHasHistoryProject(!!res.hasHistory);
+        // setHasHistoryProject(!!res.hasHistory);
       })
       .finally(() => {
+        setHasHistoryProject(true);
         setProjectListData([
           {
             projectId: '1',
@@ -75,21 +78,22 @@ function TabProject() {
   };
 
   const handleQuitProject = (id: string) => {
-    ConfirmModel({
-      fun: 'error',
-      title: '确认结束该管理项目',
-      centered: true,
-      onCancel: () => {
-
-      },
-      onOk: async () => {
-        await quitProject(id)
-          .then(() => {
-            message.success('结束管理项目成功');
-            fetchPatientProjectData();
-          });
-      },
-    });
+    quitModal.current.openModal();
+    // ConfirmModel({
+    //   fun: 'error',
+    //   title: '确认结束该管理项目',
+    //   centered: true,
+    //   onCancel: () => {
+    //
+    //   },
+    //   onOk: async () => {
+    //     await quitProject(id)
+    //       .then(() => {
+    //         message.success('结束管理项目成功');
+    //         fetchPatientProjectData();
+    //       });
+    //   },
+    // });
   };
 
   const renderProjectList = (projectItem: Patient.ProjectInfo, index: number) => {
@@ -134,6 +138,7 @@ function TabProject() {
         </Tabs>
       </Card>
       <ProjectPreFormHistory ref={historyModal} />
+      <QuitProjectModal ref={quitModal} />
     </div>
   );
 }

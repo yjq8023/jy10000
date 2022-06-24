@@ -1,7 +1,8 @@
 import React, { useState, useImperativeHandle } from 'react';
-import { Radio, ModalProps, Steps, Space } from '@sinohealth/butterfly-ui-components/lib';
+import { ModalProps, Badge } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender, useFormilyForm } from '@sinohealth/butterfly-formily-engine';
 import SimpleModal from '@/components/SimpleModal';
+import style from './index.less';
 
 interface AddColumnModalProps extends ModalProps {
   data?: any
@@ -101,13 +102,37 @@ function ProjectPreFormEditModal(props: AddColumnModalProps, ref: any) {
     editable: true,
   };
   return (
-    <SimpleModal {...modalProps}>
-      <div>
-        <div>
-          开始/结束时间：2021/10/18  15:34:45  —  2022/06/18  15:34:45
+    <SimpleModal {...modalProps} className={style.historyModal}>
+      <div className={style.historyList}>
+        <div className={style.historyItem}>
+          <div className={style.header}>
+            <Badge status="processing" />
+            <span className={style.label}>开始/结束时间：</span>
+            2021/10/18  15:34:45  —  2022/06/18  15:34:45
+          </div>
+          <div className={style.formBox}>
+            <FormRender formProps={formProps} schema={schema} />
+          </div>
         </div>
-        <div>
-          <FormRender formProps={formProps} schema={schema} />
+        <div className={style.historyItem}>
+          <div className={style.header}>
+            <Badge status="processing" />
+            <span className={style.label}>开始/结束时间：</span>
+            2021/10/18  15:34:45  —  2022/06/18  15:34:45
+          </div>
+          <div className={style.formBox}>
+            <FormRender formProps={formProps} schema={schema} />
+          </div>
+        </div>
+        <div className={style.historyItem}>
+          <div className={style.header}>
+            <Badge status="processing" />
+            <span className={style.label}>开始/结束时间：</span>
+            2021/10/18  15:34:45  —  2022/06/18  15:34:45
+          </div>
+          <div className={style.formBox}>
+            <FormRender formProps={formProps} schema={schema} />
+          </div>
         </div>
       </div>
     </SimpleModal>
