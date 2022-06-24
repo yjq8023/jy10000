@@ -23,8 +23,9 @@ function ProjectAdd() {
       form.setFieldsValue({ sourceId });
     }
     if (id) {
-      getProjectDetail(id).then((res) => {
+      getProjectDetail(id).then((res: any) => {
         form.setFieldsValue(res);
+        setChainId(res.chainId);
       });
     }
   }, []);
@@ -48,6 +49,10 @@ function ProjectAdd() {
   const onFieldsChange = (field: any) => {
     if (field[0].name.indexOf('chainId') > -1) {
       setChainId(field[0].value);
+      form.setFieldsValue({
+        doctorId: '',
+        caseManagerId: '',
+      });
     }
   };
   return (
@@ -96,7 +101,7 @@ function ProjectAdd() {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="picList" label="项目详情图" rules={requiredRule}>
+            <Form.Item name="picList" label="项目详情图" required rules={requiredRule}>
               <ImageList />
             </Form.Item>
           </Col>

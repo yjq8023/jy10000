@@ -1,8 +1,12 @@
-import React from 'react';
-import { Card, Button, Tabs } from '@sinohealth/butterfly-ui-components/lib';
+import React, { useState, useEffect } from 'react';
+import { Card, Button, Tabs, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
+import { useSearchParams } from 'react-router-dom';
 import FollowPlanMap from '@/components/FollowPlanMap';
 import style from './index.less';
 import ProjectPreForm from '@/pages/patient/detail/components/TabProject/components/ProjectPreForm';
+import { getPatientProject, quitProject } from '@/services/patient';
+import ConfirmModel from '@/components/Confirm';
+import { handleNotify } from '@/services/notify';
 
 const planItem = {
   title: '开始',
@@ -29,19 +33,70 @@ const planItem = {
 const l = 12;
 // @ts-ignore
 const followPlanMapData = new Array(l).fill(planItem, 0, l);
-const projectListData = [
-  {
 
-  },
-];
 function TabProject() {
-  const renderProjectList = (projectItem?: any) => {
+  const [params] = useSearchParams();
+  const patientId = params.get('id');
+  const [hasHistoryProject, setHasHistoryProject] = useState(false);
+  const [projectListData, setProjectListData] = useState<Patient.ProjectInfo[]>([]);
+  useEffect(() => {
+    fetchPatientProjectData();
+  }, [patientId]);
+
+  const fetchPatientProjectData = () => {
+    getPatientProject(patientId || '')
+      .then((res) => {
+        // setProjectListData(res.projectInfos || []);
+        setHasHistoryProject(!!res.hasHistory);
+      })
+      .finally(() => {
+        setProjectListData([
+          {
+            projectId: '1',
+            projectName: '管理项目1',
+            status: '1',
+            schema: '1',
+          },
+          {
+            projectId: '2',
+            projectName: '管理项目2',
+            status: '1',
+          },
+          {
+            projectId: '3',
+            projectName: '管理项目3',
+            status: '0',
+            schema: '1',
+          },
+        ]);
+      });
+  };
+
+  const handleQuitProject = (id: string) => {
+    ConfirmModel({
+      fun: 'error',
+      title: '确认结束该管理项目',
+      centered: true,
+      onCancel: () => {
+
+      },
+      onOk: async () => {
+        await quitProject(id)
+          .then(() => {
+            message.success('结束管理项目成功');
+            fetchPatientProjectData();
+          });
+      },
+    });
+  };
+
+  const renderProjectList = (projectItem: Patient.ProjectInfo, index: number) => {
     return (
-      <div className={style.projectListItem}>
+      <div className={style.projectListItem} key={projectItem.projectId}>
         <div className={style.projectListHeader}>
-          <span>1</span>
-          前列腺随访管理项目
-          <a className={style.action}>结束该管理项目</a>
+          <span>{index + 1}</span>
+          {projectItem.projectName}
+          <a className={style.action} onClick={() => handleQuitProject(projectItem.projectId)}>结束该管理项目</a>
         </div>
       </div>
     );
@@ -51,28 +106,29 @@ function TabProject() {
   };
   return (
     <div>
-      <Card className="but-card" title="已加入的管理项目" extra={<Button type="primary">添加管理项目</Button>}>
+      <Card className="but-card" title="已加入的管理项目" extra={hasHistoryProject && <Button type="primary">历史管理项目</Button>}>
         <div className={style.projectList}>
-          {renderProjectList()}
-          {renderProjectList()}
-          {renderProjectList()}
+          { projectListData.map(renderProjectList) }
         </div>
       </Card>
       <Card className="but-card" title="智能推荐管理项目随访路径前置信息">
         <div className={style.projectList}>
-          {renderProjectForm({})}
-          {renderProjectForm({ schema: 1 })}
-          {renderProjectForm({})}
+          {
+            projectListData.map(renderProjectForm)
+          }
         </div>
       </Card>
       <Card className="but-card" title="已加入管理项目计划路径">
-        <Tabs defaultActiveKey="1" type="card">
-          <Tabs.TabPane tab="管理项目1" key="1">
-            <FollowPlanMap data={followPlanMapData} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="管理项目1" key="2">
-            <FollowPlanMap data={followPlanMapData} />
-          </Tabs.TabPane>
+        <Tabs defaultActiveKey={projectListData[0]?.projectId} type="card">
+          {
+            projectListData.map((projectItem) => {
+              return (
+                <Tabs.TabPane tab={projectItem.projectName} key={projectItem.projectId}>
+                  <FollowPlanMap data={followPlanMapData} />
+                </Tabs.TabPane>
+              );
+            })
+          }
         </Tabs>
       </Card>
     </div>

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload, UploadProps } from '@sinohealth/butterfly-ui-components/lib';
 
-import { getBase64 } from '@/utils';
+import { getBase64, previewFile } from '@/utils';
 import { getToken } from '@/utils/cookies';
 import { baseURL, scope } from '@/config/base';
-import add from '@/pages/patient/add';
 
 interface CustomUploadProps extends UploadProps{
   value?: any;
@@ -24,7 +23,7 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     </div>
   );
 
-  const transformValue = (oldValues: any, addFile?: any) => {
+  const transformValue = (oldValues: any) => {
     let newValues: any = [];
     if (Array.isArray(oldValues)) {
       newValues = oldValues.map((item) => {
@@ -33,37 +32,34 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
         }
         return {
           uid: item,
-          url: item,
+          url: previewFile(item),
+          thumbUrl: previewFile(item),
           name: item,
+          status: 'done',
         };
-      });
-    }
-    if (addFile) {
-      newValues.push({
-        uid: Date.now().toString(),
-        url: addFile.response.data,
-        thumbUrl: addFile.thumbUrl,
-        name: addFile.name,
       });
     }
     return newValues;
   };
-  const handleChange = (file: any) => {
-    console.log(1111);
-    const newValue = value ? [...value, file.response.data] : [file.response.data];
-    onChange && onChange(newValue);
+  const handleChange = (fileList: any) => {
+    onChange && onChange(fileList.map((item: any) => {
+      if (item.status === 'done') {
+        return item.response ? item.response.data : item.uid;
+      }
+      return item;
+    }));
   };
   const handleRemove = (file: any) => {
     const newValue = value.filter((item: any) => {
       const key = typeof item === 'string' ? item : item.uid;
-      return key !== file.response.data;
+      return key !== file.uid;
     });
     onChange && onChange(newValue);
     return true;
   };
   const uploadProps: UploadProps = {
     name: 'file',
-    defaultFileList: transformValue(value),
+    fileList: transformValue(value),
     action: `${baseURL}cs/file/public/upload`,
     headers: {
       authorization: getToken() || '',
@@ -71,8 +67,9 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     },
     accept: 'image/png, image/jpeg',
     listType: 'picture-card',
-    // onRemove: handleRemove,
+    onRemove: handleRemove,
     onChange(info: any) {
+      handleChange(info.fileList);
       if (info.file.status === 'uploading') {
         setLoading(true);
         return;
@@ -80,7 +77,6 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
       setLoading(false);
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 上传成功`);
-        handleChange(info.file);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} 上传失败`);
       }

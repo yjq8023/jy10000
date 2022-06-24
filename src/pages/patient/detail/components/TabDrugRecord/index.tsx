@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@sinohealth/butterfly-ui-components/lib';
 import BaseList, { useList } from '@/components/BaseList';
+import AddDrugRecordModal from './components/AddDrugRecordModal';
 
 function TabDrugRecord() {
   const list = useList();
+  const [showAddModal, setShowAddModal] = useState(false);
   const fetchAPi = (params: any) => {
-    console.log('params');
-    console.log(params);
     return new Promise<{listData: any[], pagination: any}>((res) => {
       // @ts-ignore
       const data = [
@@ -31,12 +31,18 @@ function TabDrugRecord() {
     });
   };
   const Toolbar = () => {
-    return <Button type="primary">增加用药记录</Button>;
+    return <Button type="primary" onClick={() => setShowAddModal(true)}>增加用药记录</Button>;
+  };
+  const handleEditRecord = (item: any) => {
+    setShowAddModal(true);
+  };
+  const handleEditModalCancel = () => {
+    setShowAddModal(false);
   };
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <a>编辑</a>
+        <a onClick={() => handleEditRecord(itemData)}>编辑</a>
         &nbsp;
         &nbsp;
         <a>删除</a>
@@ -109,6 +115,7 @@ function TabDrugRecord() {
   return (
     <div>
       <BaseList list={list} ListTitle="用药记录列表" fetchApi={fetchAPi} Toolbar={Toolbar} columns={columns} />
+      {showAddModal && <AddDrugRecordModal onCancel={handleEditModalCancel} onOk={handleEditModalCancel} />}
     </div>
   );
 }

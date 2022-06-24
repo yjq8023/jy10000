@@ -6,17 +6,13 @@ import ListPage, { paginationType, useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
 import { getPageNotify, handleNotify } from '@/services/notify';
 import ConfirmModel from '@/components/Confirm';
-import { useDictKeyValue } from '@/hooks/useDict';
 
 const { confirm } = Modal;
 function MessageList() {
   const list = useList();
-  const dict = useDictKeyValue();
   const [showUserForm, setShowUserForm] = useState(false);
   const rejectReason = useRef<string>('');
   const fetchAPi = (params: any) => {
-    console.log('params');
-    console.log(params);
     return getPageNotify({
       ...params,
       searchTime: [
@@ -24,7 +20,6 @@ function MessageList() {
         params.searchTime[1]?.format('YYYY-MM-DD'),
       ],
     }).then((res) => {
-      console.log(res);
       return {
         listData: res.data,
         pagination: {
@@ -134,7 +129,6 @@ function MessageList() {
       title: '性别',
       dataIndex: 'sex',
       key: 'sex',
-      render: (text: string, record: any) => <span>{dict?.gender[text]}</span>,
     },
     {
       title: '年龄',

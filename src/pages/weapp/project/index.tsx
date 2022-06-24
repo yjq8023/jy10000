@@ -6,9 +6,11 @@ import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/ScarchForm';
 import { deleteProject, getProjectList, setProjectStatus } from '@/services/weapp';
 import style from './index.less';
+import { useDictKeyValue } from '@/hooks/useDict';
 
 function WeappProject() {
   const list: any = useList();
+  const dict = useDictKeyValue();
   const navigate = useNavigate();
   const fetchAPi = (params: any) => {
     return getProjectList({
@@ -104,6 +106,7 @@ function WeappProject() {
       dataIndex: 'doctorTitle',
       key: 'doctorTitle',
       width: 120,
+      render: (text: string, record: any) => <span>{dict?.doctorTitle[text]}</span>,
     },
     {
       title: '个案管理师',
