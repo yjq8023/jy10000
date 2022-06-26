@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, message } from '@sinohealth/butterfly-ui-components/lib';
 import { useDict } from '@/hooks/useDict';
 import BaseList, { useList } from '@/components/BaseList';
 import AddDrugRecordModal from './components/AddDrugRecordModal';
-import { getPatientDrugRecordList } from '@/services/patient';
+import { getPatientDrugRecordList, deleteMechanism } from '@/services/patient';
+import ConfirmModel from '@/components/Confirm';
 
 function TabDrugRecord() {
   const list = useList();
@@ -31,6 +32,13 @@ function TabDrugRecord() {
   const Toolbar = () => {
     return <Button type="primary" onClick={() => setShowAddModal(true)}>增加用药记录</Button>;
   };
+  const getDictLabel = (key: string, value: string) => {
+    if (dict && dict[key]) {
+      const d = dict[key].filter((item: any) => item.code === value);
+      if (d && d[0]) return d[0].name;
+    }
+    return '--';
+  };
   const handleEditRecord = (item: any) => {
     setEditModalData(item);
     setShowAddModal(true);
@@ -43,13 +51,28 @@ function TabDrugRecord() {
     setEditModalData(null);
     setShowAddModal(false);
   };
+  const handleDelete = (itemData: any) => {
+    ConfirmModel({
+      fun: 'error',
+      title: '是否确定删除该用药记录？',
+      centered: true,
+      // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+      onOk: async () => {
+        deleteMechanism(itemData.id)
+          .then(() => {
+            message.success('删除成功');
+            list.current.reloadListData();
+          });
+      },
+    });
+  };
   const renderActionDom = (itemData: any) => {
     return (
       <div>
         <a onClick={() => handleEditRecord(itemData)}>编辑</a>
         &nbsp;
         &nbsp;
-        <a>删除</a>
+        <a onClick={() => handleDelete(itemData)}>删除</a>
       </div>
     );
   };
@@ -85,7 +108,7 @@ function TabDrugRecord() {
       dataIndex: 'useNum',
       key: 'useNum',
       render(text: string, record: any): JSX.Element {
-        return <span>{text} {dict.useNumUnit[record.useNumUnit]}</span>;
+        return <span>{text}{getDictLabel('useNumUnit', record.useNumUnit)}</span>;
       },
     },
     {
@@ -93,7 +116,7 @@ function TabDrugRecord() {
       dataIndex: 'singleDosage',
       key: 'singleDosage',
       render(text: string, record: any): JSX.Element {
-        return <span>{text} {dict.singleDosageUnit[record.singleDosageUnit]}</span>;
+        return <span>{text}{getDictLabel('singleDosageUnit', record.singleDosageUnit)}</span>;
       },
     },
     {
@@ -116,7 +139,7 @@ function TabDrugRecord() {
       dataIndex: 'remark',
       key: 'remark',
       render(text: string) {
-        return <span className="text-ellipsis">{text}asdasdasdasdasdasdaasdasdsasadsasdasdasfasd</span>;
+        return <span className="text-ellipsis">{text}</span>;
       },
     },
     {

@@ -83,6 +83,11 @@ export const editUseMedicineLog = (params: any) => {
   return request.post(`${prefix}/patient/editUseMedicineLog`, params);
 };
 
+export const deleteMechanism = (id: string) => {
+  const url = `${prefix}/patient/deleteUseMedicineLog/${id}`;
+  return request.post(url);
+};
+
 export default {
   getPatientList,
   savePatient,
@@ -92,4 +97,5 @@ export default {
   getPatientProject,
   quitProject,
   getPatientDrugRecordList,
+  deleteMechanism,
 };

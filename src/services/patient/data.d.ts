@@ -14,6 +14,7 @@ declare namespace Patient {
     number?: string; // 患者档案号
     idCard?: string; // 身份证
     history?: string; // 既往史
+    birthDay?: string; // 出生日期
     name?: string; // 患者名称
     age?: number; // 患者年龄
     phone?: string; // 患者手机号码
@@ -23,6 +24,15 @@ declare namespace Patient {
     wxBindStatus?: '1' | '0'; // 微信是否绑定1：绑定0：无
     sex?: string; // 性别
     pic?: string; // 头像
+    height?: string; // 身高
+    weight?: string; // 体重
+    bmi?: string; // bmi
+    allergy?: string; // 过敏史
+    memberName?: string; // 家属名称
+    memberRelationship?: string; // 家属关系
+    memberPhone?: string; // 家属电话
+    address?: string; // 地址
+    familyMedicalHistorys?: {disease: string; relation: string}[]; // 家族史
   }
   type ProjectInfo = {
     projectId: string; // 项目ID

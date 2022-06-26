@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
-import { Modal, ModalProps, Form, Input, InputNumber, Select, DatePicker, Row, Col } from '@sinohealth/butterfly-ui-components/lib';
+import React, { useEffect, useState } from 'react';
+import { ModalProps, Form, Input, InputNumber, Select, DatePicker, Row, Col } from '@sinohealth/butterfly-ui-components/lib';
 import moment from 'moment';
 import { useSearchParams } from 'react-router-dom';
-import { createColumn, editColumn } from '@/services/weapp';
 import SimpleModal from '@/components/SimpleModal';
 import { useDict } from '@/hooks/useDict';
 import style from './index.less';
@@ -16,10 +15,11 @@ interface AddDrugRecordModalProps extends ModalProps {
 const requiredRule = [{ required: true, message: '该字段为必填项。' }];
 function AddDrugRecordModal(props: AddDrugRecordModalProps) {
   const { data, onOk, onCancel } = props;
-  const [form] = Form.useForm();
-  const dict = useDict();
   const [searchParams] = useSearchParams();
   const patientId = searchParams.get('id');
+  const [projectParams, setProjectParams] = useState({ patientId });
+  const [form] = Form.useForm();
+  const dict = useDict();
   const isEdit = data && data.id;
   useEffect(() => {
     if (isEdit) {
@@ -55,7 +55,7 @@ function AddDrugRecordModal(props: AddDrugRecordModalProps) {
     <SimpleModal className={style.addModal} width={560} title={`${isEdit ? '编辑' : '新建'}用药记录`} visible={true} onOk={handleOk} onCancel={onCancel}>
       <Form form={form} onFinish={handleSubmit}>
         <Form.Item label="管理项目" name="projectId" rules={requiredRule}>
-          <ColumnProjectSelect params={{ patientId }} placeholder="请选择管理项目" />
+          <ColumnProjectSelect params={projectParams} placeholder="请选择管理项目" />
         </Form.Item>
         <Form.Item label="药品名称" name="medicineName" rules={requiredRule}>
           <Input placeholder="请输入药品名称" />
