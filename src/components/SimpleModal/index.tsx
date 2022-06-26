@@ -5,20 +5,21 @@ import cancelIcon from '@/assets/images/common/cancel.svg';
 
 type SimpleModalType = {
   h2?: string;
-  visible: boolean;
-  width?: number;
+  visible?: boolean;
+  width?: number | string;
   loading?: boolean;
 } & ModalProps;
 const SimpleModal: React.FC<SimpleModalType> = (props) => {
   //   const [form] = Form.useForm();
   return (
     <Modal
+      wrapClassName={styles['simple-modal']}
       confirmLoading={props.loading}
       closeIcon={<img style={{ width: 18 }} src={cancelIcon} alt="" />}
       className={styles['simple-modal']}
       {...props}
     >
-      { props.h2 && <h2 className={styles.title}>{props.h2}</h2>}
+      {props.h2 && <h2 className={styles.title}>{props.h2}</h2>}
       <div>{props.children}</div>
     </Modal>
   );

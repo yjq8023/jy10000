@@ -15,8 +15,7 @@ function PasswordModal(props: PasswordModalProps) {
   };
   const onFinish = (values: any) => {
     updateUserPassword({
-      originPassword: values.password,
-      newPassword: values.newPassword,
+      ...values,
     }).then(() => {
       message.success('修改密码成功！');
       onOk && onOk(values);
@@ -39,7 +38,7 @@ function PasswordModal(props: PasswordModalProps) {
       <Form form={form} onFinish={onFinish} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }}>
         <Item
           label="旧密码"
-          name="password"
+          name="oldPassword"
           extra={extra}
           rules={[{ required: true, message: '请输入旧密码' }]}
         >

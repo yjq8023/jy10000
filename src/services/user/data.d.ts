@@ -42,13 +42,22 @@ declare namespace UCenter {
   };
 
   type UserInfo = {
-    chainId: string;
-    chainName: string;
-    description: string;
-    photo: string;
-    photoUrl: string;
-    realname: string;
-    username: string;
+    // chainId: string;
+    // chainName: string;
+    // description: string;
+    // photo: string;
+    // photoUrl: string;
+    // realname: string;
+    // username: string;
+
+    avatar: string;
+    createTime: string;
+    email: string;
+    id: string;
+    idCard: string;
+    name: string;
+    phone: string;
+    status: string;
   };
   // 校验Token
   type Verify = {
@@ -66,9 +75,9 @@ declare namespace UCenter {
 
   // 修改个人资料
   type UpdateUserInfoReq = {
-    realname?: string;
+    id?: string;
     description?: string;
-    photo?: string;
+    pic?: string;
   };
 
   // 修改个人密码

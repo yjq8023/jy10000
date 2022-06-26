@@ -1,3 +1,4 @@
+@import "@/style/var";
 :global(.layout.ant-layout .ant-layout-content .content .body) {
   padding: 0px;
 }
@@ -17,4 +18,52 @@
   display: flex;
   align-items: center;
   justify-content: end;
+  .userInfo {
+    display: inline-block;
+    :global(.ant-avatar) {
+      margin-top: -4px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+  }
+}
+.logo {
+  &:before {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin-top: -5px;
+    margin-right: 5px;
+    vertical-align: text-top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: '';
+  }
+}
+.menu {
+  min-width: 120px;
+  padding: 4px 8px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.1);
+  li {
+    padding: 0 4px;
+    color: @break-color3;
+    font-size: 14px;
+    line-height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      background-color: #effaff;
+    }
+    :global(.iconfont) {
+      color: @break-color4;
+    }
+    :global(.anticon) {
+      color: @break-color4;
+    }
+  }
+}
+:global(.ant-layout-content) {
+  min-width: 1240px;
 }
