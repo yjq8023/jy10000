@@ -1,42 +1,46 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '@sinohealth/butterfly-ui-components/lib';
+import { useDict } from '@/hooks/useDict';
 import BaseList, { useList } from '@/components/BaseList';
 import AddDrugRecordModal from './components/AddDrugRecordModal';
+import { getPatientDrugRecordList } from '@/services/patient';
 
 function TabDrugRecord() {
   const list = useList();
+  const [searchParams] = useSearchParams();
+  const dict = useDict();
+  const patientId = searchParams.get('id');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editModalData, setEditModalData] = useState<any>();
   const fetchAPi = (params: any) => {
-    return new Promise<{listData: any[], pagination: any}>((res) => {
-      // @ts-ignore
-      const data = [
-        { name: '小红', age: 1, id: 1 },
-        { name: '小绿', age: 2, id: 2 },
-        { name: '小绿', age: 2, id: 3 },
-        { name: '小绿', age: 2, id: 4 },
-        { name: '小绿', age: 2, id: 5 },
-        { name: '小绿', age: 2, id: 6 },
-        { name: '小绿', age: 2, id: 7 },
-        { name: '小绿', age: 2, id: 8 },
-        { name: '小绿', age: 2, id: 9 },
-      ];
-      res({
-        listData: data,
+    return getPatientDrugRecordList({
+      ...params,
+      patientId,
+    }).then((res) => {
+      return {
+        listData: res.data,
         pagination: {
-          current: params.current,
-          pageSize: 10,
-          total: 100,
+          current: res.pageNo,
+          pageSize: res.pageSize,
+          total: res.totalCount,
         },
-      });
+      };
     });
   };
   const Toolbar = () => {
     return <Button type="primary" onClick={() => setShowAddModal(true)}>增加用药记录</Button>;
   };
   const handleEditRecord = (item: any) => {
+    setEditModalData(item);
     setShowAddModal(true);
   };
+  const handleEditModalOk = () => {
+    list.current.reloadListData();
+    handleEditModalCancel();
+  };
   const handleEditModalCancel = () => {
+    setEditModalData(null);
     setShowAddModal(false);
   };
   const renderActionDom = (itemData: any) => {
@@ -60,48 +64,60 @@ function TabDrugRecord() {
     },
     {
       title: '创建时间',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'createTime',
+      key: 'createTime',
     },
     {
       title: '药品名称',
-      dataIndex: 'sort',
-      key: 'sort',
+      dataIndex: 'medicineName',
+      key: 'medicineName',
     },
     {
       title: '服用方法',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'useWay',
+      key: 'useWay',
+      render(text: string): JSX.Element {
+        return dict.drugUsage[text];
+      },
     },
     {
       title: '服用次数',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'useNum',
+      key: 'useNum',
+      render(text: string, record: any): JSX.Element {
+        return <span>{text} {dict.useNumUnit[record.useNumUnit]}</span>;
+      },
     },
     {
       title: '单次用量',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'singleDosage',
+      key: 'singleDosage',
+      render(text: string, record: any): JSX.Element {
+        return <span>{text} {dict.singleDosageUnit[record.singleDosageUnit]}</span>;
+      },
     },
     {
       title: '规格',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'spec',
+      key: 'spec',
     },
     {
       title: '开始用药时间',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'startUseTime',
+      key: 'startUseTime',
     },
     {
       title: '结束用药时间',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'endUseTime',
+      key: 'endUseTime',
     },
     {
       title: '备注',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'remark',
+      key: 'remark',
+      render(text: string) {
+        return <span className="text-ellipsis">{text}asdasdasdasdasdasdaasdasdsasadsasdasdasfasd</span>;
+      },
     },
     {
       title: '操作',
@@ -115,7 +131,7 @@ function TabDrugRecord() {
   return (
     <div>
       <BaseList list={list} ListTitle="用药记录列表" fetchApi={fetchAPi} Toolbar={Toolbar} columns={columns} />
-      {showAddModal && <AddDrugRecordModal onCancel={handleEditModalCancel} onOk={handleEditModalCancel} />}
+      {showAddModal && <AddDrugRecordModal data={editModalData} onCancel={handleEditModalCancel} onOk={handleEditModalOk} />}
     </div>
   );
 }

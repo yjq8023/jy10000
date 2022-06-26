@@ -31,4 +31,18 @@ declare namespace Patient {
     formData?: any; // 项目前置信息已填表单值
     schema?: any; // 项目前置信息表单
   }
+  type DrugRecord = {
+    id: string;
+    createTime: string;
+    projectName: string;
+    medicineName: string;
+    useWay: string;
+    useNum: string;
+    singleDosage: string;
+    singleDosageUnit: string;
+    spec: string;
+    startUseTime: string;
+    endUseTime: string;
+    remark: string;
+  }
 }
