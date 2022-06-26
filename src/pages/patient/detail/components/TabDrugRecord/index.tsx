@@ -100,7 +100,7 @@ function TabDrugRecord() {
       dataIndex: 'useWay',
       key: 'useWay',
       render(text: string): JSX.Element {
-        return dict.drugUsage[text];
+        return getDictLabel('drugUsage', text);
       },
     },
     {
