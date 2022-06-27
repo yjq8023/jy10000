@@ -74,7 +74,7 @@ function reject(error: any) {
     errorMessageText = error.request;
   }
   message.error(`${errorMessageText || '服务器出错了，请稍后再试！'}`);
-  return Promise.reject(error.response.data);
+  return Promise.reject(error && error.response && error.response.data);
 }
 request.interceptors.request.use(beforeRequest);
 request.interceptors.response.use(resolve, reject);

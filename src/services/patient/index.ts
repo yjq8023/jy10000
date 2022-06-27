@@ -88,6 +88,21 @@ export const deleteMechanism = (id: string) => {
   return request.post(url);
 };
 
+export const getPatientFileDetail = (params: any) => {
+  const url = `${prefix}/patient/patientUploadDetail`;
+  return request.post(url, params);
+};
+
+export const deletePatientFile = (id: string) => {
+  const url = `${prefix}/patient/deleteUploadFile/${id}`;
+  return request.post(url);
+};
+
+export const savePatientFile = (params: any) => {
+  const url = `${prefix}/patient/saveUploadFile`;
+  return request.post(url, params);
+};
+
 export default {
   getPatientList,
   savePatient,
@@ -98,4 +113,5 @@ export default {
   quitProject,
   getPatientDrugRecordList,
   deleteMechanism,
+  deletePatientFile,
 };
