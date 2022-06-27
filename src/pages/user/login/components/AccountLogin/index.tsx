@@ -111,7 +111,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
 
   const getOrganizeLit = (e?: any) => {
     const phone = e?.target.value || form.getFieldValue('account');
-    if (phone.length === 11) {
+    if (phone && phone.length === 11) {
       getListOrganize({ loginChannel: 'account', credentials: phone })
         .then((res: any) => {
           if (res.length === 1) {
