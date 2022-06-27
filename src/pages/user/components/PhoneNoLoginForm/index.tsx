@@ -10,7 +10,6 @@ function PhoneNoLoginForm(props: {
   stateKey: string;
   onSubmit: (val: any) => void;
   setMessage: (str: any) => void;
-  onPhoneNumberChange?: (e: any) => void;
   OrganSelect?: any;
 }) {
   const { form, setMessage, onSubmit, stateKey = 'zk-p-w-t' } = props;
@@ -55,11 +54,6 @@ function PhoneNoLoginForm(props: {
             placeholder="输入登录手机号码"
             prefix={<UserOutlined />}
             onBlur={getErrorMessage}
-            onChange={(e: any) => {
-              if (props.onPhoneNumberChange) {
-                props.onPhoneNumberChange(e);
-              }
-            }}
           />
         </Item>
         {props.OrganSelect}

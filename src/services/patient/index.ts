@@ -45,8 +45,8 @@ export const getUserListByUser = (params: any) => {
 };
 
 /* 获取当前用户下的项目列表 */
-export const getProjectByUser = () => {
-  return request.post(`${prefix}/diseaseProject/getByChain`);
+export const getProjectByUser = (params: any = {}) => {
+  return request.post(`${prefix}/diseaseProject/getByChain`, params);
 };
 
 export const getPatientDetail = (id: string) => {
@@ -67,6 +67,42 @@ export const quitProject = (id: string) => {
   return request.post(`${prefix}/patient/endManagerProject/${id}`);
 };
 
+/* 获取用药记录列表 */
+export const getPatientDrugRecordList = (params: any) => {
+  // @ts-ignore
+  return request.post<any, CommonApi.CommonListRes<Patient.DrugRecord>>(`${prefix}/patient/pageUseMedicineLog`, params, { isReturnAllData: true });
+};
+
+// 保存用药记录
+export const saveUseMedicineLog = (params: any) => {
+  return request.post(`${prefix}/patient/saveUseMedicineLog`, params);
+};
+
+// 保存用药记录
+export const editUseMedicineLog = (params: any) => {
+  return request.post(`${prefix}/patient/editUseMedicineLog`, params);
+};
+
+export const deleteMechanism = (id: string) => {
+  const url = `${prefix}/patient/deleteUseMedicineLog/${id}`;
+  return request.post(url);
+};
+
+export const getPatientFileDetail = (params: any) => {
+  const url = `${prefix}/patient/patientUploadDetail`;
+  return request.post(url, params);
+};
+
+export const deletePatientFile = (id: string) => {
+  const url = `${prefix}/patient/deleteUploadFile/${id}`;
+  return request.post(url);
+};
+
+export const savePatientFile = (params: any) => {
+  const url = `${prefix}/patient/saveUploadFile`;
+  return request.post(url, params);
+};
+
 export default {
   getPatientList,
   savePatient,
@@ -74,4 +110,8 @@ export default {
   getUserListByUser,
   getPatientDetail,
   getPatientProject,
+  quitProject,
+  getPatientDrugRecordList,
+  deleteMechanism,
+  deletePatientFile,
 };

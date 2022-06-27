@@ -16,9 +16,10 @@ import { CloudUploadOutlined } from '@ant-design/icons';
 import useSWR from 'swr';
 import { getUserInfo, updateUserInfo } from '@/services/user';
 import style from './index.less';
-import { baseURL } from '@/config/base';
+import { baseURL, scope } from '@/config/base';
 import { getToken } from '@/utils/cookies';
-import { getBase64 } from '@/utils';
+import { getBase64, previewFile } from '@/utils';
+import SimpleModal from '@/components/SimpleModal';
 
 const { Item } = Form;
 interface UserInfoModalProps extends ModalProps {}
@@ -40,7 +41,7 @@ function UserInfoModal(props: UserInfoModalProps) {
   useEffect(() => {
     form.setFieldsValue({
       ...data,
-      photo: data?.photoUrl,
+      photo: previewFile(data?.avatar),
     });
   }, [data]);
   const handleOk = async (e: any) => {
@@ -48,18 +49,20 @@ function UserInfoModal(props: UserInfoModalProps) {
   };
   const onFinish = (values: any) => {
     updateUserInfo({
+      id: data.id,
       description: values.description,
-      photo: values.photo,
+      pic: values.pic,
     }).then(() => {
       message.success('修改基本信息成功！');
       onOk && onOk(values);
     });
   };
   const uploadProps = {
-    name: 'file',
-    action: `${baseURL}api/oss/upload/ALIYUN`,
+    name: 'avatar',
+    action: `${baseURL}cs/file/public/upload`,
     headers: {
-      Authorization: getToken() || '',
+      authorization: getToken() || '',
+      scope,
     },
     accept: 'image/png, image/jpeg',
     itemRender() {
@@ -69,13 +72,13 @@ function UserInfoModal(props: UserInfoModalProps) {
       if (info.file.status === 'done') {
         message.success(`${info.file.name} 上传成功`);
         console.log(info);
-        console.log(info.file.response.result);
+        console.log(info.file.response.data);
         form.setFieldsValue({
-          photo: info.file.response.result,
+          pic: info.file.response.data,
         });
         getBase64(info.file.originFileObj, (imageUrl: string) => {
           form.setFieldsValue({
-            photoUrl: imageUrl,
+            photo: imageUrl,
           });
         });
       } else if (info.file.status === 'error') {
@@ -91,28 +94,28 @@ function UserInfoModal(props: UserInfoModalProps) {
     },
   };
   return (
-    <Modal
+    <SimpleModal
       title="个人中心"
       width={560}
       visible={visible}
       {...other}
       onOk={handleOk}
-      className={style.userinfo}
     >
-      <Form form={form} onFinish={onFinish}>
+      <Form form={form} onFinish={onFinish} className={style.userinfo}>
         <Row className={style.info}>
           <Col span={16}>
-            <Descriptions title={data.realname} column={1}>
-              <Descriptions.Item label="登录账号">{data.username}</Descriptions.Item>
+            <h2>{data && data.name}</h2>
+            <Descriptions title={data && data.realname} column={1}>
+              <Descriptions.Item label="登录账号">{data && data.phoneNumber}</Descriptions.Item>
               {/* <Descriptions.Item label="用户类型">1810000000</Descriptions.Item> */}
-              <Descriptions.Item label="所属机构">{data.chainName}</Descriptions.Item>
+              <Descriptions.Item label="所属机构">{data && data.chainName}</Descriptions.Item>
             </Descriptions>
           </Col>
           <Col span={8}>
-            <Item name="photo" noStyle>
+            <Item name="pic" noStyle>
               <div />
             </Item>
-            <Item name="photoUrl" noStyle>
+            <Item name="photo" noStyle>
               <Ava />
             </Item>
             <div style={{ textAlign: 'center' }}>
@@ -135,7 +138,7 @@ function UserInfoModal(props: UserInfoModalProps) {
           </Col>
         </Row>
       </Form>
-    </Modal>
+    </SimpleModal>
   );
 }
 

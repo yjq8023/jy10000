@@ -9,11 +9,13 @@ import { baseURL, scope } from '@/config/base';
 interface CustomUploadProps extends UploadProps{
   value?: any;
   onChange?: (values: any) => void;
+  onUpload?: (values: any) => void;
   renderList?: any;
+  maxSize?: number;
   itemRender?: (params: any) => any
 }
 const CustomUpload: React.FC<CustomUploadProps> = (props) => {
-  const { value, onChange, renderList, children, itemRender, ...otherProps } = props;
+  const { value, onChange, onUpload, renderList, children, itemRender, maxSize = 1, ...otherProps } = props;
   const [loading, setLoading] = useState(false);
 
   const uploadButton = children || (
@@ -59,7 +61,6 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
   };
   const uploadProps: UploadProps = {
     name: 'file',
-    fileList: transformValue(value),
     action: `${baseURL}cs/file/public/upload`,
     headers: {
       authorization: getToken() || '',
@@ -76,13 +77,17 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
       }
       setLoading(false);
       if (info.file.status === 'done') {
-        message.success(`${info.file.name} 上传成功`);
+        if (onUpload) {
+          onUpload(info.file);
+        } else {
+          message.success(`${info.file.name} 上传成功`);
+        }
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} 上传失败`);
       }
     },
     beforeUpload(file: any) {
-      const isLt1M = file.size / 1024 / 1024 < 1;
+      const isLt1M = file.size / 1024 / 1024 < maxSize;
       if (!isLt1M) {
         message.error('上传图片不能大于1MB!');
       }
@@ -90,6 +95,9 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     },
     ...otherProps,
   };
+  if (value) {
+    uploadProps.fileList = transformValue(value);
+  }
   return (
     <Upload {...uploadProps}>
       { (!props.maxCount || !value || props.maxCount > value.length) && uploadButton }

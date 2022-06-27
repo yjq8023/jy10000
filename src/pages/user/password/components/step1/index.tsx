@@ -59,6 +59,9 @@ function Step1(props: { onNext: () => void }) {
           setOrganOptions([]);
           setErrMessage('当前账号不可用');
           setWarMessage('');
+        })
+        .finally(() => {
+          form.setFieldsValue({ organizeId: '' });
         });
     }
   };
@@ -69,24 +72,6 @@ function Step1(props: { onNext: () => void }) {
         onSubmit={onSubmit}
         setMessage={setWarMessage}
         stateKey={stateKey}
-        onPhoneNumberChange={getOrganizeLit}
-        OrganSelect={
-          <div className={style.organizeSelectBox}>
-            <ApartmentOutlined />
-            <Form.Item
-              noStyle
-              name="organizeId"
-              rules={[{ required: true, message: '请选择机构' }]}
-            >
-              <Select
-                className={style.organizeSelect}
-                options={organOptions}
-                size="large"
-                placeholder="选择机构"
-              />
-            </Form.Item>
-          </div>
-        }
       />
       <div className={style.errMessageBox} style={{ marginBottom: '32px' }}>
         {warMessage && (

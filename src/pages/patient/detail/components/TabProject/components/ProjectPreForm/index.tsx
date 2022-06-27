@@ -77,10 +77,11 @@ const schema = {
 };
 
 type ProjectPreFormProps = {
-  projectItem: Patient.ProjectInfo
+  projectItem: Patient.ProjectInfo,
+  showHistoryModal: (config: any) => void
 }
 function ProjectPreForm(props: ProjectPreFormProps) {
-  const { projectItem } = props;
+  const { projectItem, showHistoryModal } = props;
   const [showEditModal, setShowEditModal] = useState(false);
   const form = useFormilyForm();
   const isHasPreForm = projectItem.schema;
@@ -111,7 +112,7 @@ function ProjectPreForm(props: ProjectPreFormProps) {
         {
           isHasPreForm && (
             isEditedPreForm ?
-              <a className={style.action} onClick={() => setShowEditModal(true)}>查看历史前置信息</a>
+              <a className={style.action} onClick={() => showHistoryModal(projectItem)}>查看历史前置信息</a>
               :
               <a className={style.action} onClick={() => setShowEditModal(true)}>填写前置信息</a>
           )

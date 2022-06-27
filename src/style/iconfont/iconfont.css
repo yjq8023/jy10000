@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3461336 */
-  src: url('iconfont.woff2?t=1656038515362') format('woff2'),
-       url('iconfont.woff?t=1656038515362') format('woff'),
-       url('iconfont.ttf?t=1656038515362') format('truetype'),
-       url('iconfont.svg?t=1656038515362#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1656298331401') format('woff2'),
+       url('iconfont.woff?t=1656298331401') format('woff'),
+       url('iconfont.ttf?t=1656298331401') format('truetype'),
+       url('iconfont.svg?t=1656298331401#iconfont') format('svg');
 }
 
 .iconfont {
@@ -12,6 +12,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete:before {
+  content: "\e67e";
+}
+
+.icon-download:before {
+  content: "\e7f0";
 }
 
 .icon-phone:before {
@@ -24,10 +32,6 @@
 
 .icon-enlarge:before {
   content: "\e671";
-}
-
-.icon-delete:before {
-  content: "\e7c3";
 }
 
 .icon-cloud-download:before {

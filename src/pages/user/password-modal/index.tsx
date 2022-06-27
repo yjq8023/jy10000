@@ -1,13 +1,17 @@
 import React from 'react';
 import { ModalProps, Modal, Input, Form, message } from '@sinohealth/butterfly-ui-components/lib';
-import { Link } from 'react-router-dom';
+import useSWR from 'swr';
+import { useNavigate } from 'react-router-dom';
 import style from './index.less';
 import { validIsPasswordReg } from '@/utils/validate';
-import { updateUserPassword } from '@/services/user';
+import { getUserInfo, updateUserPassword } from '@/services/user';
+import ConfirmModel from '@/components/Confirm';
 
 const { Item } = Form;
 interface PasswordModalProps extends ModalProps {}
 function PasswordModal(props: PasswordModalProps) {
+  const navigator = useNavigate();
+  const { data } = useSWR<any>('getUserInfo', getUserInfo);
   const { visible, onOk, ...other } = props;
   const [form] = Form.useForm();
   const handleOk = async (e: any) => {
@@ -15,8 +19,8 @@ function PasswordModal(props: PasswordModalProps) {
   };
   const onFinish = (values: any) => {
     updateUserPassword({
-      originPassword: values.password,
-      newPassword: values.newPassword,
+      ...values,
+      id: data.userId,
     }).then(() => {
       message.success('修改密码成功！');
       onOk && onOk(values);
@@ -24,7 +28,23 @@ function PasswordModal(props: PasswordModalProps) {
   };
   const extra = (
     <span>
-      忘记旧密码？<Link to="./password">退出登录，短信验证</Link>
+      忘记旧密码？
+      <a
+        onClick={() => {
+          ConfirmModel({
+            fun: 'warning',
+            title: '确认退出当前账号？',
+            node: '退出将转跳登录页，需重新登录才可访问系统',
+            centered: true,
+            // icon: <QuestionCircleTwoTone twoToneColor="#FFBF00" />,
+            onOk: async () => {
+              navigator('/password');
+            },
+          });
+        }}
+      >
+        退出登录，短信验证
+      </a>
     </span>
   );
   return (
@@ -39,7 +59,7 @@ function PasswordModal(props: PasswordModalProps) {
       <Form form={form} onFinish={onFinish} labelCol={{ span: 5 }} wrapperCol={{ span: 16 }}>
         <Item
           label="旧密码"
-          name="password"
+          name="oldPassword"
           extra={extra}
           rules={[{ required: true, message: '请输入旧密码' }]}
         >

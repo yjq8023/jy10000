@@ -14,6 +14,7 @@ import { useDict } from '@/hooks/useDict';
 import { handelOptions } from '@/utils';
 import MechanismCascader from '@/components/MechanismCascader';
 import ConfirmModel from '@/components/Confirm';
+import { clientPrefix } from '@/config/base';
 
 type UserFormType = {
   userId?: string | number;
@@ -25,6 +26,7 @@ const UserForm: FC<UserFormType> = (props) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isDoctor, setIsDoctor] = useState(false);
+  const [userId, setUserId] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(false);
   useEffect(() => {
     console.log(dict);
@@ -37,6 +39,7 @@ const UserForm: FC<UserFormType> = (props) => {
         .then((res) => {
           setDisableSubmit(false);
           form.setFieldsValue({ ...res });
+          setUserId(res.userId);
           if (res.role === 'doctor') {
             setIsDoctor(true);
           }
@@ -90,7 +93,7 @@ const UserForm: FC<UserFormType> = (props) => {
       title: '是否将该账号现有密码清除，设置为初始密码Abc123456?',
       centered: true,
       onOk: async () => {
-        userResetPassword({ id: props.userId }).then((res) => {
+        userResetPassword({ id: userId }).then((res) => {
           message.success('密码重置成功');
         });
       },
@@ -126,7 +129,7 @@ const UserForm: FC<UserFormType> = (props) => {
             name="phoneNumber"
             rules={[{ required: true, message: '请输入手机号码（必填）' }]}
           >
-            <Input placeholder="请输入手机号码（必填）" maxLength={11} />
+            <Input disabled={!!props.userId} placeholder="请输入手机号码（必填）" maxLength={11} />
           </Form.Item>
           <Form.Item label="登录密码" name="password" required>
             {props.userId ? (
@@ -151,7 +154,7 @@ const UserForm: FC<UserFormType> = (props) => {
               placeholder="请选择所属机构（必选）"
               options={[{ label: '红十字会', value: '1' }]}
             /> */}
-            <MechanismCascader />
+            <MechanismCascader disabled={!!props.userId} />
           </Form.Item>
           <Form.Item
             label="用户角色"
@@ -164,7 +167,9 @@ const UserForm: FC<UserFormType> = (props) => {
                 if (value === 'doctor') setIsDoctor(true);
                 else setIsDoctor(false);
               }}
-              options={handelOptions(dict?.position)}
+              options={handelOptions(
+                clientPrefix.includes('backend') ? dict?.position : dict?.hospitalPosition,
+              )}
             />
           </Form.Item>
           {isDoctor && (

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 62" class="design-iconfont">
+  <defs>
+    <linearGradient x1="23.6622052%" y1="4.88613554%" x2="77.7979435%" y2="95.1645033%" id="6e40x5ecla">
+      <stop stop-color="#74D4EB" offset="0%"/>
+      <stop stop-color="#217BA0" offset="100%"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <g>
+      <rect fill="url(#6e40x5ecla)" opacity=".797944" width="44.4444444" height="55.5555556" rx="8"/>
+      <rect fill="#FFF" x="8.88888889" y="13.3333333" width="26.6666667" height="5.55555556" rx="1.5"/>
+      <rect fill="#FFF" x="8.88888889" y="23.3333333" width="13.3333333" height="5.55555556" rx="1.5"/>
+    </g>
+    <g transform="translate(20 31.111111)">
+      <rect fill="#FFC4C8" width="30" height="30" rx="15"/>
+      <rect fill="#FFF" x="13.3333333" y="6.66666667" width="3.33333333" height="11.1111111" rx="1"/>
+      <rect fill="#FFF" transform="rotate(-125 12.557332 18.169965)" x="10.8906652" y="14.169965" width="3.33333333" height="8" rx="1"/>
+    </g>
+  </g>
+</svg>

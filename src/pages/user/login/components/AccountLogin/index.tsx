@@ -31,9 +31,11 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     const defaultFormValue = { agreement: true };
     form.setFieldsValue(defaultFormValue);
     const userData = getLocalStorage(loginRememberKey);
+    console.log(userData);
     if (userData) {
       setRememberUser(true);
       form.setFieldsValue(userData);
+      getOrganizeLit();
     }
   }, []);
   const onCheck = (key: string, e: any) => {
@@ -42,8 +44,8 @@ function AccountLogin(props: { onSelectChain: () => void }) {
   };
   const rememberUserFn = (isRemember: boolean, formData: any) => {
     if (isRemember) {
-      const { username, password } = formData;
-      setLocalStorage(loginRememberKey, { username, password });
+      const { account, pwd } = formData;
+      setLocalStorage(loginRememberKey, { account, pwd });
     } else {
       removeLocalStorage(loginRememberKey);
     }
@@ -107,11 +109,16 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     setErrMessage('');
   };
 
-  const getOrganizeLit = (e: any) => {
-    const phone = e.target.value;
+  const getOrganizeLit = (e?: any) => {
+    const phone = e?.target.value || form.getFieldValue('account');
     if (phone.length === 11) {
       getListOrganize({ loginChannel: 'account', credentials: phone })
         .then((res: any) => {
+          if (res.length === 1) {
+            form.setFieldsValue({ organizeId: res[0].id });
+          } else {
+            form.setFieldsValue({ organizeId: '' });
+          }
           if (res.length > 0) {
             setOrganOptions(
               res.map((item: any) => {
@@ -124,6 +131,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
           setOrganOptions([]);
           setErrMessage('当前账号不可用');
           setWarMessage('');
+          form.setFieldsValue({ organizeId: '' });
         });
     }
   };
@@ -135,6 +143,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
             <Input
               size="large"
               placeholder="输入登录账号"
+              maxLength={11}
               prefix={<UserOutlined />}
               onBlur={getErrorMessage}
               onChange={getOrganizeLit}
