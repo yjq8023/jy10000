@@ -14,14 +14,15 @@ interface Option {
 
 interface ProjectSelectProps extends SelectProps{
   value?: any,
+  params?: any,
   onChange?: (value: any) => void,
 }
 const ColumnProjectSelect: React.FC<ProjectSelectProps> = (props) => {
-  const { ...otherProps } = props;
+  const { params, ...otherProps } = props;
   const [options, setOptions] = useState<any[]>([]);
 
   const getData = () => {
-    return getProjectByUser()
+    return getProjectByUser(params)
       .then((res: any) => {
         setOptions(res.map((item: any) => ({
           label: item.value,
@@ -32,7 +33,7 @@ const ColumnProjectSelect: React.FC<ProjectSelectProps> = (props) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [params]);
   return <Select {...otherProps} options={options} />;
 };
 

@@ -14,7 +14,9 @@ const weappOptions = [
 
 const span = 8;
 const gutter: any = [60, 24];
+const userParams = { position: 'caseManager', byUser: true };
 const SearchForm = (props: any = {}) => {
+  const [selectedTab, setSelectedTab] = useState('1');
   const onReset = () => {
     props.form.resetFields();
     props.form.submit();
@@ -40,7 +42,7 @@ const SearchForm = (props: any = {}) => {
       colon={false}
       {...props}
     >
-      <Tabs tabBarExtraContent={operations}>
+      <Tabs tabBarExtraContent={operations} activeKey={selectedTab} onChange={(e) => setSelectedTab(e)}>
         <Tabs.TabPane tab="按患者检索" key="1">
           <Row gutter={gutter}>
             <Col span={span}>
@@ -92,18 +94,20 @@ const SearchForm = (props: any = {}) => {
           </Row>
         </Tabs.TabPane>
         <Tabs.TabPane tab="按项目检索" key="2">
-          <Row gutter={[60, 24]}>
-            <Col span={span}>
-              <Form.Item name="projectId" label="管理项目">
-                <ColumnProjectSelect />
-              </Form.Item>
-            </Col>
-            <Col span={span}>
-              <Form.Item name="caseManagerId" label="个案管理师">
-                <UserSelect params={{ position: 'caseManager', byUser: true }} />
-              </Form.Item>
-            </Col>
-          </Row>
+          { selectedTab === '2' && (
+            <Row gutter={[60, 24]}>
+              <Col span={span}>
+                <Form.Item name="projectId" label="管理项目">
+                  <ColumnProjectSelect />
+                </Form.Item>
+              </Col>
+              <Col span={span}>
+                <Form.Item name="caseManagerId" label="个案管理师">
+                  <UserSelect params={userParams} />
+                </Form.Item>
+              </Col>
+            </Row>
+          )}
         </Tabs.TabPane>
       </Tabs>
     </Form>
