@@ -19,7 +19,7 @@ export const sendPhoneCode = (phoneNo: string) =>
     recipient: phoneNo,
     channel: 'SMS',
     bizCategory: 'login',
-    bizCode: 'hccm',
+    bizCode: 'sdc-hccm',
   });
 
 export const switchChain = (params: any) => request.post(`${prefix}/switchChain`, params);
@@ -37,7 +37,7 @@ export const resetPassword = (params: any) => {
  * @returns
  */
 export const getUserInfo = (params: any) => {
-  return request.post<UCenter.UserInfo, any>(`${clientPrefix}/user/getUser`, params);
+  return request.post<UCenter.UserInfo, any>(`${clientPrefix}/personalCenter/detail`, params);
 };
 
 /**

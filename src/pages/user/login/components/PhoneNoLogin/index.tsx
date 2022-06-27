@@ -90,6 +90,11 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
     if (phone.length === 11) {
       getListOrganize({ loginChannel: 'phone', credentials: phone })
         .then((res: any) => {
+          if (res.length === 1) {
+            form.setFieldsValue({ organizeId: res[0].id });
+          } else {
+            form.setFieldsValue({ organizeId: '' });
+          }
           if (res.length > 0) {
             setOrganOptions(
               res.map((item: any) => {
@@ -102,8 +107,6 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
           setOrganOptions([]);
           setErrMessage('当前账号不可用');
           setWarMessage('');
-        })
-        .finally(() => {
           form.setFieldsValue({ organizeId: '' });
         });
     }

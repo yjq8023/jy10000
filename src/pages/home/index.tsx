@@ -19,6 +19,7 @@ import PasswordModal from '../user/password-modal';
 import UserInfoModal from '../user/userinfo-modal';
 import SwitchChainModal from '@/components/SwitchChainModal';
 import { getUserInfo } from '@/services/user';
+import { previewFile } from '@/utils';
 
 function Home(props: any) {
   const [collapsed, setCollapsed] = useState(true);
@@ -114,7 +115,7 @@ function Home(props: any) {
       />
       <Dropdown overlay={menu} placement="bottomRight">
         <div className={style.userInfo}>
-          <Avatar src={userInfo?.avatar} />
+          <Avatar src={previewFile(userInfo?.avatar)} />
           {userInfo && userInfo?.name}
         </div>
       </Dropdown>
