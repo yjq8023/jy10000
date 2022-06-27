@@ -41,14 +41,13 @@ const UserAutoComplete: React.FC<UserNameInputProps> = (props) => {
       });
   }, 500), []);
   useEffect(() => {
-    fetchUserListData({
-      [id]: props.value,
-    });
+    if (props.value) {
+      fetchUserListData({
+        [id]: props.value,
+      });
+    }
   }, [props.value]);
   const onInput = (val: any) => {
-    fetchUserListData({
-      [id]: val,
-    });
     onChange && onChange(val);
   };
   const handleImport = (item: any) => {

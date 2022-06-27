@@ -19,7 +19,7 @@ export const sendPhoneCode = (phoneNo: string) =>
     recipient: phoneNo,
     channel: 'SMS',
     bizCategory: 'login',
-    bizCode: 'hccm',
+    bizCode: 'sdc-hccm',
   });
 
 export const switchChain = (params: any) => request.post(`${prefix}/switchChain`, params);
@@ -37,7 +37,7 @@ export const resetPassword = (params: any) => {
  * @returns
  */
 export const getUserInfo = (params: any) => {
-  return request.post<UCenter.UserInfo, any>(`${pharmacyPrefix}/userCenter/getUserInfo`, params);
+  return request.post<UCenter.UserInfo, any>(`${clientPrefix}/personalCenter/detail`, params);
 };
 
 /**
@@ -46,7 +46,7 @@ export const getUserInfo = (params: any) => {
  * @returns
  */
 export const updateUserPassword = (params: UCenter.UpdatePasswordReq) =>
-  request.post(`${pharmacyPrefix}/userCenter/updateUserPassword`, params);
+  request.post(`${clientPrefix}/personalCenter/changePassword`, params);
 
 /**
  * 修改个人资料
@@ -54,7 +54,7 @@ export const updateUserPassword = (params: UCenter.UpdatePasswordReq) =>
  * @returns
  */
 export const updateUserInfo = (params: UCenter.UpdateUserInfoReq) => {
-  return request.post(`${pharmacyPrefix}/userCenter/updateUserInfo`, params);
+  return request.post(`${clientPrefix}/personalCenter/edit`, params);
 };
 
 /**

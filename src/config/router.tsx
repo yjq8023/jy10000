@@ -16,6 +16,9 @@ const PatientConsult = lazy(() => import('../pages/patient/consult'));
 const OrganList = lazy(() => import('../pages/setting/organList'));
 const UserList = lazy(() => import('../pages/setting/userList'));
 const Message = lazy(() => import('../pages/message'));
+const FollowList = lazy(() => import('../pages/follow/list'));
+const FollowCount = lazy(() => import('../pages/follow/count'));
+const PatientInvite = lazy(() => import('../pages/patient/invite'));
 
 type routerConfigItem = {
   path: string;
@@ -32,6 +35,10 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/',
         element: <Navigate to="/weapp/column" replace />,
+      },
+      {
+        path: '/patient/invite',
+        element: <PatientInvite />,
       },
       {
         path: '/weapp/column',
@@ -56,6 +63,14 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/weapp/project/add',
         element: <ProjectAdd />,
+      },
+      {
+        path: '/follow/list',
+        element: <FollowList />,
+      },
+      {
+        path: '/follow/count',
+        element: <FollowCount />,
       },
     ],
   },
@@ -117,6 +132,26 @@ export const breadcrumbMap = {
     project: {
       label: '项目管理',
       path: '/weapp/project',
+      add: {
+        label: '新增病种项目',
+        path: '/weapp/project/add',
+      },
+      edit: {
+        label: '编辑病种项目',
+        path: '/weapp/project/edit',
+      },
+    },
+  },
+  follow: {
+    label: '跟进管理',
+    path: '/follow/list',
+    list: {
+      label: '跟进项目统计',
+      path: '/follow/list',
+    },
+    count: {
+      label: '项目跟进列表',
+      path: '/follow/count',
       add: {
         label: '新增病种项目',
         path: '/weapp/project/add',
