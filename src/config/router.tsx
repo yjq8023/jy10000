@@ -6,19 +6,13 @@ import { Navigate } from 'react-router-dom';
 import ProjectAdd from '@/pages/weapp/projectAdd';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
-const Index = lazy(() => import('../pages/index'));
-const PatientList = lazy(() => import('../pages/patient/list'));
-const PatientAdd = lazy(() => import('../pages/patient/add'));
-const PatientDetail = lazy(() => import('../pages/patient/detail'));
 const WeappColumn = lazy(() => import('../pages/weapp/column'));
 const WeappProject = lazy(() => import('../pages/weapp/project'));
-const PatientConsult = lazy(() => import('../pages/patient/consult'));
 const OrganList = lazy(() => import('../pages/setting/organList'));
 const UserList = lazy(() => import('../pages/setting/userList'));
 const Message = lazy(() => import('../pages/message'));
 const FollowList = lazy(() => import('../pages/follow/list'));
 const FollowCount = lazy(() => import('../pages/follow/count'));
-const PatientInvite = lazy(() => import('../pages/patient/invite'));
 
 type routerConfigItem = {
   path: string;
@@ -35,10 +29,6 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/',
         element: <Navigate to="/weapp/column" replace />,
-      },
-      {
-        path: '/patient/invite',
-        element: <PatientInvite />,
       },
       {
         path: '/weapp/column',
@@ -90,26 +80,6 @@ const routerConfig: routerConfigItem[] = [
 
 // todo: 与路由表结合生成面包屑地图数据
 export const breadcrumbMap = {
-  patient: {
-    label: '患者管理',
-    path: '/patient/list',
-    list: {
-      label: '患者列表',
-      path: '/patient/list',
-    },
-    add: {
-      label: '患者建档',
-      path: '/patient/add',
-    },
-    detail: {
-      label: '患者档案',
-      path: '/patient/detail',
-    },
-    consult: {
-      label: '患者咨询',
-      path: '/patient/consult',
-    },
-  },
   setting: {
     label: '配置',
     path: '/setting/organList',
