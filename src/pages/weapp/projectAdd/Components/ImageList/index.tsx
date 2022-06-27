@@ -23,7 +23,7 @@ function ImageList(props: any) {
   };
   const renderImageListItem = (item: any, index: number) => {
     return (
-      <div className={style.item} key={item}>
+      <div className={style.item} key={item + index}>
         <img src={previewFile(item)} alt="图片" />
         <div className={style.action}>
           <span>{index + 1}</span>
@@ -51,7 +51,7 @@ function ImageList(props: any) {
       </CustomUpload>
       <div>
         <div>* 最多可上传 10 张图片</div>
-        <div>* 支持 jpg/png 格式，单张图片不超过500KB</div>
+        <div>* 支持 jpg/png 格式，单张图片不超过1M</div>
         <div>* 图片规格：宽度 750px，长度不限</div>
       </div>
       <div className={style.imgList}>
