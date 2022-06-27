@@ -18,6 +18,7 @@ const UserList = lazy(() => import('../pages/setting/userList'));
 const Message = lazy(() => import('../pages/message'));
 const FollowList = lazy(() => import('../pages/follow/list'));
 const FollowCount = lazy(() => import('../pages/follow/count'));
+const PatientInvite = lazy(() => import('../pages/patient/invite'));
 
 type routerConfigItem = {
   path: string;
@@ -59,6 +60,10 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/patient/consult',
         element: <PatientConsult />,
+      },
+      {
+        path: '/patient/invite',
+        element: <PatientInvite />,
       },
       {
         path: '/weapp/column',

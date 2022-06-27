@@ -18,7 +18,7 @@ import { getUserInfo, updateUserInfo } from '@/services/user';
 import style from './index.less';
 import { baseURL, scope } from '@/config/base';
 import { getToken } from '@/utils/cookies';
-import { getBase64 } from '@/utils';
+import { getBase64, previewFile } from '@/utils';
 import SimpleModal from '@/components/SimpleModal';
 
 const { Item } = Form;
@@ -41,7 +41,7 @@ function UserInfoModal(props: UserInfoModalProps) {
   useEffect(() => {
     form.setFieldsValue({
       ...data,
-      pic: data?.avatar,
+      photo: previewFile(data?.avatar),
     });
   }, [data]);
   const handleOk = async (e: any) => {
@@ -58,7 +58,7 @@ function UserInfoModal(props: UserInfoModalProps) {
     });
   };
   const uploadProps = {
-    name: 'file',
+    name: 'avatar',
     action: `${baseURL}cs/file/public/upload`,
     headers: {
       authorization: getToken() || '',
@@ -106,7 +106,7 @@ function UserInfoModal(props: UserInfoModalProps) {
           <Col span={16}>
             <h2>{data && data.name}</h2>
             <Descriptions title={data && data.realname} column={1}>
-              <Descriptions.Item label="登录账号">{data && data.phone}</Descriptions.Item>
+              <Descriptions.Item label="登录账号">{data && data.phoneNumber}</Descriptions.Item>
               {/* <Descriptions.Item label="用户类型">1810000000</Descriptions.Item> */}
               <Descriptions.Item label="所属机构">{data && data.chainName}</Descriptions.Item>
             </Descriptions>

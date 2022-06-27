@@ -22,14 +22,13 @@ const mapChildren = (item: any) => {
   return resItem;
 };
 const MechanismCascader: React.FC<any> = (props) => {
-  const { params, ...otherProps } = props;
+  const { params, disabled, ...otherProps } = props;
   const [options, setOptions] = useState<any[]>([]);
 
   const getData = () => {
-    return getMechanismList(params)
-      .then((res: any) => {
-        return res.map(mapChildren);
-      });
+    return getMechanismList(params).then((res: any) => {
+      return res.map(mapChildren);
+    });
   };
 
   useEffect(() => {
@@ -38,13 +37,16 @@ const MechanismCascader: React.FC<any> = (props) => {
     });
   }, [params]);
 
-  return <TreeSelect
-    style={{ width: '100%' }}
-    {...otherProps}
-    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-    treeData={options}
-    treeDefaultExpandAll
-  />;
+  return (
+    <TreeSelect
+      style={{ width: '100%' }}
+      {...otherProps}
+      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+      treeData={options}
+      treeDefaultExpandAll
+      disabled={disabled}
+    />
+  );
 };
 
 export default MechanismCascader;
