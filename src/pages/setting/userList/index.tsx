@@ -189,7 +189,7 @@ function UserList() {
   return (
     <div className="content-page">
       <ListPage
-        ListTitle="机构列表"
+        ListTitle="用户列表"
         list={list}
         fetchApi={fetchAPi}
         columns={columns}
