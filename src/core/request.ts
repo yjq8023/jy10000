@@ -24,6 +24,7 @@ const requestFd = axios.create({
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
     scope,
+    app: 'sdc-hccm-backend',
   },
   transformRequest: [
     (data) => {
@@ -46,6 +47,7 @@ function beforeRequest(options: any) {
     newOptions.headers.Authorization = token;
   }
   newOptions.headers.scope = scope;
+  newOptions.headers.app = 'sdc-hccm-backend';
   return newOptions;
 }
 function resolve(response: any) {
