@@ -7,11 +7,11 @@ const menuConfig: MenuItemProps[] = [
     key: 'weapp',
     children: [
       {
-        label: '平台栏目管理',
+        label: '病种管理',
         path: '/weapp/column',
       },
       {
-        label: '病种项目管理',
+        label: '项目管理',
         path: '/weapp/project',
       },
     ],

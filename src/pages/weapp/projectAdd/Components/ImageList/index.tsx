@@ -37,9 +37,13 @@ function ImageList(props: any) {
     setImageList(val);
     props.onChange && props.onChange(val);
   };
+  const onUpload = (file: any) => {
+    const newValue = props.value ? [...props.value, file.response.data] : [file.response.data];
+    props.onChange && props.onChange(newValue);
+  };
   return (
     <div>
-      <CustomUpload value={props.value} onChange={handleChange} showUploadList={false} maxCount={10} listType="picture">
+      <CustomUpload onUpload={onUpload} showUploadList={false} disabled={imageList.length >= 10} listType="picture">
         <div className={style.uploadBtn}>
           <div className={style.icon}>
             <span className="iconfont icon-image" />

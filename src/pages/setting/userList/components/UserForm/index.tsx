@@ -206,7 +206,7 @@ const UserForm: FC<UserFormType> = (props) => {
               </Form.Item>
             </>
           )}
-          <Form.Item label="机构描述" name="description">
+          <Form.Item label="用户描述" name="description">
             <Input.TextArea placeholder="请输入内容" />
           </Form.Item>
         </Form>
