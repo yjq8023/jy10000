@@ -63,7 +63,7 @@ function UserInfoModal(props: UserInfoModalProps) {
     headers: {
       authorization: getToken() || '',
       scope,
-      app: 'sdc-hccm-hosp',
+      app: 'sdc-hccm-backend',
     },
     accept: 'image/png, image/jpeg',
     itemRender() {
