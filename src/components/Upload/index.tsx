@@ -78,7 +78,7 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     headers: {
       authorization: getToken() || '',
       scope,
-      app: 'sdc-hccm-hosp',
+      app: 'sdc-hccm-backend',
     },
     accept: defaultAccepts,
     listType: 'picture-card',
