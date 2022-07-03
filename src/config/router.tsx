@@ -96,11 +96,11 @@ export const breadcrumbMap = {
     label: '小程序管理',
     path: '/weapp/column',
     column: {
-      label: '平台栏目管理',
+      label: '病种管理',
       path: '/weapp/column',
     },
     project: {
-      label: '病种项目管理',
+      label: '项目管理',
       path: '/weapp/project',
       add: {
         label: '新增病种项目',
