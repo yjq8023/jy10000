@@ -14,6 +14,7 @@ interface CustomUploadProps extends UploadProps {
   maxSize?: number;
   itemRender?: (params: any) => any;
 }
+const defaultAccepts = 'image/png, image/jpeg';
 const CustomUpload: React.FC<CustomUploadProps> = (props) => {
   const {
     value,
@@ -79,7 +80,7 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
       scope,
       app: 'sdc-hccm-hosp',
     },
-    accept: 'image/png, image/jpeg',
+    accept: defaultAccepts,
     listType: 'picture-card',
     onRemove: handleRemove,
     onChange(info: any) {
@@ -100,9 +101,14 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
       }
     },
     beforeUpload(file: any) {
+      const accepts = otherProps.accept || defaultAccepts;
+      if (accepts.indexOf(file.type) === -1) {
+        message.error(`文件类型仅限${accepts}!`);
+        return false;
+      }
       const isLt1M = file.size / 1024 / 1024 < maxSize;
       if (!isLt1M) {
-        message.error('上传图片不能大于1MB!');
+        message.error(`上传图片不能大于${maxSize}MB!`);
       }
       return isLt1M;
     },

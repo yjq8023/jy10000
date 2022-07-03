@@ -45,7 +45,7 @@ function WeappProject() {
       const parentId = list.current.searchForm ? list.current.searchForm.getFieldValue('categoryId') : '';
       navigate(`add?parentId=${parentId}`);
     };
-    return <Button type="primary" onClick={toAdd}><PlusCircleOutlined />新建栏目病种</Button>;
+    return <Button type="primary" onClick={toAdd}><PlusCircleOutlined />新建项目</Button>;
   };
   const renderActionDom = (itemData: any) => {
     return (
