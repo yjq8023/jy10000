@@ -63,6 +63,7 @@ function UserInfoModal(props: UserInfoModalProps) {
     headers: {
       authorization: getToken() || '',
       scope,
+      app: 'sdc-hccm-hosp',
     },
     accept: 'image/png, image/jpeg',
     itemRender() {
@@ -94,13 +95,7 @@ function UserInfoModal(props: UserInfoModalProps) {
     },
   };
   return (
-    <SimpleModal
-      title="个人中心"
-      width={560}
-      visible={visible}
-      {...other}
-      onOk={handleOk}
-    >
+    <SimpleModal title="个人中心" width={560} visible={visible} {...other} onOk={handleOk}>
       <Form form={form} onFinish={onFinish} className={style.userinfo}>
         <Row className={style.info}>
           <Col span={16}>

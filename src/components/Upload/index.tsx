@@ -6,16 +6,25 @@ import { getBase64, previewFile } from '@/utils';
 import { getToken } from '@/utils/cookies';
 import { baseURL, scope } from '@/config/base';
 
-interface CustomUploadProps extends UploadProps{
+interface CustomUploadProps extends UploadProps {
   value?: any;
   onChange?: (values: any) => void;
   onUpload?: (values: any) => void;
   renderList?: any;
   maxSize?: number;
-  itemRender?: (params: any) => any
+  itemRender?: (params: any) => any;
 }
 const CustomUpload: React.FC<CustomUploadProps> = (props) => {
-  const { value, onChange, onUpload, renderList, children, itemRender, maxSize = 1, ...otherProps } = props;
+  const {
+    value,
+    onChange,
+    onUpload,
+    renderList,
+    children,
+    itemRender,
+    maxSize = 1,
+    ...otherProps
+  } = props;
   const [loading, setLoading] = useState(false);
 
   const uploadButton = children || (
@@ -44,12 +53,15 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     return newValues;
   };
   const handleChange = (fileList: any) => {
-    onChange && onChange(fileList.map((item: any) => {
-      if (item.status === 'done') {
-        return item.response ? item.response.data : item.uid;
-      }
-      return item;
-    }));
+    onChange &&
+      onChange(
+        fileList.map((item: any) => {
+          if (item.status === 'done') {
+            return item.response ? item.response.data : item.uid;
+          }
+          return item;
+        }),
+      );
   };
   const handleRemove = (file: any) => {
     const newValue = value.filter((item: any) => {
@@ -65,6 +77,7 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
     headers: {
       authorization: getToken() || '',
       scope,
+      app: 'sdc-hccm-hosp',
     },
     accept: 'image/png, image/jpeg',
     listType: 'picture-card',
@@ -100,7 +113,7 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
   }
   return (
     <Upload {...uploadProps}>
-      { (!props.maxCount || !value || props.maxCount > value.length) && uploadButton }
+      {(!props.maxCount || !value || props.maxCount > value.length) && uploadButton}
     </Upload>
   );
 };
