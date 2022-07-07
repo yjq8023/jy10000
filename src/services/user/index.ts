@@ -15,11 +15,8 @@ export const getToken = (params: any) => {
 export const getUserLinkChain = () => request.get(`${pharmacyPrefix}/userCenter/listUserLinkChain`);
 
 export const sendPhoneCode = (phoneNo: string) =>
-  request.post(`${clientPrefix}/user/sendCaptcha`, {
-    recipient: phoneNo,
-    channel: 'SMS',
-    bizCategory: 'login',
-    bizCode: 'sdc-hccm',
+  request.post('/uaa/captcha/sms', {
+    phone: phoneNo,
   });
 
 export const switchChain = (params: any) => request.post(`${prefix}/switchChain`, params);
@@ -46,7 +43,7 @@ export const getUserInfo = (params: any) => {
  * @returns
  */
 export const updateUserPassword = (params: UCenter.UpdatePasswordReq) =>
-  request.post(`${clientPrefix}/personalCenter/changePassword`, params);
+  request.post('/uaa/user/updatePassword', params);
 
 /**
  * 修改个人资料
@@ -74,7 +71,7 @@ export const doLogin = (params: any, config: AxiosRequestConfig = {}) => {
 };
 
 export const getListOrganize = (params: any, config: AxiosRequestConfig = {}) => {
-  return request.post(`${clientPrefix}/chain/listOrganize`, params);
+  return request.post('/uaa/user/listOrganize', params);
 };
 
 export default {

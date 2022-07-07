@@ -91,6 +91,6 @@ export const userDelete = (id: any) => {
  * @returns
  */
 export const userResetPassword = (params: any) => {
-  return request.post<any, any>(`${clientPrefix}/user/resetPassword`, params);
+  return request.post<any, any>('/uaa/user/resetPassword', params);
 };
 export default {};
