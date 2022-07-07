@@ -88,7 +88,7 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
   const getOrganizeLit = (e: any) => {
     const phone = e.target.value;
     if (phone.length === 11) {
-      getListOrganize({ loginChannel: 'phone', credentials: phone })
+      getListOrganize({ channel: 'phone', credentials: phone })
         .then((res: any) => {
           if (res.length === 1) {
             form.setFieldsValue({ organizeId: res[0].id });

@@ -45,7 +45,7 @@ function Step1(props: { onNext: () => void }) {
   const getOrganizeLit = (e: any) => {
     const phone = e.target.value;
     if (phone.length === 11) {
-      getListOrganize({ loginChannel: 'phone', credentials: phone })
+      getListOrganize({ channel: 'phone', credentials: phone })
         .then((res: any) => {
           if (res.length > 0) {
             setOrganOptions(
