@@ -83,7 +83,7 @@ declare namespace UCenter {
   // 修改个人密码
   type UpdatePasswordReq = {
     uniqueName?: string; // 唯一用户名
-    originPassword?: string; // 原密码
+    oldPassword?: string; // 原密码
     newPassword?: string; // 新密码
   };
 

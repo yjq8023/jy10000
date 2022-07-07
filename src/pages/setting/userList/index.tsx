@@ -123,6 +123,7 @@ function UserList() {
       title: '用户描述',
       dataIndex: 'description',
       key: 'description',
+      ellipsis: true,
     },
     {
       title: '更新时间',
