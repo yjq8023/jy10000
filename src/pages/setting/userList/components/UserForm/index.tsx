@@ -149,7 +149,11 @@ const UserForm: FC<UserFormType> = (props) => {
               <Input disabled placeholder="初始密码为 Abc123456，新建用户后通过短信下发" />
             )}
           </Form.Item>
-          <Form.Item label="所属机构" name="chainId" initialValue="1">
+          <Form.Item
+            label="所属机构"
+            name="chainId"
+            rules={[{ required: true, message: '请选择机构' }]}
+          >
             {/* <Select
               placeholder="请选择所属机构（必选）"
               options={[{ label: '红十字会', value: '1' }]}
