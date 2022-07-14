@@ -109,31 +109,43 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     setErrMessage('');
   };
 
+  const getOrganizeLitForBlur = (e: any) => {
+    getErrorMessage();
+    const phone = e?.target.value || form.getFieldValue('account');
+    if (phone) {
+      httpGetOrganizeLit(phone);
+    }
+  };
+
   const getOrganizeLit = (e?: any) => {
     const phone = e?.target.value || form.getFieldValue('account');
     if (phone && phone.length === 11) {
-      getListOrganize({ channel: 'account', credentials: phone })
-        .then((res: any) => {
-          if (res.length === 1) {
-            form.setFieldsValue({ organizeId: res[0].id });
-          } else {
-            form.setFieldsValue({ organizeId: '' });
-          }
-          if (res.length > 0) {
-            setOrganOptions(
-              res.map((item: any) => {
-                return { label: item.name, value: item.id };
-              }),
-            );
-          }
-        })
-        .catch(() => {
-          setOrganOptions([]);
-          setErrMessage('当前账号不可用');
-          setWarMessage('');
-          form.setFieldsValue({ organizeId: '' });
-        });
+      httpGetOrganizeLit(phone);
     }
+  };
+
+  const httpGetOrganizeLit = (phone: string) => {
+    getListOrganize({ channel: 'account', credentials: phone })
+      .then((res: any) => {
+        if (res.length === 1) {
+          form.setFieldsValue({ organizeId: res[0].id });
+        } else {
+          form.setFieldsValue({ organizeId: '' });
+        }
+        if (res.length > 0) {
+          setOrganOptions(
+            res.map((item: any) => {
+              return { label: item.name, value: item.id };
+            }),
+          );
+        }
+      })
+      .catch(() => {
+        setOrganOptions([]);
+        setErrMessage('当前账号不可用');
+        setWarMessage('');
+        form.setFieldsValue({ organizeId: '' });
+      });
   };
   return (
     <div className={style.accountLogin}>
@@ -145,7 +157,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
               placeholder="输入登录账号"
               maxLength={11}
               prefix={<UserOutlined />}
-              onBlur={getErrorMessage}
+              onBlur={getOrganizeLitForBlur}
               onChange={getOrganizeLit}
             />
           </Item>
