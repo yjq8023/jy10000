@@ -154,10 +154,6 @@ const UserForm: FC<UserFormType> = (props) => {
             name="chainId"
             rules={[{ required: true, message: '请选择机构' }]}
           >
-            {/* <Select
-              placeholder="请选择所属机构（必选）"
-              options={[{ label: '红十字会', value: '1' }]}
-            /> */}
             <MechanismCascader disabled={!!props.userId} />
           </Form.Item>
           <Form.Item
