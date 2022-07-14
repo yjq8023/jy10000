@@ -29,6 +29,7 @@ function Step1(props: { onNext: () => void }) {
       channel: 'phone',
       phone: phoneNumber,
       captcha: code,
+      resetPwd: true,
       organizeId,
       scope,
     };

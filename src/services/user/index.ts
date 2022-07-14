@@ -14,9 +14,10 @@ export const getToken = (params: any) => {
 
 export const getUserLinkChain = () => request.get(`${pharmacyPrefix}/userCenter/listUserLinkChain`);
 
-export const sendPhoneCode = (phoneNo: string) =>
+export const sendPhoneCode = (phoneNo: string, resetPwd = false) =>
   request.post('/uaa/captcha/sms', {
     phone: phoneNo,
+    resetPwd,
   });
 
 export const switchChain = (params: any) => request.post(`${prefix}/switchChain`, params);

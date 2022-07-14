@@ -59,6 +59,7 @@ function PhoneNoLoginForm(props: {
         {props.OrganSelect}
         <Item noStyle name="code" rules={[{ required: true, message: '请填写短信验证码' }]}>
           <PhoneCodeInput
+            resetPwd={true}
             stateKey={stateKey}
             intervals={60}
             phoneNumber={phoneNo}

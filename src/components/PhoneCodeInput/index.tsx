@@ -9,6 +9,7 @@ interface PhoneCodeInputProps extends InputProps {
   stateKey: string;
   intervals: number;
   phoneNumber: string;
+  resetPwd?: boolean;
 }
 function PhoneCodeInput(props: PhoneCodeInputProps) {
   const { stateKey, intervals, phoneNumber = '', ...other } = props;
@@ -37,7 +38,8 @@ function PhoneCodeInput(props: PhoneCodeInputProps) {
     }
   }, [timeLeft]);
   const sendCode = (e: any) => {
-    sendPhoneCode(phoneNumber)
+    const resetPwd = props.resetPwd || false;
+    sendPhoneCode(phoneNumber, resetPwd)
       .then(() => {
         setLocalStorage(stateKey, Date.now());
         setTimeLeft(intervals);
