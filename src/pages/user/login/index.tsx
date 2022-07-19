@@ -30,9 +30,11 @@ function Login() {
         <div className={style.left}>
           <div className={style.logo} />
           <div className={style.bb}>
-            粤公网安备 44010602001253号 Copyright 2008 - 2022 Sinohealth, All Rights Reserved
+            <a style={{ color: '#87ddce' }} href="https://beian.miit.gov.cn/">
+              粤ICP备2022073478号-1
+            </a>{' '}
+            Copyright 2008 - 2022 Sinohealth, All Rights Reserved
             <br />
-            粤ICP备 17031174
           </div>
         </div>
         <div className={style.right}>
