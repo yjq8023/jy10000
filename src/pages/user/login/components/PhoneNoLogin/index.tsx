@@ -137,9 +137,21 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
               onChange={getOrganizeLit}
             />
           </Item>
-          <div className={style.organizeSelectBox}>
+          <div
+            className={style.organizeSelectBox}
+            style={{ display: organOptions.length <= 1 ? 'none' : 'flex' }}
+          >
             <ApartmentOutlined />
-            <Item noStyle name="organizeId" rules={[{ required: true, message: '请选择机构' }]}>
+            <Item
+              noStyle
+              name="organizeId"
+              rules={[
+                {
+                  required: true,
+                  message: organOptions.length <= 1 ? '账号机构不可用' : '请选择机构',
+                },
+              ]}
+            >
               <Select
                 className={style.organizeSelect}
                 options={organOptions}
