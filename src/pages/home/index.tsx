@@ -105,14 +105,14 @@ function Home(props: any) {
   );
   const toolbar = (
     <div className={style.headerToolbar}>
-      <MessagePage
+      {/* <MessagePage
         unreas={0}
         // unreas={unrea}
         ifOpMsgCount={() => {
           // setUnrea(Math.random()); // 刷新红点数
           // setVisible(!visible);
         }}
-      />
+      /> */}
       <Dropdown overlay={menu} placement="bottomRight">
         <div className={style.userInfo}>
           <Avatar src={previewFile(userInfo?.avatar)} />
