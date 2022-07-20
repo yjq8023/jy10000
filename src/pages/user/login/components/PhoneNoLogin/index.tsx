@@ -90,7 +90,7 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
     if (phone.length === 11) {
       getListOrganize({ channel: 'phone', credentials: phone })
         .then((res: any) => {
-          if (res.length === 1) {
+          if (res.length >= 1) {
             form.setFieldsValue({ organizeId: res[0].id });
           } else {
             form.setFieldsValue({ organizeId: '' });
@@ -190,11 +190,11 @@ function PhoneNoLogin(props: { onSelectChain: () => void }) {
             rules={[{ validator: agreementValid, message: '请先阅读勾选服务条款与隐私协议' }]}
           >
             <Checkbox>
-              登录即同意《中康处方流转平台》
+              同意《全病程管理服务平台》
               <a href="/user-agreement.html" target="_blank">
                 服务条款
               </a>
-              和
+              &nbsp; 和 &nbsp;
               <a href="/privact-agreement.html" target="_blank">
                 隐私协议
               </a>
