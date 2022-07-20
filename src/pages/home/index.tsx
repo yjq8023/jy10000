@@ -86,7 +86,7 @@ function Home(props: any) {
     navigate('/');
     setSwitchChainModalVisible(false);
   };
-  const logo = <div>中康全病程管理服务平台</div>;
+  const logo = <div>全病程管理服务平台</div>;
   const menu = (
     <ul className={style.menu}>
       <li onClick={() => setUserInfoModalVisible(true)}>
