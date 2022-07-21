@@ -9,7 +9,13 @@ import {
   Spin,
 } from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
-import { userDetail, userEdit, userResetPassword, userSave } from '@/services/setting';
+import {
+  listDepartment,
+  userDetail,
+  userEdit,
+  userResetPassword,
+  userSave,
+} from '@/services/setting';
 import { useDict } from '@/hooks/useDict';
 import { handelOptions } from '@/utils';
 import MechanismCascader from '@/components/MechanismCascader';
@@ -25,6 +31,7 @@ const UserForm: FC<UserFormType> = (props) => {
   const dict = useDict();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [departmentOptions, setDpartmentOptions] = useState<any[]>([]);
   const [isDoctor, setIsDoctor] = useState(false);
   const [userId, setUserId] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(false);
@@ -43,6 +50,7 @@ const UserForm: FC<UserFormType> = (props) => {
           if (res.role === 'doctor') {
             setIsDoctor(true);
           }
+          getListDepartment(res.departmentId);
         })
         .catch(() => {
           console.log('错误');
@@ -57,6 +65,13 @@ const UserForm: FC<UserFormType> = (props) => {
     form.resetFields();
     setIsDoctor(false);
     if (props.onCancel) props.onCancel(success);
+  };
+
+  const getListDepartment = (id: string) => {
+    listDepartment(id).then((res) => {
+      console.log(res);
+      setDpartmentOptions(res);
+    });
   };
 
   const finish = (values: any) => {
@@ -152,9 +167,20 @@ const UserForm: FC<UserFormType> = (props) => {
           <Form.Item
             label="所属机构"
             name="chainId"
-            rules={[{ required: true, message: '请选择机构' }]}
+            required
+            rules={[{ required: true, message: '请选择所属机构' }]}
           >
-            <MechanismCascader disabled={!!props.userId} />
+            {/* <Select
+              placeholder="请选择所属机构（必选）"
+              options={[{ label: '红十字会', value: '1' }]}
+            /> */}
+            <MechanismCascader
+              disabled={!!props.userId}
+              defaultChose={true}
+              onChange={(e: any) => {
+                getListDepartment(e);
+              }}
+            />
           </Form.Item>
           <Form.Item
             label="用户角色"
@@ -196,10 +222,19 @@ const UserForm: FC<UserFormType> = (props) => {
               </Form.Item>
               <Form.Item
                 label="所在科室"
-                name="department"
-                rules={[{ required: true, message: '请输入所在科室（必填）' }]}
+                name="departmentId"
+                rules={[{ required: true, message: '请输入所在科室（必填），先选择机构' }]}
               >
-                <Input placeholder="请输入所在科室（必填）" />
+                <Select
+                  onFocus={() => {
+                    console.log('机构');
+                    form.validateFields(['chainId']);
+                  }}
+                  placeholder="请输入所在科室（必填）"
+                  options={departmentOptions.map((item) => {
+                    return { label: item.value, value: item.id };
+                  })}
+                />
               </Form.Item>
               <Form.Item label="执业医院" name="hospitalName">
                 <Input placeholder="请输入执业医院" />

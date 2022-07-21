@@ -22,7 +22,7 @@ const mapChildren = (item: any) => {
   return resItem;
 };
 const MechanismCascader: React.FC<any> = (props) => {
-  const { params, disabled, ...otherProps } = props;
+  const { params, disabled, onChange, ...otherProps } = props;
   const [options, setOptions] = useState<any[]>([]);
 
   const getData = () => {
@@ -45,6 +45,9 @@ const MechanismCascader: React.FC<any> = (props) => {
       treeData={options}
       treeDefaultExpandAll
       disabled={disabled}
+      onChange={(e) => {
+        onChange && onChange(e);
+      }}
     />
   );
 };
