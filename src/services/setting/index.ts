@@ -86,6 +86,15 @@ export const userDelete = (id: any) => {
 };
 
 /**
+ *获取科室列表
+ * @param id
+ * @returns
+ */
+export const listDepartment = (id: any) => {
+  return request.post<any, any>(`${clientPrefix}/chain/listDepartment`, { chainId: id });
+};
+
+/**
  * 用户重置密码
  * @param id
  * @returns
