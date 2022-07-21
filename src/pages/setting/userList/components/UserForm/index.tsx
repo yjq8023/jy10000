@@ -50,7 +50,7 @@ const UserForm: FC<UserFormType> = (props) => {
           if (res.role === 'doctor') {
             setIsDoctor(true);
           }
-          getListDepartment(res.departmentId);
+          getListDepartment(res.chainId);
         })
         .catch(() => {
           console.log('错误');
@@ -59,6 +59,8 @@ const UserForm: FC<UserFormType> = (props) => {
         .finally(() => {
           setLoading(false);
         });
+    } else {
+      setDpartmentOptions([]);
     }
   }, [props.userId]);
   const onCancel = (success?: boolean) => {
