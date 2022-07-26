@@ -37,6 +37,7 @@ const SearchForm = (props: any = {}) => {
           <Button
             onClick={() => {
               props.form.resetFields();
+              props.form.submit();
             }}
           >
             重置
