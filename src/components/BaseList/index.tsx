@@ -35,7 +35,6 @@ function BaseList(props: ListPageProps, ref: any) {
     pageSize: 10,
     total: 0,
   });
-
   const paginationConfig = {
     showSizeChanger: true,
     showQuickJumper: true,
@@ -43,7 +42,7 @@ function BaseList(props: ListPageProps, ref: any) {
       return `共 ${totalNum} 条数据`;
     },
   };
-  const fetchListData = useCallback((paramsConfig = {}) => {
+  const fetchListData = (paramsConfig: any = {}) => {
     const formVal = form.getFieldsValue();
     const params = {
       ...defaultParams,
@@ -57,9 +56,10 @@ function BaseList(props: ListPageProps, ref: any) {
       setListData(res.listData);
       setPagination(res.pagination);
     });
-  }, []);
-  const reloadListData = () => {
-    fetchListData();
+  };
+  const reloadListData = (isNoResetPageNo = false) => {
+    const params = isNoResetPageNo ? { } : { current: 1 };
+    fetchListData(params);
   };
   const onSetListData = (data: any[]) => {
     setListData([...data]);
