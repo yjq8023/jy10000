@@ -13,6 +13,7 @@ const UserList = lazy(() => import('../pages/setting/userList'));
 const Message = lazy(() => import('../pages/message'));
 const FollowList = lazy(() => import('../pages/follow/list'));
 const FollowCount = lazy(() => import('../pages/follow/count'));
+const FormilyEditor = lazy(() => import('../pages/formily/editor'));
 
 type routerConfigItem = {
   path: string;
@@ -61,6 +62,10 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/follow/count',
         element: <FollowCount />,
+      },
+      {
+        path: '/formily/editor',
+        element: <FormilyEditor />
       },
     ],
   },
