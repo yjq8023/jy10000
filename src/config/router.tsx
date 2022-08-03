@@ -14,6 +14,7 @@ const Message = lazy(() => import('../pages/message'));
 const FollowList = lazy(() => import('../pages/follow/list'));
 const FollowCount = lazy(() => import('../pages/follow/count'));
 const FormilyEditor = lazy(() => import('../pages/formily/editor'));
+const PlanMapEditor = lazy(() => import('../pages/planMapEditor'));
 
 type routerConfigItem = {
   path: string;
@@ -66,6 +67,10 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/formily/editor',
         element: <FormilyEditor />
+      },
+      {
+        path: '/planMapEditor',
+        element: <PlanMapEditor />
       },
     ],
   },

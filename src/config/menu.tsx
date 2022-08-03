@@ -32,6 +32,10 @@ const menuConfig: MenuItemProps[] = [
         label: '表单编辑',
         path: '/formily/editor',
       },
+      {
+        label: '管理路径编辑',
+        path: '/planMapEditor',
+      },
     ],
   },
 ];

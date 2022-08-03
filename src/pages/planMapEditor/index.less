@@ -1,0 +1,24 @@
+.planMapEditor {
+  display: flex;
+  height: calc(100vh - 80px);
+  border: 1px silver solid;
+  .selector {
+    flex: 0 0 160px;
+    padding: 10px;
+    border-right: 1px silver solid;
+  }
+  .editorBody {
+    flex: 1;
+    background-color: #EFFAFF;
+    padding: 10px;
+    overflow: auto;
+    > div {
+      //transform: scale(1.5);
+    }
+  }
+  .config {
+    flex: 0 0 320px;
+    padding: 0 10px;
+    border-left: 1px silver solid;
+  }
+}
