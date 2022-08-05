@@ -41,6 +41,7 @@ const PlanMapEditor = () => {
         pull: 'clone',
         put: false,
       },
+      dragClass: 'dragDom',
       animation: 150,
     };
     return new Sortable(elRef.current, sortableConfig);
@@ -50,7 +51,10 @@ const PlanMapEditor = () => {
     initSortTable(actionDomRef, 'action');
   }, []);
   return (
-    <div>
+    <div className={style.selector}>
+      <div className={style.header}>
+        业务组件
+      </div>
       <div ref={containerDomRef}>
         {
           list.filter((item: any) => item.type === 'container').map((item: any) => {

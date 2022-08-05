@@ -3,85 +3,47 @@ import React, { useState, useRef, useEffect } from 'react';
 import Sortable from 'sortablejs';
 import style from './index.less';
 import { getUuid } from '@/utils';
+import PlanMapRow from '@/pages/planMapEditor/components/PlanMapRow';
 
-const PlanMapItem = (props: any) => {
-  const { data = {}, onChange } = props;
-  const domRef = useRef(null);
-  const sortableConfig = {
-    sort: false,
-    group: 'action',
-    animation: 150,
-  };
-  useEffect(() => {
-    const sortObj = new Sortable(domRef.current, sortableConfig);
-  }, []);
-  const hasChildren = data.children && data.children.length > 0;
-
-  const onChildrenChange = (newChildrenList: any, i: number) => {
-    const children = data.children;
-    children[i] = newChildrenList;
-    onChange({
-      ...data,
-      children,
+const getPlanData = (count: number) => {
+  let i = 0;
+  const d = [];
+  while (i < count) {
+    i += 1;
+    d.push({
+      id: getUuid(),
+      period: `D+${i}`,
+      infos: [
+        {
+          name: '糖尿病的急性并发症',
+          status: 'NOT_BEGIN',
+          type: 'AUTO',
+        },
+        {
+          name: '2型糖尿病的病因有哪些？',
+          status: 'NOT_BEGIN',
+          type: 'AUTO',
+        },
+      ],
     });
-  };
-  const renderItem = () => (
-    <div className={style.sortTableItem}>
-      <h3>{data.period}</h3>
-      <div className={style.infos} ref={domRef}>
-        {data?.infos?.map((item: any) => (
-          <div className={style.selectItem} key={item.id}>{item.name}</div>
-        ))}
-      </div>
-    </div>
-  );
-  if (hasChildren) {
-    return (
-      <div className={`itemSortTableList ${style.itemSortTableList}`}>
-        {renderItem()}
-        <div className={style.sortTableListBox}>
-          { data.children.map((childrenList: any, index: number) => {
-            return <Canvas key={getUuid()} listData={childrenList} onChange={(listData: any) => onChildrenChange(listData, index)} />;
-          })}
-        </div>
-      </div>
-    );
   }
-  return renderItem();
+  return d;
 };
-
 const Canvas = (props: any) => {
-  const { listData, onChange } = props;
-  const domRef = useRef(null);
-  const sortableConfig = {
-    group: 'container',
-    filter: '.itemSortTableList',
-    animation: 150,
-    onAdd(e: any) {
-      const data = {
-        id: getUuid(),
-        period: Date.now(),
-      };
-      const newListData = [...listData];
-      newListData.splice(e.newIndex, 0, data);
-      onChange(newListData);
-    },
-    scroll: true,
-  };
-  useEffect(() => {
-    const s = new Sortable(domRef.current, sortableConfig);
-  }, [listData]);
-
-  const onItemChange = (itemData: any, index: number) => {
-    const newListData = [...listData];
-    newListData[index] = itemData;
-    onChange(newListData);
-  };
+  const demoData: any = [
+    getPlanData(5),
+    getPlanData(6),
+    getPlanData(3),
+    getPlanData(2),
+  ];
+  demoData[0][1].isHasChildren = true;
+  demoData[1][1].isHasChildren = true;
+  demoData[2][1].isHasChildren = true;
+  console.log('demoData');
+  console.log(demoData);
   return (
-    <div ref={domRef} className={style.sortTableList}>
-      {listData.map((item: any, index: number) => {
-        return <PlanMapItem key={getUuid()} data={item} onChange={(itemData: any) => onItemChange(itemData, index)} />;
-      })}
+    <div>
+      { demoData.map((listData: any, index: number) => (<PlanMapRow listData={listData} offset={index} />))}
     </div>
   );
 };
