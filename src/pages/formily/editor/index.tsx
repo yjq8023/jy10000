@@ -64,6 +64,7 @@ import {
   PreviewWidget,
   SchemaEditorWidget,
   MarkupSchemaWidget,
+  LinkagesSetter,
 } from './widgets';
 import { saveSchema } from './service';
 import style from './index.less';
@@ -97,7 +98,7 @@ GlobalRegistry.registerDesignerLocales({
   },
 });
 
-const App = () => {
+const FormilyEditor = () => {
   const engine = useMemo(
     () =>
       createDesigner({
@@ -227,7 +228,7 @@ const App = () => {
             </WorkspacePanel>
           </Workspace>
           <SettingsPanel title="panels.PropertySettings">
-            <SettingsForm uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+            <SettingsForm components={{ LinkagesSetter }} uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
           </SettingsPanel>
         </StudioPanel>
       </Designer>
@@ -235,4 +236,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default FormilyEditor;

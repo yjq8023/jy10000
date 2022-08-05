@@ -1,92 +1,32 @@
 // @ts-nocheck
 import React, { useMemo } from 'react';
-import { createForm } from '@formily/core';
-import { createSchemaField } from '@formily/react';
-import {
-  Form,
-  FormItem,
-  DatePicker,
-  Checkbox,
-  Cascader,
-  Editable,
-  Input,
-  NumberPicker,
-  Switch,
-  Password,
-  PreviewText,
-  Radio,
-  Reset,
-  Select,
-  Space,
-  Submit,
-  TimePicker,
-  Transfer,
-  TreeSelect,
-  Upload,
-  FormGrid,
-  FormLayout,
-  FormTab,
-  FormCollapse,
-  ArrayTable,
-  ArrayCards,
-} from '@sinohealth/butterfly-formily-components';
-import { Card, Slider, Rate } from '@sinohealth/butterfly-ui-components/lib';
+import { FormRender, registerComponents } from '@sinohealth/butterfly-formily-engine';
 import { TreeNode } from '@sinohealth/designable-core';
 import { transformToSchema } from '@sinohealth/designable-formily-transformer';
+import * as components from '@sinohealth/butterfly-formily-components';
+import { Radio } from '@sinohealth/designable-formily-antd';
 
-const Text: React.FC<{
-  value?: string
-  content?: string
-  mode?: 'normal' | 'h1' | 'h2' | 'h3' | 'p'
-}> = ({ value, mode, content, ...props }) => {
-  const tagName = mode === 'normal' || !mode ? 'div' : mode;
-  return React.createElement(tagName, props, value || content);
-};
-
-const SchemaField = createSchemaField({
-  components: {
-    Space,
-    FormGrid,
-    FormLayout,
-    FormTab,
-    FormCollapse,
-    ArrayTable,
-    ArrayCards,
-    FormItem,
-    DatePicker,
-    Checkbox,
-    Cascader,
-    Editable,
-    Input,
-    Text,
-    NumberPicker,
-    Switch,
-    Password,
-    PreviewText,
-    Radio,
-    Reset,
-    Select,
-    Submit,
-    TimePicker,
-    Transfer,
-    TreeSelect,
-    Upload,
-    Card,
-    Slider,
-    Rate,
-  },
+registerComponents({
+  components,
+  FormProvider: components.Form,
 });
-
 export interface IPreviewWidgetProps {
   tree: TreeNode
 }
 
 export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
-  const form = useMemo(() => createForm(), []);
   const { form: formProps, schema } = transformToSchema(props.tree);
+  console.log('formProps');
+  console.log(formProps);
   return (
-    <Form {...formProps} form={form}>
-      <SchemaField schema={schema} />
-    </Form>
+    <div style={{ padding: '8px' }}>
+      <div>
+        <Radio.Group defaultValue="a">
+          <Radio.Button value="a">PC</Radio.Button>
+          <Radio.Button value="b">移动</Radio.Button>
+        </Radio.Group>
+      </div>
+      <FormRender schema={schema} formProps={{ componentProps: formProps }} components={components} />
+    </div>
   );
 };
