@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Sortable from 'sortablejs';
 import cls from 'classnames';
 import style from './index.less';
+import { getUuid } from '@/utils';
 
 export const PlanMapItem = (props: any) => {
   const { data = {}, onDelete, index } = props;
@@ -27,14 +28,14 @@ export const PlanMapItem = (props: any) => {
     <div className={classNames}>
       <span className={style.index}>{ index + 1}</span>
       <div className={style.header}>
-        {data.period}
+        D+{data.period}
         <span onClick={onDelete} className="iconfont icon-delete" />
       </div>
       <div className={style.body}>
         <div className={style.title}>随访项目</div>
         <div className={style.infos} ref={domRef}>
           {data?.infos?.map((item: any) => (
-            <div className={style.selectItem} key={item.id}>{item.name}</div>
+            <div className={style.selectItem} key={getUuid()}>{item.name}</div>
           ))}
         </div>
       </div>

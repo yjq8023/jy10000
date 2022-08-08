@@ -29,10 +29,12 @@ const getChildrenLength = (data: any = [], allListData: any = null) => {
 const Canvas = (props: any) => {
   const { planMapState, setPlanMapState } = useContext(planMapContext);
   const [planMapList, setPlanMapList] = useState([]);
+
   useEffect(() => {
     if (!planMapState) return;
     setPlanMapList(transformPlanMapDataToArray(planMapState));
   }, [planMapState]);
+
   const transformPlanMapDataToArray = (mapData: any, mapList: any = [], offset: number = 0, path: any = '') => {
     const nowList: any = [];
     nowList.offset = offset;

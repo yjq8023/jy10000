@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 // @ts-ignore
 import Sortable from 'sortablejs';
-import lodash from 'lodash';
 import style from './index.less';
-import { getUuid } from '@/utils';
 import PlanMapItem from '../PlanMapItem';
 import { planMapContext } from '@/pages/planMapEditor';
+import { getUuid } from '@/utils';
 
 const PlanMapRow = (props: any) => {
   const { listData, onChange, offset = 0 } = props;
   const domRef = useRef(null);
-  const { planMapState, setPlanMapState } = useContext(planMapContext);
+  const { setPlanMapState } = useContext(planMapContext);
   const sortableConfig = {
-    group: 'container',
+    group: {
+      pull: 'clone',
+      put: 'container',
+    },
     animation: 150,
     onAdd(e: any) {
       handleAddItem();
@@ -25,11 +27,7 @@ const PlanMapRow = (props: any) => {
   }, [listData]);
 
   const handleAddItem = () => {
-    const data = {
-      id: getUuid(),
-      period: Date.now(),
-    };
-    setPlanMapState('add', listData.path, data);
+    setPlanMapState('add', listData.path, {});
   };
   const handleDeleteItem = (itemData: any, index: number) => {
     setPlanMapState('delete', listData.path, index);

@@ -1,4 +1,4 @@
-import React, { useState, createContext, useMemo } from 'react';
+import React, { useState, createContext, useMemo, useRef } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import lodash from 'lodash';
 import { Badge } from '@sinohealth/butterfly-ui-components/lib';
@@ -7,6 +7,7 @@ import Canvas from '@/pages/planMapEditor/components/Canvas';
 
 import style from './index.less';
 import { getUuid } from '@/utils';
+import AddNodeModal from '@/pages/planMapEditor/components/AddNodeModal';
 
 export const planMapContext = createContext<any>(null);
 
@@ -17,7 +18,7 @@ const getPlanData = (count: number) => {
     i += 1;
     d.push({
       id: getUuid(),
-      period: `D+${i}`,
+      period: i * 10,
       infos: [
         {
           name: '糖尿病的急性并发症',
@@ -34,61 +35,58 @@ const getPlanData = (count: number) => {
   }
   return d;
 };
+const planData: any = [
+  {
+    id: 1,
+    period: 0,
+    infos: [
+      {
+        name: '糖尿病的急性并发症',
+        status: 'NOT_BEGIN',
+        type: 'AUTO',
+      },
+      {
+        name: '2型糖尿病的病因有哪些？',
+        status: 'NOT_BEGIN',
+        type: 'AUTO',
+      },
+    ],
+  },
+  ...getPlanData(4),
+];
+const c: any = getPlanData(4);
+c[2].children = [getPlanData(4)];
+planData[3].children = [c, getPlanData(4)];
+planData[1].children = [getPlanData(4), getPlanData(3)];
 const PlanMapEditor = () => {
-  const planData: any = [
-    {
-      id: 1,
-      period: '开始',
-      infos: [
-        {
-          name: '糖尿病的急性并发症',
-          status: 'NOT_BEGIN',
-          type: 'AUTO',
-        },
-        {
-          name: '2型糖尿病的病因有哪些？',
-          status: 'NOT_BEGIN',
-          type: 'AUTO',
-        },
-      ],
-    },
-    ...getPlanData(4),
-  ];
-  const c: any = getPlanData(4);
-  c[2].children = [getPlanData(4)];
-  planData[3].children = [c, getPlanData(4)];
-  planData[1].children = [getPlanData(4), getPlanData(3)];
-  const [planMapList, setPlanList] = useState(planData);
-  const [planMapState, setPlanMapState] = useState(planData);
-  const onChange = (data: any) => {
-    console.log('planList onChange2');
-    console.log(data);
-    setPlanList([...data]);
-  };
+  const [planMapState, setPlanMapStateFn] = useState(planData);
+  const addNodeModalRef = useRef<any>(null);
   const contextData = useMemo(() => {
+    const handleSetValue = (type: string, path: string, data: any) => {
+      const state = [...planMapState];
+      let node = path ? lodash.get(state, path) : state;
+      if (type === 'add') {
+        addNodeModalRef.current.handleOpen(path);
+        return;
+      }
+      if (type === 'delete') {
+        node.splice(data, 1);
+      }
+      if (type === 'update') {
+        node = data;
+      }
+      if (path) {
+        lodash.set(state, path, node);
+        setPlanMapStateFn(state);
+      } else {
+        setPlanMapStateFn(node);
+      }
+    };
     return {
       planMapState,
-      setPlanMapState: (type: string, path: string, data: any) => {
-        console.log('setPlanMapState');
-        console.log(type, path, data);
-        const state = [...planMapState];
-        const parentNode = path ? lodash.get(state, path) : state;
-        if (type === 'add') {
-          parentNode.push(data);
-        }
-        if (type === 'delete') {
-          parentNode.splice(data, 1);
-        }
-
-        if (path) {
-          lodash.set(state, path, parentNode);
-          setPlanMapState(state);
-        } else {
-          setPlanMapState(parentNode);
-        }
-      },
+      setPlanMapState: handleSetValue,
     };
-  }, [planMapState]);
+  }, [planMapState, setPlanMapStateFn]);
   return (
     <div className={style.planMapEditor}>
       <planMapContext.Provider value={contextData}>
@@ -106,10 +104,11 @@ const PlanMapEditor = () => {
             </div>
           </div>
           <div>
-            <Canvas key={planMapList} listData={planMapList} onChange={onChange} />
+            <Canvas />
           </div>
         </div>
         <div className={style.config}>config</div>
+        <AddNodeModal ref={addNodeModalRef} />
       </planMapContext.Provider>
     </div>
   );
