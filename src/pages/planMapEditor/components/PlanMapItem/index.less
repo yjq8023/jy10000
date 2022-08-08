@@ -1,12 +1,23 @@
 @import "@/style/var";
 .planMapItem {
-  border-top: 2px solid #46a0c0;
+  //border-top: 2px solid #46a0c0;
   position: relative;
   flex: 0 0 240px;
   padding: 10px 10px 30px 10px;
   flex-wrap: wrap;
+  &:after {
+    content: ' ';
+    height: 2px;
+    width: 100%;
+    background-color: #46a0c0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+  }
   .index {
     position: absolute;
+    z-index: 1;
     top: -18px;
     left: 10px;
     width: 30px;
@@ -41,5 +52,13 @@
   }
 }
 .planMapItemHasChildren {
-  border-left: 2px solid #46a0c0;
+  .borderDom {
+    display: inline-block;
+    width: 2px;
+    height: 100%;
+    background-color: #46a0c0;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 }

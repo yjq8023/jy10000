@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Sortable from 'sortablejs';
 import cls from 'classnames';
 import style from './index.less';
-import { getUuid } from '@/utils';
 
 export const PlanMapItem = (props: any) => {
   const { data = {}, onChange, index } = props;
@@ -36,6 +35,7 @@ export const PlanMapItem = (props: any) => {
           ))}
         </div>
       </div>
+      { data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
     </div>
   );
 };
