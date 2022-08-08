@@ -1,5 +1,6 @@
 import React, { useState, createContext, useMemo } from 'react';
 import { ReactSortable } from 'react-sortablejs';
+import lodash from 'lodash';
 import { Badge } from '@sinohealth/butterfly-ui-components/lib';
 import Selector from '@/pages/planMapEditor/components/Selector';
 import Canvas from '@/pages/planMapEditor/components/Canvas';
@@ -67,7 +68,25 @@ const PlanMapEditor = () => {
   const contextData = useMemo(() => {
     return {
       planMapState,
-      setPlanMapState,
+      setPlanMapState: (type: string, path: string, data: any) => {
+        console.log('setPlanMapState');
+        console.log(type, path, data);
+        const state = [...planMapState];
+        const parentNode = path ? lodash.get(state, path) : state;
+        if (type === 'add') {
+          parentNode.push(data);
+        }
+        if (type === 'delete') {
+          parentNode.splice(data, 1);
+        }
+
+        if (path) {
+          lodash.set(state, path, parentNode);
+          setPlanMapState(state);
+        } else {
+          setPlanMapState(parentNode);
+        }
+      },
     };
   }, [planMapState]);
   return (

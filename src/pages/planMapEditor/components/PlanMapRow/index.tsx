@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 // @ts-ignore
 import Sortable from 'sortablejs';
+import lodash from 'lodash';
 import style from './index.less';
 import { getUuid } from '@/utils';
 import PlanMapItem from '../PlanMapItem';
@@ -14,31 +15,29 @@ const PlanMapRow = (props: any) => {
     group: 'container',
     animation: 150,
     onAdd(e: any) {
-      const data = {
-        id: getUuid(),
-        period: Date.now(),
-      };
-      const newListData = [...listData];
-      newListData.splice(e.newIndex, 0, data);
-      // onChange(newListData);
+      handleAddItem();
     },
     scroll: true,
     sort: false,
-    dragClass: 'dragDom',
   };
   useEffect(() => {
     const s = new Sortable(domRef.current, sortableConfig);
   }, [listData]);
 
-  const onItemChange = (itemData: any, index: number) => {
-    const newListData = [...listData];
-    newListData[index] = itemData;
-    onChange(newListData);
+  const handleAddItem = () => {
+    const data = {
+      id: getUuid(),
+      period: Date.now(),
+    };
+    setPlanMapState('add', listData.path, data);
+  };
+  const handleDeleteItem = (itemData: any, index: number) => {
+    setPlanMapState('delete', listData.path, index);
   };
   return (
     <div className={style.planMapRow} style={{ marginLeft: `${offset * 240}px` }} ref={domRef}>
       {listData?.map((item: any, index: number) => {
-        return (<PlanMapItem key={item.id} data={item} index={index} onChange={(itemData: any) => onItemChange(itemData, index)} />);
+        return (<PlanMapItem key={item.id} data={item} index={index} onDelete={(itemData: any) => handleDeleteItem(itemData, index)} />);
       })}
     </div>
   );

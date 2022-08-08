@@ -5,7 +5,7 @@ import cls from 'classnames';
 import style from './index.less';
 
 export const PlanMapItem = (props: any) => {
-  const { data = {}, onChange, index } = props;
+  const { data = {}, onDelete, index } = props;
   const domRef = useRef(null);
   const sortableConfig = {
     sort: false,
@@ -26,7 +26,10 @@ export const PlanMapItem = (props: any) => {
   return (
     <div className={classNames}>
       <span className={style.index}>{ index + 1}</span>
-      <h3>{data.period}</h3>
+      <div className={style.header}>
+        {data.period}
+        <span onClick={onDelete} className="iconfont icon-delete" />
+      </div>
       <div className={style.body}>
         <div className={style.title}>随访项目</div>
         <div className={style.infos} ref={domRef}>

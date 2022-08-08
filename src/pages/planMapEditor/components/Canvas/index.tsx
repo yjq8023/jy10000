@@ -33,22 +33,26 @@ const Canvas = (props: any) => {
     if (!planMapState) return;
     setPlanMapList(transformPlanMapDataToArray(planMapState));
   }, [planMapState]);
-  const transformPlanMapDataToArray = (mapData: any, mapList: any = [], offset: number = 0) => {
+  const transformPlanMapDataToArray = (mapData: any, mapList: any = [], offset: number = 0, path: any = '') => {
     const nowList: any = [];
     nowList.offset = offset;
+    nowList.path = path;
     mapList.push(nowList);
     const reverseData = [...mapData].reverse();
-    reverseData.forEach((planMapItem: any, index) => {
+    reverseData.forEach((planMapItem: any, rIndex) => {
       const isHasChildren = planMapItem.children && planMapItem.children.length > 0;
-      nowList.unshift({
+      const index = reverseData.length - rIndex - 1;
+      const node = {
         ...planMapItem,
         isHasChildren,
         childrenRowCount: getChildrenLength(planMapItem.children, nowList),
-      });
+        path: `${path}[${index}]`,
+      };
+      nowList.unshift(node);
       if (isHasChildren) {
-        const ofs = offset + (reverseData.length - index - 1);
-        planMapItem.children.forEach((list: any) => {
-          transformPlanMapDataToArray(list, mapList, ofs);
+        const ofs = offset + index;
+        planMapItem.children.forEach((list: any, i: number) => {
+          transformPlanMapDataToArray(list, mapList, ofs, `${node.path}.children[${i}]`);
         });
       }
     });
