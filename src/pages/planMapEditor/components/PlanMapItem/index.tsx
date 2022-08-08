@@ -16,6 +16,11 @@ export const PlanMapItem = (props: any) => {
       put: 'action',
     },
     animation: 150,
+    onAdd(e: any) {
+      const type = e.clone.dataset.type;
+      console.log('e');
+      console.log(type);
+    },
   };
   useEffect(() => {
     const sortObj = new Sortable(domRef.current, sortableConfig);
@@ -23,12 +28,13 @@ export const PlanMapItem = (props: any) => {
   const classNames = cls({
     [style.planMapItem]: true,
     [style.planMapItemHasChildren]: data.isHasChildren,
+    [style.first]: data.period === 0,
   });
   return (
     <div className={classNames}>
       <span className={style.index}>{ index + 1}</span>
       <div className={style.header}>
-        D+{data.period}
+        { data.period === 0 ? '开始' : `D+${data.period}`}
         <span onClick={onDelete} className="iconfont icon-delete" />
       </div>
       <div className={style.body}>

@@ -65,7 +65,7 @@ const PlanMapEditor = () => {
       <div ref={actionDomRef}>
         {
           list.filter((item: any) => item.type === 'action').map((item: any) => {
-            return <div className={style.selectItem} key={item.id}>{item.name}</div>;
+            return <div className={style.selectItem} key={item.id} data-type={item.id}>{item.name}</div>;
           })
         }
       </div>
