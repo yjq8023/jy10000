@@ -58,6 +58,7 @@ import {
   FormLayout,
   FormGrid,
 } from '@sinohealth/designable-formily-antd';
+import { useSearchParams } from 'react-router-dom';
 import {
   LogoWidget,
   ActionsWidget,
@@ -102,6 +103,8 @@ GlobalRegistry.registerDesignerLocales({
 
 const FormilyEditor = () => {
   const [ioComponents, setIoComponents] = useState([]);
+  const [params] = useSearchParams();
+  const type = params.get('type');
   const engine = useMemo(
     () =>
       createDesigner({
@@ -124,62 +127,102 @@ const FormilyEditor = () => {
     setIoComponents(getIoComponents());
   }, []);
   // @ts-ignore
+  const renderResourceWidget = () => {
+    const IoResourceWidget = (
+      <ResourceWidget
+        title="决策流IO"
+        className={style.ioComponents}
+        sources={ioComponents}
+      />
+    );
+    const InputResourceWidget = (
+      <ResourceWidget
+        title="sources.Inputs"
+        sources={[
+          IO,
+          Input,
+          Password,
+          NumberPicker,
+          Rate,
+          Slider,
+          Select,
+          TreeSelect,
+          Cascader,
+          Transfer,
+          Checkbox,
+          Radio,
+          DatePicker,
+          TimePicker,
+          Upload,
+          Switch,
+          ObjectContainer,
+        ]}
+      />
+    );
+    const LayoutsResourceWidget = (
+      <ResourceWidget
+        title="sources.Layouts"
+        sources={[
+          Card,
+          FormGrid,
+          FormTab,
+          FormLayout,
+          FormCollapse,
+          Space,
+        ]}
+      />
+    );
+    const ArrayResourceWidget = (
+      <ResourceWidget
+        title="sources.Arrays"
+        sources={[ArrayCards, ArrayTable]}
+      />
+    );
+    const TextResourceWidget = (
+      <ResourceWidget title="sources.Displays" sources={[Text]} />
+    );
+    if (type === 'beforeInfo') {
+      return (
+        <>
+          { IoResourceWidget }
+          { TextResourceWidget }
+        </>
+      );
+    }
+    if (type === 'followUp') {
+      return (
+        <>
+          { IoResourceWidget }
+          { InputResourceWidget }
+          { LayoutsResourceWidget }
+          { ArrayResourceWidget }
+          { TextResourceWidget }
+        </>
+      );
+    }
+    return (
+      <>
+        { TextResourceWidget }
+        { InputResourceWidget }
+        { LayoutsResourceWidget }
+        { ArrayResourceWidget }
+      </>
+    );
+  };
   return (
     <div className={style.editor}>
       <Designer engine={engine}>
         <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
           <CompositePanel>
             <CompositePanel.Item title="panels.Component" icon="Component">
-              <ResourceWidget
-                title="决策流IO"
-                className={style.ioComponents}
-                sources={ioComponents}
-              />
-              {/* <ResourceWidget */}
-              {/*  title="sources.Inputs" */}
-              {/*  sources={[ */}
-              {/*    IO, */}
-              {/*    Input, */}
-              {/*    Password, */}
-              {/*    NumberPicker, */}
-              {/*    Rate, */}
-              {/*    Slider, */}
-              {/*    Select, */}
-              {/*    TreeSelect, */}
-              {/*    Cascader, */}
-              {/*    Transfer, */}
-              {/*    Checkbox, */}
-              {/*    Radio, */}
-              {/*    DatePicker, */}
-              {/*    TimePicker, */}
-              {/*    Upload, */}
-              {/*    Switch, */}
-              {/*    ObjectContainer, */}
-              {/*  ]} */}
-              {/* /> */}
-              <ResourceWidget
-                title="sources.Layouts"
-                sources={[
-                  Card,
-                  FormGrid,
-                  FormTab,
-                  FormLayout,
-                  FormCollapse,
-                  Space,
-                ]}
-              />
-              <ResourceWidget
-                title="sources.Arrays"
-                sources={[ArrayCards, ArrayTable]}
-              />
-              <ResourceWidget title="sources.Displays" sources={[Text]} />
+              { renderResourceWidget() }
             </CompositePanel.Item>
             <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
               <OutlineTreeWidget />
             </CompositePanel.Item>
-            <CompositePanel.Item title="panels.History" icon="History">
-              <HistoryWidget />
-            </CompositePanel.Item>
+            {/* <CompositePanel.Item title="panels.History" icon="History"> */}
+            {/*  <HistoryWidget /> */}
+            {/* </CompositePanel.Item> */}
           </CompositePanel>
           <Workspace id="form">
             <WorkspacePanel>

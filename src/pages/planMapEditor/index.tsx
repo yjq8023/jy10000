@@ -21,14 +21,20 @@ const getPlanData = (count: number) => {
       period: i * 10,
       infos: [
         {
-          name: '糖尿病的急性并发症',
-          status: 'NOT_BEGIN',
-          type: 'AUTO',
+          name: '跟进记录表',
+          type: 'followUp',
         },
         {
-          name: '2型糖尿病的病因有哪些？',
-          status: 'NOT_BEGIN',
-          type: 'AUTO',
+          name: '患教资料',
+          type: 'article',
+        },
+        {
+          name: '医学量表',
+          type: 'form',
+        },
+        {
+          name: '复诊复查',
+          type: 'diagnosis',
         },
       ],
     });
@@ -41,14 +47,8 @@ const planData: any = [
     period: 0,
     infos: [
       {
-        name: '糖尿病的急性并发症',
-        status: 'NOT_BEGIN',
-        type: 'AUTO',
-      },
-      {
-        name: '2型糖尿病的病因有哪些？',
-        status: 'NOT_BEGIN',
-        type: 'AUTO',
+        name: '项目前置信息',
+        type: 'beforeInfo',
       },
     ],
   },
