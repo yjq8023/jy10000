@@ -1,7 +1,7 @@
 // @ts-nocheck
 import '@sinohealth/designable-react/dist/designable.react.umd.production.css';
 import '@sinohealth/designable-react-settings-form/dist/designable.settings-form.umd.production.css';
-import React, { useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Designer,
   DesignerToolsWidget,
@@ -68,6 +68,8 @@ import {
 } from './widgets';
 import { saveSchema } from './service';
 import style from './index.less';
+import { getIoComponents } from '@/pages/formily/editor/utils';
+import IO from '@/pages/formily/editor/components/IO';
 
 setNpmCDNRegistry('//unpkg.com');
 
@@ -99,6 +101,7 @@ GlobalRegistry.registerDesignerLocales({
 });
 
 const FormilyEditor = () => {
+  const [ioComponents, setIoComponents] = useState([]);
   const engine = useMemo(
     () =>
       createDesigner({
@@ -117,6 +120,9 @@ const FormilyEditor = () => {
       }),
     [],
   );
+  useEffect(() => {
+    setIoComponents(getIoComponents());
+  }, []);
   // @ts-ignore
   return (
     <div className={style.editor}>
@@ -125,26 +131,32 @@ const FormilyEditor = () => {
           <CompositePanel>
             <CompositePanel.Item title="panels.Component" icon="Component">
               <ResourceWidget
-                title="sources.Inputs"
-                sources={[
-                  Input,
-                  Password,
-                  NumberPicker,
-                  Rate,
-                  Slider,
-                  Select,
-                  TreeSelect,
-                  Cascader,
-                  Transfer,
-                  Checkbox,
-                  Radio,
-                  DatePicker,
-                  TimePicker,
-                  Upload,
-                  Switch,
-                  ObjectContainer,
-                ]}
+                title="决策流IO"
+                className={style.ioComponents}
+                sources={ioComponents}
               />
+              {/* <ResourceWidget */}
+              {/*  title="sources.Inputs" */}
+              {/*  sources={[ */}
+              {/*    IO, */}
+              {/*    Input, */}
+              {/*    Password, */}
+              {/*    NumberPicker, */}
+              {/*    Rate, */}
+              {/*    Slider, */}
+              {/*    Select, */}
+              {/*    TreeSelect, */}
+              {/*    Cascader, */}
+              {/*    Transfer, */}
+              {/*    Checkbox, */}
+              {/*    Radio, */}
+              {/*    DatePicker, */}
+              {/*    TimePicker, */}
+              {/*    Upload, */}
+              {/*    Switch, */}
+              {/*    ObjectContainer, */}
+              {/*  ]} */}
+              {/* /> */}
               <ResourceWidget
                 title="sources.Layouts"
                 sources={[
@@ -209,6 +221,7 @@ const FormilyEditor = () => {
                         FormGrid,
                         FormLayout,
                         ObjectContainer,
+                        IO,
                       }}
                     />
                   )}

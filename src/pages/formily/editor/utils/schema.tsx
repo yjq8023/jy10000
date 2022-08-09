@@ -4,7 +4,7 @@ const defaultSchemaConfig = {
     type: 'string',
     title: '单选',
     enum: [],
-    key: 'IoRadio',
+    key: 'IoRadio.Group',
     'x-decorator': 'FormItem',
     'x-component': 'Radio.Group',
   },
@@ -12,7 +12,7 @@ const defaultSchemaConfig = {
     type: 'array',
     title: '多选',
     enum: [],
-    key: 'IoCheckbox',
+    key: 'IoCheckbox.Group',
     'x-decorator': 'FormItem',
     'x-component': 'Checkbox.Group',
   },
@@ -23,7 +23,7 @@ const defaultSchemaConfig = {
     'x-component-props': {
       placeholder: '请选择',
     },
-    key: 'IoCheckbox',
+    key: 'IoDatePicker',
     type: 'string',
   },
   DATE_TIME: {

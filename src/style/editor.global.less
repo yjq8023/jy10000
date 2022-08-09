@@ -20,7 +20,7 @@
     background-color: rgba(0, 0, 0, 0.3);
   }
 
-  .@{ant-prefix}-collapse {
+  :global(.@{ant-prefix}-collapse) {
     border: 1px solid @border-color-split;
 
     &-header {
@@ -48,19 +48,19 @@
     }
   }
 
-  .reaction-runner {
+  :global(.reaction-runner) {
     .@{ant-prefix}-collapse-content-box {
       padding: 12px 0 !important;
     }
   }
 
-  .reaction-state {
-    .@{ant-prefix}-collapse-content-box {
+  :global(.reaction-state) {
+    :global(.@{ant-prefix}-collapse-content-box) {
       padding: 12px 0 !important;
     }
   }
 
-  .dn-field-property-setter {
+  :global(.dn-field-property-setter) {
     display: flex;
     height: 300px;
 

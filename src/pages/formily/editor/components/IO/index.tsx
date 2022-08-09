@@ -3,15 +3,18 @@ import { Input as FormilyInput } from '@sinohealth/butterfly-formily-components'
 import { createBehavior, createResource } from '@sinohealth/designable-core';
 import { DnFC } from '@sinohealth/designable-react';
 
-export const IO: DnFC<React.ComponentProps<typeof FormilyInput>> =
-  FormilyInput;
+export const IO: any = () => {
+  return <div>IO</div>;
+};
 
 IO.Behavior = createBehavior(
   {
     name: 'IO',
-    extends: ['Field'],
-    // @ts-ignore
-    selector: (node) => node.props['x-component'] === 'Input',
+    selector: (node: any) => {
+      console.log('node');
+      console.log(node);
+      return node.props.key === 'IoRadio';
+    },
     designerProps: {
       propsSchema: {
         type: 'object',
@@ -24,6 +27,11 @@ IO.Behavior = createBehavior(
                 type: 'string',
                 'x-decorator': 'FormItem',
                 'x-component': 'Input',
+              },
+              required: {
+                type: 'boolean',
+                'x-decorator': 'FormItem',
+                'x-component': 'Switch',
               },
               title: {
                 type: 'string',
@@ -57,11 +65,6 @@ IO.Behavior = createBehavior(
                 'x-decorator': 'FormItem',
                 'x-component': 'ValueInput',
               },
-              required: {
-                type: 'boolean',
-                'x-decorator': 'FormItem',
-                'x-component': 'Switch',
-              },
             },
           },
         },
@@ -73,14 +76,19 @@ IO.Behavior = createBehavior(
 IO.Resource = createResource(
   {
     icon: 'InputSource',
+    title: 'IO组件',
     elements: [
       {
         componentName: 'Field',
         props: {
           type: 'string',
-          title: 'Input',
+          title: 'IO组件',
+          key: 'IoRadio',
           'x-decorator': 'FormItem',
-          'x-component': 'Input',
+          'x-component': 'Radio.Group',
+          'x-component-props': {
+            placeholder: '123',
+          },
         },
       },
     ],

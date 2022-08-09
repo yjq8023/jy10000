@@ -2,8 +2,6 @@ import React from 'react';
 import { Input, Select } from '@sinohealth/designable-formily-antd';
 
 export const LinkagesSetter = (props: any) => {
-  console.log('props');
-  console.log(props);
   const { onChange, value = {} } = props;
   const linkagesData = props.value || {};
   const handleChange = (key: string, val: any) => {
