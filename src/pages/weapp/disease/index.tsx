@@ -24,6 +24,7 @@ const Disease: React.FC = () => {
   const navigate = useNavigate();
   const list: any = useList();
   const [carouselVisible, setCarouselVisible] = useState(false);
+  const [isUpdateSucc, setIsUpdateSucc] = useState(false);
   const [appName, setAppName] = useState('');
   const [carouselParams, setCarouselParams] = useState<UCenter.InsertReq>({
     storageId: '',
@@ -128,8 +129,16 @@ const Disease: React.FC = () => {
               <VerticalAlignTopOutlined
                 className={styles.upTopIcon}
                 onClick={async () => {
+                  if (isUpdateSucc) return;
+                  setIsUpdateSucc(true);
+                  message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
                   const res = await httpSlideTopWeight(record.id);
-                  if (res) list.current.reloadListData(true);
+                  const timer = setTimeout(() => {
+                    if (res) list.current.reloadListData(true);
+                    message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+                    clearTimeout(timer);
+                    setIsUpdateSucc(false);
+                  }, 1500);
                 }}
               />
             ) : null}
@@ -157,11 +166,14 @@ const Disease: React.FC = () => {
             <Switch
               defaultChecked={isUp}
               onChange={async (e) => {
+                setIsUpdateSucc(true);
                 const res = await httpSlideUpdateStatus({
                   ids: [record.id],
                   status: isUp ? 'disable' : 'enable',
                 });
-                if (res) list.current.reloadListData(true);
+                if (res) {
+                  list.current.reloadListData(true);
+                }
               }}
             />
           </div>
