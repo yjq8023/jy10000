@@ -79,6 +79,11 @@ const routerConfig: routerConfigItem[] = [
         path: '/project/term/library',
         element: <TermLibrary />,
       },
+      {
+        path: 'project/term/library/editor',
+        element: <PlanMapEditor />,
+        hideInMenu: true
+      },
       // 资料库管理
       {
         path: '/project/article/library',
@@ -96,6 +101,14 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/project/label/classify',
         element: <LabelClassify />,
+      },
+      {
+        path: '/project/label/classify',
+        element: <LabelClassify />,
+      },
+      {
+        path: '/project/formily/editor',
+        element: <FormilyEditor />,
       },
     ],
   },
@@ -163,10 +176,35 @@ export const breadcrumbMap = {
       },
       edit: {
         label: '编辑病种项目',
-        path: '/weapp/project/edit',
+        path: '/weapp/plan/edit',
       },
     },
   },
+  // /project/term/library/editor
+  project: {
+    label: '项目管理',
+    path: '/project/term/library',
+    term: {
+      label: '项目库管理',
+      path: '/project/term/library',
+      library: {
+        label: '项目库',
+        path: '/project/term/library',
+        editor: {
+          label: '编辑管理路径',
+          path: '/project/term/library/editor',
+        }
+      }
+    },
+    formily: {
+      label: '表单管理',
+      path: '/project/formily/editor',
+      editor: {
+        label: '表单编辑',
+        path: '/project/formily/editor',
+      }
+    }
+  }
 };
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {
   config.forEach((item) => {

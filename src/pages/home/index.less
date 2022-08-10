@@ -2,11 +2,18 @@
 :global(.layout.ant-layout .ant-layout-content .content .body) {
   padding: 0px;
 }
+
 .homeBody {
   display: flex;
   flex-direction: column;
   height: 100%;
   padding: 8px;
+  &.collapsed {
+    padding: 0;
+    :global(.pageHeader) {
+      margin: 0 0 8px!important;
+    }
+  }
   .homeBodyContent {
     flex: 1;
     :global(.content-page) {
