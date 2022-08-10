@@ -4,10 +4,16 @@ import Login from '../pages/user/login';
 import Password from '../pages/user/password';
 import { Navigate } from 'react-router-dom';
 import ProjectAdd from '@/pages/weapp/projectAdd';
+import LabelClassify from '@/pages/project/labelClassify';
+import LabelLibrary from '@/pages/project/labelLibrary';
+import TermLibrary from '@/pages/project/termLibrary';
+import ArticleLibrary from '@/pages/project/articleLibrary';
+import ScaleLibrary from '@/pages/project/scaleLibrary';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const WeappColumn = lazy(() => import('../pages/weapp/column'));
 const WeappProject = lazy(() => import('../pages/weapp/project'));
+const Disease = lazy(() => import('../pages/weapp/disease'));
 const OrganList = lazy(() => import('../pages/setting/organList'));
 const UserList = lazy(() => import('../pages/setting/userList'));
 const Message = lazy(() => import('../pages/message'));
@@ -41,6 +47,10 @@ const routerConfig: routerConfigItem[] = [
         element: <WeappProject />,
       },
       {
+        path: '/weapp/disease',
+        element: <Disease />,
+      },
+      {
         path: '/setting/organList',
         element: <OrganList />,
       },
@@ -64,13 +74,28 @@ const routerConfig: routerConfigItem[] = [
         path: '/follow/count',
         element: <FollowCount />,
       },
+      // 项目管理
       {
-        path: '/formily/editor',
-        element: <FormilyEditor />
+        path: '/project/term/library',
+        element: <TermLibrary />,
+      },
+      // 资料库管理
+      {
+        path: '/project/article/library',
+        element: <ArticleLibrary />,
       },
       {
-        path: '/planMapEditor',
-        element: <PlanMapEditor />
+        path: '/project/scale/library',
+        element: <ScaleLibrary />,
+      },
+      // 标签管理
+      {
+        path: '/project/label/library',
+        element: <LabelLibrary />,
+      },
+      {
+        path: '/project/label/classify',
+        element: <LabelClassify />,
       },
     ],
   },

@@ -73,6 +73,11 @@ const UserForm: FC<UserFormType> = (props) => {
     listDepartment(id).then((res) => {
       console.log(res);
       setDpartmentOptions(res);
+      const currDepartmentId = form.getFieldValue('departmentId');
+      const isHave = res.some((item: any) => item.id === currDepartmentId);
+      if (!isHave) {
+        form.setFieldsValue({ departmentId: '' });
+      }
     });
   };
 

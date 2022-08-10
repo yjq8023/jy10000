@@ -139,4 +139,20 @@ declare namespace UCenter {
     hidden: boolean;
     children: MenuTreeItem[];
   };
+
+  type carouselItem = {
+    createTime: string;
+    fileUrl: string;
+    id: string;
+    name: string;
+    sort: number;
+    status: string;
+    updateTime: string;
+  };
+
+  type carouseList = {
+    pageNo: number;
+    total: string;
+    records: carouselItem[];
+  };
 }
