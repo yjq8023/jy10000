@@ -11,6 +11,7 @@ import { planMapContext } from '@/pages/planMapEditor';
 import AddFollowUpModal from '@/pages/planMapEditor/components/AddFollowUpModal';
 import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
 import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
+import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModal';
 
 const getInfoItemCls = (type: string) => {
   return cls({
@@ -29,6 +30,7 @@ export const PlanMapItem = (props: any) => {
   const addFollowUpModal = useRef<any>(null);
   const addArticleModal = useRef<any>(null);
   const addFormModal = useRef<any>(null);
+  const addDiagnosisModal = useRef<any>(null);
   const domRef = useRef(null);
   const sortableConfig = {
     sort: false,
@@ -50,6 +52,9 @@ export const PlanMapItem = (props: any) => {
       }
       if (type === planItemTypes.form) {
         addFormModal.current?.handleOpen(data);
+      }
+      if (type === planItemTypes.diagnosis) {
+        addDiagnosisModal.current?.handleOpen(data);
       }
     },
   };
@@ -93,6 +98,7 @@ export const PlanMapItem = (props: any) => {
       <AddFollowUpModal ref={addFollowUpModal} />
       <AddArticleModal ref={addArticleModal} />
       <AddFormModal ref={addFormModal} />
+      <AddDiagnosisModal ref={addDiagnosisModal} />
     </>
   );
 };
