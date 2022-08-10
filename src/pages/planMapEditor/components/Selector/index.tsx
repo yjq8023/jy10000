@@ -1,34 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // @ts-ignore
 import Sortable from 'sortablejs';
 import style from './index.less';
+import { planItemTypes } from '@/pages/planMapEditor/config';
 
 const PlanMapEditor = () => {
   const [list, setState] = useState<any>([
     {
-      id: 1,
+      id: 'node',
       name: '节点容器',
       type: 'container',
+      icon: 'icon-apartment',
     },
     {
-      id: 2,
+      id: planItemTypes.followUp,
       name: '根据记录表',
       type: 'action',
+      icon: 'icon-filedone',
     },
     {
-      id: 3,
+      id: planItemTypes.article,
       name: '患教资料',
       type: 'action',
+      icon: 'icon-send',
     },
     {
-      id: 4,
+      id: planItemTypes.form,
       name: '医学量表',
       type: 'action',
+      icon: 'icon-solution',
     },
     {
-      id: 5,
+      id: planItemTypes.diagnosis,
       name: '复诊复查',
       type: 'action',
+      icon: 'icon-project',
     },
   ]);
   const containerDomRef = useRef(null);
@@ -52,20 +58,36 @@ const PlanMapEditor = () => {
   }, []);
   return (
     <div className={style.selector}>
-      <div className={style.header}>
+      <div className={`${style.header} but-title`}>
         业务组件
+      </div>
+      <div className={style.desc}>
+        拖拽至路径进行添加
       </div>
       <div ref={containerDomRef}>
         {
           list.filter((item: any) => item.type === 'container').map((item: any) => {
-            return <div className={style.selectItem} key={item.id}>{item.name}</div>;
+            return (
+              <div className={style.selectItem} key={item.id}>
+                <span className={`iconfont ${item.icon}`} />&nbsp;&nbsp;
+                {item.name}
+              </div>
+            );
           })
         }
+      </div>
+      <div className={style.desc}>
+        拖拽至节点进行添加
       </div>
       <div ref={actionDomRef}>
         {
           list.filter((item: any) => item.type === 'action').map((item: any) => {
-            return <div className={style.selectItem} key={item.id} data-type={item.id}>{item.name}</div>;
+            return (
+              <div className={style.selectItem} key={item.id} data-type={item.id}>
+                <span className={`iconfont ${item.icon}`} />&nbsp;&nbsp;
+                {item.name}
+              </div>
+            );
           })
         }
       </div>

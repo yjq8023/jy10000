@@ -8,6 +8,7 @@ import Canvas from '@/pages/planMapEditor/components/Canvas';
 import style from './index.less';
 import { getUuid } from '@/utils';
 import AddNodeModal from '@/pages/planMapEditor/components/AddNodeModal';
+import Setting from '@/pages/planMapEditor/components/Setting';
 
 export const planMapContext = createContext<any>(null);
 
@@ -60,6 +61,7 @@ planData[3].children = [c, getPlanData(4)];
 planData[1].children = [getPlanData(4), getPlanData(3)];
 const PlanMapEditor = () => {
   const [planMapState, setPlanMapStateFn] = useState(planData);
+  const [selectedNode, setSelectedNode] = useState<any>(null);
   const addNodeModalRef = useRef<any>(null);
   const contextData = useMemo(() => {
     const handleSetValue = (type: string, path: string, data: any) => {
@@ -85,8 +87,10 @@ const PlanMapEditor = () => {
     return {
       planMapState,
       setPlanMapState: handleSetValue,
+      selectedNode,
+      setSelectedNode,
     };
-  }, [planMapState, setPlanMapStateFn]);
+  }, [planMapState, setPlanMapStateFn, selectedNode, setSelectedNode]);
   return (
     <div className={style.planMapEditor}>
       <planMapContext.Provider value={contextData}>
@@ -96,18 +100,23 @@ const PlanMapEditor = () => {
         <div className={style.editorBody}>
           <div className={style.bodyHeader}>
             <div>
+              <div className="but-title">管理计划</div>
+            </div>
+            <div>
               <Badge color="cyan" text="前置信息" />
               <Badge color="green" text="跟进记录表" />
               <Badge color="blue" text="患教文章" />
               <Badge color="gold" text="医学量表" />
-              <Badge color="purples" text="复诊复查项目" />
+              <Badge color="purple" text="复诊复查项目" />
             </div>
           </div>
           <div>
             <Canvas />
           </div>
         </div>
-        <div className={style.config}>config</div>
+        <div className={style.config}>
+          <Setting />
+        </div>
         <AddNodeModal ref={addNodeModalRef} />
       </planMapContext.Provider>
     </div>

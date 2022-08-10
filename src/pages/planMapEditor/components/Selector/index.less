@@ -1,16 +1,26 @@
+@import "@/style/var";
 .selector {
   .header {
-    border-bottom: 1px solid #ccc;
-    font-size: 16px;
-    font-weight: 600;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
+  }
+  .desc {
+    font-size: 12px;
+    color: @break-color4;
+    margin: 12px 0;
   }
   .selectItem {
-    border: 1px solid #ccc;
-    padding: 12px;
-    border-radius: 4px;
+    line-height: 56px;
+    height: 56px;
+    background: #EFFAFF;
+    border-radius: 6px;
     cursor: pointer;
     margin-bottom: 8px;
+    color: @primary-color;
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    :global(.iconfont) {
+      font-size: 20px;
+    }
   }
 }
