@@ -9,6 +9,10 @@ import style from './index.less';
 import { getUuid } from '@/utils';
 import AddNodeModal from '@/pages/planMapEditor/components/AddNodeModal';
 import Setting from '@/pages/planMapEditor/components/Setting';
+import AddFollowUpModal from '@/pages/planMapEditor/components/AddFollowUpModal';
+import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
+import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
+import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModal';
 
 export const planMapContext = createContext<any>(null);
 
@@ -63,6 +67,10 @@ const PlanMapEditor = () => {
   const [planMapState, setPlanMapStateFn] = useState(planData);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const addNodeModalRef = useRef<any>(null);
+  const addFollowUpModal = useRef<any>(null);
+  const addArticleModal = useRef<any>(null);
+  const addFormModal = useRef<any>(null);
+  const addDiagnosisModal = useRef<any>(null);
   const contextData = useMemo(() => {
     const handleSetValue = (type: string, path: string, data: any) => {
       const state = [...planMapState];
@@ -89,6 +97,10 @@ const PlanMapEditor = () => {
       setPlanMapState: handleSetValue,
       selectedNode,
       setSelectedNode,
+      addFollowUpModal,
+      addFormModal,
+      addArticleModal,
+      addDiagnosisModal,
     };
   }, [planMapState, setPlanMapStateFn, selectedNode, setSelectedNode]);
   return (
@@ -122,6 +134,10 @@ const PlanMapEditor = () => {
           )
         }
         <AddNodeModal ref={addNodeModalRef} />
+        <AddFollowUpModal ref={addFollowUpModal} />
+        <AddArticleModal ref={addArticleModal} />
+        <AddFormModal ref={addFormModal} />
+        <AddDiagnosisModal ref={addDiagnosisModal} />
       </planMapContext.Provider>
     </div>
   );

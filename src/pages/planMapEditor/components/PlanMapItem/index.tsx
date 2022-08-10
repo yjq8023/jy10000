@@ -8,10 +8,6 @@ import style from './index.less';
 import { getUuid } from '@/utils';
 import { planItemTypes } from '@/pages/planMapEditor/config';
 import { planMapContext } from '@/pages/planMapEditor';
-import AddFollowUpModal from '@/pages/planMapEditor/components/AddFollowUpModal';
-import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
-import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
-import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModal';
 
 const getInfoItemCls = (type: string) => {
   return cls({
@@ -25,12 +21,14 @@ const getInfoItemCls = (type: string) => {
 };
 export const PlanMapItem = (props: any) => {
   const { data = {}, onDelete, index } = props;
-  const { setSelectedNode } = useContext(planMapContext);
+  const {
+    setSelectedNode,
+    addFollowUpModal,
+    addFormModal,
+    addArticleModal,
+    addDiagnosisModal,
+  } = useContext(planMapContext);
   const navigate = useNavigate();
-  const addFollowUpModal = useRef<any>(null);
-  const addArticleModal = useRef<any>(null);
-  const addFormModal = useRef<any>(null);
-  const addDiagnosisModal = useRef<any>(null);
   const domRef = useRef(null);
   const sortableConfig = {
     sort: false,
@@ -75,31 +73,25 @@ export const PlanMapItem = (props: any) => {
     // }
   };
   return (
-    <>
-      <div className={classNames}>
-        <span className={style.index}>{ index + 1}</span>
-        <div className={style.header}>
-          { data.period === 0 ? '开始' : `D+${data.period}`}
-          <span onClick={onDelete} className="iconfont icon-delete" />
-        </div>
-        <div className={style.body}>
-          <div className={style.title}>随访项目</div>
-          <div className={style.infos} ref={domRef}>
-            {data?.infos?.map((item: any) => (
-              <div className={getInfoItemCls(item.type)} key={getUuid()} onClick={() => handleClickInfo(item)}>
-                <Badge color="cyan" />
-                {item.name}
-              </div>
-            ))}
-          </div>
-        </div>
-        { data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
+    <div className={classNames}>
+      <span className={style.index}>{ index + 1}</span>
+      <div className={style.header}>
+        { data.period === 0 ? '开始' : `D+${data.period}`}
+        <span onClick={onDelete} className="iconfont icon-delete" />
       </div>
-      <AddFollowUpModal ref={addFollowUpModal} />
-      <AddArticleModal ref={addArticleModal} />
-      <AddFormModal ref={addFormModal} />
-      <AddDiagnosisModal ref={addDiagnosisModal} />
-    </>
+      <div className={style.body}>
+        <div className={style.title}>随访项目</div>
+        <div className={style.infos} ref={domRef}>
+          {data?.infos?.map((item: any) => (
+            <div className={getInfoItemCls(item.type)} key={getUuid()} onClick={() => handleClickInfo(item)}>
+              <Badge color="cyan" />
+              {item.name}
+            </div>
+          ))}
+        </div>
+      </div>
+      { data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
+    </div>
   );
 };
 
