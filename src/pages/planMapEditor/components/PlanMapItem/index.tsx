@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Badge } from '@sinohealth/butterfly-ui-components/lib';
 // @ts-ignore
 import Sortable from 'sortablejs';
 import cls from 'classnames';
@@ -8,6 +9,7 @@ import { getUuid } from '@/utils';
 import { planItemTypes } from '@/pages/planMapEditor/config';
 import { planMapContext } from '@/pages/planMapEditor';
 import AddFollowUpModal from '@/pages/planMapEditor/components/AddFollowUpModal';
+import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
 
 const getInfoItemCls = (type: string) => {
   return cls({
@@ -24,6 +26,7 @@ export const PlanMapItem = (props: any) => {
   const { setSelectedNode } = useContext(planMapContext);
   const navigate = useNavigate();
   const addFollowUpModal = useRef<any>(null);
+  const addArticleModal = useRef<any>(null);
   const domRef = useRef(null);
   const sortableConfig = {
     sort: false,
@@ -39,6 +42,9 @@ export const PlanMapItem = (props: any) => {
       console.log(type);
       if (type === planItemTypes.followUp) {
         addFollowUpModal.current?.handleOpen(data);
+      }
+      if (type === planItemTypes.article) {
+        addArticleModal.current?.handleOpen(data);
       }
     },
   };
@@ -70,13 +76,17 @@ export const PlanMapItem = (props: any) => {
           <div className={style.title}>随访项目</div>
           <div className={style.infos} ref={domRef}>
             {data?.infos?.map((item: any) => (
-              <div className={getInfoItemCls(item.type)} key={getUuid()} onClick={() => handleClickInfo(item)}>{item.name}</div>
+              <div className={getInfoItemCls(item.type)} key={getUuid()} onClick={() => handleClickInfo(item)}>
+                <Badge color="cyan" />
+                {item.name}
+              </div>
             ))}
           </div>
         </div>
         { data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
       </div>
       <AddFollowUpModal ref={addFollowUpModal} />
+      <AddArticleModal ref={addArticleModal} />
     </>
   );
 };
