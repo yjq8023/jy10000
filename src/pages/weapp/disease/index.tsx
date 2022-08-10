@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Badge, Switch, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
 import styles from './index.less';
-import { httpSlideShow } from '@/services/weapp';
+import {
+  httpSlideDelete,
+  httpSlideInsert,
+  httpSlideShow,
+  httpSlideTopWeight,
+  httpSlideUpdateStatus,
+} from '@/services/weapp';
 import { UCenter } from '@/services/weapp/data';
 import { previewFile } from '@/utils';
 import Carousel from './components/Carousel';
@@ -18,6 +24,12 @@ const Disease: React.FC = () => {
   const navigate = useNavigate();
   const list: any = useList();
   const [carouselVisible, setCarouselVisible] = useState(false);
+  const [appName, setAppName] = useState('');
+  const [carouselParams, setCarouselParams] = useState<UCenter.InsertReq>({
+    storageId: '',
+    appCode: '',
+    title: '',
+  });
 
   const fetchAPi = (params: { current: any }) => {
     return httpSlideShow({
@@ -38,16 +50,40 @@ const Disease: React.FC = () => {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <Link to={`edit?id=${itemData.id}`}>修改</Link>
+        <a
+          onClick={() => {
+            setCarouselParams(itemData);
+            setCarouselVisible(true);
+          }}
+        >
+          修改
+        </a>
         &nbsp; &nbsp;
-        <a onClick={() => console.log(itemData.id)}>删除</a>
+        <a
+          onClick={async () => {
+            const res: any = await httpSlideDelete(itemData.id);
+            if (res) {
+              list.current.reloadListData(true);
+            }
+          }}
+        >
+          删除
+        </a>
       </div>
     );
   };
 
   const Toolbar = () => {
     return (
-      <Button type="primary" onClick={() => setCarouselVisible(true)}>
+      <Button
+        type="primary"
+        onClick={() => {
+          setCarouselVisible(true);
+          const source = list.current.searchForm.getSource;
+          const id = list.current.searchForm.getFieldValue('appCode');
+          setAppName(source.filter((el: any) => el.id === id)[0].value);
+        }}
+      >
         <PlusCircleOutlined />
         增加轮播图
       </Button>
@@ -79,21 +115,24 @@ const Disease: React.FC = () => {
     },
     {
       title: '轮播图排序',
-      dataIndex: 'sort',
-      key: 'sort',
+      dataIndex: 'weight',
+      key: 'weight',
       render(text: string, record: UCenter.carouselItem, index: number) {
         if (!record.status) {
           return '--';
         }
         return (
           <div className={styles.sortDom}>
-            {text}
-            {index !== 0 && (
+            {/* {text} */}
+            {index !== 0 && record.status === 'enable' ? (
               <VerticalAlignTopOutlined
                 className={styles.upTopIcon}
-                onClick={() => console.log(record, index)}
+                onClick={async () => {
+                  const res = await httpSlideTopWeight(record.id);
+                  if (res) list.current.reloadListData(true);
+                }}
               />
-            )}
+            ) : null}
           </div>
         );
       },
@@ -110,12 +149,21 @@ const Disease: React.FC = () => {
       key: 'status',
       width: 120,
       render(text: string, record: any) {
-        const isUp = text === 'ENABLE';
+        const isUp = text === 'enable';
         return (
           <div>
             <Badge color={text ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
             &nbsp;
-            <Switch defaultChecked={isUp} onChange={(e) => console.log(e, record)} />
+            <Switch
+              defaultChecked={isUp}
+              onChange={async (e) => {
+                const res = await httpSlideUpdateStatus({
+                  ids: [record.id],
+                  status: isUp ? 'disable' : 'enable',
+                });
+                if (res) list.current.reloadListData(true);
+              }}
+            />
           </div>
         );
       },
@@ -137,11 +185,32 @@ const Disease: React.FC = () => {
       <BaseList
         ListTitle="轮播图管理"
         columns={columns}
+        list={list}
         fetchApi={fetchAPi}
         SearchForm={SearchForm}
         Toolbar={Toolbar}
       />
-      <Carousel visible={carouselVisible} onCancel={() => setCarouselVisible(false)} />
+      <Carousel
+        visible={carouselVisible}
+        appName={appName}
+        params={{
+          storageId: carouselParams.storageId,
+          title: carouselParams.title,
+        }}
+        onCancel={() => {
+          setCarouselParams({ storageId: '', appCode: '', title: '' });
+          setCarouselVisible(false);
+        }}
+        onOk={async (v) => {
+          const appCode = list.current.searchForm.getFieldValue('appCode');
+          const res: any = await httpSlideInsert({ ...carouselParams, ...v, appCode });
+          if (res.success) {
+            list.current.reloadListData(true);
+            setCarouselVisible(false);
+            setCarouselParams({ storageId: '', appCode: '', title: '' });
+          }
+        }}
+      />
     </div>
   );
 };

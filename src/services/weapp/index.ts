@@ -81,7 +81,7 @@ export const httpSlideShow = (params: any) => {
  */
 export const httpSlideTopWeight = (id: string) => {
   // @ts-ignore
-  return request.get(`${prefix}/slideShow/topWeight/${id}`, params, { isReturnAllData: true });
+  return request.get(`${prefix}/slideShow/topWeight/${id}`, {}, { isReturnAllData: true });
 };
 
 /**
@@ -101,7 +101,7 @@ export const httpSlideInsert = (params: any) => {
  */
 export const httpSlideDelete = (id: string) => {
   // @ts-ignore
-  return request.get(`${prefix}/slideShow/delete/${id}`, params, { isReturnAllData: true });
+  return request.get(`${prefix}/slideShow/delete/${id}`, {}, { isReturnAllData: true });
 };
 
 /**

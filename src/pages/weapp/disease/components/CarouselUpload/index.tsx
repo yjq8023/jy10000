@@ -40,7 +40,9 @@ function checkImageWH(file: any, width: number, height: number) {
 }
 
 interface CustomUploadProps extends UploadProps {
+  fileId?: string;
   onSuccess: (values: any) => void;
+  onDel: () => void;
   maxSize: number;
 }
 
@@ -49,7 +51,7 @@ interface CustomUploadProps extends UploadProps {
  * @returns
  */
 const CarouselUpload: React.FC<CustomUploadProps> = (props) => {
-  const { maxSize, onSuccess } = props;
+  const { maxSize, fileId, onSuccess, onDel } = props;
   const [imgBase64, setImgBase64] = useState('');
 
   const uploadProps: UploadProps = {
@@ -97,7 +99,12 @@ const CarouselUpload: React.FC<CustomUploadProps> = (props) => {
 
   const handleDelBase64 = () => {
     setImgBase64('');
+    onDel && onDel();
   };
+
+  useEffect(() => {
+    setImgBase64(fileId || '');
+  }, [fileId]);
 
   return (
     <div>
