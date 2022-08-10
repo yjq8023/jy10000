@@ -10,6 +10,7 @@ import { planItemTypes } from '@/pages/planMapEditor/config';
 import { planMapContext } from '@/pages/planMapEditor';
 import AddFollowUpModal from '@/pages/planMapEditor/components/AddFollowUpModal';
 import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
+import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
 
 const getInfoItemCls = (type: string) => {
   return cls({
@@ -27,6 +28,7 @@ export const PlanMapItem = (props: any) => {
   const navigate = useNavigate();
   const addFollowUpModal = useRef<any>(null);
   const addArticleModal = useRef<any>(null);
+  const addFormModal = useRef<any>(null);
   const domRef = useRef(null);
   const sortableConfig = {
     sort: false,
@@ -45,6 +47,9 @@ export const PlanMapItem = (props: any) => {
       }
       if (type === planItemTypes.article) {
         addArticleModal.current?.handleOpen(data);
+      }
+      if (type === planItemTypes.form) {
+        addFormModal.current?.handleOpen(data);
       }
     },
   };
@@ -87,6 +92,7 @@ export const PlanMapItem = (props: any) => {
       </div>
       <AddFollowUpModal ref={addFollowUpModal} />
       <AddArticleModal ref={addArticleModal} />
+      <AddFormModal ref={addFormModal} />
     </>
   );
 };
