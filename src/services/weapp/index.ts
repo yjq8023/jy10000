@@ -26,8 +26,10 @@ export const setColumnStatus = (params: any) => {
 };
 
 export const getProjectList = (params: any) => {
-  // @ts-ignore
-  return request.post(`${prefix}/diseaseProject/pageDiseaseProject`, params, { isReturnAllData: true });
+  return request.post(`${prefix}/diseaseProject/pageDiseaseProject`, params, {
+    // @ts-ignore
+    isReturnAllData: true,
+  });
 };
 
 export const setProjectStatus = (params: any) => {
@@ -62,6 +64,66 @@ export const getMechanismList = (params: any) => {
   return request.post(`${prefix}/chain/listByEntity`, params);
 };
 
+/**
+ * 分页查询轮播图
+ * @param params
+ * @returns
+ */
+export const httpSlideShow = (params: any) => {
+  // @ts-ignore
+  return request.post(`${prefix}/slideShow/page`, params, { isReturnAllData: true });
+};
+
+/**
+ * 置顶轮播图
+ * @param params
+ * @returns
+ */
+export const httpSlideTopWeight = (id: string) => {
+  // @ts-ignore
+  return request.get(`${prefix}/slideShow/topWeight/${id}`, params, { isReturnAllData: true });
+};
+
+/**
+ * 新增轮播图
+ * @param params
+ * @returns
+ */
+export const httpSlideInsert = (params: any) => {
+  // @ts-ignore
+  return request.post(`${prefix}/slideShow/insert`, params, { isReturnAllData: true });
+};
+
+/**
+ * 删除轮播图信息
+ * @param params
+ * @returns
+ */
+export const httpSlideDelete = (id: string) => {
+  // @ts-ignore
+  return request.get(`${prefix}/slideShow/delete/${id}`, params, { isReturnAllData: true });
+};
+
+/**
+ * 批量更新轮播图状态
+ * @param params
+ * @returns
+ */
+export const httpSlideUpdateStatus = (params: any) => {
+  // @ts-ignore
+  return request.post(`${prefix}/slideShow/updateStatus`, params, { isReturnAllData: true });
+};
+
+/**
+ * 根据类型获取应用下拉框
+ * @param params
+ * @returns
+ */
+export const httpSlideListByType = (params: any) => {
+  // @ts-ignore
+  return request.post(`${prefix}/application/listByType`, params, { isReturnAllData: true });
+};
+
 export default {
   getColumnsList,
   createColumn,
@@ -71,4 +133,9 @@ export default {
   editProject,
   getUserList,
   getMechanismList,
+  httpSlideShow,
+  httpSlideTopWeight,
+  httpSlideInsert,
+  httpSlideDelete,
+  httpSlideUpdateStatus,
 };
