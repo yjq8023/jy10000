@@ -114,9 +114,13 @@ const PlanMapEditor = () => {
             <Canvas />
           </div>
         </div>
-        <div className={style.config}>
-          <Setting />
-        </div>
+        {
+          selectedNode && (
+            <div className={style.config}>
+              <Setting />
+            </div>
+          )
+        }
         <AddNodeModal ref={addNodeModalRef} />
       </planMapContext.Provider>
     </div>
