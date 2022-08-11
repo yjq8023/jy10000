@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { Button, Badge, Switch, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
-import styles from './index.less';
 import {
   httpSlideDelete,
   httpSlideInsert,
+  httpSlideListByType,
   httpSlideShow,
   httpSlideTopWeight,
   httpSlideUpdateStatus,
@@ -15,16 +14,17 @@ import {
 import { UCenter } from '@/services/weapp/data';
 import { previewFile } from '@/utils';
 import Carousel from './components/Carousel';
+import styles from './index.less';
 
 /**
  * 小程序管理-轮播图管理
  * @returns
  */
 const Disease: React.FC = () => {
-  const navigate = useNavigate();
   const list: any = useList();
   const [carouselVisible, setCarouselVisible] = useState(false);
   const [isUpdateSucc, setIsUpdateSucc] = useState(false);
+  const [typeSources, settypeSources] = useState<any>([]);
   const [appName, setAppName] = useState('');
   const [carouselParams, setCarouselParams] = useState<UCenter.InsertReq>({
     storageId: '',
@@ -45,6 +45,28 @@ const Disease: React.FC = () => {
           total: res.totalCount,
         },
       };
+    });
+  };
+
+  const getDefaultParams = () => {
+    return new Promise((reslove, reject) => {
+      httpSlideListByType({
+        type: 'wxMini',
+      }).then((res: any) => {
+        if (res.data.length) {
+          const sour = res.data.map((item: any) => ({
+            value: item.value,
+            id: item.id,
+          }));
+          settypeSources(sour);
+
+          list.current.searchForm.setFieldsValue({ appCode: sour[0].id });
+
+          reslove({
+            appCode: sour[0].id,
+          });
+        }
+      });
     });
   };
 
@@ -80,9 +102,9 @@ const Disease: React.FC = () => {
         type="primary"
         onClick={() => {
           setCarouselVisible(true);
-          const source = list.current.searchForm.getSource;
+          // const source = list.current.searchForm.getSource;
           const id = list.current.searchForm.getFieldValue('appCode');
-          setAppName(source.filter((el: any) => el.id === id)[0].value);
+          setAppName(typeSources.filter((el: any) => el.id === id)[0].value);
         }}
       >
         <PlusCircleOutlined />
@@ -200,6 +222,7 @@ const Disease: React.FC = () => {
         list={list}
         fetchApi={fetchAPi}
         SearchForm={SearchForm}
+        getDefaultParams={getDefaultParams}
         Toolbar={Toolbar}
       />
       <Carousel

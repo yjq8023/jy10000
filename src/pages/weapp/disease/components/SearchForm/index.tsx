@@ -18,8 +18,7 @@ const { Option } = Select;
  * 轮播图-搜索
  * @returns
  */
-const SearchForm: React.FC = (props: any) => {
-  const { form } = props;
+const SearchForm: React.FC<any> = (props: any) => {
   const [sources, setSources] = useState<UCenter.ListByType[]>([]);
 
   const httpSlideListByTypeReq = () => {
@@ -33,18 +32,26 @@ const SearchForm: React.FC = (props: any) => {
           id: item.id,
         }));
         setSources(sour);
-        form.setFieldsValue({
-          appCode: res.data[0].id,
-        });
-        props.form.submit();
+        // props.form.setFieldsValue({
+        //   appCode: res.data[0].id,
+        // });
+        // props.form.submit();
         // eslint-disable-next-line no-param-reassign
-        props.form.getSource = sour;
+        // props.form.getSource = sour;
       }
     });
   };
   useEffect(() => {
     httpSlideListByTypeReq();
   }, []);
+
+  const onReset = () => {
+    props.form.resetFields();
+    props.form.setFieldsValue({
+      appCode: sources[0].id,
+    });
+    props.form.submit();
+  };
 
   return (
     <div className={styles['search-form']}>
@@ -53,7 +60,7 @@ const SearchForm: React.FC = (props: any) => {
           <Col span={9}>
             <Form.Item name="appCode" label="选择轮播图所属应用">
               <Select style={{ width: '100%' }} placeholder="选择轮播图所属应用">
-                {sources.map((el) => (
+                {sources.map((el: any) => (
                   <Option value={el.id} key={el.id}>
                     {el.value}
                   </Option>
@@ -75,7 +82,7 @@ const SearchForm: React.FC = (props: any) => {
           <Col span={4} offset={1}>
             <Form.Item labelCol={{ span: 4 }}>
               <Space>
-                <Button>重置</Button>
+                <Button onClick={() => onReset()}>重置</Button>
                 <Button type="primary" htmlType="submit">
                   查询
                 </Button>

@@ -1,0 +1,105 @@
+.label-select {
+  width: 320px;
+  height: 32px;
+  // background: #FFFFFF;
+  // border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  text-align: left;
+  // padding: 6px 12px;
+  cursor: pointer;
+  position: relative;
+
+  .label-value {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .placeholder {
+    color: rgba(0, 0, 0, 0.25);
+  }
+}
+
+.label-drop-container {
+  width: 100%;
+  background-color: #fff;
+  padding: 4px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  position: absolute;
+  left: 0;
+  top: 32px;
+  z-index: 999;
+  transition: all 1s cubic-bezier(.075, .82, .165, 1);
+
+  .drop-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    :global {
+      .ant-input-affix-wrapper>input.ant-input {
+        background: rgba(0, 0, 0, 0);
+      }
+    }
+
+    .search-icon {
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+.drop-container {
+  padding-top: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .drop-father {
+
+    .father {
+      height: 34px;
+      line-height: 34px;
+      padding: 0 8px;
+      border-radius: 4px;
+      color: rgba(0, 0, 0, 0.25);
+    }
+
+    .father-label {
+      padding-left: 8px;
+      font-size: 14px;
+      color: #000000;
+    }
+
+    .drop-son {
+      display: flex;
+      align-items: center;
+      padding-right: 9px;
+      padding-left: 32px;
+      margin-bottom: 4px;
+      color: rgba(0, 0, 0, 0.25);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .son-label {
+        height: 34px;
+        line-height: 34px;
+        border-radius: 4px;
+        font-size: 14px;
+        padding-left: 8px;
+        color: #000000;
+      }
+    }
+
+    .son-active {
+      background: #EFFAFF;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+  }
+}
