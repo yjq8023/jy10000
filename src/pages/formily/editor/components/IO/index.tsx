@@ -11,8 +11,6 @@ IO.Behavior = createBehavior(
   {
     name: 'IO',
     selector: (node: any) => {
-      console.log('node');
-      console.log(node);
       return node.props.key === 'IoRadio';
     },
     designerProps: {

@@ -107,8 +107,9 @@ const routerConfig: routerConfigItem[] = [
         element: <LabelClassify />,
       },
       {
-        path: '/project/formily/editor',
+        path: 'project/formily/editor',
         element: <FormilyEditor />,
+        hideInMenu: true
       },
     ],
   },
@@ -196,14 +197,14 @@ export const breadcrumbMap = {
         }
       }
     },
-    formily: {
-      label: '表单管理',
-      path: '/project/formily/editor',
-      editor: {
-        label: '表单编辑',
-        path: '/project/formily/editor',
-      }
-    }
+    // formily: {
+    //   label: '表单管理',
+    //   path: '/project/formily/editor',
+    //   editor: {
+    //     label: '表单编辑',
+    //     path: '/project/formily/editor',
+    //   }
+    // }
   }
 };
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {

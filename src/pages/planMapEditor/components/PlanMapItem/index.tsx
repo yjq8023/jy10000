@@ -28,7 +28,6 @@ export const PlanMapItem = (props: any) => {
     addArticleModal,
     addDiagnosisModal,
   } = useContext(planMapContext);
-  const navigate = useNavigate();
   const domRef = useRef(null);
   const sortableConfig = {
     sort: false,
@@ -65,12 +64,7 @@ export const PlanMapItem = (props: any) => {
     [style.first]: data.period === 0,
   });
   const handleClickInfo = (item: any) => {
-    console.log(item);
     setSelectedNode(item);
-    const { type } = item;
-    // if (type === planItemTypes.beforeInfo) {
-    //   navigate('/formily/editor?type=beforeInfo');
-    // }
   };
   return (
     <div className={classNames}>

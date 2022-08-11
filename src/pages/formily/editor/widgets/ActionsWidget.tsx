@@ -24,7 +24,7 @@ export const ActionsWidget = observer(() => {
           saveSchema(designer);
         }}
       >
-        <TextWidget>Save</TextWidget>
+        查看决策流
       </Button>
       &nbsp;
       &nbsp;
@@ -34,7 +34,7 @@ export const ActionsWidget = observer(() => {
           saveSchema(designer);
         }}
       >
-        <TextWidget>Publish</TextWidget>
+        <TextWidget>Save</TextWidget>
       </Button>
     </div>
   );

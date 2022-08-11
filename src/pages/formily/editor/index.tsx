@@ -59,6 +59,7 @@ import {
   FormGrid,
 } from '@sinohealth/designable-formily-antd';
 import { useSearchParams } from 'react-router-dom';
+import { Collapse } from '@sinohealth/butterfly-ui-antd';
 import {
   LogoWidget,
   ActionsWidget,
@@ -70,7 +71,7 @@ import {
 import { saveSchema } from './service';
 import style from './index.less';
 import { getIoComponents } from '@/pages/formily/editor/utils';
-import IO from '@/pages/formily/editor/components/IO';
+import ImportForm from '@/pages/formily/editor/widgets/ImportForm';
 
 setNpmCDNRegistry('//unpkg.com');
 
@@ -139,7 +140,6 @@ const FormilyEditor = () => {
       <ResourceWidget
         title="sources.Inputs"
         sources={[
-          IO,
           Input,
           Password,
           NumberPicker,
@@ -181,6 +181,14 @@ const FormilyEditor = () => {
     const TextResourceWidget = (
       <ResourceWidget title="sources.Displays" sources={[Text]} />
     );
+    const ImportResourceWidget = (
+      <Collapse>
+        <Collapse.Panel header="引用已有跟进记录表">
+          <ImportForm />
+        </Collapse.Panel>
+      </Collapse>
+    );
+
     if (type === 'beforeInfo') {
       return (
         <>
@@ -192,6 +200,7 @@ const FormilyEditor = () => {
     if (type === 'followUp') {
       return (
         <>
+          { ImportResourceWidget }
           { IoResourceWidget }
           { InputResourceWidget }
           { LayoutsResourceWidget }
@@ -264,7 +273,6 @@ const FormilyEditor = () => {
                         FormGrid,
                         FormLayout,
                         ObjectContainer,
-                        IO,
                       }}
                     />
                   )}

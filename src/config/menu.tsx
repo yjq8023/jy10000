@@ -32,14 +32,6 @@ const menuConfig: MenuItemProps[] = [
         label: '用户管理',
         path: '/setting/userList',
       },
-      {
-        label: '表单编辑',
-        path: '/formily/editor',
-      },
-      {
-        label: '管理路径编辑',
-        path: '/planMapEditor',
-      },
     ],
   },
   {
