@@ -44,7 +44,7 @@ const ScaleSearch: React.FC = (props: any) => {
           <Col span={4} offset={1}>
             <Form.Item labelCol={{ span: 4 }}>
               <Space>
-                <Button>重置</Button>
+                <Button type="info">重置</Button>
                 <Button type="primary" htmlType="submit">
                   查询
                 </Button>
