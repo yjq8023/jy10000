@@ -35,6 +35,17 @@ const menuConfig: MenuItemProps[] = [
     ],
   },
   {
+    label: '字典管理',
+    key: 'dict',
+    children: [
+      {
+        label: '字典管理列表',
+        path: '/dict/list',
+        icon: <span className="iconfont icon-project"></span>,
+      },
+    ],
+  },
+  {
     label: '项目管理',
     key: 'project',
     children: [
@@ -72,9 +83,9 @@ const menuConfig: MenuItemProps[] = [
             path: '/project/label/classify',
           },
         ],
-      },
-    ],
-  },
+      }
+    ]
+  }
 ];
 
 export class MenuItem {
