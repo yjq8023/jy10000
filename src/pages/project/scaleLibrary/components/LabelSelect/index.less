@@ -1,22 +1,62 @@
 .label-select {
   width: 320px;
   height: 32px;
-  // background: #FFFFFF;
-  // border: 1px solid rgba(0, 0, 0, 0.25);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   text-align: left;
-  // padding: 6px 12px;
+  display: flex;
+  padding: 4px 12px;
   cursor: pointer;
   position: relative;
 
   .label-value {
+    width: 100%;
     font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
     line-height: 20px;
   }
 
   .placeholder {
     color: rgba(0, 0, 0, 0.25);
   }
+
+  .select-tag {
+    height: 22px;
+    font-size: 14px;
+    padding: 0 9px;
+    color: #217BA0;
+    display: inline-block;
+    border: 1px solid #217BA0;
+    border-radius: 4px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .icon-select {
+    color: rgba(0, 0, 0, 0.25);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.label-select-input {
+  width: 320px;
+  height: 32px;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
 }
 
 .label-drop-container {
@@ -27,7 +67,7 @@
   border-radius: 4px;
   position: absolute;
   left: 0;
-  top: 32px;
+  top: 35px;
   z-index: 999;
   transition: all 1s cubic-bezier(.075, .82, .165, 1);
 

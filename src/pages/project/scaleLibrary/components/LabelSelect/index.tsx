@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Checkbox, Input, Space } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined, UpOutlined } from '@ant-design/icons';
 import styles from './index.less';
+import { httpGetLabelList } from '@/services/project';
 
 const SearchIcon = () => <div className={`${styles['search-icon']} iconfont icon-search`} />;
 
 type LabelSelectProps = {
   search?: boolean;
+  add?: boolean;
   placeholder?: string;
+  onSelect?: (val: any) => void;
 };
 
 /**
@@ -15,10 +18,47 @@ type LabelSelectProps = {
  * @returns
  */
 const LabelSelect: React.FC<LabelSelectProps> = (props) => {
-  const { search = true, placeholder = '请输入' } = props;
+  const { search = true, add = true, onSelect, placeholder = '请输入' } = props;
+  const [selected, setSelected] = useState<ProjectType.LabelListRes[]>([]);
+  const [source, setSource] = useState<ProjectType.LabelListRes[]>([]);
 
   const inputRef = useRef<any>(null);
   const [isShowDrop, setIsShowDrop] = useState(false);
+
+  const handleChecked = (e: any, fidx: any, sidx: any, val: any) => {
+    const coDa = source.slice();
+    coDa[fidx].children[sidx].checked = e;
+    const coSe = selected.slice();
+    if (e) {
+      coSe.push(coDa[fidx].children[sidx]);
+      setSelected(coSe);
+    } else {
+      const d = coSe.filter((el: any) => el.id !== val);
+      setSelected(d);
+    }
+    setSource(coDa);
+  };
+
+  // 添加标签
+  const handleAddLabel = () => {};
+
+  const httpGetLabelListReq = async () => {
+    const res: any = await httpGetLabelList({});
+    console.log(res);
+    if (!res.empty) {
+      checkedDefault(res.data);
+    }
+  };
+
+  const checkedDefault = (arr: any) => {
+    arr.forEach((el: any) => {
+      el.children.forEach((lis: any) => {
+        // eslint-disable-next-line no-param-reassign
+        lis.checked = false;
+      });
+    });
+    setSource(arr);
+  };
 
   const clickCallback = (event: { target: any }) => {
     if (inputRef.current.contains(event.target)) {
@@ -36,14 +76,44 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
     };
   }, [isShowDrop]);
 
+  useEffect(() => {
+    onSelect && onSelect(selected.map((el) => el.id));
+  }, [selected]);
+
+  useEffect(() => {
+    httpGetLabelListReq();
+  }, []);
+
   return (
     <div className={styles['label-select']} ref={inputRef}>
-      {/* <div className={`${styles['label-value']} ${styles.placeholder}`}>请输入量表名称</div> */}
-      <Input
-        className={`${styles['label-value']} ${styles.placeholder}`}
+      <div
+        className={`${styles['label-value']} ${selected.length ? '' : styles.placeholder}`}
+        onClick={() => setIsShowDrop(true)}
+      >
+        {selected.map((el) => (
+          <span className={styles['select-tag']} key={el.id}>
+            {el.value}
+          </span>
+        ))}
+        {!selected.length ? '请输入量表名称' : ''}
+        {!selected.length ? (
+          <span className={`${styles['icon-select']} iconfont icon-arrow-down`} />
+        ) : (
+          <span
+            className={`${styles['icon-select']} iconfont icon-shibai1`}
+            onClick={(e) => {
+              e.stopPropagation();
+              checkedDefault(source);
+              setSelected([]);
+            }}
+          />
+        )}
+      </div>
+      {/* <Input
+        className={`${styles['label-select-input']} ${styles.placeholder}`}
         placeholder={placeholder}
         onFocus={() => setIsShowDrop(true)}
-      />
+      /> */}
       {isShowDrop ? (
         <div
           className={styles['label-drop-container']}
@@ -55,28 +125,40 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
           {search ? (
             <Space className={styles['drop-search']}>
               <Input
-                style={{ width: '220px', border: 0, backgroundColor: 'rgba(0,0,0,0.04)' }}
+                style={{
+                  width: add ? '220px' : '310px',
+                  border: 0,
+                  backgroundColor: 'rgba(0,0,0,0.04)',
+                }}
                 prefix={<SearchIcon />}
                 placeholder="输入标签名称进行搜索"
               />
-              <Button icon={<PlusCircleOutlined />} type="primary">
-                添加
-              </Button>
+              {add ? (
+                <Button
+                  icon={<PlusCircleOutlined />}
+                  type="primary"
+                  onClick={() => handleAddLabel()}
+                >
+                  添加
+                </Button>
+              ) : null}
             </Space>
           ) : null}
 
           <div className={styles['drop-container']}>
-            {[0, 1, 2, 3].map((item) => (
-              <div className={`${styles['drop-father']}`} key={item}>
-                <div className={`${styles.father}  iconfont icon-arrow-up`}>
-                  <span className={styles['father-label']}>标签分类 01</span>
+            {source.map((item, idx: number) => (
+              <div className={`${styles['drop-father']}`} key={item.value}>
+                {/* <div className={`${styles.father}  iconfont icon-arrow-up`}> */}
+                <div className={`${styles.father}`}>
+                  <span className={styles['father-label']}>{item.value}</span>
                 </div>
-                {[0, 1, 2, 3].map((el) => (
+                {item.children.map((el, index: number) => (
                   <div
                     className={`${styles['drop-son']} ${
-                      el ? styles['son-active'] : ''
-                    } iconfont icon-arrow-up`}
-                    key={el}
+                      selected.map((lis: any) => lis.id).includes(el.id) ? styles['son-active'] : ''
+                    }`}
+                    // } iconfont icon-arrow-up`}
+                    key={el.id}
                   >
                     <div
                       style={{
@@ -85,9 +167,13 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                       }}
+                      onClick={() => handleChecked(!el.checked, idx, index, el.id)}
                     >
-                      <span className={styles['son-label']}>标签 01</span>
-                      <Checkbox />
+                      <span className={styles['son-label']}>{el.value}</span>
+                      <Checkbox
+                        checked={el.checked}
+                        onChange={(e) => handleChecked(e.target.checked, idx, index, el.id)}
+                      />
                     </div>
                   </div>
                 ))}
