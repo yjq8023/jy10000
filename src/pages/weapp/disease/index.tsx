@@ -146,10 +146,10 @@ const Disease: React.FC = () => {
         }
         return (
           <div className={styles.sortDom}>
-            {/* {text} */}
+            {index < 3 ? index + 1 : '-'}
             {index !== 0 && record.status === 'enable' ? (
-              <VerticalAlignTopOutlined
-                className={styles.upTopIcon}
+              <div
+                className={`${styles.upTopIcon} iconfont icon-zhiding`}
                 onClick={async () => {
                   if (isUpdateSucc) return;
                   setIsUpdateSucc(true);
@@ -225,27 +225,29 @@ const Disease: React.FC = () => {
         getDefaultParams={getDefaultParams}
         Toolbar={Toolbar}
       />
-      <Carousel
-        visible={carouselVisible}
-        appName={appName}
-        params={{
-          storageId: carouselParams.storageId,
-          title: carouselParams.title,
-        }}
-        onCancel={() => {
-          setCarouselParams({ storageId: '', appCode: '', title: '' });
-          setCarouselVisible(false);
-        }}
-        onOk={async (v) => {
-          const appCode = list.current.searchForm.getFieldValue('appCode');
-          const res: any = await httpSlideInsert({ ...carouselParams, ...v, appCode });
-          if (res.success) {
-            list.current.reloadListData(true);
-            setCarouselVisible(false);
+      {carouselVisible ? (
+        <Carousel
+          visible={carouselVisible}
+          appName={appName}
+          params={{
+            storageId: carouselParams.storageId,
+            title: carouselParams.title,
+          }}
+          onCancel={() => {
             setCarouselParams({ storageId: '', appCode: '', title: '' });
-          }
-        }}
-      />
+            setCarouselVisible(false);
+          }}
+          onOk={async (v) => {
+            const appCode = list.current.searchForm.getFieldValue('appCode');
+            const res: any = await httpSlideInsert({ ...carouselParams, ...v, appCode });
+            if (res.success) {
+              list.current.reloadListData(true);
+              setCarouselVisible(false);
+              setCarouselParams({ storageId: '', appCode: '', title: '' });
+            }
+          }}
+        />
+      ) : null}
     </div>
   );
 };

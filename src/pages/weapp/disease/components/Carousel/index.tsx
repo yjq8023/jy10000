@@ -33,6 +33,7 @@ const Carousel: React.FC<CarouselProps> = (props) => {
         visible={visible}
         title="添加轮播图"
         okText="提交"
+        cancelButtonProps={{ type: 'info' }}
         onCancel={() => {
           form.resetFields();
           onCancel && onCancel();

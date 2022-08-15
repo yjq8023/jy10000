@@ -82,7 +82,9 @@ const SearchForm: React.FC<any> = (props: any) => {
           <Col span={4} offset={1}>
             <Form.Item labelCol={{ span: 4 }}>
               <Space>
-                <Button onClick={() => onReset()}>重置</Button>
+                <Button type="info" onClick={() => onReset()}>
+                  重置
+                </Button>
                 <Button type="primary" htmlType="submit">
                   查询
                 </Button>

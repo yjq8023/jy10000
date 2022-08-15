@@ -53,6 +53,7 @@ interface CustomUploadProps extends UploadProps {
 const CarouselUpload: React.FC<CustomUploadProps> = (props) => {
   const { maxSize, fileId, onSuccess, onDel } = props;
   const [imgBase64, setImgBase64] = useState('');
+  // const [fileList, setFileList] = useState<any>([]);
 
   const uploadProps: UploadProps = {
     name: 'file',
@@ -69,6 +70,7 @@ const CarouselUpload: React.FC<CustomUploadProps> = (props) => {
     accept: defaultAccepts,
     onRemove: () => {},
     onChange(info: any) {
+      // setFileList(info.fileList);
       if (info.file.status === 'done') {
         getBase64(info.file.originFileObj, (imageUrl: string) => {
           setImgBase64(imageUrl);
@@ -76,17 +78,21 @@ const CarouselUpload: React.FC<CustomUploadProps> = (props) => {
         onSuccess(info.file.response.data);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} 上传失败`);
+        // setFileList([]);
       }
     },
     beforeUpload: async (file: any) => {
       const accepts = defaultAccepts;
       if (accepts.indexOf(file.type) === -1) {
+        // console.log(fileList);
+        // setFileList([]);
         message.error(`文件类型仅限${accepts}!`);
         return false;
       }
       const isLt1M = file.size / 1024 / 1024 < maxSize;
       if (!isLt1M) {
         message.error(`上传图片不能大于${maxSize}MB!`);
+        // setFileList([]);
       }
       // const res = await checkImageWH(file, 750, 336);
       // if (!res) {
@@ -99,6 +105,7 @@ const CarouselUpload: React.FC<CustomUploadProps> = (props) => {
 
   const handleDelBase64 = () => {
     setImgBase64('');
+    // setFileList([]);
     onDel && onDel();
   };
 
