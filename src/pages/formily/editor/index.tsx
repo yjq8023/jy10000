@@ -1,6 +1,7 @@
 // @ts-nocheck
 import '@sinohealth/designable-react/dist/designable.react.umd.production.css';
 import '@sinohealth/designable-react-settings-form/dist/designable.settings-form.umd.production.css';
+import '@sinohealth/designable-formily-setters/dist/designable.setters-com.umd.production.css';
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Designer,
@@ -60,6 +61,9 @@ import {
 } from '@sinohealth/designable-formily-antd';
 import { useSearchParams } from 'react-router-dom';
 import { Collapse } from '@sinohealth/butterfly-ui-antd';
+import {
+  ReactionsSetter,
+} from '@sinohealth/designable-formily-setters';
 import {
   LogoWidget,
   ActionsWidget,
@@ -292,7 +296,7 @@ const FormilyEditor = () => {
             </WorkspacePanel>
           </Workspace>
           <SettingsPanel title="panels.PropertySettings">
-            <SettingsForm components={{ LinkagesSetter }} uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+            <SettingsForm components={{ LinkagesSetter: ReactionsSetter }} uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
           </SettingsPanel>
         </StudioPanel>
       </Designer>
