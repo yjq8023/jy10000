@@ -1,21 +1,25 @@
+/* eslint-disable indent */
+/* eslint-disable react/jsx-indent */
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Badge, Switch, Space } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
 import { UCenter } from '@/services/weapp/data';
-import { httpSlideShow } from '@/services/weapp';
 import ArticleSearch from './components/ArticleSearch';
+import { httpGetContent } from '@/services/project';
 
 /**
  * 资料库管理-文章管理
  * @returns
  */
 const ArticleLibrary: React.FC = () => {
+  const navigate = useNavigate();
   const list: any = useList();
 
   const fetchAPi = (params: { current: any }) => {
-    return httpSlideShow({
+    return httpGetContent({
       pageNo: params.current,
       ...params,
     }).then((res: any) => {
@@ -44,7 +48,7 @@ const ArticleLibrary: React.FC = () => {
 
   const Toolbar = () => {
     return (
-      <Button type="primary" onClick={() => console.log(132132)}>
+      <Button type="primary" onClick={() => navigate('/project/article/insert')}>
         <PlusCircleOutlined />
         添加文章
       </Button>
@@ -65,6 +69,51 @@ const ArticleLibrary: React.FC = () => {
       title: '量表名称',
       dataIndex: 'title',
       key: 'title',
+      width: 220,
+    },
+    {
+      title: '标签',
+      dataIndex: 'weight',
+      key: 'weight',
+      width: 200,
+      render(text: string, record: ProjectType.ContentRes, index: number) {
+        if (!record.status) {
+          return '--';
+        }
+        return (
+          <Space className={styles.sortDom}>
+            {record.labelVoList.length
+              ? record.labelVoList.map((el) => (
+                  <div className={styles.tag} key={el.id}>
+                    {el.name}
+                  </div>
+                ))
+              : '--'}
+          </Space>
+        );
+      },
+    },
+    {
+      title: '作者',
+      dataIndex: 'author',
+      key: 'author',
+      width: 180,
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      width: 140,
+      render(text: string, record: any) {
+        const isUp = text === 'enable';
+        return (
+          <div>
+            <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
+            &nbsp;
+            <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} />
+          </div>
+        );
+      },
     },
     {
       title: '创建时间',
@@ -77,39 +126,6 @@ const ArticleLibrary: React.FC = () => {
       dataIndex: 'createTime',
       key: 'createTime',
       width: 200,
-    },
-    {
-      title: '标签',
-      dataIndex: 'weight',
-      key: 'weight',
-      width: 200,
-      render(text: string, record: UCenter.carouselItem, index: number) {
-        if (!record.status) {
-          return '--';
-        }
-        return (
-          <Space className={styles.sortDom}>
-            <div className={styles.tag}>乳腺癌</div>
-            <div className={styles.tag}>肿瘤</div>
-          </Space>
-        );
-      },
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      key: 'status',
-      width: 180,
-      render(text: string, record: any) {
-        const isUp = text === 'enable';
-        return (
-          <div>
-            <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
-            &nbsp;
-            <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} />
-          </div>
-        );
-      },
     },
     {
       title: '操作',

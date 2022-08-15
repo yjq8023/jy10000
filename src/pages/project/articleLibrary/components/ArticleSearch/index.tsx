@@ -7,7 +7,7 @@ import styles from './index.less';
  * 文章库-查询
  * @returns
  */
-const ArticleSearch: React.FC = (props) => {
+const ArticleSearch: React.FC = (props: any) => {
   return (
     <div className={styles['article-search']}>
       <Form labelAlign="left" colon={false} {...props}>
@@ -20,14 +20,22 @@ const ArticleSearch: React.FC = (props) => {
             </Form.Item>
           </Col>
           <Col span={9}>
-            <Form.Item name="appCode" label="选择标签">
-              <LabelSelect search={false} />
+            <Form.Item name="labelIds" label="选择标签">
+              <LabelSelect
+                search={false}
+                add={false}
+                onSelect={(v) =>
+                  props.form.setFieldsValue({
+                    labelIds: v,
+                  })
+                }
+              />
             </Form.Item>
           </Col>
           <Col span={4} offset={1}>
             <Form.Item labelCol={{ span: 4 }}>
               <Space>
-                <Button>重置</Button>
+                <Button type="info">重置</Button>
                 <Button type="primary" htmlType="submit">
                   查询
                 </Button>
