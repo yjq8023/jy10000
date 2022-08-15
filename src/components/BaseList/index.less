@@ -1,25 +1,35 @@
 @import "@/style/var";
+
 .listPage {
   height: 100%;
   display: flex;
   flex-direction: column;
+
   .searchForm {
     flex: 0 0 auto;
     margin-bottom: 8px;
-    overflow: hidden;
+
     :global(.ant-form-item) {
       margin-bottom: 0;
     }
   }
+
+  .overflow {
+    overflow: hidden;
+  }
+
   .body {
     flex-grow: 1;
     position: relative;
+
     :global(.ant-card-body) {
       padding-top: 15px;
+
       :global(.ant-tabs) {
         margin-top: -9px;
       }
     }
+
     .listHeader {
       .title {
         padding: 5px 0 5px 16px;
@@ -28,6 +38,7 @@
         font-size: 16px;
         font-weight: 500;
         margin-bottom: 18px;
+
         &:before {
           content: '';
           width: 4px;
@@ -40,15 +51,18 @@
           border-radius: 2px;
         }
       }
+
       .toolbar {
         text-align: right;
       }
     }
+
     .fixedTable {
       :global(.ant-table) {
         min-height: calc(1000px);
       }
     }
+
     .pagination {
       padding: 10px 0;
       bottom: 0;

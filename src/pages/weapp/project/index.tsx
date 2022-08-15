@@ -35,7 +35,7 @@ function WeappProject() {
         deleteProject(id)
           .then(() => {
             message.success('删除成功');
-            list.current.reloadListData();
+            list.current.reloadListData(true);
           });
       },
     });
@@ -64,7 +64,7 @@ function WeappProject() {
     })
       .then(() => {
         message.success(isUp ? '上架成功' : '下架成功');
-        list.current.reloadListData();
+        list.current.reloadListData(true);
       });
   };
   const columns = [

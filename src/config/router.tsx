@@ -4,10 +4,17 @@ import Login from '../pages/user/login';
 import Password from '../pages/user/password';
 import { Navigate } from 'react-router-dom';
 import ProjectAdd from '@/pages/weapp/projectAdd';
+import LabelClassify from '@/pages/project/labelClassify';
+import LabelLibrary from '@/pages/project/labelLibrary';
+import TermLibrary from '@/pages/project/termLibrary';
+import ArticleLibrary from '@/pages/project/articleLibrary';
+import ScaleLibrary from '@/pages/project/scaleLibrary';
+import ArticleInsert from '@/pages/project/articleLibrary/articleInsert';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const WeappColumn = lazy(() => import('../pages/weapp/column'));
 const WeappProject = lazy(() => import('../pages/weapp/project'));
+const Disease = lazy(() => import('../pages/weapp/disease'));
 const OrganList = lazy(() => import('../pages/setting/organList'));
 const UserList = lazy(() => import('../pages/setting/userList'));
 const Message = lazy(() => import('../pages/message'));
@@ -41,6 +48,10 @@ const routerConfig: routerConfigItem[] = [
         element: <WeappProject />,
       },
       {
+        path: '/weapp/disease',
+        element: <Disease />,
+      },
+      {
         path: '/setting/organList',
         element: <OrganList />,
       },
@@ -67,6 +78,33 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/dict/list',
         element: <DictList />,
+      },
+      // 项目管理
+      {
+        path: '/project/term/library',
+        element: <TermLibrary />,
+      },
+      // 资料库管理
+      {
+        path: '/project/article/library',
+        element: <ArticleLibrary />,
+      },
+      {
+        path: '/project/article/insert',
+        element: <ArticleInsert />,
+      },
+      {
+        path: '/project/scale/library',
+        element: <ScaleLibrary />,
+      },
+      // 标签管理
+      {
+        path: '/project/label/library',
+        element: <LabelLibrary />,
+      },
+      {
+        path: '/project/label/classify',
+        element: <LabelClassify />,
       },
     ],
   },
@@ -117,6 +155,10 @@ export const breadcrumbMap = {
         path: '/weapp/project/edit',
       },
     },
+    disease: {
+      label: '轮播图管理',
+      path: '/weapp/disease',
+    },
   },
   follow: {
     label: '跟进管理',
@@ -135,6 +177,22 @@ export const breadcrumbMap = {
       edit: {
         label: '编辑病种项目',
         path: '/weapp/project/edit',
+      },
+    },
+  },
+  project: {
+    label: '项目管理',
+    path: '/project/term/library',
+    database: {
+      label: '资料库管理',
+      path: '/project/article/library',
+      article: {
+        label: '文章库',
+        path: '/project/article/library',
+        insert: {
+          label: '新增文章',
+          path: '/project/article/insert',
+        },
       },
     },
   },

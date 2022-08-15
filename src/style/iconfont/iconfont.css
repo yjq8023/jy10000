@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3461336 */
-  src: url('iconfont.woff2?t=1656298331401') format('woff2'),
-       url('iconfont.woff?t=1656298331401') format('woff'),
-       url('iconfont.ttf?t=1656298331401') format('truetype'),
-       url('iconfont.svg?t=1656298331401#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1660530484997') format('woff2'),
+       url('iconfont.woff?t=1660530484997') format('woff'),
+       url('iconfont.ttf?t=1660530484997') format('truetype'),
+       url('iconfont.svg?t=1660530484997#iconfont') format('svg');
 }
 
 .iconfont {
@@ -14,7 +14,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-delete:before {
+.icon-zhiding:before {
+  content: "\e62a";
+}
+
+.icon-a-wumulubeifen2:before {
+  content: "\e63f";
+}
+
+.icon-wumulubeifen:before {
+  content: "\e640";
+}
+
+.icon-a-wumulubeifen3:before {
+  content: "\e641";
+}
+
+.icon-wumulu:before {
+  content: "\e642";
+}
+
+.icon-shibai:before {
+  content: "\e64e";
+}
+
+.icon-chenggong:before {
+  content: "\e672";
+}
+
+.icon-shibai1:before {
+  content: "\e650";
+}
+
+.icon-delete1:before {
   content: "\e67e";
 }
 

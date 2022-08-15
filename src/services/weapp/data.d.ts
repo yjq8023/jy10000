@@ -139,4 +139,41 @@ declare namespace UCenter {
     hidden: boolean;
     children: MenuTreeItem[];
   };
+
+  type carouselItem = {
+    createTime: string;
+    fileUrl: string;
+    id: string;
+    name: string;
+    sort: number;
+    status: string;
+    updateTime: string;
+  };
+
+  type carouseList = {
+    pageNo: number;
+    total: string;
+    records: carouselItem[];
+  };
+
+  type ListByType = {
+    children?: [];
+    id?: string;
+    value?: string;
+  };
+
+  type InsertReq = {
+    id?: string;
+    tenantId?: string;
+    bizCode?: string;
+    appCode?: string;
+    storageId: string;
+    title: string;
+    bindType?: string;
+    bindLink?: string;
+    params?: string;
+    effectTime?: string;
+    failureTime?: string;
+    weight?: string;
+  };
 }

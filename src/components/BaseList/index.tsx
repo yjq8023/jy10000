@@ -23,9 +23,22 @@ type ListPageProps = {
   fetchApi: (params: any) => Promise<fetchApiRes>; // 查询接口
   Toolbar?: any;
   fixed?: number | boolean; // 是否让表格占满屏幕，固定高度, 值为表格到页头距离
+  overflow?: boolean;
 };
 function BaseList(props: ListPageProps, ref: any) {
-  const { list, getDefaultParams, SearchForm, Body, BodyProps = {}, columns = [], fetchApi, Toolbar, ListTitle, fixed } = props;
+  const {
+    list,
+    getDefaultParams,
+    SearchForm,
+    Body,
+    BodyProps = {},
+    columns = [],
+    fetchApi,
+    Toolbar,
+    ListTitle,
+    fixed,
+    overflow = true,
+  } = props;
   const [form] = Form.useForm();
   const [listData, setListData] = useState<any[]>([]);
   const [defaultParams, setDefaultParams] = useState<any>({});
@@ -35,7 +48,6 @@ function BaseList(props: ListPageProps, ref: any) {
     pageSize: 10,
     total: 0,
   });
-
   const paginationConfig = {
     showSizeChanger: true,
     showQuickJumper: true,
@@ -43,7 +55,7 @@ function BaseList(props: ListPageProps, ref: any) {
       return `共 ${totalNum} 条数据`;
     },
   };
-  const fetchListData = useCallback((paramsConfig = {}) => {
+  const fetchListData = (paramsConfig: any = {}) => {
     const formVal = form.getFieldsValue();
     const params = {
       ...defaultParams,
@@ -57,9 +69,10 @@ function BaseList(props: ListPageProps, ref: any) {
       setListData(res.listData);
       setPagination(res.pagination);
     });
-  }, []);
-  const reloadListData = () => {
-    fetchListData();
+  };
+  const reloadListData = (isNoResetPageNo = false) => {
+    const params = isNoResetPageNo ? {} : { current: 1 };
+    fetchListData(params);
   };
   const onSetListData = (data: any[]) => {
     setListData([...data]);
@@ -92,8 +105,8 @@ function BaseList(props: ListPageProps, ref: any) {
     }
   }, [list, form, listData]);
   useEffect(() => {
-    getDefaultParams && getDefaultParams()
-      .then((params) => {
+    getDefaultParams &&
+      getDefaultParams().then((params) => {
         setDefaultParams(params);
         fetchListData(params);
       });
@@ -110,7 +123,7 @@ function BaseList(props: ListPageProps, ref: any) {
   return (
     <div className={style.listPage}>
       {SearchForm && (
-        <Card className={style.searchForm}>
+        <Card className={`${style.searchForm} ${overflow ? style.overflow : ''}`}>
           <SearchForm form={form} onFinish={() => onSearch()} />
         </Card>
       )}

@@ -14,6 +14,10 @@ const menuConfig: MenuItemProps[] = [
         label: '项目管理',
         path: '/weapp/project',
       },
+      {
+        label: '轮播图管理',
+        path: '/weapp/disease',
+      },
     ],
   },
   {
@@ -41,6 +45,47 @@ const menuConfig: MenuItemProps[] = [
       },
     ],
   },
+  {
+    label: '项目管理',
+    key: 'project',
+    children: [
+      {
+        label: '项目库管理',
+        children: [
+          {
+            label: '项目库',
+            path: '/project/term/library',
+          },
+        ],
+      },
+      {
+        label: '资料库管理',
+        children: [
+          {
+            label: '文章库',
+            path: '/project/article/library',
+          },
+          {
+            label: '量表库',
+            path: '/project/scale/library',
+          },
+        ],
+      },
+      {
+        label: '标签管理',
+        children: [
+          {
+            label: '标签库',
+            path: '/project/label/library',
+          },
+          {
+            label: '标签分类',
+            path: '/project/label/classify',
+          },
+        ],
+      }
+    ]
+  }
 ];
 
 export class MenuItem {
