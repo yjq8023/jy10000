@@ -81,4 +81,9 @@ declare namespace ProjectType {
     children: LabelListRes[];
     canChoose: boolean;
   };
+
+  type UpdateStatusReq = {
+    ids: string[];
+    status: string;
+  };
 }

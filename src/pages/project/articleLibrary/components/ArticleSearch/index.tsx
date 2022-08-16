@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, Input, Button, Space } from '@sinohealth/butterfly-ui-components/lib';
-import LabelSelect from '@/pages/project/scaleLibrary/components/LabelSelect';
+import LabelSelect from '@/pages/project/components/LabelSelect';
 import styles from './index.less';
 
 /**
