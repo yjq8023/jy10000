@@ -12,9 +12,8 @@ import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
 import { previewFile } from '@/utils';
 import { UCenter } from '@/services/weapp/data';
+import { httpSlideShow } from '@/services/weapp';
 import ScaleSearch from './components/ScaleSearch';
-import LabelSelect from './components/LabelSelect';
-import { httpGetContent } from '@/services/project';
 
 /**
  * 资料库管理-量表库
@@ -24,7 +23,7 @@ const scaleLibrary: React.FC = () => {
   const list: any = useList();
 
   const fetchAPi = (params: { current: any }) => {
-    return httpGetContent({
+    return httpSlideShow({
       pageNo: params.current,
       ...params,
     }).then((res: any) => {

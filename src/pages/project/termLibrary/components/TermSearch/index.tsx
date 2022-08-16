@@ -9,7 +9,7 @@ import {
   Select,
 } from '@sinohealth/butterfly-ui-components/lib';
 import styles from './index.less';
-import LabelSelect from '@/pages/project/scaleLibrary/components/LabelSelect';
+import LabelSelect from '@/pages/project/components/LabelSelect';
 
 /**
  * 项目库-搜索
