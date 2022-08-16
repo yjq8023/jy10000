@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Badge, Switch, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
-import { PlusCircleOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Badge,
+  Switch,
+  message,
+  Modal,
+  Space,
+} from '@sinohealth/butterfly-ui-components/lib';
+import { PlusCircleOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
 import {
@@ -15,6 +22,8 @@ import { UCenter } from '@/services/weapp/data';
 import { previewFile } from '@/utils';
 import Carousel from './components/Carousel';
 import styles from './index.less';
+
+const { confirm } = Modal;
 
 /**
  * 小程序管理-轮播图管理
@@ -72,7 +81,7 @@ const Disease: React.FC = () => {
 
   const renderActionDom = (itemData: any) => {
     return (
-      <div>
+      <Space>
         <a
           onClick={() => {
             setCarouselParams(itemData);
@@ -81,18 +90,35 @@ const Disease: React.FC = () => {
         >
           修改
         </a>
-        &nbsp; &nbsp;
         <a
-          onClick={async () => {
-            const res: any = await httpSlideDelete(itemData.id);
-            if (res) {
-              list.current.reloadListData(true);
-            }
+          className={styles['del-color']}
+          onClick={() => {
+            confirm({
+              title: `是否确定删除 "${itemData.title}" 的数据项?`,
+              icon: <QuestionCircleFilled style={{ color: '#EA6868' }} />,
+              okButtonProps: { danger: true },
+              cancelButtonProps: { type: 'info' },
+              onOk: async () => {
+                const res: any = await httpSlideDelete(itemData.id);
+
+                return new Promise((resolve) => {
+                  const timer = setTimeout(() => {
+                    resolve(true);
+                    if (res) {
+                      list.current.reloadListData(true);
+                      message.success('删除成功');
+                    }
+                    clearTimeout(timer);
+                  }, 1000);
+                }).catch(() => console.log('Oops errors!'));
+              },
+              onCancel() {},
+            });
           }}
         >
           删除
         </a>
-      </div>
+      </Space>
     );
   };
 
@@ -154,13 +180,17 @@ const Disease: React.FC = () => {
                   if (isUpdateSucc) return;
                   setIsUpdateSucc(true);
                   message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
-                  const res = await httpSlideTopWeight(record.id);
-                  const timer = setTimeout(() => {
-                    if (res) list.current.reloadListData(true);
-                    message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
-                    clearTimeout(timer);
+                  try {
+                    const res = await httpSlideTopWeight(record.id);
+                    const timer = setTimeout(() => {
+                      if (res) list.current.reloadListData(true);
+                      message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+                      clearTimeout(timer);
+                      setIsUpdateSucc(false);
+                    }, 1500);
+                  } catch (err) {
                     setIsUpdateSucc(false);
-                  }, 1500);
+                  }
                 }}
               />
             ) : null}
@@ -189,12 +219,17 @@ const Disease: React.FC = () => {
               defaultChecked={isUp}
               onChange={async (e) => {
                 setIsUpdateSucc(true);
-                const res = await httpSlideUpdateStatus({
-                  ids: [record.id],
-                  status: isUp ? 'disable' : 'enable',
-                });
-                if (res) {
-                  list.current.reloadListData(true);
+                try {
+                  const res = await httpSlideUpdateStatus({
+                    ids: [record.id],
+                    status: isUp ? 'disable' : 'enable',
+                  });
+                  if (res) {
+                    list.current.reloadListData(true);
+                    setIsUpdateSucc(false);
+                  }
+                } catch (err) {
+                  setIsUpdateSucc(false);
                 }
               }}
             />
