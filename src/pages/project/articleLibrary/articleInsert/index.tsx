@@ -9,26 +9,51 @@ import {
   Col,
   Spin,
   message,
-  Upload,
 } from '@sinohealth/butterfly-ui-components/lib';
-import BraftEditor from 'braft-editor';
+import BraftEditor, { ExtendControlType } from 'braft-editor';
+import { ContentUtils } from 'braft-utils';
 import 'braft-editor/dist/index.css';
 import styles from './index.less';
-import LabelSelect from '../../components/LabelSelect';
 import { httpContentUpdate } from '@/services/project';
 import { getLocalStorage, removeLocalStorage } from '@/utils/cookies';
-import UploadCover from '../components/UploadCover';
 import { previewFile } from '@/utils';
+import LabelSelect from '../../components/LabelSelect';
+import UploadCover from '../components/UploadCover';
+import Upload from '@/components/Upload';
 
 const controls: any = [
-  'bold',
-  'italic',
-  'underline',
+  'headings',
+  'font-family',
+  'font-size',
+  'line-height',
+  'letter-spacing',
+  'separator',
   'text-color',
+  'bold',
+  'text-align',
+  'text-indent',
   'separator',
+  'list-ol',
+  'list-ul',
+  'italic',
+  'strike-through',
+  'superscript',
+  'subscript',
+  'underline',
+  'separator',
+  'blockquote',
+  'code',
+  // 'emoji',
+  'hr',
   'link',
+  // 'media',
   'separator',
-  'media',
+  'remove-styles',
+  'clear',
+  'separator',
+  'fullscreen',
+  'undo',
+  'redo',
 ];
 
 /**
@@ -38,24 +63,22 @@ const controls: any = [
 const ArticleInsert: React.FC = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [editorState, setEditorState] = useState(BraftEditor.createEditorState(''));
+  const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null));
   const [insertParams, setInsertParams] = useState<ProjectType.ContentReq>({});
   const [loading, setLoading] = useState(false);
 
   const handleChangeContent = (state: any) => {
     setEditorState(state);
-    form.setFieldsValue({ content: state.toHTML() });
   };
 
   const handleSaveContent = () => {
     form
       .validateFields()
       .then(() => {
-        console.log(form.getFieldsValue());
-        const { content, title, labelIds, storageId, author } = form.getFieldsValue();
+        const { title, labelIds, storageId, author } = form.getFieldsValue();
 
         if (loading) return;
-        httpContentUpdateReq({ content, title, labelIds, storageId, author });
+        httpContentUpdateReq({ content: editorState.toHTML(), title, labelIds, storageId, author });
       })
       .catch(() => {});
   };
@@ -79,14 +102,46 @@ const ArticleInsert: React.FC = () => {
     navigate(-1);
   };
 
-  const extendControls: any = [
+  const ExtendControls: ExtendControlType[] = [
     {
-      key: 'antd-uploader',
-      type: 'component',
-      component: (
-        <Upload accept="image/*" showUploadList={false}>
-          {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
-          <Button className="control-item button upload-button" data-title="插入图片" />
+      key: 'image-button',
+      type: 'button',
+      text: (
+        <Upload
+          listType="text"
+          showUploadList={false}
+          onChange={(v) => {
+            if (v.length && typeof v[0] === 'string') {
+              const D = ContentUtils.insertMedias(editorState, [
+                { type: 'IMAGE', url: previewFile(v[0]) },
+              ]);
+              setEditorState(D);
+            }
+          }}
+        >
+          <div className={styles['insert-img']}>插入图片</div>
+        </Upload>
+      ),
+    },
+    {
+      key: 'video-button',
+      type: 'button',
+      text: (
+        <Upload
+          listType="text"
+          showUploadList={false}
+          accept="video/mp4"
+          maxSize={10}
+          onChange={(v) => {
+            if (v.length && typeof v[0] === 'string') {
+              const D = ContentUtils.insertMedias(editorState, [
+                { type: 'VIDEO', url: previewFile(v[0]) },
+              ]);
+              setEditorState(D);
+            }
+          }}
+        >
+          <div className={styles['insert-img']}>插入视频</div>
         </Upload>
       ),
     },
@@ -95,16 +150,14 @@ const ArticleInsert: React.FC = () => {
   useEffect(() => {
     const D = getLocalStorage('ARTICLE_DATA');
     setInsertParams(D || {});
-    console.log(D);
     if (!D) return;
-
     const { title, content, author, labelVoList } = D;
     form.setFieldsValue({
       title,
-      content: BraftEditor.createEditorState(content),
       author,
       labelIds: labelVoList.map((el: any) => el.id),
     });
+    setEditorState(BraftEditor.createEditorState(content));
   }, []);
 
   return (
@@ -124,7 +177,11 @@ const ArticleInsert: React.FC = () => {
                     required: true,
                     validator: (_, value, callback) => {
                       console.log(value);
-                      callback();
+                      if (value.trim().length > 50) {
+                        callback('文章标题(最多50字)');
+                      } else {
+                        callback();
+                      }
                     },
                   },
                 ]}
@@ -170,14 +227,13 @@ const ArticleInsert: React.FC = () => {
           </Row>
           <Row gutter={24}>
             <Col span={20}>
-              <Form.Item labelCol={{ span: 2 }} name="content" label="文章内容">
+              <Form.Item labelCol={{ span: 2 }} label="文章内容">
                 <BraftEditor
-                  className="my-editor"
-                  // controls={controls}
                   value={editorState}
                   placeholder="请输入正文内容"
-                  extendControls={extendControls}
                   onChange={(v) => handleChangeContent(v)}
+                  controls={controls}
+                  extendControls={ExtendControls}
                 />
               </Form.Item>
             </Col>
