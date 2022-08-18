@@ -9,6 +9,7 @@ import LabelLibrary from '@/pages/project/labelLibrary';
 import TermLibrary from '@/pages/project/termLibrary';
 import ArticleLibrary from '@/pages/project/articleLibrary';
 import ScaleLibrary from '@/pages/project/scaleLibrary';
+import ArticleInsert from '@/pages/project/articleLibrary/articleInsert';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const WeappColumn = lazy(() => import('../pages/weapp/column'));
@@ -21,6 +22,7 @@ const FollowList = lazy(() => import('../pages/follow/list'));
 const FollowCount = lazy(() => import('../pages/follow/count'));
 const FormilyEditor = lazy(() => import('../pages/formily/editor'));
 const PlanMapEditor = lazy(() => import('../pages/planMapEditor'));
+const DictList = lazy(() => import('../pages/dict/list'));
 
 type routerConfigItem = {
   path: string;
@@ -74,6 +76,10 @@ const routerConfig: routerConfigItem[] = [
         path: '/follow/count',
         element: <FollowCount />,
       },
+      {
+        path: '/dict/list',
+        element: <DictList />,
+      },
       // 项目管理
       {
         path: '/project/term/library',
@@ -86,20 +92,24 @@ const routerConfig: routerConfigItem[] = [
       },
       // 资料库管理
       {
-        path: '/project/article/library',
+        path: '/project/database/article',
         element: <ArticleLibrary />,
       },
       {
-        path: '/project/scale/library',
+        path: '/project/database/insert',
+        element: <ArticleInsert />,
+      },
+      {
+        path: '/project/database/scale',
         element: <ScaleLibrary />,
       },
       // 标签管理
       {
-        path: '/project/label/library',
+        path: '/project/tag/library',
         element: <LabelLibrary />,
       },
       {
-        path: '/project/label/classify',
+        path: '/project/tag/classify',
         element: <LabelClassify />,
       },
       {
@@ -160,6 +170,10 @@ export const breadcrumbMap = {
         path: '/weapp/project/edit',
       },
     },
+    disease: {
+      label: '轮播图管理',
+      path: '/weapp/disease',
+    },
   },
   follow: {
     label: '跟进管理',
@@ -177,11 +191,10 @@ export const breadcrumbMap = {
       },
       edit: {
         label: '编辑病种项目',
-        path: '/weapp/plan/edit',
+        path: '/weapp/project/edit',
       },
     },
   },
-  // /project/term/library/editor
   project: {
     label: '项目管理',
     path: '/project/term/library',
@@ -195,17 +208,33 @@ export const breadcrumbMap = {
           label: '编辑管理路径',
           path: '/project/term/library/editor',
         }
-      }
+      },
     },
-    // formily: {
-    //   label: '表单管理',
-    //   path: '/project/formily/editor',
-    //   editor: {
-    //     label: '表单编辑',
-    //     path: '/project/formily/editor',
-    //   }
-    // }
-  }
+    database: {
+      label: '资料库管理',
+      path: '/project/database/article',
+      article: {
+        label: '文章库',
+        path: '/project/database/article',
+      },
+      scale: {
+        label: '量表库',
+        path: '/project/database/scale',
+      },
+    },
+    tag: {
+      label: '标签管理',
+      path: '/project/tag/library',
+      library: {
+        label: '标签库',
+        path: '/project/tag/library',
+      },
+      classify: {
+        label: '标签分类',
+        path: '/project/tag/classify',
+      },
+    },
+  },
 };
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {
   config.forEach((item) => {

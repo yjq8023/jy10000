@@ -35,6 +35,17 @@ const menuConfig: MenuItemProps[] = [
     ],
   },
   {
+    label: '字典管理',
+    key: 'dict',
+    children: [
+      {
+        label: '字典管理列表',
+        path: '/dict/list',
+        icon: <span className="iconfont icon-project"></span>,
+      },
+    ],
+  },
+  {
     label: '项目管理',
     key: 'project',
     children: [
@@ -52,11 +63,11 @@ const menuConfig: MenuItemProps[] = [
         children: [
           {
             label: '文章库',
-            path: '/project/article/library',
+            path: '/project/database/article',
           },
           {
             label: '量表库',
-            path: '/project/scale/library',
+            path: '/project/database/scale',
           },
         ],
       },
@@ -65,11 +76,11 @@ const menuConfig: MenuItemProps[] = [
         children: [
           {
             label: '标签库',
-            path: '/project/label/library',
+            path: '/project/tag/library',
           },
           {
             label: '标签分类',
-            path: '/project/label/classify',
+            path: '/project/tag/classify',
           },
         ],
       },

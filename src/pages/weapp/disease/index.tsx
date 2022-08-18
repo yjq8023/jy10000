@@ -1,23 +1,45 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Button, Badge, Switch, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
-import { PlusCircleOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Badge,
+  Switch,
+  message,
+  Modal,
+  Space,
+} from '@sinohealth/butterfly-ui-components/lib';
+import { PlusCircleOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
-import styles from './index.less';
-import { httpSlideShow } from '@/services/weapp';
+import {
+  httpSlideDelete,
+  httpSlideInsert,
+  httpSlideListByType,
+  httpSlideShow,
+  httpSlideTopWeight,
+  httpSlideUpdateStatus,
+} from '@/services/weapp';
 import { UCenter } from '@/services/weapp/data';
 import { previewFile } from '@/utils';
 import Carousel from './components/Carousel';
+import styles from './index.less';
+
+const { confirm } = Modal;
 
 /**
  * 小程序管理-轮播图管理
  * @returns
  */
 const Disease: React.FC = () => {
-  const navigate = useNavigate();
   const list: any = useList();
   const [carouselVisible, setCarouselVisible] = useState(false);
+  const [isUpdateSucc, setIsUpdateSucc] = useState(false);
+  const [typeSources, settypeSources] = useState<any>([]);
+  const [appName, setAppName] = useState('');
+  const [carouselParams, setCarouselParams] = useState<UCenter.InsertReq>({
+    storageId: '',
+    appCode: '',
+    title: '',
+  });
 
   const fetchAPi = (params: { current: any }) => {
     return httpSlideShow({
@@ -35,19 +57,82 @@ const Disease: React.FC = () => {
     });
   };
 
+  const getDefaultParams = () => {
+    return new Promise((reslove, reject) => {
+      httpSlideListByType({
+        type: 'wxMini',
+      }).then((res: any) => {
+        if (res.data.length) {
+          const sour = res.data.map((item: any) => ({
+            value: item.value,
+            id: item.id,
+          }));
+          settypeSources(sour);
+
+          list.current.searchForm.setFieldsValue({ appCode: sour[0].id });
+
+          reslove({
+            appCode: sour[0].id,
+          });
+        }
+      });
+    });
+  };
+
   const renderActionDom = (itemData: any) => {
     return (
-      <div>
-        <Link to={`edit?id=${itemData.id}`}>修改</Link>
-        &nbsp; &nbsp;
-        <a onClick={() => console.log(itemData.id)}>删除</a>
-      </div>
+      <Space>
+        <a
+          onClick={() => {
+            setCarouselParams(itemData);
+            setCarouselVisible(true);
+          }}
+        >
+          修改
+        </a>
+        <a
+          className={styles['del-color']}
+          onClick={() => {
+            confirm({
+              title: `是否确定删除 "${itemData.title}" 的数据项?`,
+              icon: <QuestionCircleFilled style={{ color: '#EA6868' }} />,
+              okButtonProps: { danger: true },
+              cancelButtonProps: { type: 'info' },
+              onOk: async () => {
+                const res: any = await httpSlideDelete(itemData.id);
+
+                return new Promise((resolve) => {
+                  const timer = setTimeout(() => {
+                    resolve(true);
+                    if (res) {
+                      list.current.reloadListData(true);
+                      message.success('删除成功');
+                    }
+                    clearTimeout(timer);
+                  }, 1000);
+                }).catch(() => console.log('Oops errors!'));
+              },
+              onCancel() {},
+            });
+          }}
+        >
+          删除
+        </a>
+      </Space>
     );
   };
 
   const Toolbar = () => {
     return (
-      <Button type="primary" onClick={() => setCarouselVisible(true)}>
+      <Button
+        type="primary"
+        onClick={() => {
+          setCarouselVisible(true);
+          // const source = list.current.searchForm.getSource;
+          const id = list.current.searchForm.getFieldValue('appCode');
+          setAppName(typeSources.filter((el: any) => el.id === id)[0].value);
+        }}
+      >
         <PlusCircleOutlined />
         增加轮播图
       </Button>
@@ -79,21 +164,36 @@ const Disease: React.FC = () => {
     },
     {
       title: '轮播图排序',
-      dataIndex: 'sort',
-      key: 'sort',
+      dataIndex: 'weight',
+      key: 'weight',
       render(text: string, record: UCenter.carouselItem, index: number) {
         if (!record.status) {
           return '--';
         }
         return (
           <div className={styles.sortDom}>
-            {text}
-            {index !== 0 && (
-              <VerticalAlignTopOutlined
-                className={styles.upTopIcon}
-                onClick={() => console.log(record, index)}
+            {index < 3 ? index + 1 : '-'}
+            {index !== 0 && record.status === 'enable' ? (
+              <div
+                className={`${styles.upTopIcon} iconfont icon-zhiding`}
+                onClick={async () => {
+                  if (isUpdateSucc) return;
+                  setIsUpdateSucc(true);
+                  message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
+                  try {
+                    const res = await httpSlideTopWeight(record.id);
+                    const timer = setTimeout(() => {
+                      if (res) list.current.reloadListData(true);
+                      message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+                      clearTimeout(timer);
+                      setIsUpdateSucc(false);
+                    }, 1500);
+                  } catch (err) {
+                    setIsUpdateSucc(false);
+                  }
+                }}
               />
-            )}
+            ) : null}
           </div>
         );
       },
@@ -110,12 +210,29 @@ const Disease: React.FC = () => {
       key: 'status',
       width: 120,
       render(text: string, record: any) {
-        const isUp = text === 'ENABLE';
+        const isUp = text === 'enable';
         return (
           <div>
             <Badge color={text ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
             &nbsp;
-            <Switch defaultChecked={isUp} onChange={(e) => console.log(e, record)} />
+            <Switch
+              defaultChecked={isUp}
+              onChange={async (e) => {
+                setIsUpdateSucc(true);
+                try {
+                  const res = await httpSlideUpdateStatus({
+                    ids: [record.id],
+                    status: isUp ? 'disable' : 'enable',
+                  });
+                  if (res) {
+                    list.current.reloadListData(true);
+                    setIsUpdateSucc(false);
+                  }
+                } catch (err) {
+                  setIsUpdateSucc(false);
+                }
+              }}
+            />
           </div>
         );
       },
@@ -137,11 +254,35 @@ const Disease: React.FC = () => {
       <BaseList
         ListTitle="轮播图管理"
         columns={columns}
+        list={list}
         fetchApi={fetchAPi}
         SearchForm={SearchForm}
+        getDefaultParams={getDefaultParams}
         Toolbar={Toolbar}
       />
-      <Carousel visible={carouselVisible} onCancel={() => setCarouselVisible(false)} />
+      {carouselVisible ? (
+        <Carousel
+          visible={carouselVisible}
+          appName={appName}
+          params={{
+            storageId: carouselParams.storageId,
+            title: carouselParams.title,
+          }}
+          onCancel={() => {
+            setCarouselParams({ storageId: '', appCode: '', title: '' });
+            setCarouselVisible(false);
+          }}
+          onOk={async (v) => {
+            const appCode = list.current.searchForm.getFieldValue('appCode');
+            const res: any = await httpSlideInsert({ ...carouselParams, ...v, appCode });
+            if (res.success) {
+              list.current.reloadListData(true);
+              setCarouselVisible(false);
+              setCarouselParams({ storageId: '', appCode: '', title: '' });
+            }
+          }}
+        />
+      ) : null}
     </div>
   );
 };
