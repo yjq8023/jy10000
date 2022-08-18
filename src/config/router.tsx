@@ -20,6 +20,8 @@ const UserList = lazy(() => import('../pages/setting/userList'));
 const Message = lazy(() => import('../pages/message'));
 const FollowList = lazy(() => import('../pages/follow/list'));
 const FollowCount = lazy(() => import('../pages/follow/count'));
+const FormilyEditor = lazy(() => import('../pages/formily/editor'));
+const PlanMapEditor = lazy(() => import('../pages/planMapEditor'));
 const DictList = lazy(() => import('../pages/dict/list'));
 
 type routerConfigItem = {
@@ -83,6 +85,11 @@ const routerConfig: routerConfigItem[] = [
         path: '/project/term/library',
         element: <TermLibrary />,
       },
+      {
+        path: 'project/term/library/editor',
+        element: <PlanMapEditor />,
+        hideInMenu: true
+      },
       // 资料库管理
       {
         path: '/project/database/article',
@@ -104,6 +111,15 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/project/tag/classify',
         element: <LabelClassify />,
+      },
+      {
+        path: '/project/label/classify',
+        element: <LabelClassify />,
+      },
+      {
+        path: 'project/formily/editor',
+        element: <FormilyEditor />,
+        hideInMenu: true
       },
     ],
   },
@@ -188,6 +204,10 @@ export const breadcrumbMap = {
       library: {
         label: '项目库',
         path: '/project/term/library',
+        editor: {
+          label: '编辑管理路径',
+          path: '/project/term/library/editor',
+        }
       },
     },
     database: {

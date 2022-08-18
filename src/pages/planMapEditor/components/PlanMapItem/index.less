@@ -1,0 +1,113 @@
+@import "@/style/var";
+.planMapItem {
+  //border-top: 2px solid #46a0c0;
+  position: relative;
+  flex: 0 0 240px;
+  padding: 10px 10px 30px 10px;
+  flex-wrap: wrap;
+  &:after {
+    content: ' ';
+    height: 2px;
+    width: 100%;
+    background-color: #46a0c0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+  }
+  &.first {
+    &:after {
+      width: 90%;
+      left: 10%;
+    }
+  }
+  &:last-child {
+    &:after {
+      width: 10%;
+    }
+  }
+  .index {
+    position: absolute;
+    z-index: 1;
+    top: -15px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #FFFFFF;
+    border-radius: 50%;
+    background-color: #46a0c0;
+  }
+  .header {
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: 500;
+    :global(.iconfont) {
+      margin-left: 4px;
+      color: @error-color;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+  .body {
+    background-color: #46a0c0;
+    padding: 4px;
+    border-radius: 6px;
+    .title {
+      padding: 5px 0;
+      color: #FFFFFF;
+    }
+    .infos {
+      height: 140px;
+      background-color: #fff;
+      border-radius: 4px;
+      padding: 6px;
+      overflow: auto;
+      .selectItem {
+        cursor: pointer;
+        &.beforeInfo {
+          color: #217BA0;
+          :global(.ant-badge-status-cyan) {
+            background-color: #217BA0;
+          }
+        }
+        &.followUp{
+          color: #6AB618;
+          :global(.ant-badge-status-cyan) {
+            background-color: #6AB618;
+          }
+        }
+        &.article{
+          color: #388BE1;
+          :global(.ant-badge-status-cyan) {
+            background-color: #388BE1;
+          }
+        }
+        &.form{
+          color: #FFC000;
+          :global(.ant-badge-status-cyan) {
+            background-color: #FFC000;
+          }
+        }
+        &.diagnosis{
+          color: #9C38E1;
+          :global(.ant-badge-status-cyan) {
+            background-color: #9C38E1;
+          }
+        }
+      }
+    }
+  }
+}
+.planMapItemHasChildren {
+  .borderDom {
+    display: inline-block;
+    width: 2px;
+    height: 100%;
+    background-color: #46a0c0;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
