@@ -51,7 +51,7 @@ const ArticleLibrary: React.FC = () => {
         <a
           onClick={() => {
             setLocalStorage('ARTICLE_DATA', itemData);
-            navigate('/project/article/insert');
+            navigate('/project/database/insert');
           }}
         >
           编辑
@@ -90,7 +90,7 @@ const ArticleLibrary: React.FC = () => {
 
   const Toolbar = () => {
     return (
-      <Button type="primary" onClick={() => navigate('/project/article/insert')}>
+      <Button type="primary" onClick={() => navigate('/project/database/insert')}>
         <PlusCircleOutlined />
         添加文章
       </Button>

@@ -22,7 +22,6 @@ const FollowList = lazy(() => import('../pages/follow/list'));
 const FollowCount = lazy(() => import('../pages/follow/count'));
 const DictList = lazy(() => import('../pages/dict/list'));
 
-
 type routerConfigItem = {
   path: string;
   element?: React.ReactNode;
@@ -86,24 +85,24 @@ const routerConfig: routerConfigItem[] = [
       },
       // 资料库管理
       {
-        path: '/project/article/library',
+        path: '/project/database/article',
         element: <ArticleLibrary />,
       },
       {
-        path: '/project/article/insert',
+        path: '/project/database/insert',
         element: <ArticleInsert />,
       },
       {
-        path: '/project/scale/library',
+        path: '/project/database/scale',
         element: <ScaleLibrary />,
       },
       // 标签管理
       {
-        path: '/project/label/library',
+        path: '/project/tag/library',
         element: <LabelLibrary />,
       },
       {
-        path: '/project/label/classify',
+        path: '/project/tag/classify',
         element: <LabelClassify />,
       },
     ],
@@ -183,16 +182,36 @@ export const breadcrumbMap = {
   project: {
     label: '项目管理',
     path: '/project/term/library',
+    term: {
+      label: '项目库管理',
+      path: '/project/term/library',
+      library: {
+        label: '项目库',
+        path: '/project/term/library',
+      },
+    },
     database: {
       label: '资料库管理',
-      path: '/project/article/library',
+      path: '/project/database/article',
       article: {
         label: '文章库',
-        path: '/project/article/library',
-        insert: {
-          label: '新增文章',
-          path: '/project/article/insert',
-        },
+        path: '/project/database/article',
+      },
+      scale: {
+        label: '量表库',
+        path: '/project/database/scale',
+      },
+    },
+    tag: {
+      label: '标签管理',
+      path: '/project/tag/library',
+      library: {
+        label: '标签库',
+        path: '/project/tag/library',
+      },
+      classify: {
+        label: '标签分类',
+        path: '/project/tag/classify',
       },
     },
   },
