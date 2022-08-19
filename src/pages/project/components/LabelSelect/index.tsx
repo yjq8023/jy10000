@@ -7,6 +7,7 @@ import { httpGetLabelList } from '@/services/project';
 const SearchIcon = () => <div className={`${styles['search-icon']} iconfont icon-search`} />;
 
 type LabelSelectProps = {
+  width?: string;
   mapSour?: string[];
   search?: boolean;
   add?: boolean;
@@ -19,7 +20,7 @@ type LabelSelectProps = {
  * @returns
  */
 const LabelSelect: React.FC<LabelSelectProps> = (props) => {
-  const { mapSour, search = true, add = true, onSelect, placeholder = '请输入' } = props;
+  const { width, mapSour, search = true, add = true, onSelect, placeholder = '请输入' } = props;
   const [isMap, setIsMap] = useState(false);
   const [selected, setSelected] = useState<ProjectType.LabelListRes[]>([]);
   const [source, setSource] = useState<ProjectType.LabelListRes[]>([]);
@@ -46,7 +47,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
 
   const httpGetLabelListReq = async () => {
     const res: any = await httpGetLabelList({});
-    console.log(res);
+    // console.log(res);
     if (!res.empty) {
       checkedDefault(res.data, true);
     }
@@ -122,7 +123,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
   }, [mapSour, source]);
 
   return (
-    <div className={styles['label-select']} ref={inputRef}>
+    <div className={styles['label-select']} style={{ width }} ref={inputRef}>
       <Popover style={{ width: '320px' }} content={selected.length ? PopoverContent : ''}>
         <div
           className={`${styles['label-value']} ${selected.length ? '' : styles.placeholder}`}
