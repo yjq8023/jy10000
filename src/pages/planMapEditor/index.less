@@ -1,0 +1,31 @@
+.planMapEditor {
+  display: flex;
+  height: calc(100vh - 160px);
+  .selector {
+    flex: 0 0 200px;
+    padding: 10px;
+    margin-right: 8px;
+    background-color: #fff;
+  }
+  .editorBody {
+    flex: 1;
+    background-color: #fff;
+    padding: 10px;
+    overflow: auto;
+    .bodyHeader {
+      padding-bottom: 35px;
+      :global(.ant-badge) {
+        margin-right: 20px;
+        :global(.ant-badge-status-dot) {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  }
+  .config {
+    flex: 0 0 260px;
+    background-color: #fff;
+    margin-left: 8px;
+  }
+}

@@ -23,7 +23,7 @@ const PageHeader = () => {
   const bNow = lodash.get(breadcrumbMap, pathSnippets.join('.'));
   if (!bNow) return null;
   return (
-    <div className={style.pageHeader}>
+    <div className={[style.pageHeader, 'pageHeader'].join(' ')}>
       <Breadcrumb>{extraBreadcrumbItems}</Breadcrumb>
       <div className={style.title}>
         {bNow.label || '--'}

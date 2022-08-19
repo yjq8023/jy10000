@@ -130,7 +130,7 @@ function Home(props: any) {
     <div>
       <LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>
         <Suspense fallback={loading}>
-          <div className={style.homeBody} style={{ padding: collapsed ? '0' : '8px' }}>
+          <div className={`${style.homeBody} ${collapsed ? style.collapsed : ''}`}>
             <PageHeader />
             <div className={style.homeBodyContent}>
               <Outlet />

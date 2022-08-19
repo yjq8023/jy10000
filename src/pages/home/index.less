@@ -10,6 +10,14 @@
   height: 100%;
   padding: 8px;
 
+  &.collapsed {
+    padding: 0;
+
+    :global(.pageHeader) {
+      margin: 0 0 8px !important;
+    }
+  }
+
   .homeBodyContent {
     flex: 1;
     height: 100%;
