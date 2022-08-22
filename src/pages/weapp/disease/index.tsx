@@ -22,6 +22,7 @@ import { UCenter } from '@/services/weapp/data';
 import { previewFile } from '@/utils';
 import Carousel from './components/Carousel';
 import styles from './index.less';
+import SwitchCustom from '@/components/SwitchCustom';
 
 const { confirm } = Modal;
 
@@ -212,10 +213,9 @@ const Disease: React.FC = () => {
       render(text: string, record: any) {
         const isUp = text === 'enable';
         return (
-          <div>
+          <Space>
             <Badge color={text ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
-            &nbsp;
-            <Switch
+            <SwitchCustom
               defaultChecked={isUp}
               onChange={async (e) => {
                 setIsUpdateSucc(true);
@@ -233,7 +233,7 @@ const Disease: React.FC = () => {
                 }
               }}
             />
-          </div>
+          </Space>
         );
       },
     },

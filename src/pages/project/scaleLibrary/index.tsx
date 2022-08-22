@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Badge,
@@ -14,6 +14,8 @@ import { previewFile } from '@/utils';
 import { UCenter } from '@/services/weapp/data';
 import { httpSlideShow } from '@/services/weapp';
 import ScaleSearch from './components/ScaleSearch';
+import ScaleModal from './components/ScaleModal';
+import SwitchCustom from '@/components/SwitchCustom';
 
 /**
  * 资料库管理-量表库
@@ -21,6 +23,7 @@ import ScaleSearch from './components/ScaleSearch';
  */
 const scaleLibrary: React.FC = () => {
   const list: any = useList();
+  const [scaleModalVisible, setScaleModalVisible] = useState(false);
 
   const fetchAPi = (params: { current: any }) => {
     return httpSlideShow({
@@ -40,19 +43,19 @@ const scaleLibrary: React.FC = () => {
 
   const renderActionDom = (itemData: any) => {
     return (
-      <div>
-        <a onClick={() => console.log(itemData)}>编辑</a>
-        &nbsp; &nbsp;
+      <Space size="middle">
+        <a onClick={() => console.log('编辑量表')}>编辑量表</a>
+        <a onClick={() => setScaleModalVisible(true)}>基本信息</a>
         <a className={styles['del-color']} onClick={() => console.log(itemData)}>
           删除
         </a>
-      </div>
+      </Space>
     );
   };
 
   const Toolbar = () => {
     return (
-      <Button type="primary" onClick={() => console.log(132132)}>
+      <Button type="primary" onClick={() => setScaleModalVisible(true)}>
         <PlusCircleOutlined />
         添加量表
       </Button>
@@ -75,18 +78,6 @@ const scaleLibrary: React.FC = () => {
       key: 'title',
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
-      width: 180,
-    },
-    {
-      title: '最后一次更新时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
-      width: 200,
-    },
-    {
       title: '标签',
       dataIndex: 'weight',
       key: 'weight',
@@ -104,6 +95,18 @@ const scaleLibrary: React.FC = () => {
       },
     },
     {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      key: 'createTime',
+      width: 180,
+    },
+    {
+      title: '最后一次更新时间',
+      dataIndex: 'createTime',
+      key: 'createTime',
+      width: 200,
+    },
+    {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
@@ -111,11 +114,10 @@ const scaleLibrary: React.FC = () => {
       render(text: string, record: any) {
         const isUp = text === 'enable';
         return (
-          <div>
+          <Space size="small">
             <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
-            &nbsp;
-            <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} />
-          </div>
+            <SwitchCustom defaultChecked={isUp} onChange={async (e) => console.log(e)} />
+          </Space>
         );
       },
     },
@@ -123,7 +125,7 @@ const scaleLibrary: React.FC = () => {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      width: 100,
+      width: 200,
       align: 'right',
       render(text: string, record: any) {
         return renderActionDom(record);
@@ -141,6 +143,12 @@ const scaleLibrary: React.FC = () => {
         SearchForm={ScaleSearch}
         Toolbar={Toolbar}
         overflow={false}
+      />
+      <ScaleModal
+        visible={scaleModalVisible}
+        title="添加量表"
+        onOk={() => setScaleModalVisible(false)}
+        onCancel={() => setScaleModalVisible(false)}
       />
     </div>
   );

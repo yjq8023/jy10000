@@ -1,3 +1,5 @@
+@import "@/style/var.less";
+
 .article-insert {
   height: calc(100% - 52px);
   padding: 16px 16px 0 16px;
@@ -43,6 +45,7 @@
       border-top: 0;
       border-radius: 0 0 4px 4px;
 
+
       &::-webkit-scrollbar {
         width: 4px;
         background-color: #F5F5F5;
@@ -60,11 +63,64 @@
         background-color: #555;
       }
     }
+
+    .dropdown-content-inner {
+      padding: 4px;
+      background-color: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+
+      .menu-item {
+        color: @break-color2  !important;
+        margin-bottom: 4px;
+        border-radius: 4px;
+
+        &:hover {
+          background: #EFFAFF;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      li {
+        color: @break-color2  !important;
+      }
+
+      .active {
+        background: #EFFAFF !important;
+      }
+    }
+
+    .dropdown-arrow {
+      background-color: #fff !important;
+    }
   }
 }
 
 .insert-img {
   color: #6a6f7b;
+}
+
+.network-container {
+
+  .network {
+    line-height: 34px;
+    height: 34px;
+    text-align: center;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background: #EFFAFF;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .phone-drawer {

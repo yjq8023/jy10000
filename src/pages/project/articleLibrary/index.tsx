@@ -17,6 +17,7 @@ import styles from './index.less';
 import ArticleSearch from './components/ArticleSearch';
 import { httpContentDelete, httpContentUpdateStatus, httpGetContent } from '@/services/project';
 import { setLocalStorage } from '@/utils/cookies';
+import SwitchCustom from '@/components/SwitchCustom';
 
 const { confirm } = Modal;
 
@@ -172,7 +173,7 @@ const ArticleLibrary: React.FC = () => {
         return (
           <Space>
             <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={isUp ? '启用' : '禁用'} />
-            <Switch
+            <SwitchCustom
               checked={isUp}
               onChange={async () => {
                 try {

@@ -13,6 +13,7 @@ import styles from './index.less';
 import { httpGetContent } from '@/services/project';
 import TermSearch from './components/TermSearch';
 import ProjectModal from './components/ProjectModal';
+import SwitchCustom from '@/components/SwitchCustom';
 
 /**
  * 项目库管理-项目库
@@ -129,11 +130,11 @@ const TermLibrary: React.FC = () => {
       render(text: string, record: any) {
         const isUp = text === 'enable';
         return (
-          <div>
+          <Space size="small">
             <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
-            &nbsp;
-            <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} />
-          </div>
+            {/* <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} /> */}
+            <SwitchCustom defaultChecked={isUp} onChange={async (e) => console.log(e)} />
+          </Space>
         );
       },
     },

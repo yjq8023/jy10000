@@ -140,6 +140,7 @@ const ArticleInsert: React.FC = () => {
   };
 
   const ExtendControls: ExtendControlType[] = [
+    'separator',
     {
       key: 'image-button',
       type: 'button',
@@ -156,7 +157,7 @@ const ArticleInsert: React.FC = () => {
             }
           }}
         >
-          <div className={styles['insert-img']}>插入图片</div>
+          <div className={styles['insert-img']}>上传图片</div>
         </Upload>
       ),
     },
@@ -178,9 +179,31 @@ const ArticleInsert: React.FC = () => {
             }
           }}
         >
-          <div className={styles['insert-img']}>插入视频</div>
+          <div className={styles['insert-img']}>上传视频</div>
         </Upload>
       ),
+    },
+    {
+      key: 'network-resources',
+      type: 'modal',
+      text: '添加网络资源',
+      modal: {
+        id: 'network',
+        width: 500,
+        confirmable: true,
+        closeOnConfirm: true,
+        onConfirm: () => {
+          console.log(132);
+        },
+        children: (
+          <div className={`${styles['network-container']}`}>
+            <div className={`${styles.network}`} onClick={() => {}}>
+              添加图片资源
+            </div>
+            <div className={`${styles.network}`}>添加视频资源</div>
+          </div>
+        ),
+      },
     },
   ];
 
@@ -205,6 +228,7 @@ const ArticleInsert: React.FC = () => {
   //   };
   //   window.addEventListener('beforeunload', listener);
   //   return () => {
+  //     removeLocalStorage('ARTICLE_DATA');
   //     window.removeEventListener('beforeunload', listener);
   //   };
   // }, []);
