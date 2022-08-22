@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Checkbox, Input, Popover, Space } from '@sinohealth/butterfly-ui-components/lib';
+import {
+  Button,
+  Checkbox,
+  Empty,
+  Input,
+  Popover,
+  Space,
+} from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined, UpOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { httpGetLabelList } from '@/services/project';
@@ -160,7 +167,9 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
       /> */}
       {isShowDrop ? (
         <div
-          className={styles['label-drop-container']}
+          className={`${styles['label-drop-container']} ${
+            !source.length ? styles['none-data'] : ''
+          }`}
           onClick={() => {
             inputRef?.current?.focus();
             setIsShowDrop(true);
@@ -223,6 +232,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                 ))}
               </div>
             ))}
+            {!source.length ? <Empty /> : null}
           </div>
         </div>
       ) : null}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Badge,
@@ -12,6 +12,7 @@ import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
 import { httpGetContent } from '@/services/project';
 import TermSearch from './components/TermSearch';
+import ProjectModal from './components/ProjectModal';
 
 /**
  * 项目库管理-项目库
@@ -19,6 +20,7 @@ import TermSearch from './components/TermSearch';
  */
 const TermLibrary: React.FC = () => {
   const list: any = useList();
+  const [projectModalVisible, setProjectModalVisible] = useState(false);
 
   const fetchAPi = (params: { current: any }) => {
     return httpGetContent({
@@ -40,7 +42,7 @@ const TermLibrary: React.FC = () => {
     return (
       <Space size="middle">
         <a onClick={() => console.log(itemData)}>查看管理计划</a>
-        <a onClick={() => console.log(itemData)}>基本信息</a>
+        <a onClick={() => setProjectModalVisible(true)}>基本信息</a>
         <a className={styles['del-color']} onClick={() => console.log(itemData)}>
           删除
         </a>
@@ -50,7 +52,7 @@ const TermLibrary: React.FC = () => {
 
   const Toolbar = () => {
     return (
-      <Button type="primary" onClick={() => console.log(132132)}>
+      <Button type="primary" onClick={() => setProjectModalVisible(true)}>
         <PlusCircleOutlined />
         添加管理项目
       </Button>
@@ -147,6 +149,7 @@ const TermLibrary: React.FC = () => {
       key: 'action',
       width: 180,
       align: 'right',
+      fixed: 'right',
       render(text: string, record: any) {
         return renderActionDom(record);
       },
@@ -164,6 +167,12 @@ const TermLibrary: React.FC = () => {
         SearchForm={TermSearch}
         Toolbar={Toolbar}
         overflow={false}
+      />
+      <ProjectModal
+        visible={projectModalVisible}
+        title="添加管理项目"
+        onCancel={() => setProjectModalVisible(false)}
+        onOk={() => setProjectModalVisible(false)}
       />
     </div>
   );
