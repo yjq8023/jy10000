@@ -19,7 +19,7 @@ type ProjectModalProps = {
  * 项目库-弹窗
  * @returns
  */
-const ProjectModal: React.FC<ProjectModalProps> = (props) => {
+const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
   const [form] = Form.useForm();
   const { visible, title, ai, params, onOk, onCancel } = props;
 
@@ -65,19 +65,30 @@ const ProjectModal: React.FC<ProjectModalProps> = (props) => {
             <Form.Item
               label="关联AI开放平台决策流"
               className={styles['decision-flow']}
-              name="title"
-              rules={[{ required: true, message: '请选择决策流' }]}
+              name="aiDecisionFlowDefinitionDto"
             >
               <LabelSelect search={false} placeholder="请选择决策流" />
             </Form.Item>
           ) : null}
-          <Form.Item label="版本号">
+          <Form.Item
+            label="版本号"
+            name="version"
+            rules={[{ required: true, message: '请输入版本号' }]}
+          >
             <Input placeholder="请输入版本号" />
           </Form.Item>
-          <Form.Item label="标签" name="title">
-            <LabelSelect search={false} placeholder="请选择标签" />
+          <Form.Item label="标签" name="labelIds">
+            <LabelSelect
+              search={false}
+              placeholder="请选择标签"
+              onSelect={(v) =>
+                form.setFieldsValue({
+                  labelIds: v,
+                })
+              }
+            />
           </Form.Item>
-          <Form.Item label="描述">
+          <Form.Item label="描述" name="description">
             <TextArea
               showCount
               maxLength={100}
