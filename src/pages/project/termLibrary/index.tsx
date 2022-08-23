@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Badge,
@@ -19,7 +20,7 @@ import TermSearch from './components/TermSearch';
  */
 const TermLibrary: React.FC = () => {
   const list: any = useList();
-
+  const navigate = useNavigate();
   const fetchAPi = (params: { current: any }) => {
     return httpGetContent({
       pageNo: params.current,
@@ -39,7 +40,7 @@ const TermLibrary: React.FC = () => {
   const renderActionDom = (itemData: any) => {
     return (
       <Space size="middle">
-        <a onClick={() => console.log(itemData)}>查看管理计划</a>
+        <a onClick={() => navigate('editor')}>查看管理计划</a>
         <a onClick={() => console.log(itemData)}>基本信息</a>
         <a className={styles['del-color']} onClick={() => console.log(itemData)}>
           删除
