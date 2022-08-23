@@ -1,3 +1,4 @@
+@import "@/style/var";
 .resultBox {
   .arrayBox {
     margin-bottom: 20px;
@@ -8,7 +9,32 @@
     .list {
       .item {
         padding: 2px 4px;
+        :global(.text-ellipsis) {
+          cursor: pointer;
+          &:hover {
+            color: @primary-color;
+          }
+        }
       }
     }
+    .resultItem {
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ccc;
+      .header {
+        :global(.text-ellipsis) {
+          cursor: pointer;
+          width: 220px;
+          margin-right: 10px;
+          &:hover {
+            color: @primary-color;
+          }
+        }
+      }
+    }
+  }
+  :global(.anticon) {
+    cursor: pointer;
+    color: @error-color;
   }
 }

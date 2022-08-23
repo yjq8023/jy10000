@@ -142,9 +142,8 @@ export const transformDataSource = (nodeR: TreeNode) => {
         : currentPath.join('.');
       return buf.concat({
         // @ts-ignore
-        label: `$${value}`,
+        label,
         value: `$${value}`,
-        title: label,
         node,
         children: transformChildren(node.children, currentPath),
       });

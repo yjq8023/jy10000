@@ -13,8 +13,10 @@ import style from './index.less';
 
 const AddFormulaModal = (props: any, ref: any) => {
   const { onOk } = props;
+  const [isResult, setIsResult] = useState(false);
   const [key, setKey] = useState('');
   const [value, setValue] = useState('');
+  const [desc, setDesc] = useState('');
   const [scope, setScope] = useState([]);
   const [selectionStart, setSelectionStart] = useState<any>(0);
   const [visible, setVisible] = useState(false);
@@ -29,14 +31,19 @@ const AddFormulaModal = (props: any, ref: any) => {
   });
 
   const handleOpen = (data: any = {}) => {
-    console.log(data);
+    setIsResult(data.type === 'result');
     setKey(data.key || '');
-    setValue(data.value || '');
+    if (data.type === 'result') {
+      setValue(data.when || '');
+      setDesc(data.desc || '');
+    } else {
+      setValue(data.value || '');
+    }
     const scopeArr: any = [];
     data.scope && Object.keys(data.scope).forEach((scopeKey: string) => {
       scopeArr.push({
-        label: scopeKey,
-        value: data.scope[scopeKey],
+        label: data.scope[scopeKey],
+        value: scopeKey,
       });
     });
     setScope(scopeArr);
@@ -45,9 +52,12 @@ const AddFormulaModal = (props: any, ref: any) => {
 
   const handleOk = () => {
     setVisible(false);
-    const newKey = key || `$S${scope.length + 1}`;
-    console.log(newKey);
-    onOk && onOk({ key: newKey, value });
+    if (isResult) {
+      onOk && onOk({ when: value, desc, key });
+    } else {
+      const newKey = key || `$S${scope.length + 1}`;
+      onOk && onOk({ key: newKey, value });
+    }
   };
   const onCancel = () => {
     setVisible(false);
@@ -57,13 +67,23 @@ const AddFormulaModal = (props: any, ref: any) => {
     ...scope,
     ...dataSource,
   ];
-  const formulaData = [
-    { label: '加', value: '+' },
-    { label: '减', value: '-' },
-    { label: '乘', value: '*' },
-    { label: '除', value: '/' },
-    { label: '双括号', value: '()' },
-  ];
+  const formulaData = !isResult ?
+    [
+      { label: '加', value: '+' },
+      { label: '减', value: '-' },
+      { label: '乘', value: '*' },
+      { label: '除', value: '/' },
+      { label: '双括号', value: '()' },
+    ]
+    :
+    [
+      { label: '大于', value: '>' },
+      { label: '小于', value: '<' },
+      { label: '大于等于', value: '>=' },
+      { label: '小于等于', value: '<=' },
+      { label: '等于', value: '==' },
+      { label: '不等于', value: '!=' },
+    ];
   const handleSelectItem = (val: any) => {
     setSelectionStart(selectionStart + val.length);
     const index = selectionStart;
@@ -71,11 +91,11 @@ const AddFormulaModal = (props: any, ref: any) => {
     inputDom.current.focus();
   };
   const renderOperator = (data: any) => {
-    const titleRender = (item: any) => {
+    const titleRender = (item: any, i: number) => {
       return (
-        <div key={item.value} onClick={() => handleSelectItem(` ${item.value} `)}>
+        <div key={item.value + i} onClick={() => handleSelectItem(` ${item.value} `)}>
           <div className={style.item} title={item.title || item.label}>
-            {item.label}: {item.title || item.value}
+            {item.value}: {item.title || item.label}
           </div>
         </div>
       );
@@ -84,12 +104,9 @@ const AddFormulaModal = (props: any, ref: any) => {
     return data.map(titleRender);
   };
   const handleInput = (e: any) => {
-    console.log(e.target.value);
     setValue(e.target.value);
   };
   const handelSelectionStart = (e: any) => {
-    // console.log(e.target.selectionStart);
-    // e.target.selectionStart = 5;
     setSelectionStart(e.target.selectionStart);
   };
   return (
@@ -102,7 +119,12 @@ const AddFormulaModal = (props: any, ref: any) => {
       width={800}
     >
       <div>
-        <Input.TextArea ref={inputDom} value={value} onInput={handleInput} onBlur={handelSelectionStart} rows={4} placeholder="引用公式或编辑，如：Q1 + Q2" maxLength={6} />
+        <Input.TextArea placeholder={isResult ? '结果提示判断规则，如：$S1 < 10' : '引用公式或编辑，如：$Q1 + $Q2'} ref={inputDom} value={value} onInput={handleInput} onBlur={handelSelectionStart} rows={4} maxLength={6} />
+        {
+          isResult && (
+            <Input value={desc} placeholder="结果提示内容" onInput={(e: any) => setDesc(e.target.value)} />
+          )
+        }
       </div>
       <Row gutter={44}>
         <Col span={12}>

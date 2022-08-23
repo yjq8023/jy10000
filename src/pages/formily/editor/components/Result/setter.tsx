@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '@sinohealth/butterfly-ui-antd';
+import { Button, Modal } from '@sinohealth/butterfly-ui-antd';
+import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import style from './setter.less';
 import AddFormulaModal from '@/pages/formily/editor/components/Result/components/AddFormulaModal';
 
 const ArrayRender = (props: any) => {
-  const { title, data, renderItem, onAdd } = props;
+  const { title, data, renderItem, onAdd, onDelete } = props;
   let arrData = [];
   if (Array.isArray(data)) {
     arrData = data;
@@ -23,13 +24,16 @@ const ArrayRender = (props: any) => {
         {title}:
       </div>
       <div className={style.list}>
-        { arrData.map((item: any) => {
+        { arrData.map((item: any, i: number) => {
           if (renderItem) {
-            return renderItem(item);
+            return renderItem(item, i);
           }
           return (
-            <div className={style.item} key={item.key} onClick={() => onAdd(item)}>
-              <div>{item.key}: {item.value}</div>
+            <div className={style.item} key={item.key}>
+              <div>
+                <div onClick={() => onAdd(item)} className="text-ellipsis" style={{ width: '220px', marginRight: '10px' }}>{item.key}: {item.value}</div>
+                <DeleteOutlined onClick={() => onDelete(item.key)} />
+              </div>
             </div>
           );
         })}
@@ -56,13 +60,25 @@ export const ResultSetter = (props: any) => {
     }
   }, [props]);
   const handleOk = (data: any) => {
-    props.onChange && props.onChange({
-      ...rule,
-      scope: {
-        ...rule.scope,
-        [data.key]: data.value,
-      },
-    });
+    let newData;
+    if (!data.when) {
+      newData = {
+        ...rule,
+        scope: {
+          ...rule.scope,
+          [data.key]: data.value,
+        },
+      };
+    } else {
+      const results = rule.results || [];
+      const index = typeof data.key === 'number' ? data.key : results.length;
+      results[index] = { when: data.when, desc: data.desc };
+      newData = {
+        ...rule,
+        results,
+      };
+    }
+    props.onChange && props.onChange(newData);
   };
   const handleAddFormula = (data: any = {}) => {
     addFormulaModal.current.handleOpen({
@@ -70,11 +86,63 @@ export const ResultSetter = (props: any) => {
       scope: rule.scope,
     });
   };
-  const resultItem = () => {
+  const handleAddResult = (data: any = {}) => {
+    addFormulaModal.current.handleOpen({
+      ...data,
+      scope: rule.scope,
+      type: 'result',
+    });
+  };
+  const handleDeleteFormula = (key: string) => {
+    Modal.confirm({
+      title: '确认删除?',
+      icon: <ExclamationCircleOutlined />,
+      content: '删除该公式前请确认该公式没有被引用',
+      okText: '删除',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        const newScope = rule.scope;
+        delete newScope[key];
+        props.onChange && props.onChange({
+          ...rule,
+          scope: newScope,
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+  const handleDeleteResult = (index: number) => {
+    Modal.confirm({
+      title: '确认删除?',
+      icon: <ExclamationCircleOutlined />,
+      content: '删除将不再显示该结果提示',
+      okText: '删除',
+      okType: 'danger',
+      cancelText: '取消',
+      onOk() {
+        const newResults = rule.results;
+        newResults.splice(index, 1);
+        props.onChange && props.onChange({
+          ...rule,
+          results: newResults,
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+  const resultItem = (item: any, i: number) => {
     return (
-      <div>
-        <div>S1: Q1+Q2</div>
-        <div>患有轻微抑郁，请及时就医</div>
+      <div className={style.resultItem} key={i + item.when}>
+        <div className={style.header}>
+          <div className="text-ellipsis" onClick={() => handleAddResult({ ...item, key: i })}>提示规则：{item.when}</div>
+          <DeleteOutlined onClick={() => handleDeleteResult(i)} />
+        </div>
+        <div>提示内容：{item.desc}</div>
       </div>
     );
   };
@@ -83,8 +151,8 @@ export const ResultSetter = (props: any) => {
       <div className="but-title">
         结果配置
       </div>
-      <ArrayRender title="计算公式" data={rule.scope} onAdd={handleAddFormula} />
-      <ArrayRender title="结果提示" data={rule.results} renderItem={resultItem} />
+      <ArrayRender title="计算公式" data={rule.scope} onAdd={handleAddFormula} onDelete={handleDeleteFormula} />
+      <ArrayRender title="结果提示" data={rule.results} renderItem={resultItem} onAdd={handleAddResult} />
       <AddFormulaModal ref={addFormulaModal} onOk={handleOk} />
     </div>
   );
