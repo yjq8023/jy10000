@@ -4,6 +4,7 @@ import SimpleModal from '@/components/SimpleModal';
 import styles from './index.less';
 import LabelSelect from '@/pages/project/components/LabelSelect';
 import { httpProjecAiDecision } from '@/services/project';
+import AiLabelSelect from '@/pages/project/components/AiLabelSelect';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -39,8 +40,8 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
   };
 
   useEffect(() => {
-    if (!ai && !aiDecisionParams.name) return;
-    httpProjecAiDecisionReq();
+    // if (!ai && !aiDecisionParams.name) return;
+    // httpProjecAiDecisionReq();
   }, [ai, aiDecisionParams]);
 
   useEffect(() => {
@@ -54,6 +55,7 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
       <SimpleModal
         visible={visible}
         title={title}
+        width="700px"
         okText="保 存"
         cancelButtonProps={{ type: 'info' }}
         onCancel={() => {
@@ -65,13 +67,7 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
             .validateFields()
             .then(() => {
               const insertParams = form.getFieldsValue() as any;
-              let D = {};
-              if (typeof insertParams.aiDecisionFlowDefinitionDto === 'string') {
-                D = aiDecision.filter(
-                  (el) => el.decisionFlowsVersionId === insertParams.aiDecisionFlowDefinitionDto,
-                )[0];
-              }
-              onOk && onOk({ ...insertParams, aiDecisionFlowDefinitionDto: D });
+              onOk && onOk(insertParams);
             })
             .catch(() => {});
         }}
@@ -79,8 +75,8 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
         <Form
           name="basic"
           form={form}
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 16 }}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 20 }}
           initialValues={{ remember: true }}
           onFinish={() => {}}
           onFinishFailed={() => {}}
@@ -99,7 +95,7 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
               className={styles['decision-flow']}
               name="aiDecisionFlowDefinitionDto"
             >
-              <Select
+              {/* <Select
                 showSearch
                 placeholder="请选择决策流"
                 defaultActiveFirstOption={false}
@@ -107,16 +103,18 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
                 filterOption={false}
                 onSearch={handleSearch}
                 notFoundContent={null}
-                // onChange={(v) =>
-                //   form.setFieldsValue({
-                //     aiDecisionFlowDefinitionDto: v,
-                //   })
-                // }
               >
                 {aiDecision.map((el) => (
                   <Option key={el.decisionFlowsVersionId}>{el.decisionFlowsVersionName}</Option>
                 ))}
-              </Select>
+              </Select> */}
+              <AiLabelSelect
+                onSelect={(v) =>
+                  form.setFieldsValue({
+                    aiDecisionFlowDefinitionDto: v,
+                  })
+                }
+              />
             </Form.Item>
           ) : null}
           <Form.Item

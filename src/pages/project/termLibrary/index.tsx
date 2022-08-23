@@ -99,6 +99,18 @@ const TermLibrary: React.FC = () => {
     );
   };
 
+  const PopoverContent = (record: ProjectType.ContentRes) => {
+    return (
+      <div className={styles.sortDom}>
+        {record.labelVoList.map((el, ids) => (
+          <div className={styles.tag} key={el.id}>
+            {el.name}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   const Toolbar = () => {
     return (
       <Button
@@ -137,13 +149,33 @@ const TermLibrary: React.FC = () => {
       width: 200,
       render(text: string, record: ProjectType.ProjectRes, index: number) {
         return record?.labelVoList.length ? (
-          <Space className={styles.sortDom}>
-            {record?.labelVoList?.map((el) => (
-              <div className={styles.tag} key={el.id}>
-                {el.name}
+          <>
+            {/* <Space className={styles.sortDom}>
+              {record?.labelVoList?.map((el) => (
+                <div className={styles.tag} key={el.id}>
+                  {el.name}
+                </div>
+              ))}
+            </Space> */}
+            <Popover
+              trigger="click"
+              content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
+            >
+              <div
+                className={`${styles.sortDom} ${
+                  record.labelVoList.length > 2 ? styles.pointer : ''
+                }`}
+              >
+                {record.labelVoList.map((el, inx) =>
+                  inx < 2 ? (
+                    <div className={styles.tag} key={el.id}>
+                      {el.name}
+                    </div>
+                  ) : null,
+                )}
               </div>
-            ))}
-          </Space>
+            </Popover>
+          </>
         ) : (
           '--'
         );
