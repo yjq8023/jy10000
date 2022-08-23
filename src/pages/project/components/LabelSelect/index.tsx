@@ -7,7 +7,7 @@ import {
   Popover,
   Space,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { PlusCircleOutlined, UpOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { httpGetLabelList } from '@/services/project';
 
@@ -56,23 +56,25 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
     const res: any = await httpGetLabelList({});
     // console.log(res);
     if (!res.empty) {
-      checkedDefault(res.data, true);
+      checkedDefault(res.data, mapSour, true);
     }
   };
 
-  const checkedDefault = (arr: any, filter: boolean = false) => {
+  const checkedDefault = (arr: any, map?: string[], filter: boolean = false) => {
     const FilD: ProjectType.LabelListRes[] = [];
     arr.forEach((el: ProjectType.LabelListRes) => {
       el.children.forEach((lis: ProjectType.LabelListRes) => {
         if (filter) {
-          mapSour?.includes(lis.id) && FilD.push(lis);
+          map?.includes(lis.id) && FilD.push(lis);
+          if (!map?.includes(lis.id)) {
+            // eslint-disable-next-line no-param-reassign
+            lis.checked = false;
+          }
           setSelected(FilD);
-        } else {
-          // eslint-disable-next-line no-param-reassign
-          lis.checked = false;
         }
       });
     });
+    console.log(arr);
     setSource(arr);
   };
 
@@ -123,6 +125,9 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
           lis.checked = true;
           FilD.push(lis);
           setSelected(FilD);
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          lis.checked = false;
         }
       });
       setIsMap(true);
@@ -139,6 +144,21 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
           {selected.map((el) => (
             <span className={styles['select-tag']} key={el.id}>
               {el.value}
+              <span
+                style={{ fontSize: 12, marginLeft: 5 }}
+                className="iconfont icon-shibai1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const D = selected.filter((itm) => itm.id !== el.id);
+                  setSelected(D);
+
+                  checkedDefault(
+                    source,
+                    D.map((lis) => lis.id),
+                    true,
+                  );
+                }}
+              />
             </span>
           ))}
           {!selected.length ? placeholder : ''}

@@ -1,10 +1,12 @@
-import React from 'react';
-import { Form, Input } from '@sinohealth/butterfly-ui-components/lib';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Select } from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
 import styles from './index.less';
 import LabelSelect from '@/pages/project/components/LabelSelect';
+import { httpProjecAiDecision } from '@/services/project';
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 type ProjectModalProps = {
   visible?: boolean;
@@ -22,6 +24,30 @@ type ProjectModalProps = {
 const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
   const [form] = Form.useForm();
   const { visible, title, ai, params, onOk, onCancel } = props;
+  const [aiDecisionParams, setAiDecisionParams] = useState({ name: '' });
+  const [aiDecision, setAiDecision] = useState<ProjectType.AiDecisionRes[]>([]);
+  const [labelMapSour, setLabelMapSour] = useState([]);
+
+  const handleSearch = (newValue: string) => {
+    setAiDecisionParams({ name: newValue });
+  };
+
+  const httpProjecAiDecisionReq = async () => {
+    const res = await httpProjecAiDecision(aiDecisionParams);
+    console.log(res);
+    setAiDecision(res.data);
+  };
+
+  useEffect(() => {
+    if (!ai && !aiDecisionParams.name) return;
+    httpProjecAiDecisionReq();
+  }, [ai, aiDecisionParams]);
+
+  useEffect(() => {
+    if (!Object.keys(params).length) return;
+    form.setFieldsValue(params);
+    setLabelMapSour(params.labelVoList.map((el: any) => el.id));
+  }, [params]);
 
   return (
     <div className={styles['project-modal']}>
@@ -39,7 +65,13 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
             .validateFields()
             .then(() => {
               const insertParams = form.getFieldsValue() as any;
-              onOk && onOk(insertParams);
+              let D = {};
+              if (typeof insertParams.aiDecisionFlowDefinitionDto === 'string') {
+                D = aiDecision.filter(
+                  (el) => el.decisionFlowsVersionId === insertParams.aiDecisionFlowDefinitionDto,
+                )[0];
+              }
+              onOk && onOk({ ...insertParams, aiDecisionFlowDefinitionDto: D });
             })
             .catch(() => {});
         }}
@@ -67,7 +99,24 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
               className={styles['decision-flow']}
               name="aiDecisionFlowDefinitionDto"
             >
-              <LabelSelect search={false} placeholder="请选择决策流" />
+              <Select
+                showSearch
+                placeholder="请选择决策流"
+                defaultActiveFirstOption={false}
+                showArrow={false}
+                filterOption={false}
+                onSearch={handleSearch}
+                notFoundContent={null}
+                // onChange={(v) =>
+                //   form.setFieldsValue({
+                //     aiDecisionFlowDefinitionDto: v,
+                //   })
+                // }
+              >
+                {aiDecision.map((el) => (
+                  <Option key={el.decisionFlowsVersionId}>{el.decisionFlowsVersionName}</Option>
+                ))}
+              </Select>
             </Form.Item>
           ) : null}
           <Form.Item
@@ -80,6 +129,7 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
           <Form.Item label="标签" name="labelIds">
             <LabelSelect
               search={false}
+              mapSour={labelMapSour}
               placeholder="请选择标签"
               onSelect={(v) =>
                 form.setFieldsValue({

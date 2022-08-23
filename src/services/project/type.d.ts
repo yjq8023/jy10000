@@ -143,4 +143,28 @@ declare namespace ProjectType {
     publishTime?: string;
     status?: string;
   };
+
+  type ServiceProjectReq = {
+    name?: string;
+    diseaseIds?: string[];
+    pageSize?: string;
+    pageNo?: string;
+    orderBy?: string;
+    orderDirection?: string;
+    groupBy?: string;
+    needTotalCount?: string;
+  };
+
+  type AiDecisionReq = {
+    name?: string;
+  };
+
+  type AiDecisionRes = {
+    decisionFlowsId?: string;
+    decisionFlowsVersionId?: string;
+    decisionFlowsVersionName?: string;
+    publishTime?: string;
+    shareUrl?: string;
+    labels?: string[];
+  };
 }

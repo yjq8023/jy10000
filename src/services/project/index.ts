@@ -92,6 +92,30 @@ export const httpProjectDelete = (id: string) => {
   return request.get(`${prefix}/managerProject/delete/${id}`, {}, { isReturnAllData: true });
 };
 
+/**
+ * 分页查询ai决策流信息
+ * @param params
+ * @returns
+ */
+export const httpProjecAiDecision = (params: ProjectType.AiDecisionReq) => {
+  return request.post(`${prefix}/managerProject/pageAiDecisionFlowsVersion`, params, {
+    // @ts-ignore
+    isReturnAllData: true,
+  });
+};
+
+// ------------ 服务项目信息集合 --------------
+
+/**
+ * 分页查询服务项目信息
+ * @param params
+ * @returns
+ */
+export const httpServiceProject = (params: ProjectType.ServiceProjectReq) => {
+  // @ts-ignore
+  return request.post(`${prefix}/serviceProject/page`, params, { isReturnAllData: true });
+};
+
 export default {
   httpGetContent,
 };

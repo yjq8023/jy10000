@@ -62,6 +62,7 @@ const TermLibrary: React.FC = () => {
           onClick={() => {
             setProjectModalVisible(true);
             setIsShowAi(false);
+            setProjectParams(itemData);
           }}
         >
           基本信息
@@ -168,7 +169,11 @@ const TermLibrary: React.FC = () => {
       render(text: string, record: ProjectType.ProjectRes, index: number) {
         return text ? (
           <Space className={styles.sortDom}>
-            <div className={styles.tag}>{text}</div>
+            {text.split(',').map((el) => (
+              <div className={styles.tag} key={el}>
+                {el}
+              </div>
+            ))}
           </Space>
         ) : (
           '--'
@@ -247,20 +252,38 @@ const TermLibrary: React.FC = () => {
         Toolbar={Toolbar}
         overflow={false}
       />
-      <ProjectModal
-        visible={projectModalVisible}
-        title="添加管理项目"
-        ai={isShowAi}
-        onCancel={() => setProjectModalVisible(false)}
-        onOk={async (v) => {
-          const res: any = await httpProjectInsert({ ...projectParams, ...v });
-          if (res.success) {
-            list.current.reloadListData(true);
+      {projectModalVisible ? (
+        <ProjectModal
+          visible={projectModalVisible}
+          params={projectParams}
+          title={isShowAi ? '添加管理项目' : '编辑项目基本信息'}
+          ai={isShowAi}
+          onCancel={() => {
             setProjectModalVisible(false);
+            setIsUpdateSucc(false);
             setProjectParams({});
-          }
-        }}
-      />
+          }}
+          onOk={async (v) => {
+            if (isUpdateSucc) return;
+            setIsUpdateSucc(true);
+
+            try {
+              message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
+              const res: any = await httpProjectInsert({ ...projectParams, ...v });
+              if (res.success) {
+                list.current.reloadListData(true);
+                setProjectModalVisible(false);
+                setProjectParams({});
+                setIsUpdateSucc(false);
+                message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+              }
+            } catch (err) {
+              setIsUpdateSucc(false);
+              message.error({ content: '数据更新失败', key: 'updatable', duration: 1 });
+            }
+          }}
+        />
+      ) : null}
     </div>
   );
 };
