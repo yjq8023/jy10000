@@ -1,12 +1,16 @@
 @import "@/style/var";
 .resultBox {
+  .title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
   .arrayBox {
     margin-bottom: 20px;
-    .title {
-      font-size: 16px;
-      font-weight: 500;
-    }
     .list {
+      padding-bottom: 10px;
       .item {
         padding: 2px 4px;
         :global(.text-ellipsis) {
@@ -20,7 +24,7 @@
     .resultItem {
       padding-bottom: 10px;
       margin-bottom: 10px;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #f0f0f0;
       .header {
         :global(.text-ellipsis) {
           cursor: pointer;
@@ -30,6 +34,9 @@
             color: @primary-color;
           }
         }
+      }
+      .desc {
+        word-break: break-all;
       }
     }
   }

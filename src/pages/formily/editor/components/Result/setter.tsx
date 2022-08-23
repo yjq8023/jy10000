@@ -20,7 +20,7 @@ const ArrayRender = (props: any) => {
   }
   return (
     <div className={style.arrayBox}>
-      <div className={style.title}>
+      <div className="but-title">
         {title}:
       </div>
       <div className={style.list}>
@@ -142,13 +142,13 @@ export const ResultSetter = (props: any) => {
           <div className="text-ellipsis" onClick={() => handleAddResult({ ...item, key: i })}>提示规则：{item.when}</div>
           <DeleteOutlined onClick={() => handleDeleteResult(i)} />
         </div>
-        <div>提示内容：{item.desc}</div>
+        <div className={style.desc}>提示内容：{item.desc}</div>
       </div>
     );
   };
   return (
     <div className={style.resultBox}>
-      <div className="but-title">
+      <div className={style.title}>
         结果配置
       </div>
       <ArrayRender title="计算公式" data={rule.scope} onAdd={handleAddFormula} onDelete={handleDeleteFormula} />
