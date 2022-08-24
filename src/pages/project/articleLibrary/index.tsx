@@ -15,9 +15,15 @@ import { PlusCircleOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
 import ArticleSearch from './components/ArticleSearch';
-import { httpContentDelete, httpContentUpdateStatus, httpGetContent } from '@/services/project';
+import {
+  httpContentDelete,
+  httpContentUpdate,
+  httpContentUpdateStatus,
+  httpGetContent,
+} from '@/services/project';
 import { setLocalStorage } from '@/utils/cookies';
 import SwitchCustom from '@/components/SwitchCustom';
+import UpdateLabel from './components/UpdateLabel';
 
 const { confirm } = Modal;
 
@@ -29,6 +35,8 @@ const ArticleLibrary: React.FC = () => {
   const navigate = useNavigate();
   const list: any = useList();
   const [isUpdateSucc, setIsUpdateSucc] = useState(false);
+  const [updateLabelVisible, setUpdateLabelVisible] = useState(false);
+  const [updateLabelParams, setUpdateLabelParams] = useState({});
 
   const fetchAPi = (params: { current: any }) => {
     return httpGetContent({
@@ -46,7 +54,25 @@ const ArticleLibrary: React.FC = () => {
     });
   };
 
-  const renderActionDom = (itemData: any) => {
+  const httpContentUpdateReq = async (params: ProjectType.ContentReq) => {
+    if (isUpdateSucc) return;
+    setIsUpdateSucc(true);
+
+    try {
+      const res: any = await httpContentUpdate({ ...updateLabelParams, ...params });
+
+      if (res.success) {
+        message.success('标签编辑成功');
+        list.current.reloadListData(true);
+        setIsUpdateSucc(false);
+        setUpdateLabelVisible(false);
+      }
+    } catch (err) {
+      setIsUpdateSucc(false);
+    }
+  };
+
+  const renderActionDom = (itemData: ProjectType.ContentRes) => {
     return (
       <Space size="middle">
         <a
@@ -55,7 +81,15 @@ const ArticleLibrary: React.FC = () => {
             navigate('/project/database/insert');
           }}
         >
-          编辑
+          编辑文章
+        </a>
+        <a
+          onClick={() => {
+            setUpdateLabelParams(itemData);
+            setUpdateLabelVisible(true);
+          }}
+        >
+          编辑标签
         </a>
         <a
           className={styles['del-color']}
@@ -161,7 +195,7 @@ const ArticleLibrary: React.FC = () => {
       title: '作者',
       dataIndex: 'author',
       key: 'author',
-      width: 120,
+      width: 150,
     },
     {
       title: '状态',
@@ -212,7 +246,7 @@ const ArticleLibrary: React.FC = () => {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      width: 100,
+      width: 150,
       align: 'right',
       fixed: 'right',
       render(text: string, record: any) {
@@ -233,6 +267,16 @@ const ArticleLibrary: React.FC = () => {
         Toolbar={Toolbar}
         overflow={false}
       />
+      {updateLabelVisible ? (
+        <UpdateLabel
+          visible={updateLabelVisible}
+          params={updateLabelParams}
+          onCancel={() => setUpdateLabelVisible(false)}
+          onOk={(v) => {
+            httpContentUpdateReq({ ...v });
+          }}
+        />
+      ) : null}
     </div>
   );
 };

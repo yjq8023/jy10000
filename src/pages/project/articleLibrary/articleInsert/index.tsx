@@ -84,10 +84,10 @@ const ArticleInsert: React.FC = () => {
     form
       .validateFields()
       .then(() => {
-        const { title, labelIds, storageId, author } = form.getFieldsValue();
+        const { title, storageId, author } = form.getFieldsValue();
 
         if (loading) return;
-        httpContentUpdateReq({ content: editorState.toHTML(), title, labelIds, storageId, author });
+        httpContentUpdateReq({ content: editorState.toHTML(), title, storageId, author });
       })
       .catch(() => {});
   };
@@ -215,7 +215,7 @@ const ArticleInsert: React.FC = () => {
     form.setFieldsValue({
       title,
       author,
-      labelIds: labelVoList.map((el: any) => el.id),
+      // labelIds: labelVoList.map((el: any) => el.id),
     });
     setEditorState(BraftEditor.createEditorState(content));
   }, []);
@@ -269,7 +269,7 @@ const ArticleInsert: React.FC = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={24}>
+          {/* <Row gutter={24}>
             <Col span={9}>
               <Form.Item labelCol={{ span: 5 }} name="labelIds" label="标签">
                 <LabelSelect
@@ -286,7 +286,7 @@ const ArticleInsert: React.FC = () => {
                 />
               </Form.Item>
             </Col>
-          </Row>
+          </Row> */}
           <Row gutter={24}>
             <Col span={9}>
               <Form.Item labelCol={{ span: 5 }} name="storageId" label="封面">

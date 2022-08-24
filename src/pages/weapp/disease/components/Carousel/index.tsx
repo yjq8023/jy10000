@@ -24,6 +24,7 @@ const Carousel: React.FC<CarouselProps> = (props) => {
   const { visible, appName, params, onCancel, onOk } = props;
 
   useEffect(() => {
+    console.log(params);
     form.setFieldsValue(params);
   }, [params]);
 
@@ -58,15 +59,28 @@ const Carousel: React.FC<CarouselProps> = (props) => {
           onFinishFailed={() => {}}
           autoComplete="off"
         >
-          <Form.Item label="所属应用">
+          {/* <Form.Item label="所属应用">
             <Input placeholder="请输入轮播图名称" value={appName} disabled />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             label="轮播图名称"
             name="title"
             rules={[{ required: true, message: '请输入轮播图名称' }]}
           >
             <Input placeholder="请输入轮播图名称" />
+          </Form.Item>
+          <Form.Item
+            label="权重排序"
+            name="weight"
+            rules={[
+              {
+                required: true,
+                pattern: /^[0-9]{1,5}$/g,
+                message: '最多输入5位数字，数字越大，排序越靠前',
+              },
+            ]}
+          >
+            <Input placeholder="最多输入5位数字，数字越大，排序越靠前" />
           </Form.Item>
 
           <Form.Item
