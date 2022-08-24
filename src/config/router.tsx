@@ -88,7 +88,7 @@ const routerConfig: routerConfigItem[] = [
       {
         path: 'project/term/library/editor',
         element: <PlanMapEditor />,
-        hideInMenu: true
+        hideInMenu: true,
       },
       // 资料库管理
       {
@@ -119,7 +119,7 @@ const routerConfig: routerConfigItem[] = [
       {
         path: 'project/formily/editor',
         element: <FormilyEditor />,
-        hideInMenu: true
+        hideInMenu: true,
       },
     ],
   },
@@ -159,7 +159,7 @@ export const breadcrumbMap = {
       path: '/weapp/column',
     },
     project: {
-      label: '项目管理',
+      label: '服务项目管理',
       path: '/weapp/project',
       add: {
         label: '新增病种项目',
@@ -207,7 +207,7 @@ export const breadcrumbMap = {
         editor: {
           label: '编辑管理路径',
           path: '/project/term/library/editor',
-        }
+        },
       },
     },
     database: {

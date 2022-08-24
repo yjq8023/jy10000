@@ -99,7 +99,7 @@ const TermLibrary: React.FC = () => {
     );
   };
 
-  const PopoverContent = (record: ProjectType.ContentRes) => {
+  const PopoverContent = (record: ProjectType.ProjectRes) => {
     return (
       <div className={styles.sortDom}>
         {record.labelVoList.map((el, ids) => (

@@ -1,4 +1,5 @@
 import { request } from '@/core/request';
+import { UCenter } from './data';
 
 const prefix = '/backend';
 
@@ -25,32 +26,32 @@ export const setColumnStatus = (params: any) => {
   return request.post(`${prefix}/disease/setDiseaseStatus`, params);
 };
 
-export const getProjectList = (params: any) => {
-  return request.post(`${prefix}/diseaseProject/pageDiseaseProject`, params, {
+export const getProjectList = (params: UCenter.ServiceProjectReq) => {
+  return request.post(`${prefix}/serviceProject/page`, params, {
     // @ts-ignore
     isReturnAllData: true,
   });
 };
 
-export const setProjectStatus = (params: any) => {
-  return request.post(`${prefix}/diseaseProject/setDiseaseProjectStatus`, params);
+export const setProjectStatus = (params: UCenter.UpdateStatusReq) => {
+  return request.post(`${prefix}/serviceProject/updateStatus`, params);
 };
 
 export const createProject = (params: any) => {
-  return request.post(`${prefix}/diseaseProject/save`, params);
+  return request.post(`${prefix}/serviceProject/save`, params);
 };
 
 export const editProject = (params: any) => {
-  return request.post(`${prefix}/diseaseProject/edit`, params);
+  return request.post(`${prefix}/serviceProject/edit`, params);
 };
 
 export const deleteProject = (id: string) => {
-  const url = `${prefix}/diseaseProject/delete/${id}`;
-  return request.post(url);
+  const url = `${prefix}/serviceProject/delete/${id}`;
+  return request.get(url);
 };
 
 export const getProjectDetail = (id: string) => {
-  const url = `${prefix}/diseaseProject/detail/${id}`;
+  const url = `${prefix}/serviceProject/detail/${id}`;
   return request.post(url);
 };
 

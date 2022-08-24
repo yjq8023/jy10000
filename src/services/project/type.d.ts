@@ -28,7 +28,7 @@ declare namespace ProjectType {
   };
 
   type ContentRes = {
-    id?: string;
+    id: string;
     tenantId?: string;
     organizeId?: string;
     title?: string;
