@@ -213,4 +213,35 @@ declare namespace UCenter {
     ids?: string[];
     status?: string;
   };
+
+  type ProjectDetailRes = {
+    id?: string;
+    createTime?: string;
+    serviceProjectName?: string;
+    diseaseId?: string;
+    diseaseName?: string;
+    projectId?: string;
+    projectName?: string;
+    organizeId?: string;
+    organizeName?: string;
+    doctorId?: string;
+    doctorName?: string;
+    doctorTitle?: string;
+    caseManagerId?: string;
+    caseManagerName?: string;
+    description?: string;
+    needCaseManger?: string;
+    needDoctor?: string;
+    status?: string;
+    specVoList?: SpecVoList[];
+  };
+
+  type SpecVoList = {
+    id?: string;
+    name?: string;
+    timeNumber?: string;
+    timeUnit?: string;
+    originalPrice?: string;
+    disCountPrice?: string;
+  };
 }

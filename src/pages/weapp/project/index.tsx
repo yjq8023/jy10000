@@ -219,6 +219,7 @@ function WeappProject() {
         fetchApi={fetchAPi}
         Toolbar={Toolbar}
         SearchForm={SearchForm}
+        overflow={false}
         fixed
       />
     </div>
