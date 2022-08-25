@@ -10,7 +10,6 @@ import Result from '@/pages/formily/editor/components/Result';
 const allComponents = {
   components,
   FormProvider: components.Form,
-  Result,
 };
 registerComponents(allComponents);
 export interface IPreviewWidgetProps {
