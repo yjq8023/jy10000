@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Select } from '@sinohealth/butterfly-ui-components/lib';
 import { planItemTypes } from '@/pages/planMapEditor/config';
 import style from './index.less';
 
@@ -10,6 +10,7 @@ const FormSetting = (props: any) => {
   const titles: any = {
     [planItemTypes.beforeInfo]: '项目前置信息',
     [planItemTypes.followUp]: '跟进记录表',
+    [planItemTypes.form]: '医学量表',
   };
   const handleEdit = () => {
     const { type } = data;
@@ -21,6 +22,16 @@ const FormSetting = (props: any) => {
       <div className={style.header}>
         <div className={style.type}>{titles[data.type]}</div>
         <div className={style.title}>{data.name}</div>
+        {
+          data.type === planItemTypes.form && (
+            <>
+              <div className={style.type}>关联IO</div>
+              <div>
+                <Select style={{ width: '100%' }} />
+              </div>
+            </>
+          )
+        }
       </div>
       <div className={style.body} />
       <div className={style.footer}>
