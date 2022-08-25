@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Breadcrumb } from '@sinohealth/butterfly-ui-components/lib';
 import { Link, useLocation } from 'react-router-dom';
 // @ts-ignore
 import lodash from 'lodash';
 import { breadcrumbMap } from '@/config/router';
+import { planMapContext } from '@/pages/planMapEditor';
+
 import style from '@/components/PageHeader/index.less';
 
 const PageHeader = () => {
+  const { planMapState } = useContext(planMapContext);
   const location = useLocation();
   const pathSnippets = location.pathname.split('/').filter((i) => i);
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
@@ -20,6 +23,10 @@ const PageHeader = () => {
       </Breadcrumb.Item>
     );
   });
+  const handleSave = () => {
+    console.log('planMapState');
+    console.log(planMapState);
+  };
   return (
     <div className={[style.pageHeader, 'pageHeader'].join(' ')}>
       <Breadcrumb>{extraBreadcrumbItems}</Breadcrumb>
@@ -29,7 +36,7 @@ const PageHeader = () => {
           <Button>取消</Button>
           &nbsp;
           &nbsp;
-          <Button type="primary">保存</Button>
+          <Button type="primary" onClick={handleSave}>保存</Button>
         </div>
       </div>
     </div>

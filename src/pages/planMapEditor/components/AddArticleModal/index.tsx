@@ -43,15 +43,93 @@ const columns = [
     },
   },
 ];
+
+export const ArticleSettingContent = (props: any) => {
+  const { nodeData, isMini, form, onFinish } = props;
+  const [labelOptions, setLabelOptions] = useState<any>(labelMock);
+  const [articles, setArticles] = useState<any>([]);
+  const onFinishFn = (data: any) => {
+    const newData = { ...nodeData };
+    const newInfos = [
+      {
+        ...data,
+        type: planItemTypes.article,
+        name: '患教文章',
+      },
+    ];
+    if (Array.isArray(newData.infos)) {
+      newData.infos = [...newData.infos, ...newInfos];
+    } else {
+      newData.infos = newInfos;
+    }
+    onFinish && onFinish(newData);
+  };
+  const AcNumber = (p: any) => {
+    const { value, onChange } = p;
+    return (
+      <div>
+        本周期推送 <InputNumber value={value} onChange={onChange} style={{ width: '100px' }} min={1} /> 篇患教文章
+      </div>
+    );
+  };
+  const defaultValue: any = {};
+  return (
+    <Form
+      form={form}
+      name="basic"
+      labelCol={{ span: isMini ? 24 : 6 }}
+      wrapperCol={{ span: isMini ? 24 : 16 }}
+      labelAlign="left"
+      initialValues={defaultValue}
+      onFinish={onFinishFn}
+      hideRequiredMark={true}
+      autoComplete="off"
+      layout={isMini ? 'vertical' : 'horizontal'}
+    >
+      <Row>
+        <Col span={isMini ? 24 : 12}>
+          <Form.Item
+            label="包含标签"
+            name="includeLabel"
+            rules={[{ required: true, message: '该字段为必填项' }]}
+          >
+            <Select style={{ width: '100%' }} mode="multiple" options={labelOptions} />
+          </Form.Item>
+        </Col>
+        <Col span={isMini ? 24 : 12}>
+          <Form.Item
+            label="不包含标签"
+            name="noIncludeLabel"
+          >
+            <Select style={{ width: '100%' }} mode="multiple" options={labelOptions} />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      <div className="but-title">
+        筛选结果
+      </div>
+      <div>
+        <Table columns={columns} dataSource={articles} />
+      </div>
+
+      <div className="but-title">
+        推送规则
+      </div>
+      <Form.Item
+        name="quantity"
+        rules={[{ required: true, message: '该字段为必填项' }]}
+      >
+        <AcNumber />
+      </Form.Item>
+    </Form>
+  );
+};
 const AddArticleModal = (props: any, ref: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nodeData, setNodeData] = useState<any>();
-  const [labelOptions, setLabelOptions] = useState<any>(labelMock);
-  const [articles, setArticles] = useState<any>([]);
   const { planMapState, setPlanMapState } = useContext(planMapContext);
-
   const [form] = Form.useForm();
-
   useImperativeHandle(ref, () => {
     return {
       handleOpen,
@@ -74,87 +152,19 @@ const AddArticleModal = (props: any, ref: any) => {
     setIsModalVisible(false);
   };
 
-  const onFinish = (data: any) => {
-    const newData = { ...nodeData };
-    const newInfos = [
-      {
-        ...data,
-        type: planItemTypes.article,
-        name: '患教文章',
-      },
-    ];
-    if (Array.isArray(newData.infos)) {
-      newData.infos = [...newData.infos, ...newInfos];
-    } else {
-      newData.infos = newInfos;
-    }
-    console.log('newData');
-    console.log(newData);
+  const onFinish = (newData: any) => {
     setPlanMapState('update', newData.path, newData);
     setIsModalVisible(false);
   };
-  const AcNumber = (p: any) => {
-    const { value, onChange } = p;
-    return (
-      <div>
-        本周期推送 <InputNumber value={value} onChange={onChange} style={{ width: '100px' }} min={1} /> 篇患教文章
-      </div>
-    );
-  };
-  const defaultValue: any = {};
+
   return (
     <Modal title="添加患教文章" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={800}>
       <div className="but-title">
         患教文章筛选条件
       </div>
-      <Form
-        form={form}
-        name="basic"
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
-        labelAlign="left"
-        initialValues={defaultValue}
-        onFinish={onFinish}
-        hideRequiredMark={true}
-        autoComplete="off"
-      >
-        <Row>
-          <Col span={12}>
-            <Form.Item
-              label="包含标签"
-              name="includeLabel"
-              rules={[{ required: true, message: '该字段为必填项' }]}
-            >
-              <Select style={{ width: '100%' }} mode="multiple" options={labelOptions} />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label="不包含标签"
-              name="noIncludeLabel"
-            >
-              <Select style={{ width: '100%' }} mode="multiple" options={labelOptions} />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <div className="but-title">
-          筛选结果
-        </div>
-        <div>
-          <Table columns={columns} dataSource={articles} />
-        </div>
-
-        <div className="but-title">
-          推送规则
-        </div>
-        <Form.Item
-          name="quantity"
-          rules={[{ required: true, message: '该字段为必填项' }]}
-        >
-          <AcNumber />
-        </Form.Item>
-      </Form>
+      <div>
+        <ArticleSettingContent form={form} onFinish={onFinish} />
+      </div>
     </Modal>
   );
 };

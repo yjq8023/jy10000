@@ -60,7 +60,6 @@ const planData: any = [
   },
   ...getPlanData(4),
 ];
-const c: any = getPlanData(4);
 planData[1].children = [getPlanData(4)];
 const PlanMapEditor = () => {
   const [planMapState, setPlanMapStateFn] = useState(planData);
