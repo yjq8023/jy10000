@@ -286,7 +286,7 @@ const TermLibrary: React.FC = () => {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      width: 180,
+      width: 200,
       align: 'right',
       fixed: 'right',
       render(text: string, record: any) {
