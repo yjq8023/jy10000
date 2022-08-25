@@ -1,6 +1,17 @@
 .editor {
   position: relative;
   height: 100%;
+  :global(.ant-collapse-header) {
+    padding: 5px 5px!important;
+    background-color: #eee!important;
+    border-radius: 0!important;
+    font-size: 13px!important;
+    :global(span.ant-collapse-arrow) {
+      margin-right: 2px!important;
+      font-weight: 400;
+      transform: scale(0.85);
+    }
+  }
   :global(.dn-main-panel-header) {
     border-bottom: none;
     padding: 10px;
@@ -20,9 +31,16 @@
     position: absolute!important;
   }
   .ioComponents {
+    :global(.dn-resource-content) {
+      grid-template-columns: repeat(2, 50%)
+    }
     :global(.dn-resource-item) {
-      grid-column-start: span 3!important;
-      padding: 0 6px;
+      padding: 15px 6px;
+      :global(.dn-resource-item-text) {
+        margin-bottom: 0;
+        font-size: 14px;
+        line-height: 16px;
+      }
     }
   }
 }

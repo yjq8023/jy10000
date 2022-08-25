@@ -193,7 +193,7 @@ export const getIoComponents = () => {
     return {
       Resource: createResource(
         {
-          icon: `${item['x-component']}Source`.replace(/\./g, ''),
+          // icon: `${item['x-component']}Source`.replace(/\./g, ''),
           title: item.title,
           elements: [
             {

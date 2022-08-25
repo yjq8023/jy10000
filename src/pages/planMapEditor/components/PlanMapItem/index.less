@@ -111,3 +111,36 @@
     top: 0;
   }
 }
+.planMapItem.loopItem {
+  &.hasRootNode {
+    .index {
+      display: none;
+      //background-color: #FFC000;
+    }
+    .body {
+      position: relative;
+      .linkIcon {
+        display: inline-block;
+        color: @primary-color;
+        position: absolute;
+        top: 50%;
+        left: -19px;
+        font-size: 18px;
+        transform: rotate(45deg);
+      }
+    }
+  }
+  .loopText {
+    margin-left: 4px;
+    font-size: 12px;
+    color: @break-color4;
+    vertical-align: text-top;
+    white-space: nowrap;
+  }
+  .body {
+    background-color: #FFC000;
+    .linkIcon {
+      display: none;
+    }
+  }
+}

@@ -32,10 +32,19 @@ const PlanMapRow = (props: any) => {
   const handleDeleteItem = (itemData: any, index: number) => {
     setPlanMapState('delete', listData.path, index);
   };
+  let index = 0;
+  // 循环节点是否存在相同周期的不循环节点，用于样式的变化
+  const loopItemIsHasRootNode = (item: any, nodeIndex: number) => {
+    const res = listData.filter((listItem: any, i: number) => {
+      return listItem.period === item.period && i < nodeIndex;
+    });
+    return res.length > 0;
+  };
   return (
     <div className={style.planMapRow} style={{ marginLeft: `${offset * 240}px` }} ref={domRef}>
-      {listData?.map((item: any, index: number) => {
-        return (<PlanMapItem key={item.id} data={item} index={index} onDelete={(itemData: any) => handleDeleteItem(itemData, index)} />);
+      {listData?.map((item: any, i: number) => {
+        if (!item.isLoop) { index += 1; }
+        return (<PlanMapItem key={item.id} data={item} index={index} hasRootNode={loopItemIsHasRootNode(item, i)} onDelete={(itemData: any) => handleDeleteItem(itemData, index)} />);
       })}
     </div>
   );
