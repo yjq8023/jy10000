@@ -13,6 +13,7 @@ import AddFollowUpModal from '@/pages/planMapEditor/components/AddFollowUpModal'
 import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
 import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
 import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModal';
+import PageHeader from '@/pages/planMapEditor/components/PageHeader';
 
 export const planMapContext = createContext<any>(null);
 
@@ -61,7 +62,6 @@ const planData: any = [
 ];
 const c: any = getPlanData(4);
 planData[1].children = [getPlanData(4)];
-console.log(JSON.stringify(planData));
 const PlanMapEditor = () => {
   const [planMapState, setPlanMapStateFn] = useState(planData);
   const [selectedNode, setSelectedNode] = useState<any>(null);
@@ -103,8 +103,9 @@ const PlanMapEditor = () => {
     };
   }, [planMapState, setPlanMapStateFn, selectedNode, setSelectedNode]);
   return (
-    <div className={style.planMapEditor}>
-      <planMapContext.Provider value={contextData}>
+    <planMapContext.Provider value={contextData}>
+      <PageHeader />
+      <div className={style.planMapEditor}>
         <div className={style.selector}>
           <Selector />
         </div>
@@ -126,19 +127,19 @@ const PlanMapEditor = () => {
           </div>
         </div>
         {
-          selectedNode && (
-            <div className={style.config}>
-              <Setting />
-            </div>
-          )
-        }
+            selectedNode && (
+              <div className={style.config}>
+                <Setting />
+              </div>
+            )
+          }
         <AddNodeModal ref={addNodeModalRef} />
         <AddFollowUpModal ref={addFollowUpModal} />
         <AddArticleModal ref={addArticleModal} />
         <AddFormModal ref={addFormModal} />
         <AddDiagnosisModal ref={addDiagnosisModal} />
-      </planMapContext.Provider>
-    </div>
+      </div>
+    </planMapContext.Provider>
   );
 };
 

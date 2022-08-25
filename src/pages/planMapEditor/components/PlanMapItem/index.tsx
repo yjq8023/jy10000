@@ -58,8 +58,6 @@ export const PlanMapItem = (props: any) => {
     },
   };
   useEffect(() => {
-    console.log('data');
-    console.log(data);
     const sortObj = new Sortable(domRef.current, sortableConfig);
   }, []);
   const classNames = cls({
