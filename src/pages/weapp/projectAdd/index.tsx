@@ -47,8 +47,6 @@ function ProjectAdd() {
 
   const onSubmit = (formValues: any) => {
     console.log(formValues);
-    // eslint-disable-next-line no-debugger
-    debugger;
     const api = id ? editProject : createProject;
     api({
       ...formValues,
