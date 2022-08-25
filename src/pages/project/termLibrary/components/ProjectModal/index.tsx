@@ -85,7 +85,22 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
           <Form.Item
             label="项目名称"
             name="name"
-            rules={[{ required: true, message: '请输入项目名称' }]}
+            rules={[
+              {
+                required: true,
+                validator: (rule, value, callback) => {
+                  try {
+                    if (value && value.trim() === '') {
+                      callback('项目名称不能为空');
+                    } else {
+                      callback();
+                    }
+                  } catch (err) {
+                    callback();
+                  }
+                },
+              },
+            ]}
           >
             <Input placeholder="请输入项目名称" />
           </Form.Item>
@@ -120,7 +135,22 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
           <Form.Item
             label="版本号"
             name="version"
-            rules={[{ required: true, message: '请输入版本号' }]}
+            rules={[
+              {
+                required: true,
+                validator: (rule, value, callback) => {
+                  try {
+                    if (value && value.trim() === '') {
+                      callback('版本号不能为空');
+                    } else {
+                      callback();
+                    }
+                  } catch (err) {
+                    callback();
+                  }
+                },
+              },
+            ]}
           >
             <Input placeholder="请输入版本号" />
           </Form.Item>
