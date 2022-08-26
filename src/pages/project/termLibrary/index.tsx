@@ -222,11 +222,13 @@ const TermLibrary: React.FC = () => {
         return text ? (
           <Popover trigger="hover" content={D.length > 2 ? () => AiPopoverContent(D) : ''}>
             <div className={`${styles.sortDom} ${D.length > 2 ? styles.pointer : ''}`}>
-              {D?.map((el) => (
-                <div className={styles.tag} key={el}>
-                  {el}
-                </div>
-              ))}
+              {D?.map((el, inx) =>
+                inx < 2 ? (
+                  <div className={styles.tag} key={el}>
+                    {el}
+                  </div>
+                ) : null,
+              )}
             </div>
           </Popover>
         ) : (

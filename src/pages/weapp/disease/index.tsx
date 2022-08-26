@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Badge,
-  Switch,
-  message,
-  Modal,
-  Space,
-} from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Badge, message, Modal, Space } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import SearchForm from './components/SearchForm';
@@ -15,7 +8,6 @@ import {
   httpSlideInsert,
   httpSlideListByType,
   httpSlideShow,
-  httpSlideTopWeight,
   httpSlideUpdateStatus,
 } from '@/services/weapp';
 import { UCenter } from '@/services/weapp/data';
@@ -214,11 +206,13 @@ const Disease: React.FC = () => {
         const isUp = text === 'enable';
         return (
           <Space>
-            <Badge color={text ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
+            <Badge color={text ? '#7ed321' : '#f53f3f'} text={isUp ? '启用' : '禁用'} />
             <SwitchCustom
               defaultChecked={isUp}
               onChange={async (e) => {
+                if (isUpdateSucc) return;
                 setIsUpdateSucc(true);
+
                 try {
                   const res = await httpSlideUpdateStatus({
                     ids: [record.id],

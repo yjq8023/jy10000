@@ -97,7 +97,7 @@ function WeappProject(props: any) {
             </Tabs>
           </Form.Item>
         </div>
-        <Row gutter={[120, 24]}>
+        <Row style={{ width: 'calc(100% + 93px)' }} gutter={[120, 24]}>
           <Col span={10}>
             <Form.Item name="diseaseIds" label="所属病种">
               {/* <ProjectSelect placeholder="请选择" parentId={selectedTab} /> */}
