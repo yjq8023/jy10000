@@ -1,4 +1,5 @@
-import React, { useState, createContext, useMemo, useRef } from 'react';
+import React, { useState, createContext, useMemo, useRef, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ReactSortable } from 'react-sortablejs';
 import lodash from 'lodash';
 import { Badge } from '@sinohealth/butterfly-ui-components/lib';
@@ -16,6 +17,7 @@ import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModa
 import PageHeader from '@/pages/planMapEditor/components/PageHeader';
 import planMapRow from '@/pages/planMapEditor/components/PlanMapRow';
 import { planItemTypes } from '@/pages/planMapEditor/config';
+import { getProjectPlanMap } from '@/services/planMapAntForm';
 
 export const planMapContext = createContext<any>(null);
 
@@ -81,6 +83,7 @@ const PlanMapEditor = () => {
   });
   const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>(planData);
   const [selectedNode, setSelectedNode] = useState<any>(null);
+  const [params] = useSearchParams();
   const addNodeModalRef = useRef<any>(null);
   const addFollowUpModal = useRef<any>(null);
   const addArticleModal = useRef<any>(null);
@@ -119,6 +122,16 @@ const PlanMapEditor = () => {
       addDiagnosisModal,
     };
   }, [planMapState, setPlanMapStateFn, selectedNode, setSelectedNode]);
+
+  useEffect(() => {
+    const id = params.get('id');
+    if (id) {
+      getProjectPlanMap(id)
+        .then((data: any) => {
+          console.log(data);
+        });
+    }
+  }, []);
   return (
     <planMapContext.Provider value={contextData}>
       <PageHeader />

@@ -7,25 +7,6 @@ import LabelSelect from '@/pages/project/components/LabelSelect';
 import BaseList from '@/components/BaseList';
 import { httpGetContent } from '@/services/project';
 
-const labelMock = [
-  {
-    label: '标签1',
-    value: '1',
-  },
-  {
-    label: '标签2',
-    value: '2',
-  },
-  {
-    label: '标签3',
-    value: '3',
-  },
-  {
-    label: '标签4',
-    value: '4',
-  },
-];
-
 const columns = [
   {
     title: '序号',
@@ -53,33 +34,15 @@ const columns = [
 ];
 
 export const ArticleSettingContent = (props: any) => {
-  const { nodeData, isMini, form, onFinish } = props;
-  const [labelOptions, setLabelOptions] = useState<any>(labelMock);
-  const [articles, setArticles] = useState<any>([]);
+  const { isMini, form, onFinish, formValue } = props;
   const list = useRef<any>();
   useEffect(() => {
-    if (list.current) {
-      // list.current.setPagination({
-      //   ...list.current.pagination,
-      //   pageSize: 5,
-      // });
+    if (formValue) {
+      form.setFieldsValue(formValue);
     }
-  }, [list]);
+  }, [formValue]);
   const onFinishFn = (data: any) => {
-    const newData = { ...nodeData };
-    const newInfos = [
-      {
-        ...data,
-        itemCategory: planItemTypes.article,
-        itemName: '患教文章',
-      },
-    ];
-    if (Array.isArray(newData.infos)) {
-      newData.followUpItems = [...newData.infos, ...newInfos];
-    } else {
-      newData.followUpItems = newInfos;
-    }
-    onFinish && onFinish(newData);
+    onFinish && onFinish(data);
   };
   const AcNumber = (p: any) => {
     const { value, onChange } = p;
@@ -92,8 +55,6 @@ export const ArticleSettingContent = (props: any) => {
   const defaultValue: any = {};
 
   const fetchAPi = (params: { current: any }) => {
-    console.log('params');
-    console.log(params);
     return httpGetContent({
       pageNo: params.current,
       ...params,
@@ -109,6 +70,21 @@ export const ArticleSettingContent = (props: any) => {
     });
   };
 
+  const ListBody = (data: any) => {
+    console.log(data);
+    return (
+      <div style={{ maxHeight: '240px', overflow: 'auto' }}>
+        {data.listData?.map((item: any) => {
+          return (
+            <div>
+              { item.title }
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+  const listBodyProps = isMini ? { Body: ListBody } : {};
   const handleLabelSelect = (key: string, value: any) => {
     form.setFieldsValue({
       [key]: value,
@@ -144,6 +120,7 @@ export const ArticleSettingContent = (props: any) => {
           >
             <LabelSelect
               search={false}
+              mapSour={formValue?.include}
               onSelect={(v) => handleLabelSelect('include', v)}
             />
           </Form.Item>
@@ -155,6 +132,7 @@ export const ArticleSettingContent = (props: any) => {
           >
             <LabelSelect
               search={false}
+              mapSour={formValue?.exclusive}
               onSelect={(v) => handleLabelSelect('exclusive', v)}
             />
           </Form.Item>
@@ -171,6 +149,7 @@ export const ArticleSettingContent = (props: any) => {
           columns={columns}
           list={list}
           BodyProps={{ scroll: { y: 240 } }}
+          {...listBodyProps}
         />
       </div>
 
@@ -213,7 +192,20 @@ const AddArticleModal = (props: any, ref: any) => {
     setIsModalVisible(false);
   };
 
-  const onFinish = (newData: any) => {
+  const onFinish = (data: any) => {
+    const newData = { ...nodeData };
+    const newInfos = [
+      {
+        ...data,
+        itemCategory: planItemTypes.article,
+        itemName: '患教文章',
+      },
+    ];
+    if (Array.isArray(newData.followUpItems)) {
+      newData.followUpItems = [...newData.followUpItems, ...newInfos];
+    } else {
+      newData.followUpItems = newInfos;
+    }
     setPlanMapState('update', newData.path, newData);
     setIsModalVisible(false);
   };
@@ -224,7 +216,7 @@ const AddArticleModal = (props: any, ref: any) => {
         患教文章筛选条件
       </div>
       <div>
-        <ArticleSettingContent form={form} onFinish={onFinish} />
+        <ArticleSettingContent nodeData={nodeData} form={form} onFinish={onFinish} />
       </div>
     </Modal>
   );

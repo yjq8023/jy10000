@@ -1,9 +1,13 @@
 import React from 'react';
+import { Form } from '@sinohealth/butterfly-ui-components/lib';
 import style from './index.less';
 import { ArticleSettingContent } from '@/pages/planMapEditor/components/AddArticleModal';
 
 const ArticleSetting = (props: any) => {
   const { data } = props;
+  const [form] = Form.useForm();
+  console.log('data');
+  console.log(data);
   return (
     <div className={style.articleSetting}>
       <div className={style.header}>
@@ -11,7 +15,7 @@ const ArticleSetting = (props: any) => {
         <div className={style.title}>{data.itemName}</div>
       </div>
       <div className={style.body}>
-        <ArticleSettingContent isMini />
+        <ArticleSettingContent isMini form={form} formValue={data} />
       </div>
     </div>
   );

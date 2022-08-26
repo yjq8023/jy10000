@@ -13,6 +13,7 @@ import {
   QuestionCircleFilled,
   VerticalAlignTopOutlined,
 } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
 import {
@@ -37,6 +38,7 @@ const TermLibrary: React.FC = () => {
   const [projectModalVisible, setProjectModalVisible] = useState(false);
   const [isShowAi, setIsShowAi] = useState(false);
   const [projectParams, setProjectParams] = useState<ProjectType.ProjectRes>({ labelVoList: [] });
+  const navigate = useNavigate();
 
   const fetchAPi = (params: { current: any }) => {
     return httpProjectList({
@@ -61,7 +63,8 @@ const TermLibrary: React.FC = () => {
         {isUp ? (
           <a onClick={() => console.log(itemData)}>查看管理计划</a>
         ) : (
-          <a onClick={() => console.log(itemData)}>编辑管理计划</a>
+          <a onClick={() => navigate(`editor?id=${itemData.id}`)}>编辑管理计划</a>
+          // <a>编辑管理计划</a>
         )}
         <a
           onClick={() => {
