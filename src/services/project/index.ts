@@ -87,7 +87,7 @@ export const httpProjectInsert = (params: ProjectType.InsertReq) => {
  * @param params
  * @returns
  */
-export const httpProjectDelete = (id: string) => {
+export const httpProjectDelete = (id?: string) => {
   // @ts-ignore
   return request.get(`${prefix}/managerProject/delete/${id}`, {}, { isReturnAllData: true });
 };
