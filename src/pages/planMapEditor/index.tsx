@@ -60,9 +60,8 @@ const planData: any = [
   ...getPlanData(4),
 ];
 const c: any = getPlanData(4);
-c[2].children = [getPlanData(4)];
-planData[3].children = [c, getPlanData(4)];
-planData[1].children = [getPlanData(4), getPlanData(3)];
+planData[1].children = [getPlanData(4)];
+console.log(JSON.stringify(planData));
 const PlanMapEditor = () => {
   const [planMapState, setPlanMapStateFn] = useState(planData);
   const [selectedNode, setSelectedNode] = useState<any>(null);

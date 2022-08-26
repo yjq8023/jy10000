@@ -76,6 +76,8 @@ import { saveSchema } from './service';
 import style from './index.less';
 import { getIoComponents } from '@/pages/formily/editor/utils';
 import ImportForm from '@/pages/formily/editor/widgets/ImportForm';
+import Result from '@/pages/formily/editor/components/Result';
+import ResultSetter from '@/pages/formily/editor/components/Result/setter';
 
 setNpmCDNRegistry('//unpkg.com');
 
@@ -183,7 +185,7 @@ const FormilyEditor = () => {
       />
     );
     const TextResourceWidget = (
-      <ResourceWidget title="sources.Displays" sources={[Text]} />
+      <ResourceWidget title="sources.Displays" sources={[Text, Result]} />
     );
     const ImportResourceWidget = (
       <Collapse>
@@ -277,6 +279,7 @@ const FormilyEditor = () => {
                         FormGrid,
                         FormLayout,
                         ObjectContainer,
+                        Result,
                       }}
                     />
                   )}
@@ -296,7 +299,7 @@ const FormilyEditor = () => {
             </WorkspacePanel>
           </Workspace>
           <SettingsPanel title="panels.PropertySettings">
-            <SettingsForm components={{ LinkagesSetter: ReactionsSetter }} uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+            <SettingsForm components={{ LinkagesSetter: ReactionsSetter, ResultSetter }} uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
           </SettingsPanel>
         </StudioPanel>
       </Designer>

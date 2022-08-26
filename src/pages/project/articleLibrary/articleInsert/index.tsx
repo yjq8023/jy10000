@@ -48,7 +48,7 @@ const controls: any = [
   'underline',
   'separator',
   'blockquote',
-  'code',
+  // 'code',
   // 'emoji',
   'hr',
   'link',
@@ -109,13 +109,14 @@ const ArticleInsert: React.FC = () => {
         }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {
-        return new Promise((resolve) => {
-          const timer = setTimeout(() => {
-            resolve(true);
-            navigateBack();
-            clearTimeout(timer);
-          }, 1000);
-        }).catch(() => console.log('Oops errors!'));
+        navigateBack();
+        // return new Promise((resolve) => {
+        //   const timer = setTimeout(() => {
+        //     resolve(true);
+        //     navigateBack();
+        //     clearTimeout(timer);
+        //   }, 1000);
+        // }).catch(() => console.log('Oops errors!'));
       },
     });
   };

@@ -5,11 +5,13 @@ import { TreeNode } from '@sinohealth/designable-core';
 import { transformToSchema } from '@sinohealth/designable-formily-transformer';
 import * as components from '@sinohealth/butterfly-formily-components';
 import { Radio } from '@sinohealth/designable-formily-antd';
+import Result from '@/pages/formily/editor/components/Result';
 
-registerComponents({
+const allComponents = {
   components,
   FormProvider: components.Form,
-});
+};
+registerComponents(allComponents);
 export interface IPreviewWidgetProps {
   tree: TreeNode
 }
