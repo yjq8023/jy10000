@@ -3,9 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Button, Input, message, Select, Space } from '@sinohealth/butterfly-ui-components/lib';
 import styles from './index.less';
 import { UCenter } from '@/services/weapp/data';
-import { toFixed } from '@/utils';
 
 const { Option, OptGroup } = Select;
+
+const TimeUnit: any = {
+  MONTHS: '月',
+  YEARS: '年',
+};
 
 const SPECIFY: UCenter.SpecVoList = {
   name: '',
@@ -58,7 +62,8 @@ const ProjectSpecify: React.FC<ProjectSpecifyProps> = (props) => {
         <div className={`${styles['specify-list']} ${styles['display-flex']}`} key={el.name}>
           <span className={styles['list-label']}>规格 {idx + 1}：</span>
           <div className={`${styles['list-valuse']} ${styles['display-flex']}`}>
-            {el.name}，{el.timeNumber}年；原价 ¥{el.originalPrice}，优惠价 ¥{el.disCountPrice}
+            {el.name}，{el.timeNumber}
+            {TimeUnit[el.timeUnit || '']}；原价 ¥{el.originalPrice}，优惠价 ¥{el.disCountPrice}
             <span
               className={`${styles['list-icon']} iconfont icon-minus-circle`}
               onClick={() => {
