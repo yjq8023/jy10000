@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import moment from 'moment';
 import { baseURL } from '@/config/base';
 /**
@@ -85,20 +86,56 @@ export function downloadFile(oldUrl: string, fileName?: string) {
   link.style.display = 'none';
   if (fileName) {
     const fileNameArr = url.split('/');
-    link.setAttribute(
-      'download',
-      fileName || fileNameArr[fileNameArr.length - 1],
-    );
-    link.setAttribute(
-      'target',
-      '_blank',
-    );
+    link.setAttribute('download', fileName || fileNameArr[fileNameArr.length - 1]);
+    link.setAttribute('target', '_blank');
   }
   link.href = url;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 }
+
+/**
+ * 格式化金额
+ * @param num 金额
+ * @param accuracy 小数点数
+ * @param type 类型
+ * @param complement
+ * @returns
+ */
+export const toFixed = (
+  num?: string | number,
+  accuracy: number = 2,
+  type = 'round',
+  complement = true,
+) => {
+  if (num === '' || num === null) {
+    return '';
+  }
+  const numTem = isNaN(Number(num)) ? 0 : Number(num);
+  let decimal = isNaN(Number(accuracy)) ? 0 : Math.ceil(Number(accuracy));
+
+  if (decimal < 0) {
+    decimal = 0;
+  }
+  let numRes;
+
+  if (type === 'ceil') {
+    numRes = Math.ceil(numTem * 10 ** decimal) / 100 ** decimal;
+  } else if (type === 'floor') {
+    numRes = Math.floor(numTem * 10 ** decimal) / 100 ** decimal;
+  } else {
+    numRes = Math.round(numTem * 10 ** decimal) / 100 ** decimal;
+  }
+
+  if (complement && decimal !== 0) {
+    const numArr = numRes.toString().split('.');
+    numArr[1] = numArr[1] ? numArr[1].padEnd(decimal, '0') : ''.padEnd(decimal, '0');
+    return numArr.join('.');
+  }
+
+  return numRes.toString();
+};
 
 export default {
   getUuid,

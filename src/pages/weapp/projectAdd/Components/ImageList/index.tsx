@@ -27,7 +27,7 @@ function ImageList(props: any) {
         <img src={previewFile(item)} alt="图片" />
         <div className={style.action}>
           <span>{index + 1}</span>
-          { index > 0 && <ArrowUpOutlined onClick={() => handleSortUp(item, index)} />}
+          {index > 0 && <ArrowUpOutlined onClick={() => handleSortUp(item, index)} />}
           <DeleteOutlined onClick={() => handleDelete(item, index)} />
         </div>
       </div>
@@ -43,24 +43,26 @@ function ImageList(props: any) {
   };
   return (
     <div>
-      <CustomUpload onUpload={onUpload} showUploadList={false} disabled={imageList.length >= 10} listType="picture">
+      <CustomUpload
+        onUpload={onUpload}
+        showUploadList={false}
+        disabled={imageList.length >= 10}
+        listType="picture"
+      >
         <div className={style.uploadBtn}>
           <div className={style.icon}>
             <span className="iconfont icon-image" />
-            <div>
-              上传图片
-            </div>
+            <div>上传图片</div>
           </div>
         </div>
       </CustomUpload>
-      <div>
+      <div className={style.tip}>
         <div>* 最多可上传 10 张图片</div>
-        <div>* 支持 jpg/png 格式，单张图片不超过1M</div>
+        <div>* 支持 jpg/png 格式</div>
+        <div>* 单张图片不超过1M</div>
         <div>* 图片规格：宽度 750px，长度不限</div>
       </div>
-      <div className={style.imgList}>
-        { imageList.map(renderImageListItem) }
-      </div>
+      <div className={style.imgList}>{imageList.map(renderImageListItem)}</div>
     </div>
   );
 }

@@ -12,8 +12,10 @@ import {
   message,
   Modal,
   Drawer,
+  Radio,
+  Select,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { PlusCircleOutlined, QuestionCircleFilled } from '@ant-design/icons';
+import { VideoCameraOutlined, QuestionCircleFilled, PictureOutlined } from '@ant-design/icons';
 import BraftEditor, { ExtendControlType } from 'braft-editor';
 import { ContentUtils } from 'braft-utils';
 import 'braft-editor/dist/index.css';
@@ -24,6 +26,7 @@ import { previewFile } from '@/utils';
 import LabelSelect from '../../components/LabelSelect';
 import UploadCover from '../components/UploadCover';
 import Upload from '@/components/Upload';
+import NetworkModal from '../components/NetworkModal';
 
 const { confirm } = Modal;
 
@@ -48,7 +51,7 @@ const controls: any = [
   'underline',
   'separator',
   'blockquote',
-  'code',
+  // 'code',
   // 'emoji',
   'hr',
   'link',
@@ -74,6 +77,7 @@ const ArticleInsert: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [isEditInsert, setIsEditInsert] = useState(false);
   const [previewDrawer, setPreviewDrawer] = useState(false);
+  const [networkModalVisible, setNetworkModalVisible] = useState(false);
 
   const handleChangeContent = (state: any) => {
     setEditorState(state);
@@ -109,13 +113,7 @@ const ArticleInsert: React.FC = () => {
         }).catch(() => console.log('Oops errors!'));
       },
       onCancel() {
-        return new Promise((resolve) => {
-          const timer = setTimeout(() => {
-            resolve(true);
-            navigateBack();
-            clearTimeout(timer);
-          }, 1000);
-        }).catch(() => console.log('Oops errors!'));
+        navigateBack();
       },
     });
   };
@@ -134,6 +132,11 @@ const ArticleInsert: React.FC = () => {
     }
   };
 
+  const insertMedias = (lis: any) => {
+    const D = ContentUtils.insertMedias(editorState, lis);
+    setEditorState(D);
+  };
+
   const navigateBack = () => {
     removeLocalStorage('ARTICLE_DATA');
     navigate(-1);
@@ -150,10 +153,7 @@ const ArticleInsert: React.FC = () => {
           showUploadList={false}
           onChange={(v) => {
             if (v.length && typeof v[0] === 'string') {
-              const D = ContentUtils.insertMedias(editorState, [
-                { type: 'IMAGE', url: previewFile(v[0]) },
-              ]);
-              setEditorState(D);
+              insertMedias([{ type: 'IMAGE', url: previewFile(v[0]) }]);
             }
           }}
         >
@@ -172,10 +172,7 @@ const ArticleInsert: React.FC = () => {
           maxSize={10}
           onChange={(v) => {
             if (v.length && typeof v[0] === 'string') {
-              const D = ContentUtils.insertMedias(editorState, [
-                { type: 'VIDEO', url: previewFile(v[0]) },
-              ]);
-              setEditorState(D);
+              insertMedias([{ type: 'VIDEO', url: previewFile(v[0]) }]);
             }
           }}
         >
@@ -185,25 +182,12 @@ const ArticleInsert: React.FC = () => {
     },
     {
       key: 'network-resources',
-      type: 'modal',
-      text: '添加网络资源',
-      modal: {
-        id: 'network',
-        width: 500,
-        confirmable: true,
-        closeOnConfirm: true,
-        onConfirm: () => {
-          console.log(132);
-        },
-        children: (
-          <div className={`${styles['network-container']}`}>
-            <div className={`${styles.network}`} onClick={() => {}}>
-              添加图片资源
-            </div>
-            <div className={`${styles.network}`}>添加视频资源</div>
-          </div>
-        ),
-      },
+      type: 'button',
+      text: (
+        <div className={styles['insert-img']} onClick={() => setNetworkModalVisible(true)}>
+          媒体库
+        </div>
+      ),
     },
   ];
 
@@ -220,18 +204,18 @@ const ArticleInsert: React.FC = () => {
     setEditorState(BraftEditor.createEditorState(content));
   }, []);
 
-  // useEffect(() => {
-  //   const listener = (ev: any) => {
-  //     ev.preventDefault();
-  //     // eslint-disable-next-line no-param-reassign
-  //     ev.returnValue = '文章要保存吼，确定离开吗？';
-  //   };
-  //   window.addEventListener('beforeunload', listener);
-  //   return () => {
-  //     removeLocalStorage('ARTICLE_DATA');
-  //     window.removeEventListener('beforeunload', listener);
-  //   };
-  // }, []);
+  useEffect(() => {
+    const listener = (ev: any) => {
+      ev.preventDefault();
+      // eslint-disable-next-line no-param-reassign
+      ev.returnValue = '文章还未保存，确定离开吗？';
+    };
+    window.addEventListener('beforeunload', listener);
+    return () => {
+      removeLocalStorage('ARTICLE_DATA');
+      window.removeEventListener('beforeunload', listener);
+    };
+  }, []);
 
   return (
     <div className={styles['article-insert']}>
@@ -363,6 +347,18 @@ const ArticleInsert: React.FC = () => {
           <div className={styles.time}>更新时间：{moment().format('YYYY-MM-DD')}</div>
         </div>
       </Drawer>
+      <NetworkModal
+        visible={networkModalVisible}
+        onCancel={() => setNetworkModalVisible(false)}
+        onOk={(v) => {
+          const D: any = [];
+          v.forEach((el) => {
+            D.push({ type: el.type, url: el.url });
+          });
+          insertMedias(D);
+          setNetworkModalVisible(false);
+        }}
+      />
     </div>
   );
 };

@@ -71,6 +71,9 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
             lis.checked = false;
           }
           setSelected(FilD);
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          lis.checked = false;
         }
       });
     });

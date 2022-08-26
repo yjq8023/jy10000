@@ -38,11 +38,15 @@ export const setProjectStatus = (params: UCenter.UpdateStatusReq) => {
 };
 
 export const createProject = (params: any) => {
-  return request.post(`${prefix}/serviceProject/save`, params);
+  return request.post(`${prefix}/serviceProject/insert`, params);
 };
 
 export const editProject = (params: any) => {
-  return request.post(`${prefix}/serviceProject/edit`, params);
+  return request.post(`${prefix}/serviceProject/insert`, params);
+};
+
+export const getByChain = (params: any) => {
+  return request.post(`${prefix}/managerProject/getByChain`, params);
 };
 
 export const deleteProject = (id: string) => {
@@ -52,7 +56,7 @@ export const deleteProject = (id: string) => {
 
 export const getProjectDetail = (id: string) => {
   const url = `${prefix}/serviceProject/detail/${id}`;
-  return request.post(url);
+  return request.get(url);
 };
 
 /* 获取所有用户列表 */

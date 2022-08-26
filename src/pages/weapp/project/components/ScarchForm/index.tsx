@@ -11,6 +11,7 @@ import {
 import ProjectSelect from '@/components/ProjectSelect';
 import { getColumnsList } from '@/services/weapp';
 import style from './index.less';
+import DiseasesSelect from '../DiseasesSelect';
 
 const { TabPane } = Tabs;
 
@@ -22,6 +23,7 @@ function WeappProject(props: any) {
   const { form } = props;
   const [sources, setSources] = useState<sourceItem[]>([]);
   const [selectedTab, setSelectedTab] = useState<any>();
+
   const getParentColumnsList = () => {
     return getColumnsList({
       parentId: 0,
@@ -45,9 +47,7 @@ function WeappProject(props: any) {
       }
     });
   };
-  useEffect(() => {
-    getParentColumnsList();
-  }, []);
+
   const onChange = (fields: any) => {
     const field = fields[0];
     if (field && field.name[0] === 'categoryId') {
@@ -61,6 +61,7 @@ function WeappProject(props: any) {
     props.form.resetFields();
     props.form.submit();
   };
+
   const operations = (
     <Space>
       <Button type="info" onClick={() => onReset()}>
@@ -72,10 +73,15 @@ function WeappProject(props: any) {
       </Button>
     </Space>
   );
+
+  useEffect(() => {
+    getParentColumnsList();
+  }, []);
+
   return (
     <div>
       <Form
-        labelCol={{ xl: 4 }}
+        labelCol={{ xl: 5 }}
         wrapperCol={{ xl: 18 }}
         labelAlign="left"
         colon={false}
@@ -91,13 +97,21 @@ function WeappProject(props: any) {
             </Tabs>
           </Form.Item>
         </div>
-        <Row gutter={[120, 24]}>
-          <Col span={8}>
-            <Form.Item name="diseaseId" label="所属病种">
-              <ProjectSelect placeholder="请选择" parentId={selectedTab} />
+        <Row style={{ width: 'calc(100% + 93px)' }} gutter={[120, 24]}>
+          <Col span={10}>
+            <Form.Item name="diseaseIds" label="所属病种">
+              {/* <ProjectSelect placeholder="请选择" parentId={selectedTab} /> */}
+              <DiseasesSelect
+                placeholder="请选择所属病种"
+                onSelect={(v) =>
+                  form.setFieldsValue({
+                    diseaseIds: v,
+                  })
+                }
+              />
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={10}>
             <Form.Item name="name" label="项目查询">
               <Input placeholder="请输入项目名称" />
             </Form.Item>

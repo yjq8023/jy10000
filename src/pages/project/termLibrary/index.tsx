@@ -36,7 +36,7 @@ const TermLibrary: React.FC = () => {
   const [isUpdateSucc, setIsUpdateSucc] = useState(false);
   const [projectModalVisible, setProjectModalVisible] = useState(false);
   const [isShowAi, setIsShowAi] = useState(false);
-  const [projectParams, setProjectParams] = useState({});
+  const [projectParams, setProjectParams] = useState<ProjectType.ProjectRes>({ labelVoList: [] });
 
   const fetchAPi = (params: { current: any }) => {
     return httpProjectList({
@@ -54,10 +54,15 @@ const TermLibrary: React.FC = () => {
     });
   };
 
-  const renderActionDom = (itemData: any) => {
+  const renderActionDom = (itemData: ProjectType.ProjectRes) => {
+    const isUp = itemData.status === 'ENABLE';
     return (
       <Space size="middle">
-        <a onClick={() => console.log(itemData)}>查看管理计划</a>
+        {isUp ? (
+          <a onClick={() => console.log(itemData)}>查看管理计划</a>
+        ) : (
+          <a onClick={() => console.log(itemData)}>编辑管理计划</a>
+        )}
         <a
           onClick={() => {
             setProjectModalVisible(true);
@@ -99,12 +104,24 @@ const TermLibrary: React.FC = () => {
     );
   };
 
-  const PopoverContent = (record: ProjectType.ProjectRes) => {
+  const PopoverContent = (labelVoList: ProjectType.LabelVoList[]) => {
     return (
       <div className={styles.sortDom}>
-        {record.labelVoList.map((el, ids) => (
+        {labelVoList.map((el, ids) => (
           <div className={styles.tag} key={el.id}>
             {el.name}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const AiPopoverContent = (tag: string[]) => {
+    return (
+      <div className={styles.sortDom}>
+        {tag.map((el) => (
+          <div className={styles.tag} key={el}>
+            {el}
           </div>
         ))}
       </div>
@@ -158,8 +175,10 @@ const TermLibrary: React.FC = () => {
               ))}
             </Space> */}
             <Popover
-              trigger="click"
-              content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
+              trigger="hover"
+              content={
+                record.labelVoList.length > 2 ? () => PopoverContent(record.labelVoList) : ''
+              }
             >
               <div
                 className={`${styles.sortDom} ${
@@ -199,18 +218,29 @@ const TermLibrary: React.FC = () => {
       key: 'decisionFlowsLabels',
       width: 200,
       render(text: string, record: ProjectType.ProjectRes, index: number) {
+        const D = text?.split(',');
         return text ? (
-          <Space className={styles.sortDom}>
-            {text.split(',').map((el) => (
-              <div className={styles.tag} key={el}>
-                {el}
-              </div>
-            ))}
-          </Space>
+          <Popover trigger="hover" content={D.length > 2 ? () => AiPopoverContent(D) : ''}>
+            <div className={`${styles.sortDom} ${D.length > 2 ? styles.pointer : ''}`}>
+              {D?.map((el, inx) =>
+                inx < 2 ? (
+                  <div className={styles.tag} key={el}>
+                    {el}
+                  </div>
+                ) : null,
+              )}
+            </div>
+          </Popover>
         ) : (
           '--'
         );
       },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      key: 'createTime',
+      width: 160,
     },
     {
       title: '状态',
@@ -221,7 +251,7 @@ const TermLibrary: React.FC = () => {
         const isUp = text === 'ENABLE';
         return (
           <Space size="small">
-            <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
+            <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={isUp ? '启用' : '禁用'} />
             {/* <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} /> */}
             <SwitchCustom
               checked={isUp}
@@ -263,10 +293,10 @@ const TermLibrary: React.FC = () => {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      width: 180,
+      width: 200,
       align: 'right',
       fixed: 'right',
-      render(text: string, record: any) {
+      render(text: string, record: ProjectType.ProjectRes) {
         return renderActionDom(record);
       },
     },
@@ -293,7 +323,7 @@ const TermLibrary: React.FC = () => {
           onCancel={() => {
             setProjectModalVisible(false);
             setIsUpdateSucc(false);
-            setProjectParams({});
+            setProjectParams({ labelVoList: [] });
           }}
           onOk={async (v) => {
             if (isUpdateSucc) return;
@@ -301,11 +331,13 @@ const TermLibrary: React.FC = () => {
 
             try {
               message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
-              const res: any = await httpProjectInsert({ ...projectParams, ...v });
+              const { labelVoList, ...others } = projectParams;
+              const res: any = await httpProjectInsert({ ...others, ...v });
+
               if (res.success) {
                 list.current.reloadListData(true);
                 setProjectModalVisible(false);
-                setProjectParams({});
+                setProjectParams({ labelVoList: [] });
                 setIsUpdateSucc(false);
                 message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
               }
