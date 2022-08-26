@@ -22,6 +22,7 @@ interface MEDIATYPE {
 
 type NetworkModalProps = {
   visible?: boolean;
+  source: MEDIATYPE[];
   onOk?: (v: MEDIATYPE[]) => void;
   onCancel?: () => void;
 };
@@ -31,29 +32,33 @@ type NetworkModalProps = {
  * @returns
  */
 const NetworkModal: React.FC<NetworkModalProps> = (props) => {
-  const { visible, onOk, onCancel } = props;
+  const { visible, source, onOk, onCancel } = props;
   const [isNetwork, setIsNetwork] = useState(false);
   const [currentType, setCurrentType] = useState<'IMAGE' | 'VIDEO'>('IMAGE');
   const [networkUrl, setNetworkUrl] = useState('');
   const [currentSelect, setCurrentSelect] = useState<MEDIATYPE[]>([]);
   const [mediaSource, setMediaSource] = useState<MEDIATYPE[]>([
-    {
-      id: 1,
-      type: 'IMAGE',
-      url: 'https://backend-hccm-dev.zmnyun.cn/cs/file/preview/1673765669356699711',
-      name: 'banner',
-    },
-    {
-      id: 2,
-      type: 'VIDEO',
-      url: 'https://backend-hccm-dev.zmnyun.cn/cs/file/preview/1669014832288587800',
-      name: 'WeChat_20220811142726',
-    },
+    // {
+    //   id: 1,
+    //   type: 'IMAGE',
+    //   url: 'https://backend-hccm-dev.zmnyun.cn/cs/file/preview/1673765669356699711',
+    //   name: 'banner',
+    // },
+    // {
+    //   id: 2,
+    //   type: 'VIDEO',
+    //   url: 'https://backend-hccm-dev.zmnyun.cn/cs/file/preview/1669014832288587800',
+    //   name: 'WeChat_20220811142726',
+    // },
   ]);
 
   useEffect(() => {
     if (!visible) setCurrentSelect([]);
   }, [visible]);
+
+  useEffect(() => {
+    setMediaSource(source);
+  }, [source]);
 
   return (
     <div className={styles['network-modal']}>

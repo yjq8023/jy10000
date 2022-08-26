@@ -30,6 +30,13 @@ import NetworkModal from '../components/NetworkModal';
 
 const { confirm } = Modal;
 
+interface MEDIATYPE {
+  id: number;
+  url: string;
+  type: 'IMAGE' | 'VIDEO';
+  name: string;
+}
+
 const controls: any = [
   'headings',
   'font-family',
@@ -78,6 +85,7 @@ const ArticleInsert: React.FC = () => {
   const [isEditInsert, setIsEditInsert] = useState(false);
   const [previewDrawer, setPreviewDrawer] = useState(false);
   const [networkModalVisible, setNetworkModalVisible] = useState(false);
+  const [mediaSource, setMediaSource] = useState<MEDIATYPE[]>([]);
 
   const handleChangeContent = (state: any) => {
     setEditorState(state);
@@ -151,9 +159,15 @@ const ArticleInsert: React.FC = () => {
         <Upload
           listType="text"
           showUploadList={false}
-          onChange={(v) => {
-            if (v.length && typeof v[0] === 'string') {
-              insertMedias([{ type: 'IMAGE', url: previewFile(v[0]) }]);
+          onUpload={(v) => {
+            if (Object.keys(v).length) {
+              const { response } = v;
+              const url = previewFile(response.data);
+              setMediaSource([
+                ...mediaSource,
+                { id: new Date().getTime(), url, name: '', type: 'IMAGE' },
+              ]);
+              insertMedias([{ type: 'IMAGE', url }]);
             }
           }}
         >
@@ -170,9 +184,15 @@ const ArticleInsert: React.FC = () => {
           showUploadList={false}
           accept="video/mp4"
           maxSize={10}
-          onChange={(v) => {
-            if (v.length && typeof v[0] === 'string') {
-              insertMedias([{ type: 'VIDEO', url: previewFile(v[0]) }]);
+          onUpload={(v) => {
+            if (Object.keys(v).length) {
+              const { response } = v;
+              const url = previewFile(response.data);
+              setMediaSource([
+                ...mediaSource,
+                { id: new Date().getTime(), url, name: '', type: 'VIDEO' },
+              ]);
+              insertMedias([{ type: 'VIDEO', url }]);
             }
           }}
         >
@@ -349,6 +369,7 @@ const ArticleInsert: React.FC = () => {
       </Drawer>
       <NetworkModal
         visible={networkModalVisible}
+        source={mediaSource}
         onCancel={() => setNetworkModalVisible(false)}
         onOk={(v) => {
           const D: any = [];
