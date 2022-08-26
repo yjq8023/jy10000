@@ -28,12 +28,67 @@ const getChildrenLength = (data: any = [], allListData: any = null) => {
 
 const Canvas = (props: any) => {
   const { planMapState, setPlanMapState } = useContext(planMapContext);
-  const [planMapList, setPlanMapList] = useState([]);
+  const [planMapList, setPlanMapList] = useState<any>([]);
 
   useEffect(() => {
+    console.log('planMapState');
+    console.log(planMapState);
     if (!planMapState) return;
     setPlanMapList(transformPlanMapDataToArray(planMapState));
   }, [planMapState]);
+
+  const transformPlanMapDataToArray = (mapData: ProjectPlanMap.roadMaps) => {
+    const newMapData = mapData.map((item, index) => {
+      const path = `[${index}].roadMapSteps`;
+      const offset = index === 0 ? 0 : 1;
+      const res: ProjectPlanMap.roadMapItem = {
+        ...item,
+        path,
+        offset,
+        roadMapSteps: item.roadMapSteps.map((stepItem, stepItemIndex) => {
+          return {
+            ...stepItem,
+            path: `${path}[${stepItemIndex}]`,
+            isHasChildren: stepItemIndex === 0 && index === 0,
+            childrenRowCount: mapData.length - 1,
+          };
+        }),
+      };
+      return res;
+    });
+    newMapData[0].roadMapSteps.unshift({
+      path: '',
+      id: getUuid(),
+      aiDecisionFlowsNodeId: getUuid(),
+      durationTimes: 0,
+      durationTimeUnit: 'DAY',
+      loop: false,
+      triggerNumber: 2,
+      triggerTimeUnit: 'YEAR',
+      isHasChildren: false,
+      followUpItems: [
+        {
+          id: getUuid(),
+          aiDecisionFlowsNodeId: getUuid(),
+          itemName: '前置信息表单', // 名称
+          itemCategory: 'beforeInfo', // 类型
+        },
+      ],
+    });
+    console.log('newMapData');
+    console.log(newMapData);
+    return newMapData;
+  };
+  return (
+    <div>
+      { planMapList.map((listData: any, index: number) => (<PlanMapRow key={getUuid()} listData={listData} offset={listData.offset} />))}
+    </div>
+  );
+};
+
+export default Canvas;
+
+/*
 
   const transformPlanMapDataToArray = (mapData: any, mapList: any = [], offset: number = 0, path: any = '') => {
     const nowList: any = [];
@@ -60,11 +115,4 @@ const Canvas = (props: any) => {
     });
     return mapList;
   };
-  return (
-    <div>
-      { planMapList.map((listData: any, index: number) => (<PlanMapRow key={getUuid()} listData={listData} offset={listData.offset} />))}
-    </div>
-  );
-};
-
-export default Canvas;
+* */

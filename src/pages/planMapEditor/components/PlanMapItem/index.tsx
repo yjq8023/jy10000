@@ -30,7 +30,7 @@ export const PlanMapItem = (props: any) => {
     addDiagnosisModal,
   } = useContext(planMapContext);
   const domRef = useRef(null);
-  const isLoop = data.isLoop; // 是否为循环节点
+  const loop = data.loop; // 是否为循环节点
   const sortableConfig = {
     sort: false,
     group: {
@@ -63,8 +63,8 @@ export const PlanMapItem = (props: any) => {
   const classNames = cls({
     [style.planMapItem]: true,
     [style.planMapItemHasChildren]: data.isHasChildren,
-    [style.first]: data.period === 0,
-    [style.loopItem]: isLoop,
+    [style.first]: data.durationTimes === 0,
+    [style.loopItem]: loop,
     [style.hasRootNode]: hasRootNode,
   });
   const handleClickInfo = (item: any) => {
@@ -74,23 +74,23 @@ export const PlanMapItem = (props: any) => {
     <div className={classNames}>
       <span className={style.index}>{ index }</span>
       <div className={style.header}>
-        { data.period === 0 ? '开始' : `D+${data.period}`}
-        { isLoop && (
-          <span className={style.loopText}>(循环{data.loopCount}次/月，持续6月)</span>
+        { data.durationTimes === 0 ? '开始' : `D+${data.triggerNumber}`}
+        { loop && (
+          <span className={style.loopText}>(持续{data.durationTimes}次/{data.triggerTimeUnit}，持续{data.durationTimes}{data.durationTimeUnit})</span>
         )}
         <span onClick={onDelete} className="iconfont icon-delete1" />
       </div>
       <div className={style.body}>
         <div className={style.title}>随访项目</div>
         <div className={style.infos} ref={domRef}>
-          {data?.infos?.map((item: any) => (
-            <div className={getInfoItemCls(item.type)} key={getUuid()} onClick={() => handleClickInfo(item)}>
+          {data?.followUpItems?.map((item: any) => (
+            <div className={getInfoItemCls(item.itemCategory)} key={getUuid()} onClick={() => handleClickInfo(item)}>
               <Badge color="cyan" />
-              {item.name}
+              {item.itemName}
             </div>
           ))}
         </div>
-        { isLoop && <LinkOutlined className={style.linkIcon} />}
+        { loop && <LinkOutlined className={style.linkIcon} />}
       </div>
       { data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
     </div>

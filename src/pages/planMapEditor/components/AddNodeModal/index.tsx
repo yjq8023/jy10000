@@ -3,7 +3,7 @@ import { Modal, Form, InputNumber, Select, Radio, message } from '@sinohealth/bu
 import lodash from 'lodash';
 import { planMapContext } from '@/pages/planMapEditor';
 
-const periodUnitOptions = [
+const triggerNumberUnitOptions = [
   {
     label: '分钟',
     value: 1,
@@ -31,7 +31,7 @@ const periodUnitOptions = [
 ];
 const AddNodeModal = (props: any, ref: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isLoop, setIsLoop] = useState(false);
+  const [loop, setIsLoop] = useState(false);
   const [path, setPath] = useState('');
   const { planMapState, setPlanMapState } = useContext(planMapContext);
 
@@ -46,6 +46,7 @@ const AddNodeModal = (props: any, ref: any) => {
   }, []);
 
   const handleOpen = (pathStr: string) => {
+    console.log(pathStr);
     setPath(pathStr);
     setIsModalVisible(true);
   };
@@ -60,20 +61,20 @@ const AddNodeModal = (props: any, ref: any) => {
   };
   // 判断是否存在相同节点
   const isHasSameNode = (item: any, list: any) => {
-    const sameNodes = list.filter((i: any) => i.period === item.period);
+    const sameNodes = list.filter((i: any) => i.triggerNumber === item.triggerNumber);
     // 不存在相同节点，返回false
     if (sameNodes.length === 0) {
       return false;
     }
     // 存在相同节点，且当前新增的节点不是循环节点，返回true
-    if (!item.isLoop) {
+    if (!item.loop) {
       return true;
     }
     // 当前新增的节点是循环节点，比较循环参数是否一样
-    if (item.isLoop === 1) {
+    if (item.loop === 1) {
       let isSame = false;
       sameNodes.forEach((sameNode: any) => {
-        if (sameNode.loopCount === item.loopCount && sameNode.loopUnit === item.loopUnit) {
+        if (sameNode.durationTimes === item.durationTimes && sameNode.durationTimeUnit === item.durationTimeUnit) {
           isSame = true;
         }
       });
@@ -83,27 +84,27 @@ const AddNodeModal = (props: any, ref: any) => {
   };
 
   const onFinish = (data: any) => {
-    const { period } = data;
+    const { triggerNumber } = data;
     const parentNodes: any = [].concat(path ? lodash.get(planMapState, path) : planMapState);
     if (isHasSameNode(data, parentNodes)) {
-      message.error(`D+${period}节点已存在，请勿重复添加！`);
+      message.error(`D+${triggerNumber}节点已存在，请勿重复添加！`);
       return;
     }
     parentNodes.push(data);
-    const newParentNodes = parentNodes.sort((item: any, next: any) => item.period - next.period);
+    const newParentNodes = parentNodes.sort((item: any, next: any) => item.triggerNumber - next.triggerNumber);
     setPlanMapState('update', path, newParentNodes);
     setIsModalVisible(false);
   };
 
   const handleFormChange = (values: any) => {
-    if (Object.keys(values).indexOf('isLoop') > -1) {
-      setIsLoop(values.isLoop === 1);
+    if (Object.keys(values).indexOf('loop') > -1) {
+      setIsLoop(values.loop === 1);
     }
   };
 
   const defaultValue: any = {
-    periodUnit: 3,
-    isLoop: 0,
+    triggerTimeUnit: 3,
+    loop: 0,
   };
   return (
     <Modal title="添加节点容器信息" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={600}>
@@ -120,21 +121,21 @@ const AddNodeModal = (props: any, ref: any) => {
       >
         <Form.Item
           label="周期数值（天）"
-          name="period"
+          name="triggerNumber"
           rules={[{ required: true, message: '该字段为必填项' }]}
         >
           <InputNumber style={{ width: '100%' }} min={1} />
         </Form.Item>
         {/* <Form.Item */}
         {/*  label="周期单位" */}
-        {/*  name="periodUnit" */}
+        {/*  name="triggerTimeUnit" */}
         {/*  rules={[{ required: true, message: '该字段为必填项' }]} */}
         {/* > */}
-        {/*  <Select style={{ width: '100%' }} options={periodUnitOptions} /> */}
+        {/*  <Select style={{ width: '100%' }} options={triggerNumberUnitOptions} /> */}
         {/* </Form.Item> */}
         <Form.Item
           label="是否循环"
-          name="isLoop"
+          name="loop"
           rules={[{ required: true, message: '该字段为必填项' }]}
         >
           <Radio.Group>
@@ -144,11 +145,11 @@ const AddNodeModal = (props: any, ref: any) => {
         </Form.Item>
         <Form.Item
           label="持续周期数量"
-          name="loopCount"
-          dependencies={['isLoop']}
-          hidden={!isLoop}
+          name="durationTimes"
+          dependencies={['loop']}
+          hidden={!loop}
           rules={[({ getFieldValue }) => ({
-            required: getFieldValue('isLoop') === 1,
+            required: getFieldValue('loop') === 1,
             message: '该字段为必填项',
           })]}
         >
@@ -156,14 +157,14 @@ const AddNodeModal = (props: any, ref: any) => {
         </Form.Item>
         <Form.Item
           label="持续周期单位"
-          name="loopUnit"
-          hidden={!isLoop}
+          name="durationTimeUnit"
+          hidden={!loop}
           rules={[({ getFieldValue }) => ({
-            required: getFieldValue('isLoop') === 1,
+            required: getFieldValue('loop') === 1,
             message: '该字段为必填项',
           })]}
         >
-          <Select style={{ width: '100%' }} options={periodUnitOptions} />
+          <Select style={{ width: '100%' }} options={triggerNumberUnitOptions} />
         </Form.Item>
       </Form>
     </Modal>

@@ -20,10 +20,10 @@ const FormSetting = (props: any) => {
   return (
     <div className={style.formSetting}>
       <div className={style.header}>
-        <div className={style.type}>{titles[data.type]}</div>
-        <div className={style.title}>{data.name}</div>
+        <div className={style.type}>{titles[data.itemCategory]}</div>
+        <div className={style.title}>{data.itemName}</div>
         {
-          data.type === planItemTypes.form && (
+          data.itemCategory === planItemTypes.form && (
             <>
               <div className={style.type}>关联IO</div>
               <div>

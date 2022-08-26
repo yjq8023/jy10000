@@ -86,4 +86,5 @@ declare namespace ProjectType {
     ids: string[];
     status: string;
   };
+
 }

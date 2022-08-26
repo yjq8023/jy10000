@@ -53,14 +53,14 @@ export const ArticleSettingContent = (props: any) => {
     const newInfos = [
       {
         ...data,
-        type: planItemTypes.article,
-        name: '患教文章',
+        itemCategory: planItemTypes.article,
+        itemName: '患教文章',
       },
     ];
     if (Array.isArray(newData.infos)) {
-      newData.infos = [...newData.infos, ...newInfos];
+      newData.followUpItems = [...newData.infos, ...newInfos];
     } else {
-      newData.infos = newInfos;
+      newData.followUpItems = newInfos;
     }
     onFinish && onFinish(newData);
   };

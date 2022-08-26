@@ -14,55 +14,67 @@ import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
 import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
 import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModal';
 import PageHeader from '@/pages/planMapEditor/components/PageHeader';
+import planMapRow from '@/pages/planMapEditor/components/PlanMapRow';
+import { planItemTypes } from '@/pages/planMapEditor/config';
 
 export const planMapContext = createContext<any>(null);
 
-const getPlanData = (count: number) => {
+const getPlanData = (count: number): ProjectPlanMap.roadMapItem => {
   let i = 0;
-  const d = [];
+  const d: ProjectPlanMap.roadMapStepItem[] = [];
   while (i < count) {
     i += 1;
     d.push({
       id: getUuid(),
-      period: i * 10,
-      infos: [
+      aiDecisionFlowsNodeId: getUuid(),
+      triggerNumber: i * 10,
+      triggerTimeUnit: 'DAY',
+      loop: false,
+      durationTimes: 2,
+      durationTimeUnit: 'YEAR',
+      followUpItems: [
         {
-          name: '跟进记录表',
-          type: 'followUp',
+          id: getUuid(),
+          aiDecisionFlowsNodeId: getUuid(),
+          itemName: '测试量表', // 名称
+          itemCategory: planItemTypes.form, // 类型
         },
         {
-          name: '患教资料',
-          type: 'article',
+          id: getUuid(),
+          aiDecisionFlowsNodeId: getUuid(),
+          itemName: '跟进记录表', // 名称
+          itemCategory: planItemTypes.followUp, // 类型
         },
         {
-          name: '医学量表',
-          type: 'form',
+          id: getUuid(),
+          aiDecisionFlowsNodeId: getUuid(),
+          itemName: '患教资料', // 名称
+          itemCategory: planItemTypes.article, // 类型
         },
         {
-          name: '复诊复查',
-          type: 'diagnosis',
+          id: getUuid(),
+          aiDecisionFlowsNodeId: getUuid(),
+          itemName: '复诊复查', // 名称
+          itemCategory: planItemTypes.diagnosis, // 类型
         },
       ],
     });
   }
-  return d;
+  return {
+    id: getUuid(),
+    aiDecisionFlowsNodeId: getUuid(), // ai节点标识
+    name: '测试项目', // 项目名称
+    projectId: getUuid(), // 项目标识
+    roadMapSteps: d,
+  };
 };
-const planData: any = [
-  {
-    id: 1,
-    period: 0,
-    infos: [
-      {
-        name: '项目前置信息',
-        type: 'beforeInfo',
-      },
-    ],
-  },
-  ...getPlanData(4),
+const planData: ProjectPlanMap.roadMaps = [
+  getPlanData(4),
+  getPlanData(3),
+  getPlanData(5),
 ];
-planData[1].children = [getPlanData(4)];
 const PlanMapEditor = () => {
-  const [planMapState, setPlanMapStateFn] = useState(planData);
+  const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>(planData);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const addNodeModalRef = useRef<any>(null);
   const addFollowUpModal = useRef<any>(null);
