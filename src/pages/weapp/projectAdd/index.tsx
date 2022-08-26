@@ -9,6 +9,7 @@ import {
   Button,
   message,
   Select,
+  Space,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
@@ -82,6 +83,7 @@ function ProjectAdd() {
         form.setFieldsValue(res);
         setProjectDetail(res);
         setOrganizeId(res.chainId);
+        setChainParams({ ...chainParams, organizeId: res.chainId });
       });
     }
   }, []);
@@ -138,20 +140,20 @@ function ProjectAdd() {
             </Form.Item>
             <Form.Item name="needCaseManager" label="是否需要个案管理师审核" rules={requiredRule}>
               <Radio.Group>
-                <Radio value="1">是</Radio>
-                <Radio value="0">否</Radio>
+                <Radio value={true}>是</Radio>
+                <Radio value={false}>否</Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item name="needDoctor" label="是否需要医生审核" rules={requiredRule}>
               <Radio.Group>
-                <Radio value="1">是</Radio>
-                <Radio value="0">否</Radio>
+                <Radio value={true}>是</Radio>
+                <Radio value={false}>否</Radio>
               </Radio.Group>
             </Form.Item>
             <Form.Item name="openConsult" label="是否开启患者咨询" rules={requiredRule}>
               <Radio.Group>
-                <Radio value="1">是</Radio>
-                <Radio value="0">否</Radio>
+                <Radio value={true}>是</Radio>
+                <Radio value={false}>否</Radio>
               </Radio.Group>
             </Form.Item>
             {/* <Form.Item
@@ -187,11 +189,15 @@ function ProjectAdd() {
         </Row>
       </Form>
       <div className="actionBar">
-        <Button onClick={onCancel}>取消</Button>
-        &nbsp; &nbsp;
-        <Button type="primary" onClick={handleSubmit}>
-          保存
-        </Button>
+        <Space>
+          <Button type="info" onClick={onCancel}>
+            取消
+          </Button>
+
+          <Button type="primary" onClick={handleSubmit}>
+            保存
+          </Button>
+        </Space>
       </div>
     </div>
   );
