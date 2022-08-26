@@ -1,4 +1,9 @@
 declare namespace ProjectPlanMap {
+  type data = {
+    projectId: string;
+    preInfoFormId: string | undefined; // 前置信息表单
+    readMaps: roadMaps; // 管理路径集合
+  }
   type roadMaps = roadMapItem[]; // 管理路径集合
   // 单条管理路径
   type roadMapItem = {

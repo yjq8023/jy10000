@@ -74,6 +74,11 @@ const planData: ProjectPlanMap.roadMaps = [
   getPlanData(5),
 ];
 const PlanMapEditor = () => {
+  const [projectPlanData, setProjectPlanData] = useState<ProjectPlanMap.data>({
+    projectId: getUuid(),
+    preInfoFormId: getUuid(),
+    readMaps: planData,
+  });
   const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>(planData);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const addNodeModalRef = useRef<any>(null);
@@ -103,6 +108,7 @@ const PlanMapEditor = () => {
       }
     };
     return {
+      projectPlanData,
       planMapState,
       setPlanMapState: handleSetValue,
       selectedNode,

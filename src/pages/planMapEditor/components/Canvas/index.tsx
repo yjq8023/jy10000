@@ -5,6 +5,7 @@ import style from './index.less';
 import { getUuid } from '@/utils';
 import PlanMapRow from '@/pages/planMapEditor/components/PlanMapRow';
 import { planMapContext } from '@/pages/planMapEditor';
+import { planItemTypes } from '@/pages/planMapEditor/config';
 
 const getChildrenLength = (data: any = [], allListData: any = null) => {
   let length = 0;
@@ -27,7 +28,7 @@ const getChildrenLength = (data: any = [], allListData: any = null) => {
 };
 
 const Canvas = (props: any) => {
-  const { planMapState, setPlanMapState } = useContext(planMapContext);
+  const { planMapState, projectPlanData, setPlanMapState } = useContext(planMapContext);
   const [planMapList, setPlanMapList] = useState<any>([]);
 
   useEffect(() => {
@@ -37,6 +38,19 @@ const Canvas = (props: any) => {
     setPlanMapList(transformPlanMapDataToArray(planMapState));
   }, [planMapState]);
 
+  const getBeforeNode = () => {
+    if (projectPlanData.preInfoFormId) {
+      return [
+        {
+          id: getUuid(),
+          aiDecisionFlowsNodeId: getUuid(),
+          itemName: '项目前置信息', // 名称
+          itemCategory: planItemTypes.beforeInfo, // 类型
+        },
+      ];
+    }
+    return [];
+  };
   const transformPlanMapDataToArray = (mapData: ProjectPlanMap.roadMaps) => {
     const newMapData = mapData.map((item, index) => {
       const path = `[${index}].roadMapSteps`;
@@ -66,14 +80,7 @@ const Canvas = (props: any) => {
       triggerNumber: 2,
       triggerTimeUnit: 'YEAR',
       isHasChildren: false,
-      followUpItems: [
-        {
-          id: getUuid(),
-          aiDecisionFlowsNodeId: getUuid(),
-          itemName: '前置信息表单', // 名称
-          itemCategory: 'beforeInfo', // 类型
-        },
-      ],
+      followUpItems: getBeforeNode(),
     });
     console.log('newMapData');
     console.log(newMapData);

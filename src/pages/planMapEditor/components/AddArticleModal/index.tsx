@@ -1,8 +1,11 @@
-import React, { useState, useImperativeHandle, useContext } from 'react';
+import React, { useState, useImperativeHandle, useContext, useRef, useEffect } from 'react';
 import { Modal, Form, Input, Select, Row, Col, Table, InputNumber } from '@sinohealth/butterfly-ui-components/lib';
 import { Link } from 'react-router-dom';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
+import LabelSelect from '@/pages/project/components/LabelSelect';
+import BaseList from '@/components/BaseList';
+import { httpGetContent } from '@/services/project';
 
 const labelMock = [
   {
@@ -26,18 +29,23 @@ const labelMock = [
 const columns = [
   {
     title: '序号',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'index',
+    key: 'index',
+    render(text: string, record: any, index: number): JSX.Element {
+      return <span>{index + 1}</span>;
+    },
+    width: 90,
   },
   {
     title: '标题',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'title',
+    key: 'title',
   },
   {
     title: '操作',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'action',
+    key: 'action',
+    width: 60,
     render() {
       return <Link to="a/detail">查看</Link>;
     },
@@ -48,6 +56,15 @@ export const ArticleSettingContent = (props: any) => {
   const { nodeData, isMini, form, onFinish } = props;
   const [labelOptions, setLabelOptions] = useState<any>(labelMock);
   const [articles, setArticles] = useState<any>([]);
+  const list = useRef<any>();
+  useEffect(() => {
+    if (list.current) {
+      // list.current.setPagination({
+      //   ...list.current.pagination,
+      //   pageSize: 5,
+      // });
+    }
+  }, [list]);
   const onFinishFn = (data: any) => {
     const newData = { ...nodeData };
     const newInfos = [
@@ -73,6 +90,38 @@ export const ArticleSettingContent = (props: any) => {
     );
   };
   const defaultValue: any = {};
+
+  const fetchAPi = (params: { current: any }) => {
+    console.log('params');
+    console.log(params);
+    return httpGetContent({
+      pageNo: params.current,
+      ...params,
+    }).then((res: any) => {
+      return {
+        listData: res.data,
+        pagination: {
+          current: res.pageNo,
+          pageSize: res.pageSize,
+          total: res.totalCount,
+        },
+      };
+    });
+  };
+
+  const handleLabelSelect = (key: string, value: any) => {
+    form.setFieldsValue({
+      [key]: value,
+    });
+    const values = form.getFieldsValue(['include', 'exclusive']);
+    console.log(values);
+    list.current?.fetchListData({
+      current: 1,
+      notContainsLabelIds: values.exclusive,
+      labelIds: values.include,
+    });
+  };
+
   return (
     <Form
       form={form}
@@ -90,18 +139,24 @@ export const ArticleSettingContent = (props: any) => {
         <Col span={isMini ? 24 : 12}>
           <Form.Item
             label="包含标签"
-            name="includeLabel"
+            name="include"
             rules={[{ required: true, message: '该字段为必填项' }]}
           >
-            <Select style={{ width: '100%' }} mode="multiple" options={labelOptions} />
+            <LabelSelect
+              search={false}
+              onSelect={(v) => handleLabelSelect('include', v)}
+            />
           </Form.Item>
         </Col>
         <Col span={isMini ? 24 : 12}>
           <Form.Item
             label="不包含标签"
-            name="noIncludeLabel"
+            name="exclusive"
           >
-            <Select style={{ width: '100%' }} mode="multiple" options={labelOptions} />
+            <LabelSelect
+              search={false}
+              onSelect={(v) => handleLabelSelect('exclusive', v)}
+            />
           </Form.Item>
         </Col>
       </Row>
@@ -110,14 +165,20 @@ export const ArticleSettingContent = (props: any) => {
         筛选结果
       </div>
       <div>
-        <Table columns={columns} dataSource={articles} />
+        <BaseList
+          ListTitle="筛选结果"
+          fetchApi={fetchAPi}
+          columns={columns}
+          list={list}
+          BodyProps={{ scroll: { y: 240 } }}
+        />
       </div>
 
       <div className="but-title">
         推送规则
       </div>
       <Form.Item
-        name="quantity"
+        name="pushNum"
         rules={[{ required: true, message: '该字段为必填项' }]}
       >
         <AcNumber />

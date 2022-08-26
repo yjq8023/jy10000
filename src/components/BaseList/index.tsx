@@ -98,9 +98,12 @@ function BaseList(props: ListPageProps, ref: any) {
     if (list) {
       list.current = {
         searchForm: form,
+        fetchListData,
         reloadListData,
         listData,
         onSetListData,
+        setPagination,
+        pagination,
       };
     }
   }, [list, form, listData]);
