@@ -36,7 +36,7 @@ const TermLibrary: React.FC = () => {
   const [isUpdateSucc, setIsUpdateSucc] = useState(false);
   const [projectModalVisible, setProjectModalVisible] = useState(false);
   const [isShowAi, setIsShowAi] = useState(false);
-  const [projectParams, setProjectParams] = useState({});
+  const [projectParams, setProjectParams] = useState<ProjectType.ProjectRes>({ labelVoList: [] });
 
   const fetchAPi = (params: { current: any }) => {
     return httpProjectList({
@@ -54,10 +54,15 @@ const TermLibrary: React.FC = () => {
     });
   };
 
-  const renderActionDom = (itemData: any) => {
+  const renderActionDom = (itemData: ProjectType.ProjectRes) => {
+    const isUp = itemData.status === 'ENABLE';
     return (
       <Space size="middle">
-        <a onClick={() => console.log(itemData)}>查看管理计划</a>
+        {isUp ? (
+          <a onClick={() => console.log(itemData)}>查看管理计划</a>
+        ) : (
+          <a onClick={() => console.log(itemData)}>编辑管理计划</a>
+        )}
         <a
           onClick={() => {
             setProjectModalVisible(true);
@@ -289,7 +294,7 @@ const TermLibrary: React.FC = () => {
       width: 200,
       align: 'right',
       fixed: 'right',
-      render(text: string, record: any) {
+      render(text: string, record: ProjectType.ProjectRes) {
         return renderActionDom(record);
       },
     },
@@ -316,7 +321,7 @@ const TermLibrary: React.FC = () => {
           onCancel={() => {
             setProjectModalVisible(false);
             setIsUpdateSucc(false);
-            setProjectParams({});
+            setProjectParams({ labelVoList: [] });
           }}
           onOk={async (v) => {
             if (isUpdateSucc) return;
@@ -324,11 +329,13 @@ const TermLibrary: React.FC = () => {
 
             try {
               message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
-              const res: any = await httpProjectInsert({ ...projectParams, ...v });
+              const { labelVoList, ...others } = projectParams;
+              const res: any = await httpProjectInsert({ ...others, ...v });
+
               if (res.success) {
                 list.current.reloadListData(true);
                 setProjectModalVisible(false);
-                setProjectParams({});
+                setProjectParams({ labelVoList: [] });
                 setIsUpdateSucc(false);
                 message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
               }
