@@ -28,7 +28,7 @@ declare namespace ProjectType {
   };
 
   type ContentRes = {
-    id?: string;
+    id: string;
     tenantId?: string;
     organizeId?: string;
     title?: string;
@@ -86,5 +86,84 @@ declare namespace ProjectType {
     ids: string[];
     status: string;
   };
+  type ProjectReq = {
+    projectName?: string;
+    labelIds?: string[];
+    pageSize?: string;
+    pageNo?: string;
+    orderBy?: string;
+    orderDirection?: string;
+    groupBy?: string;
+    needTotalCount?: boolean;
+  };
 
+  type ProjectRes = {
+    id?: string;
+    name?: string;
+    version?: string;
+    decisionFlowsVersionName?: string;
+    decisionFlowsLabels?: string;
+    labelVoList: LabelVoList[];
+    description?: string;
+    status?: string;
+    createTime?: string;
+  };
+
+  type LabelVoList = {
+    id?: string;
+    tenantId?: string;
+    categoryName?: string;
+    name?: string;
+    code?: string;
+    sort?: string;
+    status?: string;
+    bindCountNum?: string;
+    creater?: string;
+    createTime?: string;
+    updater?: string;
+    updateTime?: string;
+  };
+
+  type InsertReq = {
+    id?: string;
+    name?: string;
+    version?: string;
+    description?: string;
+    labelIds?: string[];
+    aiDecisionFlowDefinitionDto: FlowDefinitionDto;
+  };
+
+  type FlowDefinitionDto = {
+    decisionFlowsVersionId?: string;
+    decisionFlowsVersionName?: string;
+    decisionFlowsId?: string;
+    shareUrl?: string;
+    labels?: string;
+    publishTime?: string;
+    status?: string;
+  };
+
+  type ServiceProjectReq = {
+    name?: string;
+    diseaseIds?: string[];
+    pageSize?: string;
+    pageNo?: string;
+    orderBy?: string;
+    orderDirection?: string;
+    groupBy?: string;
+    needTotalCount?: string;
+  };
+
+  type AiDecisionReq = {
+    name?: string;
+  };
+
+  type AiDecisionRes = {
+    decisionFlowsId?: string;
+    decisionFlowsVersionId?: string;
+    decisionFlowsVersionName?: string;
+    publishTime?: string;
+    shareUrl?: string;
+    labels?: string[];
+  };
 }

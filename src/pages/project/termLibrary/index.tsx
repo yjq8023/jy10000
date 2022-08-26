@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import {
   Button,
   Badge,
@@ -7,12 +6,26 @@ import {
   message,
   Modal,
   Space,
+  Popover,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { PlusCircleOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
+import {
+  PlusCircleOutlined,
+  QuestionCircleFilled,
+  VerticalAlignTopOutlined,
+} from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
-import { httpGetContent } from '@/services/project';
+import {
+  httpProjectDelete,
+  httpProjectInsert,
+  httpProjectList,
+  httpProjectUpdateStatus,
+} from '@/services/project';
 import TermSearch from './components/TermSearch';
+import ProjectModal from './components/ProjectModal';
+import SwitchCustom from '@/components/SwitchCustom';
+
+const { confirm } = Modal;
 
 /**
  * 项目库管理-项目库
@@ -20,9 +33,13 @@ import TermSearch from './components/TermSearch';
  */
 const TermLibrary: React.FC = () => {
   const list: any = useList();
-  const navigate = useNavigate();
+  const [isUpdateSucc, setIsUpdateSucc] = useState(false);
+  const [projectModalVisible, setProjectModalVisible] = useState(false);
+  const [isShowAi, setIsShowAi] = useState(false);
+  const [projectParams, setProjectParams] = useState({});
+
   const fetchAPi = (params: { current: any }) => {
-    return httpGetContent({
+    return httpProjectList({
       pageNo: params.current,
       ...params,
     }).then((res: any) => {
@@ -40,18 +57,69 @@ const TermLibrary: React.FC = () => {
   const renderActionDom = (itemData: any) => {
     return (
       <Space size="middle">
-        <a onClick={() => navigate('editor')}>查看管理计划</a>
-        <a onClick={() => console.log(itemData)}>基本信息</a>
-        <a className={styles['del-color']} onClick={() => console.log(itemData)}>
+        <a onClick={() => console.log(itemData)}>查看管理计划</a>
+        <a
+          onClick={() => {
+            setProjectModalVisible(true);
+            setIsShowAi(false);
+            setProjectParams(itemData);
+          }}
+        >
+          基本信息
+        </a>
+        <a
+          className={styles['del-color']}
+          onClick={() => {
+            confirm({
+              title: `是否确定删除 "${itemData.name}" 的数据项?`,
+              icon: <QuestionCircleFilled style={{ color: '#EA6868' }} />,
+              okButtonProps: { danger: true },
+              cancelButtonProps: { type: 'info' },
+              onOk: async () => {
+                const res: any = await httpProjectDelete(itemData.id);
+
+                return new Promise((resolve) => {
+                  const timer = setTimeout(() => {
+                    resolve(true);
+                    if (res) {
+                      list.current.reloadListData(true);
+                      message.success('删除成功');
+                    }
+                    clearTimeout(timer);
+                  }, 1000);
+                }).catch(() => console.log('Oops errors!'));
+              },
+              onCancel() {},
+            });
+          }}
+        >
           删除
         </a>
       </Space>
     );
   };
 
+  const PopoverContent = (record: ProjectType.ProjectRes) => {
+    return (
+      <div className={styles.sortDom}>
+        {record.labelVoList.map((el, ids) => (
+          <div className={styles.tag} key={el.id}>
+            {el.name}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   const Toolbar = () => {
     return (
-      <Button type="primary" onClick={() => console.log(132132)}>
+      <Button
+        type="primary"
+        onClick={() => {
+          setIsShowAi(true);
+          setProjectModalVisible(true);
+        }}
+      >
         <PlusCircleOutlined />
         添加管理项目
       </Button>
@@ -70,53 +138,77 @@ const TermLibrary: React.FC = () => {
     },
     {
       title: '管理项目名称',
-      dataIndex: 'title',
-      key: 'title',
+      dataIndex: 'name',
+      key: 'name',
       width: 200,
     },
     {
       title: '标签',
-      dataIndex: 'weight',
-      key: 'weight',
+      dataIndex: 'labelVoList',
+      key: 'labelVoList',
       width: 200,
-      render(text: string, record: any, index: number) {
-        if (!record.status) {
-          return '--';
-        }
-        return (
-          <Space className={styles.sortDom}>
-            <div className={styles.tag}>乳腺癌</div>
-            <div className={styles.tag}>肿瘤</div>
-          </Space>
+      render(text: string, record: ProjectType.ProjectRes, index: number) {
+        return record?.labelVoList.length ? (
+          <>
+            {/* <Space className={styles.sortDom}>
+              {record?.labelVoList?.map((el) => (
+                <div className={styles.tag} key={el.id}>
+                  {el.name}
+                </div>
+              ))}
+            </Space> */}
+            <Popover
+              trigger="click"
+              content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
+            >
+              <div
+                className={`${styles.sortDom} ${
+                  record.labelVoList.length > 2 ? styles.pointer : ''
+                }`}
+              >
+                {record.labelVoList.map((el, inx) =>
+                  inx < 2 ? (
+                    <div className={styles.tag} key={el.id}>
+                      {el.name}
+                    </div>
+                  ) : null,
+                )}
+              </div>
+            </Popover>
+          </>
+        ) : (
+          '--'
         );
       },
     },
     {
       title: '版本号',
-      dataIndex: 'createTime',
-      key: 'createTime',
+      dataIndex: 'version',
+      key: 'version',
       width: 140,
     },
     {
       title: '关联AI开放平台决策流名称',
-      dataIndex: 'createTime',
-      key: 'createTime',
+      dataIndex: 'decisionFlowsVersionName',
+      key: 'decisionFlowsVersionName',
       width: 200,
     },
     {
       title: '决策流标签',
-      dataIndex: 'weight',
-      key: 'weight',
+      dataIndex: 'decisionFlowsLabels',
+      key: 'decisionFlowsLabels',
       width: 200,
-      render(text: string, record: any, index: number) {
-        if (!record.status) {
-          return '--';
-        }
-        return (
+      render(text: string, record: ProjectType.ProjectRes, index: number) {
+        return text ? (
           <Space className={styles.sortDom}>
-            <div className={styles.tag}>乳腺癌</div>
-            <div className={styles.tag}>肿瘤</div>
+            {text.split(',').map((el) => (
+              <div className={styles.tag} key={el}>
+                {el}
+              </div>
+            ))}
           </Space>
+        ) : (
+          '--'
         );
       },
     },
@@ -126,21 +218,46 @@ const TermLibrary: React.FC = () => {
       key: 'status',
       width: 140,
       render(text: string, record: any) {
-        const isUp = text === 'enable';
+        const isUp = text === 'ENABLE';
         return (
-          <div>
+          <Space size="small">
             <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
-            &nbsp;
-            <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} />
-          </div>
+            {/* <Switch defaultChecked={isUp} onChange={async (e) => console.log(e)} /> */}
+            <SwitchCustom
+              checked={isUp}
+              onChange={async () => {
+                try {
+                  if (isUpdateSucc) return;
+                  setIsUpdateSucc(true);
+                  const res = await httpProjectUpdateStatus({
+                    ids: [record.id],
+                    status: isUp ? 'UNABLE' : 'ENABLE',
+                  });
+                  if (res) {
+                    list.current.reloadListData(true);
+                    setIsUpdateSucc(false);
+                  }
+                } catch (err) {
+                  setIsUpdateSucc(false);
+                }
+              }}
+            />
+          </Space>
         );
       },
     },
     {
       title: '描述',
-      dataIndex: 'createTime',
-      key: 'createTime',
+      dataIndex: 'description',
+      key: 'description',
       width: 180,
+      render(text: string, record: any) {
+        return (
+          <Popover className={styles.popover} content={text}>
+            <div className={styles.ellipsis}>{text}</div>
+          </Popover>
+        );
+      },
     },
     {
       title: '操作',
@@ -148,6 +265,7 @@ const TermLibrary: React.FC = () => {
       key: 'action',
       width: 180,
       align: 'right',
+      fixed: 'right',
       render(text: string, record: any) {
         return renderActionDom(record);
       },
@@ -166,6 +284,38 @@ const TermLibrary: React.FC = () => {
         Toolbar={Toolbar}
         overflow={false}
       />
+      {projectModalVisible ? (
+        <ProjectModal
+          visible={projectModalVisible}
+          params={projectParams}
+          title={isShowAi ? '添加管理项目' : '编辑项目基本信息'}
+          ai={isShowAi}
+          onCancel={() => {
+            setProjectModalVisible(false);
+            setIsUpdateSucc(false);
+            setProjectParams({});
+          }}
+          onOk={async (v) => {
+            if (isUpdateSucc) return;
+            setIsUpdateSucc(true);
+
+            try {
+              message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
+              const res: any = await httpProjectInsert({ ...projectParams, ...v });
+              if (res.success) {
+                list.current.reloadListData(true);
+                setProjectModalVisible(false);
+                setProjectParams({});
+                setIsUpdateSucc(false);
+                message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+              }
+            } catch (err) {
+              setIsUpdateSucc(false);
+              message.error({ content: '数据更新失败', key: 'updatable', duration: 1 });
+            }
+          }}
+        />
+      ) : null}
     </div>
   );
 };

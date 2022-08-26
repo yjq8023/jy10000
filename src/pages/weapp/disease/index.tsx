@@ -22,6 +22,7 @@ import { UCenter } from '@/services/weapp/data';
 import { previewFile } from '@/utils';
 import Carousel from './components/Carousel';
 import styles from './index.less';
+import SwitchCustom from '@/components/SwitchCustom';
 
 const { confirm } = Modal;
 
@@ -166,37 +167,37 @@ const Disease: React.FC = () => {
       title: '轮播图排序',
       dataIndex: 'weight',
       key: 'weight',
-      render(text: string, record: UCenter.carouselItem, index: number) {
-        if (!record.status) {
-          return '--';
-        }
-        return (
-          <div className={styles.sortDom}>
-            {index < 3 ? index + 1 : '-'}
-            {index !== 0 && record.status === 'enable' ? (
-              <div
-                className={`${styles.upTopIcon} iconfont icon-zhiding`}
-                onClick={async () => {
-                  if (isUpdateSucc) return;
-                  setIsUpdateSucc(true);
-                  message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
-                  try {
-                    const res = await httpSlideTopWeight(record.id);
-                    const timer = setTimeout(() => {
-                      if (res) list.current.reloadListData(true);
-                      message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
-                      clearTimeout(timer);
-                      setIsUpdateSucc(false);
-                    }, 1500);
-                  } catch (err) {
-                    setIsUpdateSucc(false);
-                  }
-                }}
-              />
-            ) : null}
-          </div>
-        );
-      },
+      // render(text: string, record: UCenter.carouselItem, index: number) {
+      //   if (!record.status) {
+      //     return '--';
+      //   }
+      //   return (
+      //     <div className={styles.sortDom}>
+      //       {index < 3 ? index + 1 : '-'}
+      //       {index !== 0 && record.status === 'enable' ? (
+      //         <div
+      //           className={`${styles.upTopIcon} iconfont icon-zhiding`}
+      //           onClick={async () => {
+      //             if (isUpdateSucc) return;
+      //             setIsUpdateSucc(true);
+      //             message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
+      //             try {
+      //               const res = await httpSlideTopWeight(record.id);
+      //               const timer = setTimeout(() => {
+      //                 if (res) list.current.reloadListData(true);
+      //                 message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+      //                 clearTimeout(timer);
+      //                 setIsUpdateSucc(false);
+      //               }, 1500);
+      //             } catch (err) {
+      //               setIsUpdateSucc(false);
+      //             }
+      //           }}
+      //         />
+      //       ) : null}
+      //     </div>
+      //   );
+      // },
     },
     {
       title: '添加时间',
@@ -212,10 +213,9 @@ const Disease: React.FC = () => {
       render(text: string, record: any) {
         const isUp = text === 'enable';
         return (
-          <div>
+          <Space>
             <Badge color={text ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
-            &nbsp;
-            <Switch
+            <SwitchCustom
               defaultChecked={isUp}
               onChange={async (e) => {
                 setIsUpdateSucc(true);
@@ -233,7 +233,7 @@ const Disease: React.FC = () => {
                 }
               }}
             />
-          </div>
+          </Space>
         );
       },
     },
@@ -267,6 +267,7 @@ const Disease: React.FC = () => {
           params={{
             storageId: carouselParams.storageId,
             title: carouselParams.title,
+            weight: carouselParams.weight,
           }}
           onCancel={() => {
             setCarouselParams({ storageId: '', appCode: '', title: '' });

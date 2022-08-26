@@ -11,7 +11,7 @@ const menuConfig: MenuItemProps[] = [
         path: '/weapp/column',
       },
       {
-        label: '项目管理',
+        label: '服务项目管理',
         path: '/weapp/project',
       },
       {

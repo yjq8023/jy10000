@@ -8,6 +8,11 @@ import styles from './index.less';
  * @returns
  */
 const ArticleSearch: React.FC = (props: any) => {
+  const onReset = () => {
+    props.form.resetFields();
+    props.form.submit();
+  };
+
   return (
     <div className={styles['article-search']}>
       <Form labelAlign="left" colon={false} {...props}>
@@ -35,7 +40,9 @@ const ArticleSearch: React.FC = (props: any) => {
           <Col span={4} offset={1}>
             <Form.Item labelCol={{ span: 4 }}>
               <Space>
-                <Button type="info">重置</Button>
+                <Button type="info" onClick={() => onReset()}>
+                  重置
+                </Button>
                 <Button type="primary" htmlType="submit">
                   查询
                 </Button>

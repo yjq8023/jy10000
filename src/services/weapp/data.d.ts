@@ -176,4 +176,41 @@ declare namespace UCenter {
     failureTime?: string;
     weight?: string;
   };
+
+  type ServiceProjectReq = {
+    name?: string;
+    diseaseIds?: string[];
+    pageSize?: string;
+    pageNo?: string;
+    orderBy?: string;
+    orderDirection?: string;
+    groupBy?: string;
+    needTotalCount?: string;
+  };
+
+  type ServiceProjectRes = {
+    id: string;
+    createTime?: string;
+    serviceProjectName?: string;
+    diseaseId?: string;
+    diseaseName?: string;
+    projectId?: string;
+    projectName?: string;
+    organizeId?: string;
+    organizeName?: string;
+    doctorId?: string;
+    doctorName?: string;
+    doctorTitle?: string;
+    caseManagerId?: string;
+    caseManagerName?: string;
+    description?: string;
+    needCaseManger?: string;
+    needDoctor?: string;
+    status?: string;
+  };
+
+  type UpdateStatusReq = {
+    ids?: string[];
+    status?: string;
+  };
 }

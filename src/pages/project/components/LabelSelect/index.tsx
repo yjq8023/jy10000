@@ -1,12 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Checkbox, Input, Popover, Space } from '@sinohealth/butterfly-ui-components/lib';
-import { PlusCircleOutlined, UpOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Checkbox,
+  Empty,
+  Input,
+  Popover,
+  Space,
+} from '@sinohealth/butterfly-ui-components/lib';
+import { PlusCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { httpGetLabelList } from '@/services/project';
 
 const SearchIcon = () => <div className={`${styles['search-icon']} iconfont icon-search`} />;
 
 type LabelSelectProps = {
+  width?: string;
   mapSour?: string[];
   search?: boolean;
   add?: boolean;
@@ -19,7 +27,7 @@ type LabelSelectProps = {
  * @returns
  */
 const LabelSelect: React.FC<LabelSelectProps> = (props) => {
-  const { mapSour, search = true, add = true, onSelect, placeholder = '请输入' } = props;
+  const { width, mapSour, search = true, add = true, onSelect, placeholder = '请输入' } = props;
   const [isMap, setIsMap] = useState(false);
   const [selected, setSelected] = useState<ProjectType.LabelListRes[]>([]);
   const [source, setSource] = useState<ProjectType.LabelListRes[]>([]);
@@ -46,25 +54,27 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
 
   const httpGetLabelListReq = async () => {
     const res: any = await httpGetLabelList({});
-    console.log(res);
+    // console.log(res);
     if (!res.empty) {
-      checkedDefault(res.data, true);
+      checkedDefault(res.data, mapSour, true);
     }
   };
 
-  const checkedDefault = (arr: any, filter: boolean = false) => {
+  const checkedDefault = (arr: any, map?: string[], filter: boolean = false) => {
     const FilD: ProjectType.LabelListRes[] = [];
     arr.forEach((el: ProjectType.LabelListRes) => {
       el.children.forEach((lis: ProjectType.LabelListRes) => {
         if (filter) {
-          mapSour?.includes(lis.id) && FilD.push(lis);
+          map?.includes(lis.id) && FilD.push(lis);
+          if (!map?.includes(lis.id)) {
+            // eslint-disable-next-line no-param-reassign
+            lis.checked = false;
+          }
           setSelected(FilD);
-        } else {
-          // eslint-disable-next-line no-param-reassign
-          lis.checked = false;
         }
       });
     });
+    console.log(arr);
     setSource(arr);
   };
 
@@ -115,6 +125,9 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
           lis.checked = true;
           FilD.push(lis);
           setSelected(FilD);
+        } else {
+          // eslint-disable-next-line no-param-reassign
+          lis.checked = false;
         }
       });
       setIsMap(true);
@@ -122,7 +135,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
   }, [mapSour, source]);
 
   return (
-    <div className={styles['label-select']} ref={inputRef}>
+    <div className={styles['label-select']} style={{ width }} ref={inputRef}>
       <Popover style={{ width: '320px' }} content={selected.length ? PopoverContent : ''}>
         <div
           className={`${styles['label-value']} ${selected.length ? '' : styles.placeholder}`}
@@ -131,6 +144,21 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
           {selected.map((el) => (
             <span className={styles['select-tag']} key={el.id}>
               {el.value}
+              <span
+                style={{ fontSize: 12, marginLeft: 5 }}
+                className="iconfont icon-shibai1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const D = selected.filter((itm) => itm.id !== el.id);
+                  setSelected(D);
+
+                  checkedDefault(
+                    source,
+                    D.map((lis) => lis.id),
+                    true,
+                  );
+                }}
+              />
             </span>
           ))}
           {!selected.length ? placeholder : ''}
@@ -159,7 +187,9 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
       /> */}
       {isShowDrop ? (
         <div
-          className={styles['label-drop-container']}
+          className={`${styles['label-drop-container']} ${
+            !source.length ? styles['none-data'] : ''
+          }`}
           onClick={() => {
             inputRef?.current?.focus();
             setIsShowDrop(true);
@@ -222,6 +252,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                 ))}
               </div>
             ))}
+            {!source.length ? <Empty /> : null}
           </div>
         </div>
       ) : null}
