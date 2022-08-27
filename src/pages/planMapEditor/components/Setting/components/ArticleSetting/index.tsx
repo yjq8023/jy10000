@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Button } from '@sinohealth/butterfly-ui-components/lib';
 import style from './index.less';
 import { ArticleSettingContent } from '@/pages/planMapEditor/components/AddArticleModal';
 

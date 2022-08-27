@@ -3,7 +3,7 @@ import { Modal, Form, Input, Select, Row, Col, Table, InputNumber } from '@sinoh
 import { Link } from 'react-router-dom';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
-import LabelSelect from '@/pages/project/components/LabelSelect';
+import LabelSelect from '@/components/LabelSelect';
 import BaseList from '@/components/BaseList';
 import { httpGetContent } from '@/services/project';
 
@@ -105,7 +105,6 @@ export const ArticleSettingContent = (props: any) => {
       labelAlign="left"
       initialValues={defaultValue}
       onFinish={onFinishFn}
-      hideRequiredMark={true}
       autoComplete="off"
       layout={isMini ? 'vertical' : 'horizontal'}
     >
@@ -116,11 +115,7 @@ export const ArticleSettingContent = (props: any) => {
             name="include"
             rules={[{ required: true, message: '该字段为必填项' }]}
           >
-            <LabelSelect
-              search={false}
-              mapSour={formValue?.include}
-              onSelect={(v) => handleLabelSelect('include', v)}
-            />
+            <LabelSelect mode="multiple" placeholder="请选择包含的标签" />
           </Form.Item>
         </Col>
         <Col span={isMini ? 24 : 12}>
@@ -128,11 +123,7 @@ export const ArticleSettingContent = (props: any) => {
             label="不包含标签"
             name="exclusive"
           >
-            <LabelSelect
-              search={false}
-              mapSour={formValue?.exclusive}
-              onSelect={(v) => handleLabelSelect('exclusive', v)}
-            />
+            <LabelSelect mode="multiple" placeholder="请选择不包含的标签" />
           </Form.Item>
         </Col>
       </Row>
@@ -150,7 +141,7 @@ export const ArticleSettingContent = (props: any) => {
           {...listBodyProps}
         />
       </div>
-
+      <br />
       <div className="but-title">
         推送规则
       </div>

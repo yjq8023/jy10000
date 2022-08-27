@@ -18,7 +18,7 @@ const Setting = () => {
       <div className={style.header}>
         <div className="but-title">配置面板</div>
       </div>
-      <div className={style.body}>
+      <div className={style.body} key={selectedNode.path}>
         { isFormSetting && <FormSetting data={selectedNode} />}
         { isArticle && <ArticleSetting data={selectedNode} />}
         { isDiagnosis && <DiagnosisSetting data={selectedNode} />}
