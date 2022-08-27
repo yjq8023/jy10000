@@ -37,13 +37,13 @@ const AddDiagnosisModal = (props: any, ref: any) => {
     const newInfos = [
       {
         ...data,
-        type: planItemTypes.diagnosis,
+        itemCategory: planItemTypes.diagnosis,
       },
     ];
-    if (Array.isArray(newData.infos)) {
-      newData.infos = [...newData.infos, ...newInfos];
+    if (Array.isArray(newData.followUpItems)) {
+      newData.followUpItems = [...newData.followUpItems, ...newInfos];
     } else {
-      newData.infos = newInfos;
+      newData.followUpItems = newInfos;
     }
     setPlanMapState('update', newData.path, newData);
     setIsModalVisible(false);
@@ -64,14 +64,14 @@ const AddDiagnosisModal = (props: any, ref: any) => {
       >
         <Form.Item
           label="项目名称"
-          name="name"
+          name="itemName"
           rules={[{ required: true, message: '该字段为必填项' }]}
         >
           <Input style={{ width: '100%' }} placeholder="请输入" />
         </Form.Item>
         <Form.Item
           label="提示说明"
-          name="desc"
+          name="remark"
         >
           <Input.TextArea style={{ width: '100%' }} placeholder="请输入" />
         </Form.Item>

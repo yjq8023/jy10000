@@ -10,13 +10,13 @@ const DiagnosisSetting = (props: any) => {
         复诊复查项目
       </div>
       <div>
-        <Select style={{ width: '100%' }} />
+        <Input value={data.itemName} />
       </div>
       <div className={style.label}>
         提示说明
       </div>
       <div>
-        <Input.TextArea />
+        <Input.TextArea value={data.remark} />
       </div>
     </div>
   );
