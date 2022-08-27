@@ -29,6 +29,7 @@ export const PlanMapItem = (props: any) => {
     addFormModal,
     addArticleModal,
     addDiagnosisModal,
+    setPlanMapState,
   } = useContext(planMapContext);
   const domRef = useRef(null);
   const dictVal = useDictKeyValue();
@@ -70,15 +71,18 @@ export const PlanMapItem = (props: any) => {
   const handleClickInfo = (item: any) => {
     setSelectedNode(item);
   };
+  const handleDeleteNode = (path: string) => {
+    setPlanMapState('delete', path);
+  };
   return (
     <div className={classNames}>
       <span className={style.index}>{ index }</span>
       <div className={style.header}>
         { data.triggerNumber === 0 ? '开始' : `${timeUnitToShowUnit[data.triggerTimeUnit]}+${data.triggerNumber}`}
         { loop && (
-          <span className={style.loopText}>(每{dictVal?.DateUnit[data.triggerTimeUnit]}循环1次，持续{data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
+          <span className={style.loopText}>(每{data.triggerNumber}个{dictVal?.DateUnit[data.triggerTimeUnit]}循环1次，持续{data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
         )}
-        <span onClick={onDelete} className="iconfont icon-delete1" />
+        <span onClick={() => handleDeleteNode(data.path)} className="iconfont icon-delete1" />
       </div>
       <div className={style.body}>
         <div className={style.title}>随访项目</div>
@@ -86,7 +90,7 @@ export const PlanMapItem = (props: any) => {
           {data?.followUpItems?.map((item: any) => (
             <div className={getInfoItemCls(item.itemCategory)} key={getUuid()} onClick={() => handleClickInfo(item)}>
               <Badge color="cyan" />
-              {item.itemName}
+              {item.itemName}&nbsp;<span onClick={() => handleDeleteNode(item.path)} className="iconfont icon-delete1" />
             </div>
           ))}
         </div>

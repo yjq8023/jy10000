@@ -2,11 +2,9 @@ import React, { useState, createContext, useMemo, useRef, useEffect } from 'reac
 import { useSearchParams } from 'react-router-dom';
 import { ReactSortable } from 'react-sortablejs';
 import lodash from 'lodash';
-import { Badge } from '@sinohealth/butterfly-ui-components/lib';
+import { Badge, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import Selector from '@/pages/planMapEditor/components/Selector';
 import Canvas from '@/pages/planMapEditor/components/Canvas';
-
-import style from './index.less';
 import { getUuid } from '@/utils';
 import AddNodeModal from '@/pages/planMapEditor/components/AddNodeModal';
 import Setting from '@/pages/planMapEditor/components/Setting';
@@ -15,9 +13,11 @@ import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
 import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
 import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModal';
 import PageHeader from '@/pages/planMapEditor/components/PageHeader';
-import planMapRow from '@/pages/planMapEditor/components/PlanMapRow';
-import { planItemTypes } from '@/pages/planMapEditor/config';
+import { planItemTypes, timeUnitToShowUnit } from '@/pages/planMapEditor/config';
 import { getProjectPlanMap } from '@/services/planMapAntForm';
+
+import style from './index.less';
+import { deleteColumn } from '@/services/weapp';
 
 export const planMapContext = createContext<any>(null);
 
@@ -86,6 +86,25 @@ const PlanMapEditor = () => {
   const addFormModal = useRef<any>(null);
   const addDiagnosisModal = useRef<any>(null);
   const contextData = useMemo(() => {
+    const handleDeleteItem = (path: string) => {
+      const state = planMapState ? [...planMapState] : [];
+      const targetNode = lodash.get(state, path);
+      const name = `节点${timeUnitToShowUnit[targetNode.triggerTimeUnit]}+${targetNode.triggerNumber}`;
+      Modal.confirm({
+        title: `是否确定删除${targetNode.itemName || name}？`,
+        content: '',
+        onOk() {
+          const i = path.lastIndexOf('[');
+          const parentPath = path.substring(0, i);
+          const targetIndex = path.substring(i).replace('[', '').replace(']', '');
+          const node = lodash.get(state, parentPath);
+          node.splice(targetIndex, 1);
+          lodash.set(state, parentPath, node);
+          setPlanMapStateFn(state);
+          setSelectedNode(null);
+        },
+      });
+    };
     const handleSetValue = (type: string, path: string, data: any) => {
       const state = planMapState ? [...planMapState] : [];
       let node = path ? lodash.get(state, path) : state;
@@ -94,7 +113,8 @@ const PlanMapEditor = () => {
         return;
       }
       if (type === 'delete') {
-        node.splice(data, 1);
+        handleDeleteItem(path);
+        return;
       }
       if (type === 'update') {
         node = data;

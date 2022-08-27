@@ -64,6 +64,12 @@ const Canvas = (props: any) => {
             path: `${path}[${stepItemIndex}]`,
             isHasChildren: stepItemIndex === 0 && index === 0,
             childrenRowCount: mapData.length - 1,
+            followUpItems: stepItem.followUpItems?.map((followUpItem, followUpItemIndex) => {
+              return {
+                ...followUpItem,
+                path: `${path}[${stepItemIndex}].followUpItems[${followUpItemIndex}]`,
+              };
+            }),
           };
         }),
       };
