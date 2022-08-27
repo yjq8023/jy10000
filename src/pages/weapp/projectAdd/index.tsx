@@ -9,6 +9,7 @@ import {
   Button,
   message,
   Select,
+  Space,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
@@ -188,11 +189,15 @@ function ProjectAdd() {
         </Row>
       </Form>
       <div className="actionBar">
-        <Button onClick={onCancel}>取消</Button>
-        &nbsp; &nbsp;
-        <Button type="primary" onClick={handleSubmit}>
-          保存
-        </Button>
+        <Space>
+          <Button type="info" onClick={onCancel}>
+            取消
+          </Button>
+
+          <Button type="primary" onClick={handleSubmit}>
+            保存
+          </Button>
+        </Space>
       </div>
     </div>
   );
