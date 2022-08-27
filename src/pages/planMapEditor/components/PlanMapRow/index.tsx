@@ -43,8 +43,9 @@ const PlanMapRow = (props: any) => {
   return (
     <div className={style.planMapRow} style={{ marginLeft: `${offset * 240}px` }} ref={domRef}>
       {listData?.roadMapSteps?.map((item: any, i: number) => {
-        if (!item.loop) { index += 1; }
-        return (<PlanMapItem key={item.id} data={item} index={index} hasRootNode={loopItemIsHasRootNode(item, i)} onDelete={(itemData: any) => handleDeleteItem(itemData, index)} />);
+        const hasRootNode = loopItemIsHasRootNode(item, i);
+        if (!item.loop || !hasRootNode) { index += 1; }
+        return (<PlanMapItem key={item.id} data={item} index={index} hasRootNode={hasRootNode} onDelete={(itemData: any) => handleDeleteItem(itemData, index)} />);
       })}
     </div>
   );

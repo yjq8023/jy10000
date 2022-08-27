@@ -24,6 +24,7 @@ type ListPageProps = {
   Toolbar?: any;
   fixed?: number | boolean; // 是否让表格占满屏幕，固定高度, 值为表格到页头距离
   overflow?: boolean;
+  paginationOptions?: any; // 分页器配置
 };
 function BaseList(props: ListPageProps, ref: any) {
   const {
@@ -38,6 +39,7 @@ function BaseList(props: ListPageProps, ref: any) {
     ListTitle,
     fixed,
     overflow = true,
+    paginationOptions = {},
   } = props;
   const [form] = Form.useForm();
   const [listData, setListData] = useState<any[]>([]);
@@ -54,6 +56,7 @@ function BaseList(props: ListPageProps, ref: any) {
     showTotal(totalNum: any) {
       return `共 ${totalNum} 条数据`;
     },
+    ...paginationOptions,
   };
   const fetchListData = (paramsConfig: any = {}) => {
     const formVal = form.getFieldsValue();

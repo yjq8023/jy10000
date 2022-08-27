@@ -76,12 +76,8 @@ const planData: ProjectPlanMap.roadMaps = [
   getPlanData(5),
 ];
 const PlanMapEditor = () => {
-  const [projectPlanData, setProjectPlanData] = useState<ProjectPlanMap.data>({
-    projectId: getUuid(),
-    preInfoFormId: getUuid(),
-    readMaps: planData,
-  });
-  const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>(planData);
+  const [projectPlanData, setProjectPlanData] = useState<ProjectPlanMap.data>();
+  const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>();
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [params] = useSearchParams();
   const addNodeModalRef = useRef<any>(null);
@@ -91,7 +87,7 @@ const PlanMapEditor = () => {
   const addDiagnosisModal = useRef<any>(null);
   const contextData = useMemo(() => {
     const handleSetValue = (type: string, path: string, data: any) => {
-      const state = [...planMapState];
+      const state = planMapState ? [...planMapState] : [];
       let node = path ? lodash.get(state, path) : state;
       if (type === 'add') {
         addNodeModalRef.current.handleOpen(path);
@@ -128,7 +124,8 @@ const PlanMapEditor = () => {
     if (id) {
       getProjectPlanMap(id)
         .then((data: any) => {
-          console.log(data);
+          setProjectPlanData(data);
+          setPlanMapStateFn(data.roadMaps);
         });
     }
   }, []);

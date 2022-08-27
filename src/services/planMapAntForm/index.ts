@@ -12,6 +12,10 @@ export const getProjectPlanMap = (id: string) => {
   return request.get(`${prefix}/managerProject/findManagePlanBuProjectId/${id}`);
 };
 
+export const saveProjectPlanMap = (data: any) => {
+  return request.post(`${prefix}/managerProject/saveManagePlan`, data);
+};
+
 export default {
   getProjectPlanMap,
 };

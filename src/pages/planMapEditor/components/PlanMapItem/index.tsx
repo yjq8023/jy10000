@@ -7,8 +7,9 @@ import Sortable from 'sortablejs';
 import cls from 'classnames';
 import style from './index.less';
 import { getUuid } from '@/utils';
-import { planItemTypes } from '@/pages/planMapEditor/config';
+import { planItemTypes, timeUnitToShowUnit } from '@/pages/planMapEditor/config';
 import { planMapContext } from '@/pages/planMapEditor';
+import { useDictKeyValue } from '@/hooks/useDict';
 
 const getInfoItemCls = (type: string) => {
   return cls({
@@ -30,6 +31,7 @@ export const PlanMapItem = (props: any) => {
     addDiagnosisModal,
   } = useContext(planMapContext);
   const domRef = useRef(null);
+  const dictVal = useDictKeyValue();
   const loop = data.loop; // 是否为循环节点
   const sortableConfig = {
     sort: false,
@@ -41,8 +43,6 @@ export const PlanMapItem = (props: any) => {
     animation: 150,
     onAdd(e: any) {
       const type = e.clone.dataset.type;
-      console.log('e');
-      console.log(type);
       if (type === planItemTypes.followUp) {
         addFollowUpModal.current?.handleOpen(data);
       }
@@ -74,9 +74,9 @@ export const PlanMapItem = (props: any) => {
     <div className={classNames}>
       <span className={style.index}>{ index }</span>
       <div className={style.header}>
-        { data.durationTimes === 0 ? '开始' : `D+${data.triggerNumber}`}
+        { data.triggerNumber === 0 ? '开始' : `${timeUnitToShowUnit[data.triggerTimeUnit]}+${data.triggerNumber}`}
         { loop && (
-          <span className={style.loopText}>(持续{data.durationTimes}次/{data.triggerTimeUnit}，持续{data.durationTimes}{data.durationTimeUnit})</span>
+          <span className={style.loopText}>(每{dictVal?.DateUnit[data.triggerTimeUnit]}循环1次，持续{data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
         )}
         <span onClick={onDelete} className="iconfont icon-delete1" />
       </div>
@@ -92,7 +92,7 @@ export const PlanMapItem = (props: any) => {
         </div>
         { loop && <LinkOutlined className={style.linkIcon} />}
       </div>
-      { data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
+      { !!data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
     </div>
   );
 };

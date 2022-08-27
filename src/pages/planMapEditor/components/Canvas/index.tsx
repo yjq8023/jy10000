@@ -32,20 +32,19 @@ const Canvas = (props: any) => {
   const [planMapList, setPlanMapList] = useState<any>([]);
 
   useEffect(() => {
-    console.log('planMapState');
-    console.log(planMapState);
     if (!planMapState) return;
     setPlanMapList(transformPlanMapDataToArray(planMapState));
   }, [planMapState]);
 
   const getBeforeNode = () => {
-    if (projectPlanData.preInfoFormId) {
+    if (projectPlanData.preFormId) {
       return [
         {
           id: getUuid(),
           aiDecisionFlowsNodeId: getUuid(),
           itemName: '项目前置信息', // 名称
           itemCategory: planItemTypes.beforeInfo, // 类型
+          preFormId: projectPlanData.preFormId,
         },
       ];
     }
@@ -75,15 +74,13 @@ const Canvas = (props: any) => {
       id: getUuid(),
       aiDecisionFlowsNodeId: getUuid(),
       durationTimes: 0,
-      durationTimeUnit: 'DAY',
+      durationTimeUnit: 'DAYS',
       loop: false,
-      triggerNumber: 2,
-      triggerTimeUnit: 'YEAR',
+      triggerNumber: 0,
+      triggerTimeUnit: 'DAYS',
       isHasChildren: false,
       followUpItems: getBeforeNode(),
     });
-    console.log('newMapData');
-    console.log(newMapData);
     return newMapData;
   };
   return (

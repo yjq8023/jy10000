@@ -71,7 +71,6 @@ export const ArticleSettingContent = (props: any) => {
   };
 
   const ListBody = (data: any) => {
-    console.log(data);
     return (
       <div style={{ maxHeight: '240px', overflow: 'auto' }}>
         {data.listData?.map((item: any) => {
@@ -84,13 +83,12 @@ export const ArticleSettingContent = (props: any) => {
       </div>
     );
   };
-  const listBodyProps = isMini ? { Body: ListBody } : {};
+  const listBodyProps = isMini ? { Body: ListBody, paginationOptions: { simple: true } } : {};
   const handleLabelSelect = (key: string, value: any) => {
     form.setFieldsValue({
       [key]: value,
     });
     const values = form.getFieldsValue(['include', 'exclusive']);
-    console.log(values);
     list.current?.fetchListData({
       current: 1,
       notContainsLabelIds: values.exclusive,
