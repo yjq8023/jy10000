@@ -22,7 +22,7 @@ const getInfoItemCls = (type: string) => {
   });
 };
 export const PlanMapItem = (props: any) => {
-  const { data = {}, onDelete, index, hasRootNode } = props;
+  const { data = {}, index, hasRootNode } = props;
   const {
     setSelectedNode,
     addFollowUpModal,

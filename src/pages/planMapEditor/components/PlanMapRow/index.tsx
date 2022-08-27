@@ -29,9 +29,6 @@ const PlanMapRow = (props: any) => {
   const handleAddItem = () => {
     setPlanMapState('add', listData.path, {});
   };
-  const handleDeleteItem = (itemData: any, index: number) => {
-    setPlanMapState('delete', listData.path, index);
-  };
   let index = 0;
   // 循环节点是否存在相同周期的不循环节点，用于样式的变化
   const loopItemIsHasRootNode = (item: any, nodeIndex: number) => {
@@ -45,7 +42,7 @@ const PlanMapRow = (props: any) => {
       {listData?.roadMapSteps?.map((item: any, i: number) => {
         const hasRootNode = loopItemIsHasRootNode(item, i);
         if (!item.loop || !hasRootNode) { index += 1; }
-        return (<PlanMapItem key={item.id} data={item} index={index} hasRootNode={hasRootNode} onDelete={(itemData: any) => handleDeleteItem(itemData, index)} />);
+        return (<PlanMapItem key={item.id} data={item} index={index} hasRootNode={hasRootNode} />);
       })}
     </div>
   );
