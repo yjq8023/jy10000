@@ -86,7 +86,6 @@ declare namespace ProjectType {
     ids: string[];
     status: string;
   };
-
   type ProjectReq = {
     projectName?: string;
     labelIds?: string[];

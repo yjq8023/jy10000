@@ -36,14 +36,14 @@ const AddFollowUpModal = (props: any, ref: any) => {
     const newData = { ...nodeData };
     const newInfos = [
       {
-        name: data.name,
-        type: planItemTypes.followUp,
+        itemName: data.name,
+        itemCategory: planItemTypes.followUp,
       },
     ];
-    if (Array.isArray(newData.infos)) {
-      newData.infos = [...newData.infos, ...newInfos];
+    if (Array.isArray(newData.followUpItems)) {
+      newData.followUpItems = [...newData.followUpItems, ...newInfos];
     } else {
-      newData.infos = newInfos;
+      newData.followUpItems = newInfos;
     }
     setPlanMapState('update', newData.path, newData);
     setIsModalVisible(false);

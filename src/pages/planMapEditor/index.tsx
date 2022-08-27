@@ -1,11 +1,10 @@
-import React, { useState, createContext, useMemo, useRef } from 'react';
+import React, { useState, createContext, useMemo, useRef, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ReactSortable } from 'react-sortablejs';
 import lodash from 'lodash';
-import { Badge } from '@sinohealth/butterfly-ui-components/lib';
+import { Badge, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import Selector from '@/pages/planMapEditor/components/Selector';
 import Canvas from '@/pages/planMapEditor/components/Canvas';
-
-import style from './index.less';
 import { getUuid } from '@/utils';
 import AddNodeModal from '@/pages/planMapEditor/components/AddNodeModal';
 import Setting from '@/pages/planMapEditor/components/Setting';
@@ -13,73 +12,68 @@ import AddFollowUpModal from '@/pages/planMapEditor/components/AddFollowUpModal'
 import AddArticleModal from '@/pages/planMapEditor/components/AddArticleModal';
 import AddFormModal from '@/pages/planMapEditor/components/AddFormModal';
 import AddDiagnosisModal from '@/pages/planMapEditor/components/AddDiagnosisModal';
+import PageHeader from '@/pages/planMapEditor/components/PageHeader';
+import { planItemTypes, timeUnitToShowUnit } from '@/pages/planMapEditor/config';
+import { getProjectPlanMap } from '@/services/planMapAntForm';
+
+import style from './index.less';
+import { deleteColumn } from '@/services/weapp';
 
 export const planMapContext = createContext<any>(null);
 
-const getPlanData = (count: number) => {
-  let i = 0;
-  const d = [];
-  while (i < count) {
-    i += 1;
-    d.push({
-      id: getUuid(),
-      period: i * 10,
-      infos: [
-        {
-          name: '跟进记录表',
-          type: 'followUp',
-        },
-        {
-          name: '患教资料',
-          type: 'article',
-        },
-        {
-          name: '医学量表',
-          type: 'form',
-        },
-        {
-          name: '复诊复查',
-          type: 'diagnosis',
-        },
-      ],
-    });
-  }
-  return d;
+const defaultData = {
+  projectId: '',
+  preInfoFormId: '',
+  roadMaps: [
+    {
+      id: '1',
+      aiDecisionFlowsNodeId: '1', // ai节点标识
+      name: '项目名称',
+      projectId: 'string',
+      roadMapSteps: [],
+    },
+  ],
 };
-const planData: any = [
-  {
-    id: 1,
-    period: 0,
-    infos: [
-      {
-        name: '项目前置信息',
-        type: 'beforeInfo',
-      },
-    ],
-  },
-  ...getPlanData(4),
-];
-const c: any = getPlanData(4);
-planData[1].children = [getPlanData(4)];
-console.log(JSON.stringify(planData));
 const PlanMapEditor = () => {
-  const [planMapState, setPlanMapStateFn] = useState(planData);
+  const [projectPlanData, setProjectPlanData] = useState<ProjectPlanMap.data>();
+  const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>();
   const [selectedNode, setSelectedNode] = useState<any>(null);
+  const [params] = useSearchParams();
   const addNodeModalRef = useRef<any>(null);
   const addFollowUpModal = useRef<any>(null);
   const addArticleModal = useRef<any>(null);
   const addFormModal = useRef<any>(null);
   const addDiagnosisModal = useRef<any>(null);
   const contextData = useMemo(() => {
+    const handleDeleteItem = (path: string) => {
+      const state = planMapState ? [...planMapState] : [];
+      const targetNode = lodash.get(state, path);
+      const name = `节点${timeUnitToShowUnit[targetNode.triggerTimeUnit]}+${targetNode.triggerNumber}`;
+      Modal.confirm({
+        title: `是否确定删除${targetNode.itemName || name}？`,
+        content: '',
+        onOk() {
+          const i = path.lastIndexOf('[');
+          const parentPath = path.substring(0, i);
+          const targetIndex = path.substring(i).replace('[', '').replace(']', '');
+          const node = lodash.get(state, parentPath);
+          node.splice(targetIndex, 1);
+          lodash.set(state, parentPath, node);
+          setPlanMapStateFn(state);
+          setSelectedNode(null);
+        },
+      });
+    };
     const handleSetValue = (type: string, path: string, data: any) => {
-      const state = [...planMapState];
+      const state = planMapState ? [...planMapState] : [];
       let node = path ? lodash.get(state, path) : state;
       if (type === 'add') {
         addNodeModalRef.current.handleOpen(path);
         return;
       }
       if (type === 'delete') {
-        node.splice(data, 1);
+        handleDeleteItem(path);
+        return;
       }
       if (type === 'update') {
         node = data;
@@ -92,6 +86,7 @@ const PlanMapEditor = () => {
       }
     };
     return {
+      projectPlanData,
       planMapState,
       setPlanMapState: handleSetValue,
       selectedNode,
@@ -102,9 +97,27 @@ const PlanMapEditor = () => {
       addDiagnosisModal,
     };
   }, [planMapState, setPlanMapStateFn, selectedNode, setSelectedNode]);
+
+  useEffect(() => {
+    const id = params.get('id');
+    if (id) {
+      getProjectPlanMap(id)
+        .then((data: any) => {
+          setProjectPlanData(data);
+          setPlanMapStateFn(data.roadMaps);
+        })
+        .catch(() => {
+          // 调试用，也避免接口保存页面空白了
+          const data: any = defaultData;
+          setProjectPlanData(data);
+          setPlanMapStateFn(data.roadMaps);
+        });
+    }
+  }, []);
   return (
-    <div className={style.planMapEditor}>
-      <planMapContext.Provider value={contextData}>
+    <planMapContext.Provider value={contextData}>
+      <PageHeader />
+      <div className={style.planMapEditor}>
         <div className={style.selector}>
           <Selector />
         </div>
@@ -126,19 +139,19 @@ const PlanMapEditor = () => {
           </div>
         </div>
         {
-          selectedNode && (
-            <div className={style.config}>
-              <Setting />
-            </div>
-          )
-        }
+            selectedNode && (
+              <div className={style.config}>
+                <Setting />
+              </div>
+            )
+          }
         <AddNodeModal ref={addNodeModalRef} />
         <AddFollowUpModal ref={addFollowUpModal} />
         <AddArticleModal ref={addArticleModal} />
         <AddFormModal ref={addFormModal} />
         <AddDiagnosisModal ref={addDiagnosisModal} />
-      </planMapContext.Provider>
-    </div>
+      </div>
+    </planMapContext.Provider>
   );
 };
 

@@ -130,14 +130,14 @@ const AddFormModal = (props: any, ref: any) => {
     const newInfos = [
       {
         ...data,
-        name: data.form.name,
-        type: planItemTypes.form,
+        itemName: data.form.name,
+        itemCategory: planItemTypes.form,
       },
     ];
     if (Array.isArray(newData.infos)) {
-      newData.infos = [...newData.infos, ...newInfos];
+      newData.followUpItems = [...newData.infos, ...newInfos];
     } else {
-      newData.infos = newInfos;
+      newData.followUpItems = newInfos;
     }
     setPlanMapState('update', newData.path, newData);
     setIsModalVisible(false);

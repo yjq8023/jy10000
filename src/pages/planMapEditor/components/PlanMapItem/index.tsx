@@ -7,8 +7,9 @@ import Sortable from 'sortablejs';
 import cls from 'classnames';
 import style from './index.less';
 import { getUuid } from '@/utils';
-import { planItemTypes } from '@/pages/planMapEditor/config';
+import { planItemTypes, timeUnitToShowUnit } from '@/pages/planMapEditor/config';
 import { planMapContext } from '@/pages/planMapEditor';
+import { useDictKeyValue } from '@/hooks/useDict';
 
 const getInfoItemCls = (type: string) => {
   return cls({
@@ -21,16 +22,18 @@ const getInfoItemCls = (type: string) => {
   });
 };
 export const PlanMapItem = (props: any) => {
-  const { data = {}, onDelete, index, hasRootNode } = props;
+  const { data = {}, index, hasRootNode } = props;
   const {
     setSelectedNode,
     addFollowUpModal,
     addFormModal,
     addArticleModal,
     addDiagnosisModal,
+    setPlanMapState,
   } = useContext(planMapContext);
   const domRef = useRef(null);
-  const isLoop = data.isLoop; // 是否为循环节点
+  const dictVal = useDictKeyValue();
+  const loop = data.loop; // 是否为循环节点
   const sortableConfig = {
     sort: false,
     group: {
@@ -41,8 +44,6 @@ export const PlanMapItem = (props: any) => {
     animation: 150,
     onAdd(e: any) {
       const type = e.clone.dataset.type;
-      console.log('e');
-      console.log(type);
       if (type === planItemTypes.followUp) {
         addFollowUpModal.current?.handleOpen(data);
       }
@@ -58,43 +59,55 @@ export const PlanMapItem = (props: any) => {
     },
   };
   useEffect(() => {
-    console.log('data');
-    console.log(data);
     const sortObj = new Sortable(domRef.current, sortableConfig);
   }, []);
   const classNames = cls({
     [style.planMapItem]: true,
     [style.planMapItemHasChildren]: data.isHasChildren,
-    [style.first]: data.period === 0,
-    [style.loopItem]: isLoop,
+    [style.first]: data.durationTimes === 0,
+    [style.loopItem]: loop,
     [style.hasRootNode]: hasRootNode,
   });
   const handleClickInfo = (item: any) => {
     setSelectedNode(item);
   };
+  const handleDeleteNode = (path: string) => {
+    setPlanMapState('delete', path);
+  };
   return (
     <div className={classNames}>
       <span className={style.index}>{ index }</span>
       <div className={style.header}>
-        { data.period === 0 ? '开始' : `D+${data.period}`}
-        { isLoop && (
-          <span className={style.loopText}>(循环{data.loopCount}次/月，持续6月)</span>
+        { data.triggerNumber === 0 ? '开始' : `${timeUnitToShowUnit[data.triggerTimeUnit]}+${data.triggerNumber}`}
+        { loop && (
+          <span className={style.loopText}>(每{data.triggerNumber}个{dictVal?.DateUnit[data.triggerTimeUnit]}循环1次，持续{data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
         )}
-        <span onClick={onDelete} className="iconfont icon-delete1" />
+        {
+          !data.aiDecisionFlowsNodeId && (
+            <span onClick={() => handleDeleteNode(data.path)} className="iconfont icon-delete1" />
+          )
+        }
+
       </div>
       <div className={style.body}>
         <div className={style.title}>随访项目</div>
         <div className={style.infos} ref={domRef}>
-          {data?.infos?.map((item: any) => (
-            <div className={getInfoItemCls(item.type)} key={getUuid()} onClick={() => handleClickInfo(item)}>
+          {data?.followUpItems?.map((item: any) => (
+            <div className={getInfoItemCls(item.itemCategory)} key={getUuid()} onClick={() => handleClickInfo(item)}>
               <Badge color="cyan" />
-              {item.name}
+              {item.itemName}
+              &nbsp;
+              {
+                !item.aiDecisionFlowsNodeId && (
+                  <span onClick={() => handleDeleteNode(item.path)} className="iconfont icon-delete1" />
+                )
+              }
             </div>
           ))}
         </div>
-        { isLoop && <LinkOutlined className={style.linkIcon} />}
+        { loop && <LinkOutlined className={style.linkIcon} />}
       </div>
-      { data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
+      { !!data.isHasChildren && <div className={style.borderDom} style={{ height: `${data.childrenRowCount * 100}%` }} />}
     </div>
   );
 };
