@@ -82,7 +82,12 @@ export const PlanMapItem = (props: any) => {
         { loop && (
           <span className={style.loopText}>(每{data.triggerNumber}个{dictVal?.DateUnit[data.triggerTimeUnit]}循环1次，持续{data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
         )}
-        <span onClick={() => handleDeleteNode(data.path)} className="iconfont icon-delete1" />
+        {
+          !data.aiDecisionFlowsNodeId && (
+            <span onClick={() => handleDeleteNode(data.path)} className="iconfont icon-delete1" />
+          )
+        }
+
       </div>
       <div className={style.body}>
         <div className={style.title}>随访项目</div>
@@ -90,7 +95,13 @@ export const PlanMapItem = (props: any) => {
           {data?.followUpItems?.map((item: any) => (
             <div className={getInfoItemCls(item.itemCategory)} key={getUuid()} onClick={() => handleClickInfo(item)}>
               <Badge color="cyan" />
-              {item.itemName}&nbsp;<span onClick={() => handleDeleteNode(item.path)} className="iconfont icon-delete1" />
+              {item.itemName}
+              &nbsp;
+              {
+                !item.aiDecisionFlowsNodeId && (
+                  <span onClick={() => handleDeleteNode(item.path)} className="iconfont icon-delete1" />
+                )
+              }
             </div>
           ))}
         </div>
