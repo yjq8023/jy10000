@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import lodash from 'lodash';
 import { Badge } from '@sinohealth/butterfly-ui-components/lib';
 import { LinkOutlined } from '@ant-design/icons';
 // @ts-ignore
@@ -30,6 +31,7 @@ export const PlanMapItem = (props: any) => {
     addArticleModal,
     addDiagnosisModal,
     setPlanMapState,
+    planMapState,
   } = useContext(planMapContext);
   const domRef = useRef(null);
   const dictVal = useDictKeyValue();
@@ -39,11 +41,12 @@ export const PlanMapItem = (props: any) => {
     group: {
       name: 'action',
       pull: 'clone',
-      put: 'action',
+      put: data.triggerNumber === 0 ? false : 'action',
     },
     animation: 150,
     onAdd(e: any) {
-      const type = e.clone.dataset.type;
+      // type 有值代表新增，path是复制
+      const { type, path } = e.clone.dataset;
       if (type === planItemTypes.followUp) {
         addFollowUpModal.current?.handleOpen(data);
       }
@@ -55,6 +58,21 @@ export const PlanMapItem = (props: any) => {
       }
       if (type === planItemTypes.diagnosis) {
         addDiagnosisModal.current?.handleOpen(data);
+      }
+      if (path) {
+        // 克隆数据
+        const forItem = lodash.get(planMapState, path);
+        const newItems = JSON.parse(JSON.stringify(forItem));
+        delete newItems.id;
+        delete newItems.aiDecisionFlowsNodeId;
+        delete newItems.projectPlanStepId;
+        setPlanMapState('update', data.path, {
+          ...data,
+          followUpItems: [
+            ...data.followUpItems,
+            newItems,
+          ],
+        });
       }
     },
   };
@@ -93,7 +111,7 @@ export const PlanMapItem = (props: any) => {
         <div className={style.title}>随访项目</div>
         <div className={style.infos} ref={domRef}>
           {data?.followUpItems?.map((item: any) => (
-            <div className={getInfoItemCls(item.itemCategory)} key={getUuid()} onClick={() => handleClickInfo(item)}>
+            <div className={getInfoItemCls(item.itemCategory)} data-path={item.path} key={getUuid()} onClick={() => handleClickInfo(item)}>
               <Badge color="cyan" />
               {item.itemName}
               &nbsp;
