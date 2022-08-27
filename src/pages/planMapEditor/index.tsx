@@ -21,60 +21,19 @@ import { deleteColumn } from '@/services/weapp';
 
 export const planMapContext = createContext<any>(null);
 
-const getPlanData = (count: number): ProjectPlanMap.roadMapItem => {
-  let i = 0;
-  const d: ProjectPlanMap.roadMapStepItem[] = [];
-  while (i < count) {
-    i += 1;
-    d.push({
-      id: getUuid(),
-      aiDecisionFlowsNodeId: getUuid(),
-      triggerNumber: i * 10,
-      triggerTimeUnit: 'DAY',
-      loop: false,
-      durationTimes: 2,
-      durationTimeUnit: 'YEAR',
-      followUpItems: [
-        {
-          id: getUuid(),
-          aiDecisionFlowsNodeId: getUuid(),
-          itemName: '测试量表', // 名称
-          itemCategory: planItemTypes.form, // 类型
-        },
-        {
-          id: getUuid(),
-          aiDecisionFlowsNodeId: getUuid(),
-          itemName: '跟进记录表', // 名称
-          itemCategory: planItemTypes.followUp, // 类型
-        },
-        {
-          id: getUuid(),
-          aiDecisionFlowsNodeId: getUuid(),
-          itemName: '患教资料', // 名称
-          itemCategory: planItemTypes.article, // 类型
-        },
-        {
-          id: getUuid(),
-          aiDecisionFlowsNodeId: getUuid(),
-          itemName: '复诊复查', // 名称
-          itemCategory: planItemTypes.diagnosis, // 类型
-        },
-      ],
-    });
-  }
-  return {
-    id: getUuid(),
-    aiDecisionFlowsNodeId: getUuid(), // ai节点标识
-    name: '测试项目', // 项目名称
-    projectId: getUuid(), // 项目标识
-    roadMapSteps: d,
-  };
+const defaultData = {
+  projectId: '',
+  preInfoFormId: '',
+  roadMaps: [
+    {
+      id: '1',
+      aiDecisionFlowsNodeId: '1', // ai节点标识
+      name: '项目名称',
+      projectId: 'string',
+      roadMapSteps: [],
+    },
+  ],
 };
-const planData: ProjectPlanMap.roadMaps = [
-  getPlanData(4),
-  getPlanData(3),
-  getPlanData(5),
-];
 const PlanMapEditor = () => {
   const [projectPlanData, setProjectPlanData] = useState<ProjectPlanMap.data>();
   const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>();
@@ -144,6 +103,12 @@ const PlanMapEditor = () => {
     if (id) {
       getProjectPlanMap(id)
         .then((data: any) => {
+          setProjectPlanData(data);
+          setPlanMapStateFn(data.roadMaps);
+        })
+        .catch(() => {
+          // 调试用，也避免接口保存页面空白了
+          const data: any = defaultData;
           setProjectPlanData(data);
           setPlanMapStateFn(data.roadMaps);
         });

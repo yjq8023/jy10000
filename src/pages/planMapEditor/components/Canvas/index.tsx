@@ -51,6 +51,8 @@ const Canvas = (props: any) => {
     return [];
   };
   const transformPlanMapDataToArray = (mapData: ProjectPlanMap.roadMaps) => {
+    console.log('mapData');
+    console.log(mapData);
     const newMapData = mapData.map((item, index) => {
       const path = `[${index}].roadMapSteps`;
       const offset = index === 0 ? 0 : 1;

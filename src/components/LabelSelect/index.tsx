@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Select } from '@sinohealth/butterfly-ui-components/lib';
 import { httpGetLabelList } from '@/services/project';
+import { getUuid } from '@/utils';
 
 const LabelSelect = (props: any) => {
   const [labelList, setLabelList] = useState<any>([]);
   useEffect(() => {
     httpGetLabelList({})
       .then((data) => {
-        console.log('data');
-        console.log(data);
         setLabelList(data.data);
       });
   }, []);
@@ -16,7 +15,7 @@ const LabelSelect = (props: any) => {
     <Select {...props}>
       {labelList.map((group: any) => {
         return (
-          <Select.OptGroup label={group.value} key={group.id}>
+          <Select.OptGroup label={group.value} key={getUuid()}>
             {
               group.children.map((item: any) => {
                 return (

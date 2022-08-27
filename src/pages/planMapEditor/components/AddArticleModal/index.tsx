@@ -7,6 +7,8 @@ import LabelSelect from '@/components/LabelSelect';
 import BaseList from '@/components/BaseList';
 import { httpGetContent } from '@/services/project';
 
+import style from './index.less';
+
 const columns = [
   {
     title: '序号',
@@ -34,13 +36,24 @@ const columns = [
 ];
 
 export const ArticleSettingContent = (props: any) => {
-  const { isMini, form, onFinish, formValue } = props;
+  const { isMini, form, onFinish, formValue = {}, ...otherProps } = props;
   const list = useRef<any>();
   useEffect(() => {
     if (formValue) {
       form.setFieldsValue(formValue);
+      list.current?.fetchListData({
+        current: 1,
+        notContainsLabelIds: formValue.exclusive,
+        labelIds: formValue.include,
+      });
     }
   }, [formValue]);
+  const getDefaultParams = () => {
+    return Promise.resolve({
+      notContainsLabelIds: formValue.exclusive,
+      labelIds: formValue.include,
+    });
+  };
   const onFinishFn = (data: any) => {
     onFinish && onFinish(data);
   };
@@ -72,22 +85,20 @@ export const ArticleSettingContent = (props: any) => {
 
   const ListBody = (data: any) => {
     return (
-      <div style={{ maxHeight: '240px', overflow: 'auto' }}>
+      <div className={style.customList}>
         {data.listData?.map((item: any) => {
           return (
-            <div>
+            <div className={style.listItem}>
               { item.title }
             </div>
           );
         })}
+        { data.listData.length === 0 && '暂无数据'}
       </div>
     );
   };
   const listBodyProps = isMini ? { Body: ListBody, paginationOptions: { simple: true } } : {};
-  const handleLabelSelect = (key: string, value: any) => {
-    form.setFieldsValue({
-      [key]: value,
-    });
+  const onFieldsChange = (changeFields: any) => {
     const values = form.getFieldsValue(['include', 'exclusive']);
     list.current?.fetchListData({
       current: 1,
@@ -103,10 +114,13 @@ export const ArticleSettingContent = (props: any) => {
       labelCol={{ span: isMini ? 24 : 6 }}
       wrapperCol={{ span: isMini ? 24 : 16 }}
       labelAlign="left"
+      hideRequiredMark={true}
       initialValues={defaultValue}
+      onFieldsChange={onFieldsChange}
       onFinish={onFinishFn}
       autoComplete="off"
       layout={isMini ? 'vertical' : 'horizontal'}
+      {...otherProps}
     >
       <Row>
         <Col span={isMini ? 24 : 12}>
@@ -127,16 +141,13 @@ export const ArticleSettingContent = (props: any) => {
           </Form.Item>
         </Col>
       </Row>
-
-      <div className="but-title">
-        筛选结果
-      </div>
-      <div>
+      <div className={style.listBox}>
         <BaseList
           ListTitle="筛选结果"
           fetchApi={fetchAPi}
           columns={columns}
           list={list}
+          getDefaultParams={getDefaultParams}
           BodyProps={{ scroll: { y: 240 } }}
           {...listBodyProps}
         />
@@ -170,6 +181,7 @@ const AddArticleModal = (props: any, ref: any) => {
   const handleOpen = (node: any) => {
     setNodeData(node);
     setIsModalVisible(true);
+    form.resetFields();
   };
 
   const handleOk = () => {
