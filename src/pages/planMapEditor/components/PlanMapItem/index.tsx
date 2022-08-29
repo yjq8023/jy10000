@@ -98,7 +98,7 @@ export const PlanMapItem = (props: any) => {
       <div className={style.header}>
         { data.triggerNumber === 0 ? '开始' : `${timeUnitToShowUnit[data.triggerTimeUnit]}+${data.triggerNumber}`}
         { loop && (
-          <span className={style.loopText}>(每{data.triggerNumber}个{dictVal?.DateUnit[data.triggerTimeUnit]}循环1次，持续{data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
+          <span className={style.loopText}>(持续周期：{data.triggerNumber}{dictVal?.DateUnit[data.triggerTimeUnit]}/次 {data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
         )}
         {
           !data.aiDecisionFlowsNodeId && (

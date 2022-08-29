@@ -61,7 +61,7 @@ const TermLibrary: React.FC = () => {
     return (
       <Space size="middle">
         {isUp ? (
-          <a onClick={() => console.log(itemData)}>查看管理计划</a>
+          <a onClick={() => navigate(`editor?id=${itemData.id}`)}>查看管理计划</a>
         ) : (
           <a onClick={() => navigate(`editor?id=${itemData.id}`)}>编辑管理计划</a>
           // <a>编辑管理计划</a>

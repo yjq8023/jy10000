@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { Button, Breadcrumb, message } from '@sinohealth/butterfly-ui-components/lib';
-import { Link, useLocation } from 'react-router-dom';
+import { Button, Breadcrumb, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 // @ts-ignore
 import lodash from 'lodash';
 import { breadcrumbMap } from '@/config/router';
@@ -12,6 +12,7 @@ import { saveProjectPlanMap } from '@/services/planMapAntForm';
 const PageHeader = () => {
   const { projectPlanData, planMapState } = useContext(planMapContext);
   const location = useLocation();
+  const navigate = useNavigate();
   const pathSnippets = location.pathname.split('/').filter((i) => i);
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
@@ -34,13 +35,22 @@ const PageHeader = () => {
       message.success('保存成功');
     });
   };
+  const handleCancel = () => {
+    Modal.confirm({
+      title: '是否确定取消编辑？',
+      content: '尚未保存的信息将丢失',
+      onOk() {
+        navigate(-1);
+      },
+    });
+  };
   return (
     <div className={[style.pageHeader, 'pageHeader'].join(' ')}>
       <Breadcrumb>{extraBreadcrumbItems}</Breadcrumb>
       <div className={style.title}>
         编辑管理计划
         <div style={{ float: 'right', display: 'inline-block', marginTop: '-10px' }}>
-          <Button>取消</Button>
+          <Button onClick={handleCancel}>取消</Button>
           &nbsp;
           &nbsp;
           <Button type="primary" onClick={handleSave}>保存</Button>

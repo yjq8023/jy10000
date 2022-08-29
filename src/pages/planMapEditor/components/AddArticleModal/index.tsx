@@ -1,5 +1,5 @@
 import React, { useState, useImperativeHandle, useContext, useRef, useEffect } from 'react';
-import { Modal, Form, Input, Select, Row, Col, Table, InputNumber } from '@sinohealth/butterfly-ui-components/lib';
+import { Modal, Form, Input, Select, Row, Col, Popover, InputNumber } from '@sinohealth/butterfly-ui-components/lib';
 import { Link } from 'react-router-dom';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
@@ -8,6 +8,19 @@ import BaseList from '@/components/BaseList';
 import { httpGetContent } from '@/services/project';
 
 import style from './index.less';
+import styles from '@/pages/project/articleLibrary/index.less';
+
+const PopoverContent = (record: ProjectType.ContentRes) => {
+  return (
+    <div className={styles.sortDom}>
+      {record.labelVoList.map((el, ids) => (
+        <div className={styles.tag} key={el.id}>
+          {el.name}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const columns = [
   {
@@ -23,6 +36,37 @@ const columns = [
     title: '标题',
     dataIndex: 'title',
     key: 'title',
+  },
+  {
+    title: '标签',
+    dataIndex: 'weight',
+    key: 'weight',
+    width: 200,
+    render(text: string, record: ProjectType.ContentRes, index: number) {
+      if (!record.status) {
+        return '--';
+      }
+      return (
+        <Popover
+          trigger="click"
+          content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
+        >
+          <div
+            className={`${styles.sortDom} ${record.labelVoList.length > 2 ? styles.pointer : ''}`}
+          >
+            {record.labelVoList.length
+              ? record.labelVoList.map((el, ids) =>
+                ids < 2 ? (
+                  <div className={styles.tag} key={el.id}>
+                    {el.name}
+                  </div>
+                ) : null,
+              )
+              : '--'}
+          </div>
+        </Popover>
+      );
+    },
   },
   {
     title: '操作',
