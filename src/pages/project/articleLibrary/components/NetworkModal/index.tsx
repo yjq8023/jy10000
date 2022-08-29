@@ -86,7 +86,7 @@ const NetworkModal: React.FC<NetworkModalProps> = (props) => {
               <Input
                 value={networkUrl}
                 style={{ width: 260 }}
-                placeholder="网络资源地址"
+                placeholder="http:// | https:// | 网络资源地址"
                 onChange={(v: any) => setNetworkUrl(v.target.value)}
               />
               <Button
@@ -168,7 +168,7 @@ const NetworkModal: React.FC<NetworkModalProps> = (props) => {
                         setMediaSource(D);
                       }}
                     />
-                    <video autoPlay>
+                    <video onError={() => console.log(el.url)} onLoad={() => {}}>
                       <source src={el.url} type="video/mp4" />
                       <track src="captions_en.vtt" kind="captions" label="english_captions" />
                     </video>

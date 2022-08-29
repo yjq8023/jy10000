@@ -8,6 +8,8 @@ import { baseURL, scope } from '@/config/base';
 
 interface CustomUploadProps extends UploadProps {
   value?: any;
+  uploadType?: 'IMAGE' | 'VIDEO';
+  uploadSize?: 'KB' | 'MB';
   onChange?: (values: any) => void;
   onUpload?: (values: any) => void;
   renderList?: any;
@@ -108,7 +110,11 @@ const CustomUpload: React.FC<CustomUploadProps> = (props) => {
       }
       const isLt1M = file.size / 1024 / 1024 < maxSize;
       if (!isLt1M) {
-        message.error(`上传图片不能大于${maxSize}MB!`);
+        message.error(
+          `上传${props.uploadType === 'VIDEO' ? '视频' : '图片'}不能大于${maxSize}${
+            props.uploadSize || 'MB'
+          }!`,
+        );
       }
       return isLt1M;
     },

@@ -204,10 +204,6 @@ export const breadcrumbMap = {
       library: {
         label: '项目库',
         path: '/project/term/library',
-        editor: {
-          label: '编辑管理路径',
-          path: '/project/term/library/editor',
-        },
       },
     },
     database: {
