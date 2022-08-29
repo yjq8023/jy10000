@@ -90,13 +90,16 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
                 required: true,
                 validator: (rule, value, callback) => {
                   try {
-                    if (value && value.trim() === '') {
-                      callback('项目名称不能为空');
-                    } else {
-                      callback();
+                    if (!value) {
+                      throw new Error('项目名称不能为空');
+                      // await callback('项目名称不能为空');
                     }
-                  } catch (err) {
-                    callback();
+                    if (value && value.trim() === '') {
+                      throw new Error('项目名称不能为空');
+                      // await callback('项目名称不能为空');
+                    }
+                  } catch (err: any) {
+                    callback(err);
                   }
                 },
               },
@@ -140,13 +143,14 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
                 required: true,
                 validator: (rule, value, callback) => {
                   try {
-                    if (value && value.trim() === '') {
-                      callback('版本号不能为空');
-                    } else {
-                      callback();
+                    if (!value) {
+                      throw new Error('版本号不能为空');
                     }
-                  } catch (err) {
-                    callback();
+                    if (value && value.trim() === '') {
+                      throw new Error('版本号不能为空');
+                    }
+                  } catch (err: any) {
+                    callback(err);
                   }
                 },
               },

@@ -82,6 +82,17 @@ declare namespace ProjectType {
     canChoose: boolean;
   };
 
+  type SaveOrUpdateReq = {
+    id?: string;
+    tenantId?: string;
+    name?: string;
+    code?: string;
+    categoryName?: string;
+    sort?: string;
+    status?: string;
+    extValues?: {};
+  };
+
   type UpdateStatusReq = {
     ids: string[];
     status: string;
