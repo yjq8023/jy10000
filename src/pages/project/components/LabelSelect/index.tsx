@@ -40,18 +40,34 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
   const inputRef = useRef<any>(null);
   const [isShowDrop, setIsShowDrop] = useState(false);
 
-  const handleChecked = (e: any, fidx: any, sidx: any, val: any) => {
-    const coDa = source.slice();
+  const handleChecked = (
+    sor: ProjectType.LabelListRes[],
+    e: any,
+    fidx: any,
+    sidx: any,
+    val: any,
+  ) => {
+    const coDa = rebuildTreeData(sor.slice(), searchValue);
     coDa[fidx].children[sidx].checked = e;
     const coSe = selected.slice();
     if (e) {
       coSe.push(coDa[fidx].children[sidx]);
       setSelected(coSe);
+      checkedDefault(
+        source,
+        coSe.map((el) => el.id),
+        true,
+      );
     } else {
       const d = coSe.filter((el: any) => el.id !== val);
       setSelected(d);
+      checkedDefault(
+        source,
+        d.map((el) => el.id),
+        true,
+      );
     }
-    setSource(coDa);
+    // setSource(coDa);
   };
 
   // 添加标签
@@ -78,10 +94,14 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
     arr.forEach((el: ProjectType.LabelListRes) => {
       el.children.forEach((lis: ProjectType.LabelListRes) => {
         if (filter) {
-          map?.includes(lis.id) && FilD.push(lis);
           if (!map?.includes(lis.id)) {
             // eslint-disable-next-line no-param-reassign
             lis.checked = false;
+          }
+          if (map?.includes(lis.id)) {
+            FilD.push(lis);
+            // eslint-disable-next-line no-param-reassign
+            lis.checked = true;
           }
           setSelected(FilD);
         } else {
@@ -90,7 +110,6 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
         }
       });
     });
-    console.log(arr);
     setSource(arr);
   };
 
@@ -243,7 +262,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
               <div className={styles['drop-search']}>
                 <Input
                   style={{
-                    width: add ? '100%' : '310px',
+                    // width: add ? '100%' : '310px',
                     border: 0,
                     backgroundColor: 'rgba(0,0,0,0.04)',
                   }}
@@ -266,7 +285,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
             ) : null}
 
             <div className={styles['drop-container']}>
-              {source?.map((item, idx: number) => (
+              {rebuildTreeData(source, searchValue)?.map((item, idx: number) => (
                 <div className={`${styles['drop-father']}`} key={item.value}>
                   {/* <div className={`${styles.father}  iconfont icon-arrow-up`}> */}
                   <div className={`${styles.father}`}>
@@ -289,12 +308,14 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                           alignItems: 'center',
                           justifyContent: 'space-between',
                         }}
-                        onClick={() => handleChecked(!el.checked, idx, index, el.id)}
+                        onClick={() => handleChecked(source, !el.checked, idx, index, el.id)}
                       >
                         <span className={styles['son-label']}>{el.value}</span>
                         <Checkbox
                           checked={el.checked}
-                          onChange={(e) => handleChecked(e.target.checked, idx, index, el.id)}
+                          onChange={(e) =>
+                            handleChecked(source, e.target.checked, idx, index, el.id)
+                          }
                         />
                       </div>
                     </div>
