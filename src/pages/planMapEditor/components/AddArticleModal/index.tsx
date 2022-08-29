@@ -81,6 +81,7 @@ const columns = [
 
 export const ArticleSettingContent = (props: any) => {
   const { isMini, form, onFinish, formValue = {}, ...otherProps } = props;
+  const { disabled } = useContext(planMapContext);
   const list = useRef<any>();
   useEffect(() => {
     if (formValue) {
@@ -105,7 +106,7 @@ export const ArticleSettingContent = (props: any) => {
     const { value, onChange } = p;
     return (
       <div>
-        本周期推送 <InputNumber value={value} onChange={onChange} style={{ width: '100px' }} min={1} /> 篇患教文章
+        本周期推送 <InputNumber disabled={disabled} value={value} onChange={onChange} style={{ width: '80px' }} min={1} /> 篇患教文章
       </div>
     );
   };
@@ -173,7 +174,7 @@ export const ArticleSettingContent = (props: any) => {
             name="include"
             rules={[{ required: true, message: '该字段为必填项' }]}
           >
-            <LabelSelect mode="multiple" placeholder="请选择包含的标签" />
+            <LabelSelect disabled={disabled} mode="multiple" placeholder="请选择包含的标签" />
           </Form.Item>
         </Col>
         <Col span={isMini ? 24 : 12}>
@@ -181,7 +182,7 @@ export const ArticleSettingContent = (props: any) => {
             label="不包含标签"
             name="exclusive"
           >
-            <LabelSelect mode="multiple" placeholder="请选择不包含的标签" />
+            <LabelSelect disabled={disabled} mode="multiple" placeholder="请选择不包含的标签" />
           </Form.Item>
         </Col>
       </Row>

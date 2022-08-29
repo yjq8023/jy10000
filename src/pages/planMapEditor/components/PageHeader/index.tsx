@@ -10,7 +10,7 @@ import style from '@/components/PageHeader/index.less';
 import { saveProjectPlanMap } from '@/services/planMapAntForm';
 
 const PageHeader = () => {
-  const { projectPlanData, planMapState } = useContext(planMapContext);
+  const { projectPlanData, planMapState, disabled } = useContext(planMapContext);
   const location = useLocation();
   const navigate = useNavigate();
   const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -50,10 +50,19 @@ const PageHeader = () => {
       <div className={style.title}>
         编辑管理计划
         <div style={{ float: 'right', display: 'inline-block', marginTop: '-10px' }}>
-          <Button onClick={handleCancel}>取消</Button>
-          &nbsp;
-          &nbsp;
-          <Button type="primary" onClick={handleSave}>保存</Button>
+          {
+            disabled && (<Button onClick={() => navigate(-1)}>返回</Button>)
+          }
+          {
+            !disabled && (
+              <>
+                <Button onClick={handleCancel}>取消</Button>
+                &nbsp;
+                &nbsp;
+                <Button type="primary" onClick={handleSave}>保存</Button>
+              </>
+            )
+          }
         </div>
       </div>
     </div>

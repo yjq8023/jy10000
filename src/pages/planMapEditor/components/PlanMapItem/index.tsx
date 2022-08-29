@@ -32,6 +32,7 @@ export const PlanMapItem = (props: any) => {
     addDiagnosisModal,
     setPlanMapState,
     planMapState,
+    disabled,
   } = useContext(planMapContext);
   const domRef = useRef(null);
   const dictVal = useDictKeyValue();
@@ -41,7 +42,7 @@ export const PlanMapItem = (props: any) => {
     group: {
       name: 'action',
       pull: 'clone',
-      put: data.triggerNumber === 0 ? false : 'action',
+      put: data.triggerNumber === 0 || disabled ? false : 'action',
     },
     animation: 150,
     onAdd(e: any) {
@@ -101,7 +102,7 @@ export const PlanMapItem = (props: any) => {
           <span className={style.loopText}>(持续周期：{data.triggerNumber}{dictVal?.DateUnit[data.triggerTimeUnit]}/次 {data.durationTimes}{dictVal?.DateUnit[data.durationTimeUnit]})</span>
         )}
         {
-          !data.aiDecisionFlowsNodeId && (
+          !data.aiDecisionFlowsNodeId && !disabled && (
             <span onClick={() => handleDeleteNode(data.path)} className="iconfont icon-delete1" />
           )
         }
@@ -116,7 +117,7 @@ export const PlanMapItem = (props: any) => {
               {item.itemName}
               &nbsp;
               {
-                !item.aiDecisionFlowsNodeId && (
+                !item.aiDecisionFlowsNodeId && !disabled && (
                   <span onClick={() => handleDeleteNode(item.path)} className="iconfont icon-delete1" />
                 )
               }

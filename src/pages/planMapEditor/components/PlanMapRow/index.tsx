@@ -9,11 +9,11 @@ import { getUuid } from '@/utils';
 const PlanMapRow = (props: any) => {
   const { listData, onChange, offset = 0 } = props;
   const domRef = useRef(null);
-  const { setPlanMapState } = useContext(planMapContext);
+  const { setPlanMapState, disabled } = useContext(planMapContext);
   const sortableConfig = {
     group: {
       pull: 'clone',
-      put: 'container',
+      put: disabled ? false : 'container',
     },
     animation: 150,
     onAdd(e: any) {
