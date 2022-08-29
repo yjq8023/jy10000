@@ -54,7 +54,7 @@ const UploadCover: React.FC<CustomUploadProps> = (props) => {
       }
       const isLt1M = file.size / 1024 / 1024 < maxSize;
       if (!isLt1M) {
-        message.error(`上传图片不能大于${maxSize}MB!`);
+        message.error(`上传图片不能大于${maxSize * 100}KB!`);
       }
       return isLt1M;
     },
