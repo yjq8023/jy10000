@@ -64,7 +64,7 @@ const UpdateLabel: React.FC<UpdateLabelProps> = (props) => {
         >
           <Form.Item label="标签" name="labelIds">
             <LabelSelect
-              search={false}
+              search={true}
               mapSour={labelMapSour}
               placeholder="请选择标签"
               onSelect={(v) =>

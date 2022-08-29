@@ -100,6 +100,10 @@ const NetworkModal: React.FC<NetworkModalProps> = (props) => {
                   //   message.error('输入的地址有问题');
                   //   return;
                   // }
+                  if (!networkUrl || networkUrl.trim() === '') {
+                    message.error('请输入正确的地址');
+                    return;
+                  }
                   const F = {
                     id: new Date().getTime(),
                     name: '',
