@@ -39,7 +39,7 @@ interface MEDIATYPE {
 
 const controls: any = [
   'headings',
-  'font-family',
+  // 'font-family',
   'font-size',
   'line-height',
   'letter-spacing',
@@ -57,7 +57,7 @@ const controls: any = [
   'subscript',
   'underline',
   'separator',
-  'blockquote',
+  // 'blockquote',
   // 'code',
   // 'emoji',
   'hr',
@@ -116,6 +116,7 @@ const ArticleInsert: React.FC = () => {
         return new Promise((resolve) => {
           const timer = setTimeout(() => {
             resolve(true);
+            handleSaveContent();
             clearTimeout(timer);
           }, 1000);
         }).catch(() => console.log('Oops errors!'));
@@ -184,6 +185,8 @@ const ArticleInsert: React.FC = () => {
           showUploadList={false}
           accept="video/mp4"
           maxSize={10}
+          uploadType="VIDEO"
+          uploadSize="MB"
           onUpload={(v) => {
             if (Object.keys(v).length) {
               const { response } = v;
