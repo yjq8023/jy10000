@@ -57,19 +57,23 @@ const NetworkModal: React.FC<NetworkModalProps> = (props) => {
         onCancel={() => onCancel && onCancel()}
         footer={[
           <Button key="back" type="link" onClick={() => setIsNetwork(!isNetwork)}>
-            {!isNetwork ? '添加网络资源' : '添加本地资源'}
+            {!isNetwork ? '添加网络资源' : '返回'}
           </Button>,
-          <Button key="cancel" type="info" onClick={() => onCancel && onCancel()}>
-            取消
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            disabled={!currentSelect.length}
-            onClick={() => onOk && onOk(currentSelect)}
-          >
-            保存
-          </Button>,
+          !isNetwork ? (
+            <Space key="network">
+              <Button key="cancel" type="info" onClick={() => onCancel && onCancel()}>
+                取消
+              </Button>
+              <Button
+                key="submit"
+                type="primary"
+                disabled={!currentSelect.length}
+                onClick={() => onOk && onOk(currentSelect)}
+              >
+                保存
+              </Button>
+            </Space>
+          ) : null,
         ]}
       >
         <div className={`${styles['network-container']}`}>
