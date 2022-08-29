@@ -155,7 +155,7 @@ const ArticleLibrary: React.FC = () => {
       },
     },
     {
-      title: '量表名称',
+      title: '文章标题',
       dataIndex: 'title',
       key: 'title',
       width: 220,
@@ -171,7 +171,7 @@ const ArticleLibrary: React.FC = () => {
         }
         return (
           <Popover
-            trigger="click"
+            trigger="hover"
             content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
           >
             <div

@@ -206,7 +206,7 @@ const Disease: React.FC = () => {
         const isUp = text === 'enable';
         return (
           <Space>
-            <Badge color={text ? '#7ed321' : '#f53f3f'} text={isUp ? '启用' : '禁用'} />
+            <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={isUp ? '启用' : '禁用'} />
             <SwitchCustom
               defaultChecked={isUp}
               onChange={async (e) => {

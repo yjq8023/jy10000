@@ -1,5 +1,5 @@
 const { NODE_ENV } = process.env;
-export const baseURL = NODE_ENV === 'development' ? 'https://backend-hccm-dev.zmnyun.cn/' : '/';
+export const baseURL = NODE_ENV === 'development' ? 'https://backend-hccm-sit.zmnyun.cn/' : '/';
 export const scope = 'sdc-hccm';
 export const clientPrefix = '/backend';
 export const socketURL =
