@@ -174,6 +174,15 @@ function WeappProject() {
       },
     },
     {
+      title: '个案管理师审核',
+      dataIndex: 'needCaseManager',
+      key: 'needCaseManager',
+      width: 130,
+      render(text: any) {
+        return text ? '是' : '否';
+      },
+    },
+    {
       title: '医生审核',
       dataIndex: 'needAudit',
       key: 'needAudit',

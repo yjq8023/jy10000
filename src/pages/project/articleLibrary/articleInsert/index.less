@@ -63,6 +63,47 @@
         box-shadow: inset 0 0 6px rgba(0, 0, 0, .02);
         background-color: #555;
       }
+
+      //标题 
+      h1 {
+        font-size: 2em;
+        margin: .67em 0
+      }
+
+      h2 {
+        font-size: 1.5em;
+        margin: .75em 0
+      }
+
+      h3 {
+        font-size: 1.17em;
+        margin: .83em 0
+      }
+
+      h4 {
+        margin: 1.12em 0
+      }
+
+      h5 {
+        font-size: .83em;
+        margin: 1.5em 0
+      }
+
+      h6 {
+        font-size: .75em;
+        margin: 1.67em 0
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      b,
+      strong {
+        font-weight: bolder
+      }
     }
 
     .dropdown-content-inner {
@@ -85,19 +126,58 @@
         }
       }
 
-      li {
-        color: @break-color2  !important;
+      .bf-letter-spacings,
+      .bf-line-heights,
+      .bf-font-sizes {
+        li {
+          color: @break-color2  !important;
+        }
+
+      }
+
+      .bf-link-editor {
+
+        .input-group {
+
+          input {
+            color: @break-color2;
+            background-color: rgba(0, 0, 0, 0.02);
+          }
+        }
+      }
+
+      .bf-switch {
+        background-color: rgba(255, 0, 0, 0.15);
+
+        &:before {
+          background-color: @warning-color;
+        }
+      }
+
+      .bf-switch.active {
+        background-color: rgba(250, 173, 20, 0.36) !important;
       }
 
       .active {
         background: #EFFAFF !important;
+      }
+
+      .color-item {
+        border: 1px solid #e6e6e6;
+      }
+    }
+
+    .bf-color-switch-buttons {
+
+      button {
+
+        color: @break-color2  !important;
       }
     }
 
     .dropdown-arrow {
       background-color: #fff !important;
     }
-
 
   }
 }
@@ -197,6 +277,15 @@
     .bf-modal-cancel {
       font-weight: 400;
     }
+
+    .bf-modal-body {
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
+    }
+
+    .bf-modal-content {
+      top: 50%;
+    }
   }
 
 }
@@ -216,6 +305,56 @@
         display: none;
       }
     }
+  }
+
+
+  ul {
+    list-style: disc inside;
+  }
+
+  ol {
+    list-style: decimal inside;
+  }
+
+  //标题 
+  h1 {
+    font-size: 2em;
+    margin: .67em 0
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin: .75em 0
+  }
+
+  h3 {
+    font-size: 1.17em;
+    margin: .83em 0
+  }
+
+  h4 {
+    margin: 1.12em 0
+  }
+
+  h5 {
+    font-size: .83em;
+    margin: 1.5em 0
+  }
+
+  h6 {
+    font-size: .75em;
+    margin: 1.67em 0
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  b,
+  strong {
+    font-weight: bolder
   }
 
   .header {

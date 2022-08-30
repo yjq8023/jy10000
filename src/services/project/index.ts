@@ -23,6 +23,16 @@ export const httpGetLabelList = (params: ProjectType.LabelListReq) => {
 };
 
 /**
+ * 新增/编辑标签信息
+ * @param params
+ * @returns
+ */
+export const httpSaveOrUpdateList = (params: ProjectType.SaveOrUpdateReq) => {
+  // @ts-ignore
+  return request.post('/sys/label/saveOrUpdate', params, { isReturnAllData: true });
+};
+
+/**
  * 新增或编辑文章信息
  * @param params
  * @returns
