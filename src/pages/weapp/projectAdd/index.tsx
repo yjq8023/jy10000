@@ -70,7 +70,6 @@ function ProjectAdd() {
         caseManagerId: '',
         manageProjectId: '',
       });
-      setChainParams({ ...chainParams, organizeId: field[0].value });
     }
   };
 
@@ -83,13 +82,11 @@ function ProjectAdd() {
         form.setFieldsValue(res);
         setProjectDetail(res);
         setOrganizeId(res.chainId);
-        setChainParams({ ...chainParams, organizeId: res.chainId });
       });
     }
   }, []);
 
   useEffect(() => {
-    if (!Object.keys(chainParams).length) return;
     httpGetByChain();
   }, [chainParams]);
 
@@ -103,7 +100,7 @@ function ProjectAdd() {
               <ProjectSelect parentId="0" placeholder="请选择" />
             </Form.Item>
             <Form.Item name="diseaseId" label="项目病种" rules={requiredRule}>
-              <ProjectSelect parentId={categoryId} placeholder="请选择" />
+              <ProjectSelect parentId={categoryId} disable={!!id} placeholder="请选择" />
             </Form.Item>
             <Form.Item name="serviceProjectName" label="项目名称" rules={requiredRule}>
               <Input placeholder="请输入" />
@@ -118,7 +115,7 @@ function ProjectAdd() {
                 filterOption={false}
                 notFoundContent={null}
                 onSearch={(v) => {
-                  setChainParams({ ...chainParams, name: v });
+                  setChainParams({ name: v });
                 }}
               >
                 {chainSource?.map((el: any) => (
