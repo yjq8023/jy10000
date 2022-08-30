@@ -90,6 +90,11 @@ const routerConfig: routerConfigItem[] = [
         element: <PlanMapEditor />,
         hideInMenu: true,
       },
+      {
+        path: 'project/term/library/planDetail',
+        element: <PlanMapEditor disabled={true} />,
+        hideInMenu: true,
+      },
       // 资料库管理
       {
         path: '/project/database/article',

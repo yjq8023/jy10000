@@ -1,5 +1,5 @@
 import React, { useState, useImperativeHandle, useContext, useRef, useEffect } from 'react';
-import { Modal, Form, Input, Select, Row, Col, Table, InputNumber } from '@sinohealth/butterfly-ui-components/lib';
+import { Modal, Form, Input, Select, Row, Col, Popover, InputNumber } from '@sinohealth/butterfly-ui-components/lib';
 import { Link } from 'react-router-dom';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
@@ -8,6 +8,19 @@ import BaseList from '@/components/BaseList';
 import { httpGetContent } from '@/services/project';
 
 import style from './index.less';
+import styles from '@/pages/project/articleLibrary/index.less';
+
+const PopoverContent = (record: ProjectType.ContentRes) => {
+  return (
+    <div className={styles.sortDom}>
+      {record.labelVoList.map((el, ids) => (
+        <div className={styles.tag} key={el.id}>
+          {el.name}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const columns = [
   {
@@ -25,6 +38,37 @@ const columns = [
     key: 'title',
   },
   {
+    title: '标签',
+    dataIndex: 'weight',
+    key: 'weight',
+    width: 200,
+    render(text: string, record: ProjectType.ContentRes, index: number) {
+      if (!record.status) {
+        return '--';
+      }
+      return (
+        <Popover
+          trigger="click"
+          content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
+        >
+          <div
+            className={`${styles.sortDom} ${record.labelVoList.length > 2 ? styles.pointer : ''}`}
+          >
+            {record.labelVoList.length
+              ? record.labelVoList.map((el, ids) =>
+                ids < 2 ? (
+                  <div className={styles.tag} key={el.id}>
+                    {el.name}
+                  </div>
+                ) : null,
+              )
+              : '--'}
+          </div>
+        </Popover>
+      );
+    },
+  },
+  {
     title: '操作',
     dataIndex: 'action',
     key: 'action',
@@ -37,6 +81,7 @@ const columns = [
 
 export const ArticleSettingContent = (props: any) => {
   const { isMini, form, onFinish, formValue = {}, ...otherProps } = props;
+  const { disabled } = useContext(planMapContext);
   const list = useRef<any>();
   useEffect(() => {
     if (formValue) {
@@ -61,7 +106,7 @@ export const ArticleSettingContent = (props: any) => {
     const { value, onChange } = p;
     return (
       <div>
-        本周期推送 <InputNumber value={value} onChange={onChange} style={{ width: '100px' }} min={1} /> 篇患教文章
+        本周期推送 <InputNumber disabled={disabled} value={value} onChange={onChange} style={{ width: '80px' }} min={1} /> 篇患教文章
       </div>
     );
   };
@@ -129,7 +174,7 @@ export const ArticleSettingContent = (props: any) => {
             name="include"
             rules={[{ required: true, message: '该字段为必填项' }]}
           >
-            <LabelSelect mode="multiple" placeholder="请选择包含的标签" />
+            <LabelSelect disabled={disabled} mode="multiple" placeholder="请选择包含的标签" />
           </Form.Item>
         </Col>
         <Col span={isMini ? 24 : 12}>
@@ -137,7 +182,7 @@ export const ArticleSettingContent = (props: any) => {
             label="不包含标签"
             name="exclusive"
           >
-            <LabelSelect mode="multiple" placeholder="请选择不包含的标签" />
+            <LabelSelect disabled={disabled} mode="multiple" placeholder="请选择不包含的标签" />
           </Form.Item>
         </Col>
       </Row>

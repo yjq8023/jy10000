@@ -34,7 +34,7 @@ const defaultData = {
     },
   ],
 };
-const PlanMapEditor = () => {
+const PlanMapEditor = ({ disabled }: any) => {
   const [projectPlanData, setProjectPlanData] = useState<ProjectPlanMap.data>();
   const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>();
   const [selectedNode, setSelectedNode] = useState<any>(null);
@@ -95,6 +95,7 @@ const PlanMapEditor = () => {
       addFormModal,
       addArticleModal,
       addDiagnosisModal,
+      disabled,
     };
   }, [planMapState, setPlanMapStateFn, selectedNode, setSelectedNode]);
 
