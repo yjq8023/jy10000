@@ -57,6 +57,7 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
         title={title}
         width="700px"
         okText="保 存"
+        getContainer={false}
         cancelButtonProps={{ type: 'info' }}
         onCancel={() => {
           form.resetFields();
@@ -87,20 +88,14 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
             name="name"
             rules={[
               {
-                required: true,
                 validator: (rule, value, callback) => {
-                  try {
-                    if (!value) {
-                      throw new Error('项目名称不能为空');
-                      // await callback('项目名称不能为空');
-                    }
-                    if (value && value.trim() === '') {
-                      throw new Error('项目名称不能为空');
-                      // await callback('项目名称不能为空');
-                    }
-                  } catch (err: any) {
-                    callback(err);
+                  if (!value) {
+                    return Promise.reject(new Error('项目名称不能为空'));
                   }
+                  if (value && value.trim() === '') {
+                    return Promise.reject(new Error('项目名称不能为空'));
+                  }
+                  return Promise.resolve();
                 },
               },
             ]}
@@ -142,16 +137,13 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
               {
                 required: true,
                 validator: (rule, value, callback) => {
-                  try {
-                    if (!value) {
-                      throw new Error('版本号不能为空');
-                    }
-                    if (value && value.trim() === '') {
-                      throw new Error('版本号不能为空');
-                    }
-                  } catch (err: any) {
-                    callback(err);
+                  if (!value) {
+                    return Promise.reject(new Error('版本号不能为空'));
                   }
+                  if (value && value.trim() === '') {
+                    return Promise.reject(new Error('版本号不能为空'));
+                  }
+                  return Promise.resolve();
                 },
               },
             ]}
