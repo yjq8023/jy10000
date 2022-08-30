@@ -120,9 +120,14 @@
 }
 .planMapItem.loopItem {
   &.hasRootNode {
+    &:last-child {
+      .index {
+        display: inline-block;
+        color: #46a0c0;
+      }
+    }
     .index {
       display: none;
-      //background-color: #FFC000;
     }
     .body {
       position: relative;
