@@ -68,7 +68,6 @@ function ProjectAdd() {
       form.setFieldsValue({
         doctorId: '',
         caseManagerId: '',
-        manageProjectId: '',
       });
     }
   };
