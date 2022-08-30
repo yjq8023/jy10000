@@ -256,11 +256,13 @@ const ArticleInsert: React.FC = () => {
                   {
                     required: true,
                     validator: (_, value, callback) => {
-                      if (value.trim().length > 50) {
-                        callback('文章标题(最多50字)');
-                      } else {
-                        callback();
+                      if (!value) {
+                        return Promise.reject(new Error('文章标题不能为空'));
                       }
+                      if (value.trim().length > 50) {
+                        return Promise.reject(new Error('文章标题(最多50字)'));
+                      }
+                      return Promise.resolve();
                     },
                   },
                 ]}
