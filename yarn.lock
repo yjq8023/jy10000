@@ -2065,69 +2065,69 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@formily/core@2.2.1", "@formily/core@^2.0.2":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/core/-/core-2.2.1.tgz#8e9d4b0ffac14d5b830d261c5d9b0cce54e3288a"
-  integrity sha512-WOucRfapNAH5iiz2S/s1U6wGHIF5ISIQwtUCsqH06yftACZ48Bj5fRBNqKVdMRrG45YTq4O6qI2Aoj06aiwQYg==
+"@formily/core@2.2.2", "@formily/core@^2.0.2":
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/core/-/core-2.2.2.tgz#c2ea1240f6992305ed8a29b1b2b5c4f9423f2edf"
+  integrity sha512-6cfxwjLkB9hETNcew35eDZRCP81mp8KS2eiW2lO8KcqXLI/68TVSVur2qctUA/a6+1KKygbd9/crLmSdiWDXug==
   dependencies:
-    "@formily/reactive" "2.2.1"
-    "@formily/shared" "2.2.1"
-    "@formily/validator" "2.2.1"
+    "@formily/reactive" "2.2.2"
+    "@formily/shared" "2.2.2"
+    "@formily/validator" "2.2.2"
 
 "@formily/grid@^2.1.9":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/grid/-/grid-2.2.1.tgz#96df6ec7e9b02bbb76dac90eb71b092d4be76798"
-  integrity sha512-d2yXPXEzGyhiicGLtnZpEqftmHRAUvLRbQF9z6vp05/uOlcEjceTf2x7Wj9ucV+VM/0vmjiM3xLd3MCGCJh4XQ==
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/grid/-/grid-2.2.2.tgz#d99e74827a30db29831aa6d7e1978fa0250437db"
+  integrity sha512-8zG1sCluvMPgasBlJCg1Yo59egSKMJH5LOtlF5DdveIM1T8RYUDVB4RPcN7HEUu+u4eBhFudo39ptPvOHmSGKg==
   dependencies:
-    "@formily/reactive" "2.2.1"
+    "@formily/reactive" "2.2.2"
     "@juggle/resize-observer" "^3.3.1"
 
-"@formily/json-schema@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/json-schema/-/json-schema-2.2.1.tgz#dd01ab091521f53884ab2e1088adaab72be478ae"
-  integrity sha512-JMGNFzFPVTQQI698K68NLME6NvxvwzmfQpLWwkVlV1EiHSyTJt2Ak5BkNbR/pBrvqYthBR/PIlmU3PIC+O73QQ==
+"@formily/json-schema@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/json-schema/-/json-schema-2.2.2.tgz#98af2876d5c72cf20339ead2b6a7ad6758bcc126"
+  integrity sha512-nBdvyysoACHptrKcLDzm5dBgjuO1zzXIDGhrKBFsiM4KhMbm9vtE0ItkASOHwve0L2R+7dau9daUM36TKQGuVA==
   dependencies:
-    "@formily/core" "2.2.1"
-    "@formily/reactive" "2.2.1"
-    "@formily/shared" "2.2.1"
+    "@formily/core" "2.2.2"
+    "@formily/reactive" "2.2.2"
+    "@formily/shared" "2.2.2"
 
-"@formily/path@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/path/-/path-2.2.1.tgz#939f57dc532b888674d2e86749f2f98461554387"
-  integrity sha512-RKbMDxv7669tx931cSVn4jCS2bTt863V99PC9unIAFcwaKALyf2XXJLBhxeNmPfU8vdxn3UaxC4D6Ju1Jnw76Q==
+"@formily/path@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/path/-/path-2.2.2.tgz#106e93a4e1fe5e14cade408b590f1cb3dce16aba"
+  integrity sha512-hEZYnEGOwzfNQBXsV1j0PsUpTE1qRy46zauajJnNFPFfWXydeKKhsPkg5wCwDeslaT2K+WHMWO2ey/oIIkbLag==
 
 "@formily/react@^2.0.2":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/react/-/react-2.2.1.tgz#ac18469189f6d08391bd093db5625b98cde88265"
-  integrity sha512-MImXIraPvkpGCzorAt4bFfvCO2qwA69Nhki8YkMTO4aY7pWJKZzsFkCiv+uWSCwMZkBj6mKWXQGkZRD7YGnb2w==
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/react/-/react-2.2.2.tgz#1e1e76752ecb2ac2a8b707848786b42bf2b73d93"
+  integrity sha512-+qbzriA7pq+GDKsvvaXDbhInlDrCtwOdVAugatMgEaaCFE9BTUO22WoRjjGmdVeLA3nVARv4gNyI6LYOinsMug==
   dependencies:
-    "@formily/core" "2.2.1"
-    "@formily/json-schema" "2.2.1"
-    "@formily/reactive" "2.2.1"
-    "@formily/reactive-react" "2.2.1"
-    "@formily/shared" "2.2.1"
-    "@formily/validator" "2.2.1"
+    "@formily/core" "2.2.2"
+    "@formily/json-schema" "2.2.2"
+    "@formily/reactive" "2.2.2"
+    "@formily/reactive-react" "2.2.2"
+    "@formily/shared" "2.2.2"
+    "@formily/validator" "2.2.2"
     hoist-non-react-statics "^3.3.2"
 
-"@formily/reactive-react@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/reactive-react/-/reactive-react-2.2.1.tgz#4c1256d6cf1683e6ae0e9885d6c875415d84fa79"
-  integrity sha512-7jB0Yf8r2bcLrNoXnp7Ox6ZdMFaCJ0dzkVBwEh4htQ7j1t6PB7ROVkvZXxe9FXnuT1rknhR9NijqbGDPDep9aQ==
+"@formily/reactive-react@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/reactive-react/-/reactive-react-2.2.2.tgz#b7b7f88306b1850fe6f5f7a1266938962b86324c"
+  integrity sha512-bH7u8BGE+tFgzYdoPZBYyMqZMkKWf1noFZUMfk/iM0QBzkNS8Vpu2PqFqS12T5jsjzUoig5uMTYx7jWySb/a+w==
   dependencies:
-    "@formily/reactive" "2.2.1"
+    "@formily/reactive" "2.2.2"
     hoist-non-react-statics "^3.3.2"
 
-"@formily/reactive@2.2.1", "@formily/reactive@^2.0.2":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/reactive/-/reactive-2.2.1.tgz#2588267268eea63467b1a5752673301b7c9c60cc"
-  integrity sha512-8NtHwoPyv8zmP6JSkFGU0osSlm1Y9jPe4TcHJYi3B2/GxYOI6o+qiJbBLDDkTsJXINw74R2MtjG+uNslDx4hkw==
+"@formily/reactive@2.2.2", "@formily/reactive@^2.0.2":
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/reactive/-/reactive-2.2.2.tgz#c5f315f4c3fdef4625ea8618208cc34862e4d674"
+  integrity sha512-OjirPx9JJcn5bhMkW1NLyxa1mT/C8uKA5z/aaSsFrT92bo3xRn3yW4cb6DbtSChiebCP4R774Y2YYjde8+Wtcw==
 
-"@formily/shared@2.2.1", "@formily/shared@^2.0.2":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/shared/-/shared-2.2.1.tgz#b3e876d0eed93740b611c5bcdc3afce0d8e7254f"
-  integrity sha512-3Tm5NqfEQwDmPL18WcX5URF9m8QRlELFZfc+dpcNXfOJJUR25Hca5f+n+ct0vF5mfktSBt//FJO8213H+xRtoA==
+"@formily/shared@2.2.2", "@formily/shared@^2.0.2":
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/shared/-/shared-2.2.2.tgz#8a1cd78e7a9b01d89dc604517df4929b336129ed"
+  integrity sha512-NGNMNIpOjMewCAQn/EMjnNyKQuPRLQMSEhRs5AF7bpANwMXH2Scp3VYunzR58ElY/jrNl/EX+EDiB5DLiFBK9g==
   dependencies:
-    "@formily/path" "2.2.1"
+    "@formily/path" "2.2.2"
     camel-case "^4.1.1"
     lower-case "^2.0.1"
     no-case "^3.0.4"
@@ -2135,12 +2135,12 @@
     pascal-case "^3.1.1"
     upper-case "^2.0.1"
 
-"@formily/validator@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.npmmirror.com/@formily/validator/-/validator-2.2.1.tgz#f7c4526ee6ef924ef025f56581207c09db32b38d"
-  integrity sha512-74o7CaFiiJ3OF+ZzlsxxhkjCfwytuWwbtEm1/587Xkcjw0jrxjzzQiikdK4Oxev1i/TQxNl7iAeWAbx5q6/VXA==
+"@formily/validator@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.npmmirror.com/@formily/validator/-/validator-2.2.2.tgz#52a1851a8712e151c45aba78e6fd51c897f5990f"
+  integrity sha512-yiYCZRs1sd1WaYM0ETm5Nhsmn5Vh8W76ROOJQSwdmZNFsLIwDDo7d3oi597hL26G0FRTF49DUb4e8Ec4Cs3QKg==
   dependencies:
-    "@formily/shared" "2.2.1"
+    "@formily/shared" "2.2.2"
 
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
@@ -2690,6 +2690,73 @@
   dependencies:
     "@babel/runtime" "^7.17.8"
     "@sinohealth/butterfly-ui-antd" "1.0.2"
+
+"@sinohealth/designable-core@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-core/-/designable-core-1.0.1-beta.4.tgz#db583e4715c54ec325158682522f8181fa0524c6"
+  integrity sha512-0lezgfg0nDlRuKtcheDxWOHzZZ6Iu/OAp311sn+8qr9uxU9Nwe5fk+D3lXaORrUKz2zLBAL1h9zjSkMn51c5Bg==
+  dependencies:
+    "@juggle/resize-observer" "^3.3.1"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+
+"@sinohealth/designable-formily-antd@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-antd/-/designable-formily-antd-1.0.1-beta.4.tgz#fbfc8fe56af9a867bda6077e0520638fd6ddec7d"
+  integrity sha512-JSqL6aGN6dJR0pIdaBtI+kXcm7Yt0D2WPi8yq77ToxGYq1huHD/liznvlteU6tGAZTOnS+G8C6PCJ9ZHtyYZuQ==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-formily-setters" "1.0.1-beta.4"
+    "@sinohealth/designable-formily-transformer" "1.0.1-beta.4"
+    "@sinohealth/designable-react" "1.0.1-beta.4"
+
+"@sinohealth/designable-formily-setters@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-setters/-/designable-formily-setters-1.0.1-beta.4.tgz#0d062ed52cc75029911d5e5d3c6599ac8d120964"
+  integrity sha512-z2VU3YASAqKthtQkZgMNjcpJ74k5bHcvZmaPUTzv11y5g4cu/cLtAk8/jjnv/VHZ6kvac51hpTnOTnZD1HkrPA==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-formily-transformer" "1.0.1-beta.4"
+    "@sinohealth/designable-react" "1.0.1-beta.4"
+    "@sinohealth/designable-react-settings-form" "1.0.1-beta.4"
+
+"@sinohealth/designable-formily-transformer@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-transformer/-/designable-formily-transformer-1.0.1-beta.4.tgz#4bd4d4d0e84474b5620514c29286d658294373f6"
+  integrity sha512-FKEs35/GZ5DCGPSKjwHERj/Tjbz82rG4uEOcT4Qsusx02lOWZ9jXps3pZ9K3tvuKMdYBjrQZ71udQ72+4/cRCA==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+
+"@sinohealth/designable-react-settings-form@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react-settings-form/-/designable-react-settings-form-1.0.1-beta.4.tgz#ae6452527349b0954654751b7265297e8ed49a02"
+  integrity sha512-0ybV5IAcnNln1dracHXPBNwLb/eg1adp6cz+CgUW+daClROrLmEx5Izios5y9CDhzoCCnCV9plzu9Ypq35y/yw==
+  dependencies:
+    "@babel/parser" "^7.14.7"
+    "@monaco-editor/react" "^4.2.1"
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-react" "1.0.1-beta.4"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+    monaco-editor "^0.25.2"
+    prettier "^2.3.2"
+    react-color "^2.19.3"
+    react-tiny-popover "^6.0.5"
+
+"@sinohealth/designable-react@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react/-/designable-react-1.0.1-beta.4.tgz#92c787a595b00bd5f1bee8354a0a6c3e336a61af"
+  integrity sha512-0K0AcffjJT68CnxhtTs5KcCvzoO75ysBu+IFICbHcJ2vwHAThA9HovLRZcXKysX0vWDktrxBIWlWqlh8mLZcgw==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+    dateformat "^4.5.1"
+
+"@sinohealth/designable-shared@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-shared/-/designable-shared-1.0.1-beta.4.tgz#d40bfdf56bb3e2be6791fed35d76c895a2a75560"
+  integrity sha512-eT0xdsPzBo22/LSlQn67MVi5gvoymrvb+/KtHy2EyRUm2lYfrvv9L+jTygr0kDKkBbgPOfXIGXCYvM8Jakp5xg==
+  dependencies:
+    requestidlecallback "^0.3.0"
 
 "@sinohealth/designable-core@1.0.1-beta.4":
   version "1.0.1-beta.4"
@@ -4345,7 +4412,7 @@ braces@^3.0.2, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-braft-convert@^2.3.0:
+braft-convert@^2.1.10, braft-convert@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmmirror.com/braft-convert/-/braft-convert-2.3.0.tgz#27d5905136c334903d083b7a2352a72045627888"
   integrity sha512-5km+dLHk8iYDv2iEYDrDQ2ld/ZoUx66QLql0qdm5PqZEcNXc8dBHGLORfzeu3iMw1jLeAiHxtdY5+ypuIhczVg==
@@ -4368,12 +4435,21 @@ braft-editor@^2.3.9:
     draftjs-utils "^0.9.4"
     immutable "~3.7.4"
 
+braft-extensions@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmmirror.com/braft-extensions/-/braft-extensions-0.1.1.tgz#7fd5f5ec1f708deae840b9cd39ddfac263efa69c"
+  integrity sha512-lmqGA6TIMqejQfeQ5NvqNsD+pbyqJjWPh6CMcRL2hKd+3yo5Oc9dv6uTWx+f8ICnxXJEs6LZHYOA58zcP2cnJQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    braft-convert "^2.1.10"
+    braft-utils "^3.0.12"
+
 braft-finder@^0.0.19:
   version "0.0.19"
   resolved "https://registry.npmmirror.com/braft-finder/-/braft-finder-0.0.19.tgz#c324d82526ed3476a93de86cc9b407f4e188bc8d"
   integrity sha512-0kzI6/KbomJJhYX1hpjn4edCKhblyUyWdUrsgBmOrwy0vrj+pPkm69+Uf8Uj6KGAULM6LF0ooC++p7fqUGgFHw==
 
-braft-utils@^3.0.8:
+braft-utils@^3.0.12, braft-utils@^3.0.8:
   version "3.0.12"
   resolved "https://registry.npmmirror.com/braft-utils/-/braft-utils-3.0.12.tgz#2b755ce1d8397d96b627b6767f74d07f25729d85"
   integrity sha512-O2cKysURNC4HSEMKgNmQ2RluwcrxvYrztlEmyPN5SzktiNX3vaLFQoo0Ez3PlIhvjaGrIBSIT2Oyh2N6mn6TFg==
