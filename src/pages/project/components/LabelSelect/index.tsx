@@ -5,13 +5,15 @@ import {
   Empty,
   Form,
   Input,
+  message,
   Popover,
   Space,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined, CloseOutlined } from '@ant-design/icons';
-import styles from './index.less';
+import { throttle } from 'lodash';
 import { httpGetLabelList, httpSaveOrUpdateList } from '@/services/project';
 import SimpleModal from '@/components/SimpleModal';
+import styles from './index.less';
 
 const SearchIcon = () => <div className={`${styles['search-icon']} iconfont icon-search`} />;
 
@@ -72,11 +74,13 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
 
   // 添加标签
   const httpSaveOrUpdateListReq = async () => {
+    message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
     const insertParams = form.getFieldsValue() as any;
     const res: any = await httpSaveOrUpdateList(insertParams);
     console.log(res);
     if (res.success) {
       httpGetLabelListReq();
+      message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
     }
   };
 
@@ -337,14 +341,14 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
             form.resetFields();
             setLabelModalVisiable(false);
           }}
-          onOk={() => {
+          onOk={throttle(() => {
             form
               .validateFields()
               .then(() => {
                 httpSaveOrUpdateListReq();
               })
               .catch(() => {});
-          }}
+          }, 1000)}
         >
           <Form
             name="basic"
@@ -362,17 +366,13 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                 {
                   required: true,
                   validator: (rule, value, callback) => {
-                    try {
-                      if (!value) {
-                        throw new Error('标签分类名称不能为空');
-                      }
-                      if (value && value.trim() === '') {
-                        throw new Error('标签分类名称不能为空');
-                      }
-                      callback();
-                    } catch (err: any) {
-                      callback(err);
+                    if (!value) {
+                      return Promise.reject(new Error('标签分类名称不能为空'));
                     }
+                    if (value && value.trim() === '') {
+                      return Promise.reject(new Error('标签分类名称不能为空'));
+                    }
+                    return Promise.resolve();
                   },
                 },
               ]}
@@ -386,17 +386,13 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                 {
                   required: true,
                   validator: (rule, value, callback) => {
-                    try {
-                      if (!value) {
-                        throw new Error('标签名称不能为空');
-                      }
-                      if (value && value.trim() === '') {
-                        throw new Error('标签名称不能为空');
-                      }
-                      callback();
-                    } catch (err: any) {
-                      callback(err);
+                    if (!value) {
+                      return Promise.reject(new Error('标签名称不能为空'));
                     }
+                    if (value && value.trim() === '') {
+                      return Promise.reject(new Error('标签名称不能为空'));
+                    }
+                    return Promise.resolve();
                   },
                 },
               ]}
