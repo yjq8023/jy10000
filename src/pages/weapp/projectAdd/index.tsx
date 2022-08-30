@@ -43,7 +43,17 @@ function ProjectAdd() {
   };
 
   const handleSubmit = () => {
-    form.submit();
+    form
+      .validateFields()
+      .then(() => {
+        const specList = form.getFieldValue('specList');
+        if (!specList.length) {
+          message.error('项目规格还未创建');
+          return;
+        }
+        form.submit();
+      })
+      .catch(() => {});
   };
 
   const onSubmit = (formValues: any) => {
