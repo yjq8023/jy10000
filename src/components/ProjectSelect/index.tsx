@@ -11,14 +11,15 @@ interface Option {
   loading?: boolean;
 }
 
-interface ProjectSelectProps extends SelectProps{
-  parent?: boolean,
-  value?: any,
-  onChange?: (value: any) => void,
-  parentId: string
+interface ProjectSelectProps extends SelectProps {
+  parent?: boolean;
+  value?: any;
+  onChange?: (value: any) => void;
+  parentId: string;
+  disable?: boolean;
 }
 const ProjectSelect: React.FC<ProjectSelectProps> = (props) => {
-  const { parentId, ...otherProps } = props;
+  const { parentId, disable, ...otherProps } = props;
   const isParent = parentId === '0';
   const [options, setOptions] = useState<any[]>([]);
 
@@ -28,13 +29,14 @@ const ProjectSelect: React.FC<ProjectSelectProps> = (props) => {
       pageSize: 999,
       parentId,
       type: isParent ? 'PLATFORM_CATEGORY' : 'DISEASE_CATEGORY',
-    })
-      .then((res: any) => {
-        setOptions(res.data.map((item: any) => ({
+    }).then((res: any) => {
+      setOptions(
+        res.data.map((item: any) => ({
           label: item.name,
           value: item.id,
-        })));
-      });
+        })),
+      );
+    });
   };
 
   useEffect(() => {
@@ -42,7 +44,7 @@ const ProjectSelect: React.FC<ProjectSelectProps> = (props) => {
       getData();
     }
   }, [parentId]);
-  return <Select {...otherProps} options={options} />;
+  return <Select {...otherProps} disabled={disable} options={options} />;
 };
 
 export default ProjectSelect;
