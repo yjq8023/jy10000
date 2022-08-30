@@ -9,7 +9,7 @@ import { timeUnitToMomentUnit, timeUnitToShowUnit } from '@/pages/planMapEditor/
 // 将周期转为具体时间，以当前时间加上周期
 const getTriggerNumberToDay = (number: number, type: string) => {
   // @ts-ignore
-  return moment().add(number, timeUnitToMomentUnit[type]);
+  return moment(moment().format('YYYY-MM-DD')).add(number, timeUnitToMomentUnit[type]);
 };
 
 const AddNodeModal = (props: any, ref: any) => {
@@ -32,6 +32,8 @@ const AddNodeModal = (props: any, ref: any) => {
   const handleOpen = (pathStr: string) => {
     setPath(pathStr);
     setIsModalVisible(true);
+    form.resetFields();
+    setIsLoop(false);
   };
 
   const handleOk = () => {
@@ -48,25 +50,6 @@ const AddNodeModal = (props: any, ref: any) => {
       return JSON.stringify(item) === JSON.stringify(i);
     });
     return sameNodes.length > 0;
-    // // 不存在相同节点，返回false
-    // if (sameNodes.length === 0) {
-    //   return false;
-    // }
-    // // 存在相同节点，且当前新增的节点不是循环节点，返回true
-    // if (!item.loop) {
-    //   return true;
-    // }
-    // // 当前新增的节点是循环节点，比较循环参数是否一样
-    // if (item.loop) {
-    //   let isSame = false;
-    //   sameNodes.forEach((sameNode: any) => {
-    //     if (sameNode.durationTimes === item.durationTimes && sameNode.durationTimeUnit === item.durationTimeUnit) {
-    //       isSame = true;
-    //     }
-    //   });
-    //   return isSame;
-    // }
-    // return false;
   };
 
   const onFinish = (data: any) => {
@@ -80,7 +63,11 @@ const AddNodeModal = (props: any, ref: any) => {
     const newParentNodes = parentNodes.sort((item: any, next: any) => {
       const itemDay = getTriggerNumberToDay(item.triggerNumber, item.triggerTimeUnit);
       const nextDay = getTriggerNumberToDay(next.triggerNumber, next.triggerTimeUnit);
-      return nextDay.isBefore(itemDay) ? 1 : -1;
+      const res: number = itemDay.valueOf() - nextDay.valueOf();
+      if (res === 0) {
+        return next.loop ? -1 : 1;
+      }
+      return res;
     });
     setPlanMapState('update', path, newParentNodes);
     setIsModalVisible(false);
