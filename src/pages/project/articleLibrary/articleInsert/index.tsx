@@ -16,9 +16,11 @@ import {
   Select,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { VideoCameraOutlined, QuestionCircleFilled, PictureOutlined } from '@ant-design/icons';
-import BraftEditor, { ExtendControlType } from 'braft-editor';
-import { ContentUtils } from 'braft-utils';
 import 'braft-editor/dist/index.css';
+import 'braft-extensions/dist/color-picker.css';
+import BraftEditor, { ExtendControlType } from 'braft-editor';
+import ColorPicker from 'braft-extensions/dist/color-picker';
+import { ContentUtils } from 'braft-utils';
 import styles from './index.less';
 import { httpContentUpdate } from '@/services/project';
 import { getLocalStorage, removeLocalStorage } from '@/utils/cookies';
@@ -71,6 +73,10 @@ const controls: any = [
   'undo',
   'redo',
 ];
+
+BraftEditor.use(
+  ColorPicker({ includeEditors: ['editor-id'], theme: 'light', closeButtonText: '确认' }),
+);
 
 /**
  * 文章库-新增文章
@@ -315,7 +321,21 @@ const ArticleInsert: React.FC = () => {
             <Col span={21}>
               <Form.Item labelCol={{ span: 2 }} label="文章内容">
                 <BraftEditor
+                  id="editor-id"
                   value={editorState}
+                  imageResizable={false}
+                  imageControls={[
+                    'align-left',
+                    'align-center',
+                    'align-right',
+                    'remove',
+                    {
+                      render: (mediaData) => {
+                        // eslint-disable-next-line no-param-reassign
+                        mediaData.width = '100%';
+                      },
+                    },
+                  ]}
                   placeholder="请输入正文内容"
                   onChange={(v) => handleChangeContent(v)}
                   controls={controls}
