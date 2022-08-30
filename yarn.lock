@@ -2065,69 +2065,69 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@formily/core@2.1.5", "@formily/core@^2.1.4":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/core/-/core-2.1.5.tgz"
-  integrity sha512-BWtEf6YgZaP2bjdmwgL42fL5+UDJDKADUm8ZHEp8vtu3TzdjvCL9P1lOrYVi5Cc+dcN47LAbj7iXl5rxgQOh5Q==
+"@formily/core@2.2.1", "@formily/core@^2.0.2":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/core/-/core-2.2.1.tgz#8e9d4b0ffac14d5b830d261c5d9b0cce54e3288a"
+  integrity sha512-WOucRfapNAH5iiz2S/s1U6wGHIF5ISIQwtUCsqH06yftACZ48Bj5fRBNqKVdMRrG45YTq4O6qI2Aoj06aiwQYg==
   dependencies:
-    "@formily/reactive" "2.1.5"
-    "@formily/shared" "2.1.5"
-    "@formily/validator" "2.1.5"
+    "@formily/reactive" "2.2.1"
+    "@formily/shared" "2.2.1"
+    "@formily/validator" "2.2.1"
 
-"@formily/grid@^2.1.2":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/grid/-/grid-2.1.5.tgz"
-  integrity sha512-E+uDv1Bj8073Qnx4f8QgNoXbxxYu0BaJ2GqBe+2WFgrIn7uu/Tl4Bg2hl9yUuN5kA+i2EIHOB4/JtM1mmiyUjA==
+"@formily/grid@^2.1.9":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/grid/-/grid-2.2.1.tgz#96df6ec7e9b02bbb76dac90eb71b092d4be76798"
+  integrity sha512-d2yXPXEzGyhiicGLtnZpEqftmHRAUvLRbQF9z6vp05/uOlcEjceTf2x7Wj9ucV+VM/0vmjiM3xLd3MCGCJh4XQ==
   dependencies:
-    "@formily/reactive" "2.1.5"
+    "@formily/reactive" "2.2.1"
     "@juggle/resize-observer" "^3.3.1"
 
-"@formily/json-schema@2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/json-schema/-/json-schema-2.1.5.tgz"
-  integrity sha512-w6vFXsfuuf/KcU1j/xVXko12RYxEBVVgSk6OX4QqhCDjpKytDG1qYz0RuwChRak62OvENM0eJwbm7ZQ1jiTk0w==
+"@formily/json-schema@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/json-schema/-/json-schema-2.2.1.tgz#dd01ab091521f53884ab2e1088adaab72be478ae"
+  integrity sha512-JMGNFzFPVTQQI698K68NLME6NvxvwzmfQpLWwkVlV1EiHSyTJt2Ak5BkNbR/pBrvqYthBR/PIlmU3PIC+O73QQ==
   dependencies:
-    "@formily/core" "2.1.5"
-    "@formily/reactive" "2.1.5"
-    "@formily/shared" "2.1.5"
+    "@formily/core" "2.2.1"
+    "@formily/reactive" "2.2.1"
+    "@formily/shared" "2.2.1"
 
-"@formily/path@2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/path/-/path-2.1.5.tgz"
-  integrity sha512-mkVYNQBeDTPswJb5SilK0IJWMa8s3U2rzynEIh0hqGihTOCBQB5vEIUtk/GTc+njM/tMCF/wNxv2AvRXjIXRBQ==
+"@formily/path@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/path/-/path-2.2.1.tgz#939f57dc532b888674d2e86749f2f98461554387"
+  integrity sha512-RKbMDxv7669tx931cSVn4jCS2bTt863V99PC9unIAFcwaKALyf2XXJLBhxeNmPfU8vdxn3UaxC4D6Ju1Jnw76Q==
 
-"@formily/react@^2.1.4":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/react/-/react-2.1.5.tgz"
-  integrity sha512-jHEbpqObbaWMMpClNUOBQwQ++dmQmhPnn8uYmRgFm/XfJbt7knN+oLePoU6W4b4YF1XBb1Gae6chptJidBtGnQ==
+"@formily/react@^2.0.2":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/react/-/react-2.2.1.tgz#ac18469189f6d08391bd093db5625b98cde88265"
+  integrity sha512-MImXIraPvkpGCzorAt4bFfvCO2qwA69Nhki8YkMTO4aY7pWJKZzsFkCiv+uWSCwMZkBj6mKWXQGkZRD7YGnb2w==
   dependencies:
-    "@formily/core" "2.1.5"
-    "@formily/json-schema" "2.1.5"
-    "@formily/reactive" "2.1.5"
-    "@formily/reactive-react" "2.1.5"
-    "@formily/shared" "2.1.5"
-    "@formily/validator" "2.1.5"
+    "@formily/core" "2.2.1"
+    "@formily/json-schema" "2.2.1"
+    "@formily/reactive" "2.2.1"
+    "@formily/reactive-react" "2.2.1"
+    "@formily/shared" "2.2.1"
+    "@formily/validator" "2.2.1"
     hoist-non-react-statics "^3.3.2"
 
-"@formily/reactive-react@2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/reactive-react/-/reactive-react-2.1.5.tgz"
-  integrity sha512-xpa9SlGmDrNK+k74NhokKZhrQMRSpK7hX4jQTfmjlFqhe6KhJlR7VkJ5Bv9gwA6zc3JIxQ+pSQ6jNqc6Mp2+uw==
+"@formily/reactive-react@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/reactive-react/-/reactive-react-2.2.1.tgz#4c1256d6cf1683e6ae0e9885d6c875415d84fa79"
+  integrity sha512-7jB0Yf8r2bcLrNoXnp7Ox6ZdMFaCJ0dzkVBwEh4htQ7j1t6PB7ROVkvZXxe9FXnuT1rknhR9NijqbGDPDep9aQ==
   dependencies:
-    "@formily/reactive" "2.1.5"
+    "@formily/reactive" "2.2.1"
     hoist-non-react-statics "^3.3.2"
 
-"@formily/reactive@2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/reactive/-/reactive-2.1.5.tgz"
-  integrity sha512-Zo0XrYVbcj31+77gdDx3k3TTT9YX033RNkG1NMsOGPqRY1dQ782/+aT6Iyhiaam4HAqdqkD/u9VESKcslWGyxA==
+"@formily/reactive@2.2.1", "@formily/reactive@^2.0.2":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/reactive/-/reactive-2.2.1.tgz#2588267268eea63467b1a5752673301b7c9c60cc"
+  integrity sha512-8NtHwoPyv8zmP6JSkFGU0osSlm1Y9jPe4TcHJYi3B2/GxYOI6o+qiJbBLDDkTsJXINw74R2MtjG+uNslDx4hkw==
 
-"@formily/shared@2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/shared/-/shared-2.1.5.tgz"
-  integrity sha512-foIDLmvG9quYnrZuUhM+1o8PLMvUE707xSMtyN9q1O1pQZLq1/zVuisa4hsdhEDzA7eXQ9maaEKy5w5cYTMGKQ==
+"@formily/shared@2.2.1", "@formily/shared@^2.0.2":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/shared/-/shared-2.2.1.tgz#b3e876d0eed93740b611c5bcdc3afce0d8e7254f"
+  integrity sha512-3Tm5NqfEQwDmPL18WcX5URF9m8QRlELFZfc+dpcNXfOJJUR25Hca5f+n+ct0vF5mfktSBt//FJO8213H+xRtoA==
   dependencies:
-    "@formily/path" "2.1.5"
+    "@formily/path" "2.2.1"
     camel-case "^4.1.1"
     lower-case "^2.0.1"
     no-case "^3.0.4"
@@ -2135,12 +2135,12 @@
     pascal-case "^3.1.1"
     upper-case "^2.0.1"
 
-"@formily/validator@2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmmirror.com/@formily/validator/-/validator-2.1.5.tgz"
-  integrity sha512-iKKF2/Vy5QgFgCbEXzptPqLorEADe6lLe/adh9MuYqoydvwulw1wJiyn6DK4HzUYzbSbe1NibV2mlHsW76W6eQ==
+"@formily/validator@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/@formily/validator/-/validator-2.2.1.tgz#f7c4526ee6ef924ef025f56581207c09db32b38d"
+  integrity sha512-74o7CaFiiJ3OF+ZzlsxxhkjCfwytuWwbtEm1/587Xkcjw0jrxjzzQiikdK4Oxev1i/TQxNl7iAeWAbx5q6/VXA==
   dependencies:
-    "@formily/shared" "2.1.5"
+    "@formily/shared" "2.2.1"
 
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
@@ -2450,6 +2450,21 @@
   resolved "https://registry.npmmirror.com/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
+"@monaco-editor/loader@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.npmmirror.com/@monaco-editor/loader/-/loader-1.3.2.tgz#04effbb87052d19cd7d3c9d81c0635490f9bb6d8"
+  integrity sha512-BTDbpHl3e47r3AAtpfVFTlAi7WXv4UQ/xZmz8atKl4q7epQV5e7+JbigFDViWF71VBi4IIBdcWP57Hj+OWuc9g==
+  dependencies:
+    state-local "^1.0.6"
+
+"@monaco-editor/react@^4.2.1":
+  version "4.4.5"
+  resolved "https://registry.npmmirror.com/@monaco-editor/react/-/react-4.4.5.tgz#beabe491efeb2457441a00d1c7651c653697f65b"
+  integrity sha512-IImtzU7sRc66OOaQVCG+5PFHkSWnnhrUWGBuH6zNmH2h0YgmAhcjHZQc/6MY9JWEbUtVF1WPBMJ9u1XuFbRrVA==
+  dependencies:
+    "@monaco-editor/loader" "^1.3.2"
+    prop-types "^15.7.2"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmmirror.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
@@ -2550,76 +2565,25 @@
   resolved "https://registry.npmmirror.com/@rushstack/eslint-patch/-/eslint-patch-1.1.1.tgz"
   integrity sha512-BUyKJGdDWqvWC5GEhyOiUrGNi9iJUr4CU0O2WxJL6QJhHeeA/NVBalH+FeK0r/x/W0rPymXt5s78TDS7d6lCwg==
 
-"@sinohealth/butterfly-formily-components@^0.0.2-alpha.6":
-  version "0.0.2-alpha.6"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-components/-/butterfly-formily-components-0.0.2-alpha.6.tgz"
-  integrity sha512-1o/xKlj+aoeaePIHpwORxmftSXwTduGNYveCRI/2dLvFhRA5fb4D1hXM+7dpVaCnlrBqQKbO93hoaP5FMDVZlg==
+"@sinohealth/butterfly-formily-components@^0.0.2-alpha.17":
+  version "0.0.2-alpha.17"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-components/-/butterfly-formily-components-0.0.2-alpha.17.tgz#5c89defab2ac0516dce01019da047202ba3b8d42"
+  integrity sha512-e4MPwe+Vuq7yJ4KZDnchuH9rta1UB3kE6zAEqyDmjrja/cq66xXEnEVWg9152pldOhUC85/5BCbZgxnX/dFAig==
   dependencies:
+    "@ant-design/icons" "^4.7.0"
     "@babel/runtime" "^7.17.8"
-    "@formily/grid" "^2.1.2"
-    "@formily/react" "^2.1.4"
+    "@formily/grid" "^2.1.9"
     "@sinohealth/butterfly-ui-antd" "1.0.1-alpha.7"
     moment "^2.29.3"
     react-sortable-hoc "^2.0.0"
     react-sticky-box "^1.0.2"
 
-"@sinohealth/butterfly-formily-engine@^0.0.2-alpha.6":
-  version "0.0.2-alpha.6"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-engine/-/butterfly-formily-engine-0.0.2-alpha.6.tgz"
-  integrity sha512-ICVBmM0W2UKyJox6fMis3VIR0x4V/AU60vbsv/VsHicqHNbmSdaXLB6CKyRz7kq8SRkA/OT9G4vsrTQpoDvk7Q==
+"@sinohealth/butterfly-formily-engine@^0.0.2-alpha.17":
+  version "0.0.2-alpha.17"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-engine/-/butterfly-formily-engine-0.0.2-alpha.17.tgz#aa818ca33223651897bc76fb261f4c4db13d9b3c"
+  integrity sha512-jBDfsddy7Jly9zt9JiT5BSHRUqntNqEBDF3Qy5mJiTTvcvwYjRcPxuZOGj/s6IdYR2XtEAVx3mKk7xT4oq3yMQ==
   dependencies:
     "@babel/runtime" "^7.17.8"
-    "@formily/core" "^2.1.4"
-    "@formily/react" "^2.1.4"
-
-"@sinohealth/butterfly-ui-antd@1.0.1":
-  version "1.0.1"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-ui-antd/-/butterfly-ui-antd-1.0.1.tgz"
-  integrity sha512-KzauEwqyGWl7uBOkDMT0KztmonIxeYIgJ2PjnSHrojReMfr7s4QvrWV40h654urAc3YntrKwDjuKm696vNvrsw==
-  dependencies:
-    "@ant-design/colors" "^6.0.0"
-    "@ant-design/icons" "^4.7.0"
-    "@ant-design/react-slick" "~0.28.1"
-    "@babel/runtime" "^7.12.5"
-    "@ctrl/tinycolor" "^3.4.0"
-    classnames "^2.2.6"
-    copy-to-clipboard "^3.2.0"
-    lodash "^4.17.21"
-    memoize-one "^6.0.0"
-    moment "^2.25.3"
-    rc-cascader "~3.2.1"
-    rc-checkbox "~2.3.0"
-    rc-collapse "~3.1.0"
-    rc-dialog "~8.6.0"
-    rc-drawer "~4.4.2"
-    rc-dropdown "~3.3.2"
-    rc-field-form "~1.24.0"
-    rc-image "~5.2.5"
-    rc-input "~0.0.1-alpha.5"
-    rc-input-number "~7.3.0"
-    rc-mentions "~1.6.1"
-    rc-menu "~9.3.2"
-    rc-motion "^2.4.4"
-    rc-notification "~4.5.7"
-    rc-pagination "~3.1.9"
-    rc-picker "~2.6.4"
-    rc-progress "~3.2.1"
-    rc-rate "~2.9.0"
-    rc-resize-observer "^1.2.0"
-    rc-select "~14.0.2"
-    rc-slider "~10.0.0-alpha.4"
-    rc-steps "~4.1.0"
-    rc-switch "~3.2.0"
-    rc-table "~7.23.0"
-    rc-tabs "~11.10.0"
-    rc-textarea "~0.3.0"
-    rc-tooltip "~5.1.1"
-    rc-tree "~5.4.3"
-    rc-tree-select "~5.1.1"
-    rc-trigger "^5.2.10"
-    rc-upload "~4.3.0"
-    rc-util "^5.19.3"
-    scroll-into-view-if-needed "^2.2.25"
 
 "@sinohealth/butterfly-ui-antd@1.0.1-alpha.7":
   version "1.0.1-alpha.7"
@@ -2670,13 +2634,129 @@
     rc-util "^5.19.3"
     scroll-into-view-if-needed "^2.2.25"
 
-"@sinohealth/butterfly-ui-components@^1.0.1":
-  version "1.0.1"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-ui-components/-/butterfly-ui-components-1.0.1.tgz"
-  integrity sha512-gzIWUe9LH4Bmgb9pD6Yun4NS43G34UoutTiVQZeHxIjJpZPcy11sSntI2Z3dqhqtbe8EDbnQHIJg3UGmYlmN2A==
+"@sinohealth/butterfly-ui-antd@1.0.2":
+  version "1.0.2"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-ui-antd/-/butterfly-ui-antd-1.0.2.tgz#9ee52267c8a67be90fe7d5ffe5e41a4ee0879e00"
+  integrity sha512-GZXWvyvaPe+Xm/APYQqcbOvfTz8p2pPR7pCIG09NGXlS5H89aPryoXumbnYlkqN7Dq91yHD+p2fu+JBBlVpTng==
+  dependencies:
+    "@ant-design/colors" "^6.0.0"
+    "@ant-design/icons" "^4.7.0"
+    "@ant-design/react-slick" "~0.28.1"
+    "@babel/runtime" "^7.12.5"
+    "@ctrl/tinycolor" "^3.4.0"
+    classnames "^2.2.6"
+    copy-to-clipboard "^3.2.0"
+    lodash "^4.17.21"
+    memoize-one "^6.0.0"
+    moment "^2.25.3"
+    rc-cascader "~3.2.1"
+    rc-checkbox "~2.3.0"
+    rc-collapse "~3.1.0"
+    rc-dialog "~8.6.0"
+    rc-drawer "~4.4.2"
+    rc-dropdown "~3.3.2"
+    rc-field-form "~1.24.0"
+    rc-image "~5.2.5"
+    rc-input "~0.0.1-alpha.5"
+    rc-input-number "~7.3.0"
+    rc-mentions "~1.6.1"
+    rc-menu "~9.3.2"
+    rc-motion "^2.4.4"
+    rc-notification "~4.5.7"
+    rc-pagination "~3.1.9"
+    rc-picker "~2.6.4"
+    rc-progress "~3.2.1"
+    rc-rate "~2.9.0"
+    rc-resize-observer "^1.2.0"
+    rc-select "~14.0.2"
+    rc-slider "~10.0.0-alpha.4"
+    rc-steps "~4.1.0"
+    rc-switch "~3.2.0"
+    rc-table "~7.23.0"
+    rc-tabs "~11.10.0"
+    rc-textarea "~0.3.0"
+    rc-tooltip "~5.1.1"
+    rc-tree "~5.4.3"
+    rc-tree-select "~5.1.1"
+    rc-trigger "^5.2.10"
+    rc-upload "~4.3.0"
+    rc-util "^5.19.3"
+    scroll-into-view-if-needed "^2.2.25"
+
+"@sinohealth/butterfly-ui-components@1.0.2":
+  version "1.0.2"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-ui-components/-/butterfly-ui-components-1.0.2.tgz#d39b559d4d5bf4a19d88aad06bbd1f054abbcd57"
+  integrity sha512-DiBFN77GsWBcD17oKv4dKVBq4INLSHPEzQxkL0r59wvTzQPL9ftWwA77joGBJ3qxd37fmUx7B1fpOe7AqyWfnA==
   dependencies:
     "@babel/runtime" "^7.17.8"
-    "@sinohealth/butterfly-ui-antd" "1.0.1"
+    "@sinohealth/butterfly-ui-antd" "1.0.2"
+
+"@sinohealth/designable-core@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-core/-/designable-core-1.0.1-beta.4.tgz#db583e4715c54ec325158682522f8181fa0524c6"
+  integrity sha512-0lezgfg0nDlRuKtcheDxWOHzZZ6Iu/OAp311sn+8qr9uxU9Nwe5fk+D3lXaORrUKz2zLBAL1h9zjSkMn51c5Bg==
+  dependencies:
+    "@juggle/resize-observer" "^3.3.1"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+
+"@sinohealth/designable-formily-antd@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-antd/-/designable-formily-antd-1.0.1-beta.4.tgz#fbfc8fe56af9a867bda6077e0520638fd6ddec7d"
+  integrity sha512-JSqL6aGN6dJR0pIdaBtI+kXcm7Yt0D2WPi8yq77ToxGYq1huHD/liznvlteU6tGAZTOnS+G8C6PCJ9ZHtyYZuQ==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-formily-setters" "1.0.1-beta.4"
+    "@sinohealth/designable-formily-transformer" "1.0.1-beta.4"
+    "@sinohealth/designable-react" "1.0.1-beta.4"
+
+"@sinohealth/designable-formily-setters@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-setters/-/designable-formily-setters-1.0.1-beta.4.tgz#0d062ed52cc75029911d5e5d3c6599ac8d120964"
+  integrity sha512-z2VU3YASAqKthtQkZgMNjcpJ74k5bHcvZmaPUTzv11y5g4cu/cLtAk8/jjnv/VHZ6kvac51hpTnOTnZD1HkrPA==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-formily-transformer" "1.0.1-beta.4"
+    "@sinohealth/designable-react" "1.0.1-beta.4"
+    "@sinohealth/designable-react-settings-form" "1.0.1-beta.4"
+
+"@sinohealth/designable-formily-transformer@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-transformer/-/designable-formily-transformer-1.0.1-beta.4.tgz#4bd4d4d0e84474b5620514c29286d658294373f6"
+  integrity sha512-FKEs35/GZ5DCGPSKjwHERj/Tjbz82rG4uEOcT4Qsusx02lOWZ9jXps3pZ9K3tvuKMdYBjrQZ71udQ72+4/cRCA==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+
+"@sinohealth/designable-react-settings-form@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react-settings-form/-/designable-react-settings-form-1.0.1-beta.4.tgz#ae6452527349b0954654751b7265297e8ed49a02"
+  integrity sha512-0ybV5IAcnNln1dracHXPBNwLb/eg1adp6cz+CgUW+daClROrLmEx5Izios5y9CDhzoCCnCV9plzu9Ypq35y/yw==
+  dependencies:
+    "@babel/parser" "^7.14.7"
+    "@monaco-editor/react" "^4.2.1"
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-react" "1.0.1-beta.4"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+    monaco-editor "^0.25.2"
+    prettier "^2.3.2"
+    react-color "^2.19.3"
+    react-tiny-popover "^6.0.5"
+
+"@sinohealth/designable-react@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react/-/designable-react-1.0.1-beta.4.tgz#92c787a595b00bd5f1bee8354a0a6c3e336a61af"
+  integrity sha512-0K0AcffjJT68CnxhtTs5KcCvzoO75ysBu+IFICbHcJ2vwHAThA9HovLRZcXKysX0vWDktrxBIWlWqlh8mLZcgw==
+  dependencies:
+    "@sinohealth/designable-core" "1.0.1-beta.4"
+    "@sinohealth/designable-shared" "1.0.1-beta.4"
+    dateformat "^4.5.1"
+
+"@sinohealth/designable-shared@1.0.1-beta.4":
+  version "1.0.1-beta.4"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-shared/-/designable-shared-1.0.1-beta.4.tgz#d40bfdf56bb3e2be6791fed35d76c895a2a75560"
+  integrity sha512-eT0xdsPzBo22/LSlQn67MVi5gvoymrvb+/KtHy2EyRUm2lYfrvv9L+jTygr0kDKkBbgPOfXIGXCYvM8Jakp5xg==
+  dependencies:
+    requestidlecallback "^0.3.0"
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
@@ -4543,7 +4623,7 @@ clamp@^1.0.1:
   resolved "https://registry.npmmirror.com/clamp/-/clamp-1.0.1.tgz"
   integrity sha512-kgMuFyE78OC6Dyu3Dy7vcx4uy97EIbVxJB/B0eJ3bUNAkwdNcxYzgKltnyADiYwsR7SEqkkUPsEUT//OVS6XMA==
 
-classnames@2.x, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6, classnames@^2.3.1:
+classnames@2.3.1, classnames@2.x, classnames@^2.2.1, classnames@^2.2.3, classnames@^2.2.5, classnames@^2.2.6, classnames@^2.3.1:
   version "2.3.1"
   resolved "https://registry.npmmirror.com/classnames/-/classnames-2.3.1.tgz"
   integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
@@ -5290,6 +5370,11 @@ date-fns@2.x:
   version "2.28.0"
   resolved "https://registry.npmmirror.com/date-fns/-/date-fns-2.28.0.tgz"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
+
+dateformat@^4.5.1:
+  version "4.6.3"
+  resolved "https://registry.npmmirror.com/dateformat/-/dateformat-4.6.3.tgz#556fa6497e5217fedb78821424f8a1c22fa3f4b5"
+  integrity sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==
 
 dayjs@1.x:
   version "1.11.3"
@@ -9061,6 +9146,11 @@ moment@^2.29.4:
   resolved "https://registry.npmmirror.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
+monaco-editor@^0.25.2:
+  version "0.25.2"
+  resolved "https://registry.npmmirror.com/monaco-editor/-/monaco-editor-0.25.2.tgz#119e2b15bbd968a1a99c03cac9c329316d7c37e9"
+  integrity sha512-5iylzSJevCnzJn9UVsW8yOZ3yHjmAs4TfvH3zsbftKiFKmHG0xirGN6DK9Kk04VSWxYCZZAIafYJoNJJMAU1KA==
+
 mousetrap@^1.6.5:
   version "1.6.5"
   resolved "https://registry.npmmirror.com/mousetrap/-/mousetrap-1.6.5.tgz"
@@ -10376,7 +10466,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.8.1:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmmirror.com/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -10910,6 +11000,19 @@ react-color@2.17.3, react-color@^2.17.3:
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
 
+react-color@^2.19.3:
+  version "2.19.3"
+  resolved "https://registry.npmmirror.com/react-color/-/react-color-2.19.3.tgz#ec6c6b4568312a3c6a18420ab0472e146aa5683d"
+  integrity sha512-LEeGE/ZzNLIsFWa1TMe8y5VYqr7bibneWmvJwm1pCn/eNmrabWDh659JSPn9BuaMpEfU83WTOJfnCcjDZwNQTA==
+  dependencies:
+    "@icons/material" "^0.2.4"
+    lodash "^4.17.15"
+    lodash-es "^4.17.15"
+    material-colors "^1.2.1"
+    prop-types "^15.5.10"
+    reactcss "^1.2.0"
+    tinycolor2 "^1.4.1"
+
 react-content-loader@^5.0.4:
   version "5.1.4"
   resolved "https://registry.npmmirror.com/react-content-loader/-/react-content-loader-5.1.4.tgz"
@@ -11012,12 +11115,25 @@ react-sortable-hoc@^2.0.0:
     invariant "^2.2.4"
     prop-types "^15.5.7"
 
+react-sortablejs@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.npmmirror.com/react-sortablejs/-/react-sortablejs-6.1.4.tgz#420ebfab602bbd935035dec24a04c8b3b836dbbf"
+  integrity sha512-fc7cBosfhnbh53Mbm6a45W+F735jwZ1UFIYSrIqcO/gRIFoDyZeMtgKlpV4DdyQfbCzdh5LoALLTDRxhMpTyXQ==
+  dependencies:
+    classnames "2.3.1"
+    tiny-invariant "1.2.0"
+
 react-sticky-box@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmmirror.com/react-sticky-box/-/react-sticky-box-1.0.2.tgz"
   integrity sha512-Kyvtppdtv1KqJyNU4DtrSMI0unyQRgtraZvVQ0GAazVbYiTsIVpyhpr+5R0Aavzu4uJNSe1awj2rk/qI7i6Zfw==
   dependencies:
     resize-observer-polyfill "^1.5.1"
+
+react-tiny-popover@^6.0.5:
+  version "6.0.10"
+  resolved "https://registry.npmmirror.com/react-tiny-popover/-/react-tiny-popover-6.0.10.tgz#6167a1b4a1ae6cf847d2909057defd00d95d726c"
+  integrity sha512-ECMucd701SxWHGa+2YuVvccCxxTjmhomcD0ZYTF+Qmi5qNAj8pdlExFN+k+p1G78QTYIGPGNLocxRb9f6cZ0Mw==
 
 react-universal-interface@^0.6.2:
   version "0.6.2"
@@ -11261,6 +11377,11 @@ repeat-string@^1.0.0, repeat-string@^1.5.2:
   version "1.6.1"
   resolved "https://registry.npmmirror.com/repeat-string/-/repeat-string-1.6.1.tgz"
   integrity sha512-PV0dzCYDNfRi1jCDbJzpW7jNNDRuCOG/jI5ctQcGKt/clZD+YcPS3yIlWuTJMmESC8aevCFmWJy5wjAFgNqN6w==
+
+requestidlecallback@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.npmmirror.com/requestidlecallback/-/requestidlecallback-0.3.0.tgz#6fb74e0733f90df3faa4838f9f6a2a5f9b742ac5"
+  integrity sha512-TWHFkT7S9p7IxLC5A1hYmAYQx2Eb9w1skrXmQ+dS1URyvR8tenMLl4lHbqEOUnpEYxNKpkVMXUgknVpBZWXXfQ==
 
 require-directory@^2.1.1:
   version "2.1.1"
@@ -11775,6 +11896,11 @@ sockjs@^0.3.21:
     uuid "^8.3.2"
     websocket-driver "^0.7.4"
 
+sortablejs@^1.15.0:
+  version "1.15.0"
+  resolved "https://registry.npmmirror.com/sortablejs/-/sortablejs-1.15.0.tgz#53230b8aa3502bb77a29e2005808ffdb4a5f7e2a"
+  integrity sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==
+
 source-list-map@^2.0.0, source-list-map@^2.0.1:
   version "2.0.1"
   resolved "https://registry.npmmirror.com/source-list-map/-/source-list-map-2.0.1.tgz"
@@ -11969,6 +12095,11 @@ stacktrace-js@^2.0.2:
     error-stack-parser "^2.0.6"
     stack-generator "^2.0.5"
     stacktrace-gps "^3.0.4"
+
+state-local@^1.0.6:
+  version "1.0.7"
+  resolved "https://registry.npmmirror.com/state-local/-/state-local-1.0.7.tgz#da50211d07f05748d53009bee46307a37db386d5"
+  integrity sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==
 
 "statuses@>= 1.4.0 < 2", "statuses@>= 1.5.0 < 2", statuses@~1.5.0:
   version "1.5.0"
@@ -12506,6 +12637,11 @@ thunky@^1.0.2:
   version "1.1.0"
   resolved "https://registry.npmmirror.com/thunky/-/thunky-1.1.0.tgz"
   integrity sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==
+
+tiny-invariant@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmmirror.com/tiny-invariant/-/tiny-invariant-1.2.0.tgz#a1141f86b672a9148c72e978a19a73b9b94a15a9"
+  integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==
 
 tinycolor2@^1.4.1:
   version "1.4.2"
