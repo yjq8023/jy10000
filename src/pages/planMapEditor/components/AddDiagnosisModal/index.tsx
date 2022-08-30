@@ -21,6 +21,7 @@ const AddDiagnosisModal = (props: any, ref: any) => {
   const handleOpen = (node: any) => {
     setNodeData(node);
     setIsModalVisible(true);
+    form.resetFields();
   };
 
   const handleOk = () => {
