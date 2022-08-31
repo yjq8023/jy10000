@@ -1,27 +1,44 @@
 // @ts-nocheck
-import { Engine } from '@sinohealth/designable-core';
+import { Engine, createBehavior, createResource } from '@sinohealth/designable-core';
 import {
   transformToSchema,
   transformToTreeNode,
 } from '@sinohealth/designable-formily-transformer';
 import { message } from '@sinohealth/butterfly-ui-components/lib';
+import { getAiIoComponents, getBeforeInfoSchema, saveManagePlanPreInfo } from '@/services/planMapAntForm';
+import { getSchemaItem } from '@/pages/formily/editor/utils/schema';
 
-export const saveSchema = (designer: Engine) => {
-  localStorage.setItem(
-    'formily-schema',
-    JSON.stringify(transformToSchema(designer.getCurrentTree())),
-  );
+export const saveSchema = (props: { designer: Engine, type: string, id: string }) => {
+  const { designer, type, projectId, formId } = props;
 
-  message.success('保存成功');
+  const schema = JSON.stringify(transformToSchema(designer.getCurrentTree()));
+  if (type === 'beforeInfo') {
+    saveManagePlanPreInfo({
+      projectId,
+      formJson: schema,
+      category: 'PRE',
+    })
+      .then((data) => {
+        message.success('保存成功');
+      });
+  }
 };
 
-export const loadInitialSchema = (designer: Engine) => {
-  try {
-    designer.setCurrentTree(
-      transformToTreeNode(JSON.parse(localStorage.getItem('formily-schema'))),
-    );
-  } catch {
-    console.log('loadInitialSchema error');
+export const loadInitialSchema = (props: { designer: Engine, type: string, id: string }) => {
+  const { designer, type, projectId, formId } = props;
+  if (type === 'beforeInfo') {
+    getBeforeInfoSchema(projectId)
+      .then((data) => {
+        if (data.formJson) {
+          try {
+            designer.setCurrentTree(
+              transformToTreeNode(JSON.parse(data.formJson)),
+            );
+          } catch {
+            message.error('加载历史数据失败，你可以重新编辑或刷新页面');
+          }
+        }
+      });
   }
 };
 
@@ -73,4 +90,27 @@ export const importSchema = (designer: Engine, formId: string) => {
   } catch {
     message.error('导入失败');
   }
+};
+
+export const fetchAiIoComponents = (projectId) => {
+  return getAiIoComponents(projectId)
+    .then((data: any) => {
+      const components = data.map((item: any) => getSchemaItem(item));
+      const ioSelector = components.map((item: any) => {
+        return {
+          Resource: createResource(
+            {
+              title: item.title.replace(/\[/g, '【').replace(/\]/g, '】'),
+              elements: [
+                {
+                  componentName: 'Field',
+                  props: item,
+                },
+              ],
+            },
+          ),
+        };
+      });
+      return ioSelector;
+    });
 };

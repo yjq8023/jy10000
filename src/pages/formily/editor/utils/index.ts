@@ -1,6 +1,5 @@
 import { createBehavior, createResource } from '@sinohealth/designable-core';
 import { getSchemaItem } from './schema';
-import IO from '@/pages/formily/editor/components/IO';
 
 export const getIoComponents = () => {
   const data = [

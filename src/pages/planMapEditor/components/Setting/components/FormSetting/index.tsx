@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Select } from '@sinohealth/butterfly-ui-components/lib';
 import { planItemTypes } from '@/pages/planMapEditor/config';
 import style from './index.less';
@@ -7,15 +7,16 @@ import style from './index.less';
 const FormSetting = (props: any) => {
   const { data } = props;
   const navigate = useNavigate();
+  const [params] = useSearchParams();
   const titles: any = {
     [planItemTypes.beforeInfo]: '项目前置信息',
     [planItemTypes.followUp]: '跟进记录表',
     [planItemTypes.form]: '医学量表',
   };
   const handleEdit = () => {
-    const { type } = data;
-    const cType = type === planItemTypes.beforeInfo ? 'beforeInfo' : 'followUp';
-    navigate(`/project/formily/editor?type=${cType}&id=${data.id}`);
+    const { itemCategory } = data;
+    const cType = itemCategory === planItemTypes.beforeInfo ? 'beforeInfo' : 'followUp';
+    navigate(`/project/formily/editor?type=${cType}&formId=${data.id}&projectId=${params.get('id')}`);
   };
   return (
     <div className={style.formSetting}>

@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '@sinohealth/butterfly-ui-components/lib';
 import { useDesigner, TextWidget } from '@sinohealth/designable-react';
 import { GlobalRegistry } from '@sinohealth/designable-core';
@@ -8,8 +9,14 @@ import { loadInitialSchema, saveSchema } from '../service';
 
 export const ActionsWidget = observer(() => {
   const designer = useDesigner();
+  const [params] = useSearchParams();
   useEffect(() => {
-    loadInitialSchema(designer);
+    loadInitialSchema({
+      designer,
+      type: params.get('type'),
+      formId: params.get('formId'),
+      projectId: params.get('projectId'),
+    });
   }, []);
   const supportLocales = ['zh-cn', 'en-us', 'ko-kr'];
   useEffect(() => {
@@ -21,7 +28,7 @@ export const ActionsWidget = observer(() => {
     <div style={{ marginRight: 10 }}>
       <Button
         onClick={() => {
-          saveSchema(designer);
+          console.log(1111);
         }}
       >
         查看决策流
@@ -31,7 +38,12 @@ export const ActionsWidget = observer(() => {
       <Button
         type="primary"
         onClick={() => {
-          saveSchema(designer);
+          saveSchema({
+            designer,
+            type: params.get('type'),
+            formId: params.get('formId'),
+            projectId: params.get('projectId'),
+          });
         }}
       >
         <TextWidget>Save</TextWidget>
