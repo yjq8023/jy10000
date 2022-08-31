@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import {
   Button,
   Space,
@@ -11,94 +9,29 @@ import {
   Spin,
   message,
   Modal,
-  Drawer,
-  Radio,
-  Select,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { VideoCameraOutlined, QuestionCircleFilled, PictureOutlined } from '@ant-design/icons';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/color-picker.css';
 import 'braft-extensions/dist/table.css';
 import BraftEditor, { ExtendControlType } from 'braft-editor';
-import Table from 'braft-extensions/dist/table';
-import ColorPicker from 'braft-extensions/dist/color-picker';
 import { ContentUtils } from 'braft-utils';
 import styles from './index.less';
 import { httpContentUpdate } from '@/services/project';
 import { getLocalStorage, removeLocalStorage } from '@/utils/cookies';
 import { previewFile } from '@/utils';
-import LabelSelect from '../../components/LabelSelect';
 import UploadCover from '../components/UploadCover';
 import Upload from '@/components/Upload';
 import NetworkModal from '../components/NetworkModal';
-
-const { confirm } = Modal;
-
-interface MEDIATYPE {
-  id: number;
-  url: string;
-  type: 'IMAGE' | 'VIDEO';
-  name: string;
-}
-
-const controls: any = [
-  'headings',
-  // 'font-family',
-  'font-size',
-  'line-height',
-  'letter-spacing',
-  'separator',
-  'text-color',
-  'bold',
-  'text-align',
-  'text-indent',
-  'separator',
-  'list-ol',
-  'list-ul',
-  'italic',
-  'strike-through',
-  'superscript',
-  'subscript',
-  'underline',
-  'separator',
-  // 'blockquote',
-  // 'code',
-  // 'emoji',
-  'table',
-  'hr',
-  'link',
-  // 'media',
-  'separator',
-  'remove-styles',
-  'clear',
-  'separator',
-  'fullscreen',
-  'undo',
-  'redo',
-];
-
-BraftEditor.use(
-  ColorPicker({ includeEditors: ['editor-id'], theme: 'light', closeButtonText: '确认' }),
-);
-BraftEditor.use(
-  Table({
-    defaultColumns: 5, // 默认列数
-    defaultRows: 5, // 默认行数
-    withDropdown: true, // 插入表格前是否弹出下拉菜单
-    columnResizable: true, // 是否允许拖动调整列宽，默认false
-    exportAttrString:
-      'border="1" style="border-collapse: collapse;table-layout:fixed;width: 100%;border:1px;text-align:center;padding:5px;min-height:100px"', // 指定输出HTML时附加到table标签上的属性字符串
-    includeEditors: ['editor-id'],
-  }),
-);
+import PreviewDrawer from '../components/PreviewDrawer';
+import useConfig, { MEDIATYPE } from './useConfig';
 
 /**
  * 文章库-新增文章
  * @returns
  */
 const ArticleInsert: React.FC = () => {
-  const navigate = useNavigate();
   const [form] = Form.useForm();
+  const { Controls, navigateBack, handleCancelSave } = useConfig();
   const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null));
   const [insertParams, setInsertParams] = useState<ProjectType.ContentReq>({});
   const [loading, setLoading] = useState(false);
@@ -124,29 +57,6 @@ const ArticleInsert: React.FC = () => {
       .catch(() => {});
   };
 
-  const handleCancelSave = () => {
-    confirm({
-      title: '当前编辑还未保存, 是否需要保存?',
-      icon: <QuestionCircleFilled style={{ color: '#EA6868' }} />,
-      okButtonProps: { danger: true },
-      okText: '保存',
-      cancelButtonProps: { type: 'info' },
-      cancelText: '不保存',
-      onOk: async () => {
-        return new Promise((resolve) => {
-          const timer = setTimeout(() => {
-            resolve(true);
-            handleSaveContent();
-            clearTimeout(timer);
-          }, 1000);
-        }).catch(() => console.log('Oops errors!'));
-      },
-      onCancel() {
-        navigateBack();
-      },
-    });
-  };
-
   const httpContentUpdateReq = async (params: ProjectType.ContentReq) => {
     setLoading(true);
     const res: any = await httpContentUpdate({ ...insertParams, ...params });
@@ -164,11 +74,6 @@ const ArticleInsert: React.FC = () => {
   const insertMedias = (lis: any) => {
     const D = ContentUtils.insertMedias(editorState, lis);
     setEditorState(D);
-  };
-
-  const navigateBack = () => {
-    removeLocalStorage('ARTICLE_DATA');
-    navigate(-1);
   };
 
   const ExtendControls: ExtendControlType[] = [
@@ -213,9 +118,15 @@ const ArticleInsert: React.FC = () => {
               const url = previewFile(response.data);
               setMediaSource([
                 ...mediaSource,
-                { id: new Date().getTime(), url, name: '', type: 'VIDEO' },
+                {
+                  id: new Date().getTime(),
+                  url,
+                  name: '',
+                  type: 'VIDEO',
+                  data: { controls: false },
+                },
               ]);
-              insertMedias([{ type: 'VIDEO', url }]);
+              insertMedias([{ type: 'VIDEO', url, data: { controls: false } }]);
             }
           }}
         >
@@ -242,22 +153,8 @@ const ArticleInsert: React.FC = () => {
     form.setFieldsValue({
       title,
       author,
-      // labelIds: labelVoList.map((el: any) => el.id),
     });
     setEditorState(BraftEditor.createEditorState(content));
-  }, []);
-
-  useEffect(() => {
-    const listener = (ev: any) => {
-      ev.preventDefault();
-      // eslint-disable-next-line no-param-reassign
-      ev.returnValue = '文章还未保存，确定离开吗？';
-    };
-    window.addEventListener('beforeunload', listener);
-    return () => {
-      removeLocalStorage('ARTICLE_DATA');
-      window.removeEventListener('beforeunload', listener);
-    };
   }, []);
 
   return (
@@ -297,24 +194,6 @@ const ArticleInsert: React.FC = () => {
               </Form.Item>
             </Col>
           </Row>
-          {/* <Row gutter={24}>
-            <Col span={9}>
-              <Form.Item labelCol={{ span: 5 }} name="labelIds" label="标签">
-                <LabelSelect
-                  search={false}
-                  width="357px"
-                  placeholder="请选择标签"
-                  mapSour={form.getFieldValue('labelIds')}
-                  onSelect={(v) => {
-                    form.setFieldsValue({
-                      labelIds: v,
-                    });
-                    setIsEditInsert(true);
-                  }}
-                />
-              </Form.Item>
-            </Col>
-          </Row> */}
           <Row gutter={24}>
             <Col span={9}>
               <Form.Item labelCol={{ span: 5 }} name="storageId" label="封面">
@@ -351,7 +230,7 @@ const ArticleInsert: React.FC = () => {
                   ]}
                   placeholder="请输入正文内容"
                   onChange={(v) => handleChangeContent(v)}
-                  controls={controls}
+                  controls={Controls}
                   extendControls={ExtendControls}
                 />
               </Form.Item>
@@ -365,7 +244,7 @@ const ArticleInsert: React.FC = () => {
               onClick={() => {
                 const { title } = form.getFieldsValue();
                 if (isEditInsert && title) {
-                  handleCancelSave();
+                  handleCancelSave(handleSaveContent);
                 } else {
                   navigateBack();
                 }
@@ -380,31 +259,13 @@ const ArticleInsert: React.FC = () => {
           </Space>
         </div>
       </Spin>
-      <Drawer
-        className={styles['phone-drawer']}
-        closable={false}
-        placement="right"
+      <PreviewDrawer
         visible={previewDrawer}
         onClose={() => setPreviewDrawer(false)}
-      >
-        <div className={styles.header}>
-          <span className={styles.title}>浏览内容</span>
-          <span
-            className={`${styles.icon} iconfont icon-shibai1`}
-            onClick={() => setPreviewDrawer(false)}
-          />
-        </div>
-        <div className={styles['phone-header']} />
-        <div className={styles['phone-model']}>
-          <h4 className={styles['content-title']}>{form.getFieldValue('title')}</h4>
-          <div
-            className={styles.container}
-            dangerouslySetInnerHTML={{ __html: editorState.toHTML() }}
-          />
-          <div className={styles.author}>{form.getFieldValue('author')}</div>
-          <div className={styles.time}>更新时间：{moment().format('YYYY-MM-DD')}</div>
-        </div>
-      </Drawer>
+        htmlCont={editorState.toHTML()}
+        author={form.getFieldValue('author')}
+        title={form.getFieldValue('title')}
+      />
       <NetworkModal
         visible={networkModalVisible}
         source={mediaSource}
@@ -412,7 +273,7 @@ const ArticleInsert: React.FC = () => {
         onOk={(v) => {
           const D: any = [];
           v.forEach((el) => {
-            D.push({ type: el.type, url: el.url });
+            D.push({ type: el.type, url: el.url, data: el.data });
           });
           insertMedias(D);
           setNetworkModalVisible(false);

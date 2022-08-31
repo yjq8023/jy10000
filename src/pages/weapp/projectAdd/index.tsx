@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Form,
   Input,
-  InputNumber,
   Row,
   Col,
   Radio,
@@ -11,7 +10,7 @@ import {
   Select,
   Space,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 
 import style from './index.less';
 import ProjectSelect from '@/components/ProjectSelect';
@@ -38,7 +37,6 @@ function ProjectAdd() {
 
   const httpGetByChain = async () => {
     const res: any = await getByChain(chainParams);
-    console.log(res);
     setChainSource(res);
   };
 
@@ -57,7 +55,6 @@ function ProjectAdd() {
   };
 
   const onSubmit = (formValues: any) => {
-    console.log(formValues);
     const api = id ? editProject : createProject;
     api({
       ...formValues,
@@ -111,8 +108,28 @@ function ProjectAdd() {
             <Form.Item name="diseaseId" label="项目病种" rules={requiredRule}>
               <ProjectSelect parentId={categoryId} disable={!!id} placeholder="请选择" />
             </Form.Item>
-            <Form.Item name="serviceProjectName" label="项目名称" rules={requiredRule}>
-              <Input placeholder="请输入" />
+            <Form.Item
+              name="serviceProjectName"
+              label="项目名称"
+              rules={[
+                {
+                  required: true,
+                  validator: (rule, value, callback) => {
+                    if (!value) {
+                      return Promise.reject(new Error('请输入项目名称'));
+                    }
+                    if (value && value.trim() === '') {
+                      return Promise.reject(new Error('项目名称不能为空'));
+                    }
+                    if (value.length > 10) {
+                      return Promise.reject(new Error('项目名称最多10字'));
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
+            >
+              <Input placeholder="请输入" autoComplete="off" />
             </Form.Item>
             <Form.Item name="manageProjectId" label="关联管理项目" rules={requiredRule}>
               {/* <Input readOnly value="暂无" /> */}
@@ -123,12 +140,18 @@ function ProjectAdd() {
                 showArrow={false}
                 filterOption={false}
                 notFoundContent={null}
+                optionLabelProp="label"
                 onSearch={(v) => {
                   setChainParams({ name: v });
                 }}
               >
                 {chainSource?.map((el: any) => (
-                  <Option key={el.id}>{el.value}</Option>
+                  <Option key={el.id} value={el.id} label={el.value}>
+                    <div className={style.ellipsis}>{el.value}</div>
+                    <Link target="_blank" to={`/project/term/library/planDetail?id=${el.id}`}>
+                      查看
+                    </Link>
+                  </Option>
                 ))}
               </Select>
             </Form.Item>

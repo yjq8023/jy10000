@@ -184,8 +184,8 @@ function WeappProject() {
     },
     {
       title: '医生审核',
-      dataIndex: 'needAudit',
-      key: 'needAudit',
+      dataIndex: 'needDoctor',
+      key: 'needDoctor',
       width: 100,
       render(text: any) {
         return text ? '是' : '否';

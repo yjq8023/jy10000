@@ -1,0 +1,165 @@
+@import '@/style/var.less';
+
+.phone-drawer {
+
+  :global {
+    .ant-drawer-content-wrapper {
+      width: 305px !important;
+      top: 64px;
+    }
+
+    .ant-drawer-body {
+      padding: 0;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+
+
+  ul {
+    list-style: disc inside;
+  }
+
+  ol {
+    list-style: decimal inside;
+  }
+
+  //标题 
+  h1 {
+    font-size: 2em;
+    margin: .67em 0
+  }
+
+  h2 {
+    font-size: 1.5em;
+    margin: .75em 0
+  }
+
+  h3 {
+    font-size: 1.17em;
+    margin: .83em 0
+  }
+
+  h4 {
+    margin: 1.12em 0
+  }
+
+  h5 {
+    font-size: .83em;
+    margin: 1.5em 0
+  }
+
+  h6 {
+    font-size: .75em;
+    margin: 1.67em 0
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  b,
+  strong {
+    font-weight: bolder
+  }
+
+  table,
+  caption,
+  tbody,
+  tfoot,
+  thead,
+  tr,
+  th,
+  td {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    border: 1px solid #c5c5c5;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+
+    .title {
+      font-weight: 500;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.85);
+      padding-left: 12px;
+      position: relative;
+
+      &::before {
+        content: "";
+        display: block;
+        width: 4px;
+        height: 16px;
+        background: rgba(33, 123, 160, 0.80);
+        border-radius: 2px;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    .icon {
+      font-size: 20px;
+      color: rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+    }
+  }
+
+  .phone-header {
+    width: 305px;
+    height: 61px;
+    background-image: url('~@/assets/images/common/phone_header.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .phone-model {
+    height: 667px;
+    padding: 24px 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .content-title {
+      font-weight: Bold;
+      font-size: 19.49px;
+      color: rgba(0, 0, 0, 0.85);
+      letter-spacing: 0.65px;
+      line-height: 19.49px;
+      margin-bottom: 14px;
+    }
+
+    .container {
+      margin-bottom: 20px;
+    }
+
+    .author {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.45);
+      letter-spacing: 0;
+      line-height: 16.25px;
+      margin-bottom: 5px;
+    }
+
+    .time {
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.45);
+      letter-spacing: 0;
+      line-height: 16.25px;
+    }
+  }
+}
