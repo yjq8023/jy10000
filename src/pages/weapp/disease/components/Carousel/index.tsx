@@ -65,7 +65,23 @@ const Carousel: React.FC<CarouselProps> = (props) => {
           <Form.Item
             label="轮播图名称"
             name="title"
-            rules={[{ required: true, message: '请输入轮播图名称' }]}
+            rules={[
+              {
+                required: true,
+                validator: (rule, value, callback) => {
+                  if (!value) {
+                    return Promise.reject(new Error('请输入轮播图名称'));
+                  }
+                  if (value && value.trim() === '') {
+                    return Promise.reject(new Error('轮播图名称不能为空'));
+                  }
+                  if (value.length > 20) {
+                    return Promise.reject(new Error('项目名称最多20字'));
+                  }
+                  return Promise.resolve();
+                },
+              },
+            ]}
           >
             <Input placeholder="请输入轮播图名称" />
           </Form.Item>

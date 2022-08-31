@@ -18,7 +18,9 @@ import {
 import { VideoCameraOutlined, QuestionCircleFilled, PictureOutlined } from '@ant-design/icons';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/color-picker.css';
+import 'braft-extensions/dist/table.css';
 import BraftEditor, { ExtendControlType } from 'braft-editor';
+import Table from 'braft-extensions/dist/table';
 import ColorPicker from 'braft-extensions/dist/color-picker';
 import { ContentUtils } from 'braft-utils';
 import styles from './index.less';
@@ -62,6 +64,7 @@ const controls: any = [
   // 'blockquote',
   // 'code',
   // 'emoji',
+  'table',
   'hr',
   'link',
   // 'media',
@@ -76,6 +79,17 @@ const controls: any = [
 
 BraftEditor.use(
   ColorPicker({ includeEditors: ['editor-id'], theme: 'light', closeButtonText: '确认' }),
+);
+BraftEditor.use(
+  Table({
+    defaultColumns: 5, // 默认列数
+    defaultRows: 5, // 默认行数
+    withDropdown: true, // 插入表格前是否弹出下拉菜单
+    columnResizable: true, // 是否允许拖动调整列宽，默认false
+    exportAttrString:
+      'border="1" style="border-collapse: collapse;width: 100%;border:1px;text-align:center;padding:5px"', // 指定输出HTML时附加到table标签上的属性字符串
+    includeEditors: ['editor-id'],
+  }),
 );
 
 /**

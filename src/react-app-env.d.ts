@@ -77,3 +77,4 @@ declare module '*.less' {
 
 declare module 'braft-utils';
 declare module 'braft-extensions/dist/color-picker';
+declare module 'braft-extensions/dist/table';

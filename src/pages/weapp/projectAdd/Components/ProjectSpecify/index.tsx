@@ -36,7 +36,6 @@ const ProjectSpecify: React.FC<ProjectSpecifyProps> = (props) => {
 
   const handleSelectTime = (value: string) => {
     const d = value.split('');
-    console.log(d);
     setCurrentSpecify({
       ...currentSpecify,
       timeNumber: d[0],
@@ -148,13 +147,18 @@ const ProjectSpecify: React.FC<ProjectSpecifyProps> = (props) => {
                 <div className={styles.name}>
                   <Input
                     disabled={isSame}
+                    value={currentSpecify.originalPrice}
                     placeholder="请输入（¥）"
-                    onChange={(e: any) =>
-                      setCurrentSpecify({
-                        ...currentSpecify,
-                        originalPrice: e.target.value,
-                      })
-                    }
+                    onChange={(e: any) => {
+                      const { value: inputValue } = e.target;
+                      const reg = /^\d*(\.(\d){0,2})?$/;
+                      if (reg.test(inputValue)) {
+                        setCurrentSpecify({
+                          ...currentSpecify,
+                          originalPrice: inputValue,
+                        });
+                      }
+                    }}
                   />
                 </div>
               </div>
@@ -164,12 +168,16 @@ const ProjectSpecify: React.FC<ProjectSpecifyProps> = (props) => {
                   <Input
                     disabled={isSame}
                     placeholder="请输入（¥）"
-                    onChange={(e: any) =>
-                      setCurrentSpecify({
-                        ...currentSpecify,
-                        disCountPrice: e.target.value,
-                      })
-                    }
+                    onChange={(e: any) => {
+                      const { value: inputValue } = e.target;
+                      const reg = /^\d*(\.(\d){0,2})?$/;
+                      if (reg.test(inputValue)) {
+                        setCurrentSpecify({
+                          ...currentSpecify,
+                          disCountPrice: inputValue,
+                        });
+                      }
+                    }}
                   />
                 </div>
               </div>

@@ -62,18 +62,6 @@ function WeappProject(props: any) {
     props.form.submit();
   };
 
-  const operations = (
-    <Space>
-      <Button type="info" onClick={() => onReset()}>
-        重置
-      </Button>
-      &nbsp; &nbsp;
-      <Button type="primary" htmlType="submit">
-        查询
-      </Button>
-    </Space>
-  );
-
   useEffect(() => {
     getParentColumnsList();
   }, []);
@@ -90,7 +78,7 @@ function WeappProject(props: any) {
       >
         <div className={style.tabHeader}>
           <Form.Item name="categoryId" noStyle>
-            <Tabs tabBarExtraContent={operations}>
+            <Tabs>
               {sources.map((item) => (
                 <TabPane tab={item.sourceName} key={item.sourceId} />
               ))}
@@ -98,7 +86,7 @@ function WeappProject(props: any) {
           </Form.Item>
         </div>
         <Row style={{ width: 'calc(100% + 93px)' }} gutter={[120, 24]}>
-          <Col span={10}>
+          <Col span={8}>
             <Form.Item name="diseaseIds" label="所属病种">
               {/* <ProjectSelect placeholder="请选择" parentId={selectedTab} /> */}
               <DiseasesSelect
@@ -111,10 +99,20 @@ function WeappProject(props: any) {
               />
             </Form.Item>
           </Col>
-          <Col span={10}>
+          <Col span={9}>
             <Form.Item name="name" label="项目查询">
-              <Input placeholder="请输入项目名称" />
+              <Input placeholder="请输入项目名称" autoComplete="off" />
             </Form.Item>
+          </Col>
+          <Col span={5} offset={2}>
+            <Space>
+              <Button type="info" onClick={() => onReset()}>
+                重置
+              </Button>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+            </Space>
           </Col>
         </Row>
       </Form>
