@@ -11,10 +11,6 @@ const DiagnosisSetting = (props: any) => {
   const { data } = props;
   const [form] = Form.useForm();
   const { setPlanMapState, disabled } = useContext(planMapContext);
-  useEffect(() => {
-    console.log('form');
-    console.log(form);
-  }, []);
   const handleChange = () => {
     debounce(() => {
       form.submit();
@@ -46,13 +42,13 @@ const DiagnosisSetting = (props: any) => {
             name="itemName"
             rules={[{ required: true, message: '该字段为必填项' }]}
           >
-            <Input disabled={disabled} style={{ width: '100%' }} placeholder="请输入" />
+            <Input disabled={disabled || data.aiDecisionFlowsNodeId} style={{ width: '100%' }} placeholder="请输入" />
           </Form.Item>
           <Form.Item
             label="提示说明"
             name="remark"
           >
-            <Input.TextArea disabled={disabled} style={{ width: '100%' }} placeholder="请输入" />
+            <Input.TextArea disabled={disabled || data.aiDecisionFlowsNodeId} style={{ width: '100%' }} placeholder="请输入" />
           </Form.Item>
         </Form>
       </div>
