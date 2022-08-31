@@ -66,6 +66,11 @@ const FormSetting = (props: any) => {
         }
       </div>
       <div className={style.body}>
+        {
+          Object.keys(schema.schema).length === 0 && (
+            <div className={style.empty}>暂无内容</div>
+          )
+        }
         <FormRender schema={schema.schema} formProps={{ componentProps: formProps }} components={components} />
       </div>
       <div className={style.footer}>
