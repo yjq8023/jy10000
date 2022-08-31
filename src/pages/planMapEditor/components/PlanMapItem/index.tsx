@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import lodash from 'lodash';
-import { Badge } from '@sinohealth/butterfly-ui-components/lib';
+import { Badge, message } from '@sinohealth/butterfly-ui-components/lib';
 import { LinkOutlined } from '@ant-design/icons';
 // @ts-ignore
 import Sortable from 'sortablejs';
@@ -74,6 +74,7 @@ export const PlanMapItem = (props: any) => {
             newItems,
           ],
         });
+        message.success('复制成功');
       }
     },
   };
