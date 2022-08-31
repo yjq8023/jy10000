@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Form,
   Input,
-  InputNumber,
   Row,
   Col,
   Radio,
@@ -11,7 +10,7 @@ import {
   Select,
   Space,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 
 import style from './index.less';
 import ProjectSelect from '@/components/ProjectSelect';
@@ -38,7 +37,6 @@ function ProjectAdd() {
 
   const httpGetByChain = async () => {
     const res: any = await getByChain(chainParams);
-    console.log(res);
     setChainSource(res);
   };
 
@@ -57,7 +55,6 @@ function ProjectAdd() {
   };
 
   const onSubmit = (formValues: any) => {
-    console.log(formValues);
     const api = id ? editProject : createProject;
     api({
       ...formValues,
@@ -143,12 +140,18 @@ function ProjectAdd() {
                 showArrow={false}
                 filterOption={false}
                 notFoundContent={null}
+                optionLabelProp="label"
                 onSearch={(v) => {
                   setChainParams({ name: v });
                 }}
               >
                 {chainSource?.map((el: any) => (
-                  <Option key={el.id}>{el.value}</Option>
+                  <Option key={el.id} value={el.id} label={el.value}>
+                    <div className={style.ellipsis}>{el.value}</div>
+                    <Link target="_blank" to={`/project/term/library/planDetail?id=${el.id}`}>
+                      查看
+                    </Link>
+                  </Option>
                 ))}
               </Select>
             </Form.Item>

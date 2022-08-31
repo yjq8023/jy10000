@@ -30,3 +30,19 @@
     transform: translateY(-50%);
   }
 }
+
+:global {
+  .ant-select-item-option-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
