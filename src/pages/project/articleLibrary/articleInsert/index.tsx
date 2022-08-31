@@ -87,7 +87,7 @@ BraftEditor.use(
     withDropdown: true, // 插入表格前是否弹出下拉菜单
     columnResizable: true, // 是否允许拖动调整列宽，默认false
     exportAttrString:
-      'border="1" style="border-collapse: collapse;width: 100%;border:1px;text-align:center;padding:5px"', // 指定输出HTML时附加到table标签上的属性字符串
+      'border="1" style="border-collapse: collapse;table-layout:fixed;width: 100%;border:1px;text-align:center;padding:5px;min-height:100px"', // 指定输出HTML时附加到table标签上的属性字符串
     includeEditors: ['editor-id'],
   }),
 );
@@ -272,7 +272,6 @@ const ArticleInsert: React.FC = () => {
                 name="title"
                 label="文章标题"
                 rules={[
-                  { required: true, message: '请输入文章标题(最多50字)' },
                   {
                     required: true,
                     validator: (_, value, callback) => {
