@@ -111,8 +111,28 @@ function ProjectAdd() {
             <Form.Item name="diseaseId" label="项目病种" rules={requiredRule}>
               <ProjectSelect parentId={categoryId} disable={!!id} placeholder="请选择" />
             </Form.Item>
-            <Form.Item name="serviceProjectName" label="项目名称" rules={requiredRule}>
-              <Input placeholder="请输入" />
+            <Form.Item
+              name="serviceProjectName"
+              label="项目名称"
+              rules={[
+                {
+                  required: true,
+                  validator: (rule, value, callback) => {
+                    if (!value) {
+                      return Promise.reject(new Error('请输入项目名称'));
+                    }
+                    if (value && value.trim() === '') {
+                      return Promise.reject(new Error('项目名称不能为空'));
+                    }
+                    if (value.length > 10) {
+                      return Promise.reject(new Error('项目名称最多10字'));
+                    }
+                    return Promise.resolve();
+                  },
+                },
+              ]}
+            >
+              <Input placeholder="请输入" autoComplete="off" />
             </Form.Item>
             <Form.Item name="manageProjectId" label="关联管理项目" rules={requiredRule}>
               {/* <Input readOnly value="暂无" /> */}
