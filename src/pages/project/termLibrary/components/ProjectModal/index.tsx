@@ -88,12 +88,16 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
             name="name"
             rules={[
               {
+                required: true,
                 validator: (rule, value, callback) => {
                   if (!value) {
                     return Promise.reject(new Error('项目名称不能为空'));
                   }
                   if (value && value.trim() === '') {
                     return Promise.reject(new Error('项目名称不能为空'));
+                  }
+                  if (value.length > 40) {
+                    return Promise.reject(new Error('项目名称最多40字'));
                   }
                   return Promise.resolve();
                 },
