@@ -46,8 +46,17 @@ const AddNodeModal = (props: any, ref: any) => {
   };
   // 判断是否存在相同节点
   const isHasSameNode = (item: any, list: any) => {
+    // 需要比较的字段
+    const keys = ['durationTimeUnit', 'durationTimes', 'loop', 'triggerNumber', 'triggerTimeUnit'];
     const sameNodes = list.filter((i: any) => {
-      return JSON.stringify(item) === JSON.stringify(i);
+      let isSame = true;
+      keys.forEach((key) => {
+        // eslint-disable-next-line eqeqeq
+        if (item[key] != i[key]) {
+          isSame = false;
+        }
+      });
+      return isSame;
     });
     return sameNodes.length > 0;
   };
@@ -59,7 +68,10 @@ const AddNodeModal = (props: any, ref: any) => {
       message.error(`${timeUnitToShowUnit[data.triggerTimeUnit]}+${triggerNumber}节点已存在，请勿重复添加！`);
       return;
     }
-    parentNodes.push(data);
+    parentNodes.push({
+      ...data,
+      followUpItems: [],
+    });
     const newParentNodes = parentNodes.sort((item: any, next: any) => {
       const itemDay = getTriggerNumberToDay(item.triggerNumber, item.triggerTimeUnit);
       const nextDay = getTriggerNumberToDay(next.triggerNumber, next.triggerTimeUnit);

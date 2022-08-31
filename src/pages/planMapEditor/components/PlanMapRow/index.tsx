@@ -42,7 +42,7 @@ const PlanMapRow = (props: any) => {
       {listData?.roadMapSteps?.map((item: any, i: number) => {
         const hasRootNode = loopItemIsHasRootNode(item, i);
         if (!item.loop || !hasRootNode) { index += 1; }
-        return (<PlanMapItem key={item.id} data={item} index={index} hasRootNode={hasRootNode} />);
+        return (<PlanMapItem key={item.path} data={item} index={index} hasRootNode={hasRootNode} />);
       })}
     </div>
   );
