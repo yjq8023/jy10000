@@ -9,16 +9,9 @@ import {
 } from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
 import styles from './index.less';
-import { validateUrl } from '@/utils/validate';
+import { MEDIATYPE } from '../../articleInsert/useConfig';
 
 const { Option } = Select;
-
-interface MEDIATYPE {
-  id: number;
-  url: string;
-  type: 'IMAGE' | 'VIDEO';
-  name: string;
-}
 
 type NetworkModalProps = {
   visible?: boolean;
@@ -109,6 +102,7 @@ const NetworkModal: React.FC<NetworkModalProps> = (props) => {
                     name: '',
                     type: currentType,
                     url: networkUrl,
+                    data: { controls: false },
                   };
                   setMediaSource([...mediaSource, F]);
                   setCurrentSelect([...currentSelect, F]);
