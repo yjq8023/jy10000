@@ -1,35 +1,35 @@
 import { TreeNode } from '@sinohealth/designable-core';
 
-type categoryType = 'SINGLE_SELETE' | 'MULTI_SELETE' | 'NUMBER' | 'DATE' | 'DATE_TIME'
+type categoryType = 'Number' | 'Datetime' | 'Boolean'
+type labelOptionsItem = { label: string, labelCode: string, sort: number }
+type AiSchema = {
+  fieldId: string;
+  label: string;
+  required: boolean;
+  type: categoryType;
+  enum: any[]
+}
+
 const defaultSchemaConfig = {
-  SINGLE_SELETE: {
+  Boolean: {
     type: 'string',
-    title: '单选',
-    enum: [],
+    title: '布尔',
+    enum: [
+      {
+        label: '是',
+        value: '1',
+      },
+      {
+        label: '否',
+        value: '0',
+      },
+    ],
     key: 'IoRadio.Group',
     'x-decorator': 'FormItem',
     'x-component': 'Radio.Group',
   },
-  MULTI_SELETE: {
-    type: 'array',
-    title: '多选',
-    enum: [],
-    key: 'IoCheckbox.Group',
-    'x-decorator': 'FormItem',
-    'x-component': 'Checkbox.Group',
-  },
-  DATE: {
-    title: '日期',
-    'x-decorator': 'FormItem',
-    'x-component': 'DatePicker',
-    'x-component-props': {
-      placeholder: '请选择',
-    },
-    key: 'IoDatePicker',
-    type: 'string',
-  },
-  DATE_TIME: {
-    title: '时间',
+  Datetime: {
+    title: '日期时间',
     key: 'IoDatePicker',
     'x-decorator': 'FormItem',
     'x-component': 'DatePicker',
@@ -39,7 +39,7 @@ const defaultSchemaConfig = {
     },
     type: 'string',
   },
-  NUMBER: {
+  Number: {
     title: '数字',
     key: 'IoNumberPicker',
     'x-decorator': 'FormItem',
@@ -52,12 +52,11 @@ const defaultSchemaConfig = {
 };
 
 export const getSchemaItem = (aiSchema: AiSchema) => {
-  const defaultSchemaItem = defaultSchemaConfig[aiSchema.labelCategory] || {};
+  const defaultSchemaItem = defaultSchemaConfig[aiSchema.type] || {};
   return {
     ...defaultSchemaItem,
+    name: aiSchema.fieldId,
     title: aiSchema.label,
-    name: aiSchema.labelCode,
-    enum: transformOptions(aiSchema.labelOptions),
   };
 };
 
@@ -68,15 +67,6 @@ const transformOptions = (labelOptions: labelOptionsItem[] = []) => {
   }));
 };
 
-type labelOptionsItem = { label: string, labelCode: string, sort: number }
-type AiSchema = {
-  id: string;
-  label: string;
-  labelCategory: categoryType;
-  labelCode: string;
-  labelOptions: labelOptionsItem[];
-  projectId: string;
-}
 export const transformDataSource = (nodeR: TreeNode) => {
   const currentNode = nodeR;
   const dots = (count: number) => {
@@ -155,32 +145,8 @@ export const transformDataSource = (nodeR: TreeNode) => {
   }
   return [];
 };
-export const handleTransformSchema = (aiSchema: AiSchema[]) => {
-  if (!Array.isArray(aiSchema)) return {};
-  const schema: any = {
-    type: 'object',
-    properties: {
-      layout: {
-        type: 'void',
-        'x-component': 'FormLayout',
-        'x-component-props': {
-          labelCol: 6,
-          wrapperCol: 10,
-          layout: 'vertical',
-        },
-        properties: {},
-      },
-    },
-  };
-  aiSchema.forEach((aiSchemaItem) => {
-    const newSchemaItem = getSchemaItem(aiSchemaItem);
-    schema.properties[aiSchemaItem.labelCode || aiSchemaItem.id] = newSchemaItem;
-  });
-  return schema;
-};
 
 export default {
-  handleTransformSchema,
   getSchemaItem,
   transformDataSource,
 };

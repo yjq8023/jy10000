@@ -72,9 +72,8 @@ import {
   MarkupSchemaWidget,
   LinkagesSetter,
 } from './widgets';
-import { saveSchema } from './service';
+import { saveSchema, fetchAiIoComponents } from './service';
 import style from './index.less';
-import { getIoComponents } from '@/pages/formily/editor/utils';
 import ImportForm from '@/pages/formily/editor/widgets/ImportForm';
 import Result from '@/pages/formily/editor/components/Result';
 import ResultSetter from '@/pages/formily/editor/components/Result/setter';
@@ -112,6 +111,7 @@ const FormilyEditor = () => {
   const [ioComponents, setIoComponents] = useState([]);
   const [params] = useSearchParams();
   const type = params.get('type');
+  const projectId = params.get('projectId');
   const engine = useMemo(
     () =>
       createDesigner({
@@ -131,7 +131,10 @@ const FormilyEditor = () => {
     [],
   );
   useEffect(() => {
-    setIoComponents(getIoComponents());
+    fetchAiIoComponents(projectId)
+      .then((data) => {
+        setIoComponents(data);
+      });
   }, []);
   // @ts-ignore
   const renderResourceWidget = () => {
@@ -162,6 +165,7 @@ const FormilyEditor = () => {
           Upload,
           Switch,
           ObjectContainer,
+          Result,
         ]}
       />
     );
@@ -185,7 +189,7 @@ const FormilyEditor = () => {
       />
     );
     const TextResourceWidget = (
-      <ResourceWidget title="sources.Displays" sources={[Text, Result]} />
+      <ResourceWidget title="sources.Displays" sources={[Text]} />
     );
     const ImportResourceWidget = (
       <Collapse>
@@ -198,8 +202,8 @@ const FormilyEditor = () => {
     if (type === 'beforeInfo') {
       return (
         <>
-          { IoResourceWidget }
           { TextResourceWidget }
+          { IoResourceWidget }
         </>
       );
     }
