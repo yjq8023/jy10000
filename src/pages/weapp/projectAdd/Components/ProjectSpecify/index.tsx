@@ -93,7 +93,12 @@ const ProjectSpecify: React.FC<ProjectSpecifyProps> = (props) => {
                       } else {
                         setIsSame(false);
                       }
-                      setCurrentSpecify({ ...currentSpecify, name: value });
+                      const reg = /^(.|\n){0,10}$/;
+                      if (reg.test(value)) {
+                        setCurrentSpecify({ ...currentSpecify, name: value });
+                      } else {
+                        message.error('规格名称最多10个字');
+                      }
                     }}
                   />
                 </div>
@@ -167,6 +172,7 @@ const ProjectSpecify: React.FC<ProjectSpecifyProps> = (props) => {
                 <div className={styles.name}>
                   <Input
                     disabled={isSame}
+                    value={currentSpecify.disCountPrice}
                     placeholder="请输入（¥）"
                     onChange={(e: any) => {
                       const { value: inputValue } = e.target;
@@ -193,6 +199,11 @@ const ProjectSpecify: React.FC<ProjectSpecifyProps> = (props) => {
                       onClick={() => {
                         if (isSame) {
                           message.error('规格名称不能相同');
+                          return;
+                        }
+                        const { disCountPrice, originalPrice, name, timeNumber } = currentSpecify;
+                        if (!disCountPrice || !originalPrice || !name || !timeNumber) {
+                          message.error('请完善规格信息');
                           return;
                         }
                         setSpecifySource([...specifySource, currentSpecify]);
