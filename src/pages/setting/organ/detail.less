@@ -1,0 +1,32 @@
+@import '@/style/var';
+.content-page {
+  height: 100%;
+  padding: 20px;
+  background-color: #fff;
+  position: relative;
+
+  &-list {
+    margin-right: 12px;
+    .active {
+      background-color: #b4cfd4;
+    }
+    :global {
+      .ant-list-header {
+        padding: 10px;
+      }
+      .ant-list-item {
+        min-width: 285px;
+        cursor: pointer;
+      }
+    }
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    text-align: right;
+    border-top: 1px solid #f2f2f2;
+  }
+}

@@ -1,0 +1,31 @@
+@import '@/style/var';
+
+.tree-list {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-width: 285px;
+  margin-right: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  &-content {
+    margin-top: 12px;
+    flex-grow: 1;
+    overflow: auto;
+    height: 0;
+    :global {
+      .ant-tree .ant-tree-list .ant-tree-treenode {
+        width: 100%;
+      }
+      .ant-tree .ant-tree-node-content-wrapper {
+        width: 100%;
+      }
+      .ant-tree-indent-unit {
+        width: 16px;
+      }
+    }
+  }
+}

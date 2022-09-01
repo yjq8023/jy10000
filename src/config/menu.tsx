@@ -24,13 +24,35 @@ const menuConfig: MenuItemProps[] = [
     label: '配置',
     key: 'setting',
     children: [
+      // {
+      //   label: '机构管理',
+      //   path: '/setting/organList',
+      // },
+      // {
+      //   label: '用户管理',
+      //   path: '/setting/userList',
+      // },
       {
-        label: '机构管理',
-        path: '/setting/organList',
+        label: '组织管理',
+        path: '/setting/organ',
+        // children: [
+        //   {
+        //     label: '组织详情',
+        //     path: '/customer/organ/detail',
+        //   },
+        // ],
       },
       {
-        label: '用户管理',
-        path: '/setting/userList',
+        label: '部门管理',
+        path: '/setting/department',
+      },
+      {
+        label: '角色管理',
+        path: '/setting/role',
+      },
+      {
+        label: '员工管理',
+        path: '/setting/employees',
       },
     ],
   },
