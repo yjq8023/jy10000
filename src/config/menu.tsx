@@ -38,7 +38,7 @@ const menuConfig: MenuItemProps[] = [
         // children: [
         //   {
         //     label: '组织详情',
-        //     path: '/customer/organ/detail',
+        //     path: '/setting/organ/detail',
         //   },
         // ],
       },

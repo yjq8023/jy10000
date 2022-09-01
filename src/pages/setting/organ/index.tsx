@@ -147,7 +147,7 @@ function DictList() {
           <a
             onClick={() => {
               navigate(
-                `/customer/organ/detail?parentId=${itemData.id}&tenantId=${currTenantId}&back=${currTenantId}`,
+                `/setting/organ/detail?parentId=${itemData.id}&tenantId=${currTenantId}&back=${currTenantId}`,
               );
             }}
           >
@@ -158,7 +158,7 @@ function DictList() {
         {isPermission('csr:org:u') && (
           <a
             onClick={() => {
-              navigate(`/customer/organ/detail?id=${itemData.id}&back=${currTenantId}`);
+              navigate(`/setting/organ/detail?id=${itemData.id}&back=${currTenantId}`);
             }}
           >
             编辑
@@ -281,7 +281,7 @@ function DictList() {
           <Button
             type="primary"
             onClick={() => {
-              navigate(`/customer/organ/detail?tenantId=${currTenantId}`);
+              navigate(`/setting/organ/detail?tenantId=${currTenantId}`);
             }}
           >
             <PlusCircleOutlined />

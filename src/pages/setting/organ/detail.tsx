@@ -50,8 +50,8 @@ const OrganDetail = () => {
   }, [id]);
 
   const goback = () => {
-    if (back) navigator(`/customer/organ?curr=${back}`);
-    else navigator('/customer/organ');
+    if (back) navigator(`/setting/organ?curr=${back}`);
+    else navigator('/setting/organ');
   };
 
   const onFinish = (values: any) => {

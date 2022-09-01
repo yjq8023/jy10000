@@ -183,23 +183,23 @@ export const breadcrumbMap = {
     },
     organ: {
       label: '组织管理',
-      path: '/customer/organ',
+      path: '/setting/organ',
       detail: {
         label: '组织详情',
-        path: '/customer/organ/detail',
+        path: '/setting/organ/detail',
       },
     },
     department: {
       label: '部门管理',
-      path: '/customer/department',
+      path: '/setting/department',
     },
     role: {
       label: '角色管理',
-      path: '/customer/role',
+      path: '/setting/role',
     },
     employees: {
       label: '员工管理',
-      path: '/customer/employees',
+      path: '/setting/employees',
     },
   },
   weapp: {
