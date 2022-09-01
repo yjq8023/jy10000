@@ -9,6 +9,7 @@ import { httpGetContent } from '@/services/project';
 
 import style from './index.less';
 import styles from '@/pages/project/articleLibrary/index.less';
+import PreviewDrawer from '@/pages/project/articleLibrary/components/PreviewDrawer';
 
 const PopoverContent = (record: ProjectType.ContentRes) => {
   return (
@@ -22,65 +23,10 @@ const PopoverContent = (record: ProjectType.ContentRes) => {
   );
 };
 
-const columns = [
-  {
-    title: '序号',
-    dataIndex: 'index',
-    key: 'index',
-    render(text: string, record: any, index: number): JSX.Element {
-      return <span>{index + 1}</span>;
-    },
-    width: 90,
-  },
-  {
-    title: '标题',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: '标签',
-    dataIndex: 'weight',
-    key: 'weight',
-    width: 200,
-    render(text: string, record: ProjectType.ContentRes, index: number) {
-      if (!record.status) {
-        return '--';
-      }
-      return (
-        <Popover
-          trigger="click"
-          content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
-        >
-          <div
-            className={`${styles.sortDom} ${record.labelVoList.length > 2 ? styles.pointer : ''}`}
-          >
-            {record.labelVoList.length
-              ? record.labelVoList.map((el, ids) =>
-                ids < 2 ? (
-                  <div className={styles.tag} key={el.id}>
-                    {el.name}
-                  </div>
-                ) : null,
-              )
-              : '--'}
-          </div>
-        </Popover>
-      );
-    },
-  },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    key: 'action',
-    width: 60,
-    render() {
-      return <Link to="a/detail">查看</Link>;
-    },
-  },
-];
-
 export const ArticleSettingContent = (props: any) => {
   const { isMini, form, onFinish, formValue = {}, ...otherProps } = props;
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewData, setPreviewData] = useState<any>({});
   const { disabled } = useContext(planMapContext);
   const list = useRef<any>();
   useEffect(() => {
@@ -93,6 +39,74 @@ export const ArticleSettingContent = (props: any) => {
       });
     }
   }, [formValue]);
+
+  const columns = [
+    {
+      title: '序号',
+      dataIndex: 'index',
+      key: 'index',
+      render(text: string, record: any, index: number): JSX.Element {
+        return <span>{index + 1}</span>;
+      },
+      width: 90,
+    },
+    {
+      title: '标题',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: '标签',
+      dataIndex: 'weight',
+      key: 'weight',
+      width: 200,
+      render(text: string, record: ProjectType.ContentRes, index: number) {
+        if (!record.status) {
+          return '--';
+        }
+        return (
+          <Popover
+            trigger="click"
+            content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
+          >
+            <div
+              className={`${styles.sortDom} ${record.labelVoList.length > 2 ? styles.pointer : ''}`}
+            >
+              {record.labelVoList.length
+                ? record.labelVoList.map((el, ids) =>
+                  ids < 2 ? (
+                    <div className={styles.tag} key={el.id}>
+                      {el.name}
+                    </div>
+                  ) : null,
+                )
+                : '--'}
+            </div>
+          </Popover>
+        );
+      },
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
+      width: 60,
+      render(text: string, record: any) {
+        return <a onClick={() => handleShowDetail(record)}>查看</a>;
+      },
+    },
+  ];
+
+  const handleShowDetail = (data: any) => {
+    console.log(data);
+    setPreviewVisible(true);
+    setPreviewData({
+      title: data.title,
+      htmlCont: data.content,
+      author: data.author,
+      updateTime: data.updateTime,
+    });
+  };
   const getDefaultParams = () => {
     return Promise.resolve({
       notContainsLabelIds: formValue.exclusive,
@@ -133,8 +147,8 @@ export const ArticleSettingContent = (props: any) => {
       <div className={style.customList}>
         {data.listData?.map((item: any) => {
           return (
-            <div className={style.listItem}>
-              { item.title }
+            <div className={style.listItem} onClick={() => handleShowDetail(item)}>
+              · { item.title }
             </div>
           );
         })}
@@ -207,6 +221,7 @@ export const ArticleSettingContent = (props: any) => {
       >
         <AcNumber />
       </Form.Item>
+      <PreviewDrawer visible={previewVisible} {...previewData} onClose={() => setPreviewVisible(false)} />
     </Form>
   );
 };

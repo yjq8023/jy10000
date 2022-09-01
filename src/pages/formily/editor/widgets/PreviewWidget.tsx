@@ -21,7 +21,7 @@ export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
   const [isPc, setIsPC] = useState(true);
   const dom = useRef();
   const iframe = useRef();
-  const mobileSiteUrl = 'http://localhost:10086/#/pages/formily/index';
+  const mobileSiteUrl = `${window.location.origin}/h5`; // 移动端通过iframe预览，站点取自/public/h5下的文件，该文件是formily-mobile-lerna下的调试站点目录打包出来的
   useEffect(() => {
     if (dom.current) {
       setIsPC(dom.current.offsetWidth > 420);

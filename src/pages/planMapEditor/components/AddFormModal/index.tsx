@@ -1,9 +1,10 @@
-import React, { useState, useImperativeHandle, useContext } from 'react';
+import React, { useState, useImperativeHandle, useContext, useEffect } from 'react';
 import { Modal, Form, Input, Select, Row, Col, Table, Button } from '@sinohealth/butterfly-ui-components/lib';
 import { Link } from 'react-router-dom';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
 import SearchInput from '@/components/SearchInput';
+import { getAiIoComponents } from '@/services/planMapAntForm';
 
 const labelMock = [
   {
@@ -99,7 +100,7 @@ const AddFormModal = (props: any, ref: any) => {
   const [nodeData, setNodeData] = useState<any>();
   const [labelOptions, setLabelOptions] = useState<any>(labelMock);
   const [articles, setArticles] = useState<any>([]);
-  const { planMapState, setPlanMapState } = useContext(planMapContext);
+  const { projectPlanData, planMapState, setPlanMapState } = useContext(planMapContext);
 
   const [form] = Form.useForm();
 
@@ -110,6 +111,20 @@ const AddFormModal = (props: any, ref: any) => {
       handleCancel,
     };
   }, []);
+
+  useEffect(() => {
+    if (projectPlanData) {
+      getAiIoComponents(projectPlanData.projectId)
+        .then((res: any) => {
+          setLabelOptions(res.map((item: any) => {
+            return {
+              label: item.label,
+              value: item.fieldId,
+            };
+          }));
+        });
+    }
+  }, [projectPlanData]);
 
   const handleOpen = (node: any) => {
     setNodeData(node);
