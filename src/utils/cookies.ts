@@ -45,6 +45,9 @@ export const setCookies = (key: string, value: any) => {
 export const setLocalStorage = (key: string, value: any) => {
   localStorage.setItem(key, window.btoa(unescape(encodeURIComponent(JSON.stringify(value)))));
 };
+export const setLocalStorageForJson = (key: string, value: any) => {
+  localStorage.setItem(key, JSON.stringify(value));
+};
 export const removeLocalStorage = (key: string) => {
   localStorage.removeItem(key);
 };

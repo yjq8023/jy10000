@@ -1,6 +1,5 @@
 import React, { useState, createContext, useMemo, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ReactSortable } from 'react-sortablejs';
 import lodash from 'lodash';
 import { Badge, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import Selector from '@/pages/planMapEditor/components/Selector';
@@ -17,7 +16,6 @@ import { planItemTypes, timeUnitToShowUnit } from '@/pages/planMapEditor/config'
 import { getProjectPlanMap } from '@/services/planMapAntForm';
 
 import style from './index.less';
-import { deleteColumn } from '@/services/weapp';
 
 export const planMapContext = createContext<any>(null);
 
@@ -84,6 +82,11 @@ const PlanMapEditor = ({ disabled }: any) => {
       } else {
         setPlanMapStateFn(node);
       }
+      // 暂存数据
+      // setLocalStorageForJson('planMapState', {
+      //   ...projectPlanData,
+      //   roadMaps: planMapState,
+      // });
     };
     return {
       projectPlanData,
@@ -108,7 +111,7 @@ const PlanMapEditor = ({ disabled }: any) => {
           setPlanMapStateFn(data.roadMaps);
         })
         .catch(() => {
-          // 调试用，也避免接口保存页面空白了
+          // 调试用，也避免接口失败页面空白了
           const data: any = defaultData;
           setProjectPlanData(data);
           setPlanMapStateFn(data.roadMaps);
