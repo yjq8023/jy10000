@@ -4,7 +4,7 @@ import { Button, Select } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender, registerComponents } from '@sinohealth/butterfly-formily-engine';
 import * as components from '@sinohealth/butterfly-formily-components';
 import { planItemTypes } from '@/pages/planMapEditor/config';
-import { getBeforeInfoSchema } from '@/services/planMapAntForm';
+import { getBeforeInfoSchema, getFollowUpFormInfo } from '@/services/planMapAntForm';
 import style from './index.less';
 
 const allComponents = {
@@ -23,6 +23,7 @@ const FormSetting = (props: any) => {
   const [params] = useSearchParams();
   const projectId = params.get('id');
   const isBeforeInfo = data.itemCategory === planItemTypes.beforeInfo;
+  const isFollowUp = data.itemCategory === planItemTypes.followUp;
   const formProps = {
     ...schema.form,
     labelCol: 24,
@@ -38,6 +39,14 @@ const FormSetting = (props: any) => {
           }
         });
     }
+    if (data?.bizId && isFollowUp) {
+      getFollowUpFormInfo(data.bizId)
+        .then((res: any) => {
+          if (res.formJson) {
+            setSchema(JSON.parse(res.formJson));
+          }
+        });
+    }
   }, []);
 
   const titles: any = {
@@ -47,7 +56,7 @@ const FormSetting = (props: any) => {
   };
   const handleEdit = () => {
     const cType = isBeforeInfo ? 'beforeInfo' : 'followUp';
-    navigate(`/project/formily/editor?type=${cType}&formId=${data.id}&projectId=${params.get('id')}`);
+    navigate(`/project/formily/editor?type=${cType}&formId=${data.bizId}&projectId=${params.get('id')}&name=${data.itemName}`);
   };
   return (
     <div className={style.formSetting}>

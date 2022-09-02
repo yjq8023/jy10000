@@ -43,6 +43,7 @@ export const ActionsWidget = observer(() => {
             type: params.get('type'),
             formId: params.get('formId'),
             projectId: params.get('projectId'),
+            name: params.get('name'),
           });
         }}
       >

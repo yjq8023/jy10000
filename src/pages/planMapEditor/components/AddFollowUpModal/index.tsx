@@ -1,13 +1,16 @@
 import React, { useState, useImperativeHandle, useContext } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Modal, Form, Input, message } from '@sinohealth/butterfly-ui-components/lib';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
+import { saveFollowUpFormInfo } from '@/services/planMapAntForm';
 
 const AddFollowUpModal = (props: any, ref: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nodeData, setNodeData] = useState<any>();
   const { planMapState, setPlanMapState } = useContext(planMapContext);
-
+  const [params] = useSearchParams();
+  const projectId = params.get('id');
   const [form] = Form.useForm();
 
   useImperativeHandle(ref, () => {
@@ -34,19 +37,27 @@ const AddFollowUpModal = (props: any, ref: any) => {
 
   const onFinish = (data: any) => {
     const newData = { ...nodeData };
-    const newInfos = [
-      {
-        itemName: data.name,
-        itemCategory: planItemTypes.followUp,
-      },
-    ];
-    if (Array.isArray(newData.followUpItems)) {
-      newData.followUpItems = [...newData.followUpItems, ...newInfos];
-    } else {
-      newData.followUpItems = newInfos;
-    }
-    setPlanMapState('update', newData.path, newData);
-    setIsModalVisible(false);
+    saveFollowUpFormInfo({
+      name: data.name,
+      category: 'FOLLOWUP',
+      formJson: null,
+      projectId,
+    }).then((res: any) => {
+      const newInfos = [
+        {
+          itemName: data.name,
+          itemCategory: planItemTypes.followUp,
+          bizId: res,
+        },
+      ];
+      if (Array.isArray(newData.followUpItems)) {
+        newData.followUpItems = [...newData.followUpItems, ...newInfos];
+      } else {
+        newData.followUpItems = newInfos;
+      }
+      setPlanMapState('update', newData.path, newData);
+      setIsModalVisible(false);
+    });
   };
 
   const defaultValue: any = {};

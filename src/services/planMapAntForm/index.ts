@@ -30,6 +30,16 @@ export const getAiIoComponents = (projectId: string) => {
   const url = `${prefix}/managerProject/findAiDecisionFlowsDefinitionInputByProjectId/${projectId}`;
   return request.get(url);
 };
+// 新增保存跟进记录表
+export const saveFollowUpFormInfo = (data: any) => {
+  const url = `${prefix}/managerProject/saveFollowUpFormInfo`;
+  return request.post(url, data);
+};
+// 获取跟进记录表内容
+export const getFollowUpFormInfo = (formId: string) => {
+  const url = `${prefix}/managerProject/findManageProjectFormDetail/${formId}`;
+  return request.get(url);
+};
 
 export default {
   getProjectPlanMap,

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, Modal } from '@sinohealth/butterfly-ui-antd';
+import { Button, Modal, Radio, Select } from '@sinohealth/butterfly-ui-antd';
 import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import style from './setter.less';
 import AddFormulaModal from '@/pages/formily/editor/components/Result/components/AddFormulaModal';
@@ -152,6 +152,12 @@ export const ResultSetter = (props: any) => {
         结果配置
       </div>
       <ArrayRender title="计算公式" data={rule.scope} onAdd={handleAddFormula} onDelete={handleDeleteFormula} />
+      <div>
+        <div className="but-title">
+          得分公式:
+        </div>
+        <Select style={{ width: '100%' }} options={Object.keys(rule.scope || []).map((key) => ({ label: key, value: key }))} />
+      </div>
       <ArrayRender title="结果提示" data={rule.results} renderItem={resultItem} onAdd={handleAddResult} />
       <AddFormulaModal ref={addFormulaModal} onOk={handleOk} />
     </div>
