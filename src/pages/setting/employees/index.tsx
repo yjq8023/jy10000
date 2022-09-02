@@ -176,15 +176,44 @@ function TenantList() {
       key: 'phone',
     },
     {
-      title: '真实姓名',
+      title: '员工姓名',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: '所属部门/组织',
+      title: '角色',
+      dataIndex: 'position',
+      key: 'position',
+      render: (_: any, record: any) => {
+        return dict && dict?.position[record.position];
+      },
+    },
+    {
+      title: '岗位职称',
+      dataIndex: 'title',
+      key: 'title',
+      render: (_: any, record: any) => {
+        return dict && dict?.doctorTitle[record.title];
+      },
+    },
+    {
+      title: '职称级别',
+      dataIndex: 'titleLevel',
+      key: 'titleLevel',
+      render: (_: any, record: any) => {
+        return dict && dict?.technicalJobCategory[record.titleLevel];
+      },
+    },
+    {
+      title: '所属部门',
       dataIndex: 'department',
       key: 'department',
       render: (_: any, record: any) => record.department.name,
+    },
+    {
+      title: '执业医院',
+      dataIndex: 'actualOrg',
+      key: 'actualOrg',
     },
     {
       title: '账号失效期',
@@ -216,10 +245,10 @@ function TenantList() {
       },
     },
     {
-      title: '创建时间',
-      width: 180,
-      dataIndex: 'createTime',
-      key: 'createTime',
+      title: '更新时间',
+      width: 150,
+      dataIndex: 'updateTime',
+      key: 'updateTime',
     },
     {
       title: '操作',
@@ -298,6 +327,7 @@ function TenantList() {
             dataSource={dataSource}
             columns={columns}
             rowKey="id"
+            size="small"
             pagination={paginationParams}
             onChange={(pagination) => {
               fetchAPi(currOrganizeId, {}, pagination);
