@@ -45,6 +45,7 @@ const Canvas = (props: any) => {
           itemName: '项目前置信息', // 名称
           itemCategory: planItemTypes.beforeInfo, // 类型
           preFormId: projectPlanData.preFormId,
+          bizId: projectPlanData.preFormId,
         },
       ];
     }
