@@ -10,6 +10,7 @@ import {
   TableColumnsType,
   Input,
   Form,
+  Popover,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -206,15 +207,18 @@ function DictList() {
       title: '标签',
       dataIndex: 'label',
       key: 'labek',
-      render: (text: string, record: any) => (
-        <div className={styles.labels}>
-          {record.data.labels.map((item: any) => (
-            <span key={item.name} className={styles.labelsItem}>
-              {item.name}
-            </span>
-          ))}
-        </div>
-      ),
+      render: (text: string, record: any) => {
+        const content = record.data.labels.map((item: any) => (
+          <span key={item.name} className={styles.labelsItem}>
+            {item.name}
+          </span>
+        ));
+        return (
+          <Popover content={<div className={styles.poplabels}>{content}</div>}>
+            <div className={styles.labels}>{content}</div>
+          </Popover>
+        );
+      },
     },
     {
       title: '排序',

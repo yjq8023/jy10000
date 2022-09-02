@@ -208,7 +208,7 @@ function TenantList() {
       title: '所属部门',
       dataIndex: 'department',
       key: 'department',
-      render: (_: any, record: any) => record.department.name,
+      render: (_: any, record: any) => record.department?.name,
     },
     {
       title: '执业医院',
