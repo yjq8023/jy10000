@@ -7,14 +7,17 @@ import {
   Popover,
   Space,
 } from '@sinohealth/butterfly-ui-components/lib';
+import { Link } from 'react-router-dom';
 import { PlusCircleOutlined, CloseOutlined } from '@ant-design/icons';
-import { debounce } from 'lodash';
+import { debounce, throttle } from 'lodash';
 import { httpGetLabelList, httpProjecAiDecision } from '@/services/project';
 import styles from './index.less';
+import { getByChain } from '@/services/weapp';
 
 const SearchIcon = () => <div className={`${styles['search-icon']} iconfont icon-search`} />;
 
 type LabelSelectProps = {
+  id?: string;
   width?: string;
   onSelect?: (val: any) => void;
 };
@@ -24,23 +27,24 @@ type LabelSelectProps = {
  * @returns
  */
 const LabelSelect: React.FC<LabelSelectProps> = (props) => {
-  const { width, onSelect } = props;
-  const [selected, setSelected] = useState<ProjectType.AiDecisionRes>({});
-  const [aiDecisionParams, setAiDecisionParams] = useState({ name: '' });
-  const [aiDecision, setAiDecision] = useState<ProjectType.AiDecisionRes[]>([]);
+  const { id, width, onSelect } = props;
+  const [selected, setSelected] = useState<any>({});
+  const [isMap, setIsMap] = useState(false);
+  const [chainParams, setChainParams] = useState({});
+  const [chainSource, setChainSource] = useState<any>([]);
   const [placeholder, setPlaceholder] = useState<any>('');
 
   const inputRef = useRef<any>(null);
   const [isShowDrop, setIsShowDrop] = useState(false);
 
-  const handleChecked = (val: ProjectType.AiDecisionRes) => {
+  const handleChecked = (val: any) => {
     setSelected(val);
-    setPlaceholder(val?.decisionFlowsVersionName);
+    setPlaceholder(`${val?.value} | ${val?.version}`);
   };
 
-  const httpProjecAiDecisionReq = async () => {
-    const res = await httpProjecAiDecision({ ...aiDecisionParams });
-    setAiDecision(res.data);
+  const httpGetByChain = async () => {
+    const res: any = await getByChain(chainParams);
+    setChainSource(res);
   };
 
   const clickCallback = (event: { target: any }) => {
@@ -63,9 +67,17 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
     onSelect && onSelect(selected);
   }, [selected]);
 
-  // useEffect(() => {
-  //   httpProjecAiDecisionReq();
-  // }, [aiDecisionParams]);
+  useEffect(() => {
+    httpGetByChain();
+  }, [chainParams]);
+
+  useEffect(() => {
+    if (isMap || !chainSource?.length) return;
+    const FD = chainSource.filter((el: any) => el.id === id);
+    if (!FD.length) return;
+    setSelected(FD[0]);
+    setPlaceholder(`${FD[0]?.value} | ${FD[0]?.version}`);
+  }, [id, chainSource]);
 
   return (
     <div className={styles['label-select']} style={{ width }} ref={inputRef}>
@@ -96,12 +108,12 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
       </div> */}
       <Input
         className={`${styles['label-select-input']}`}
-        placeholder="请选择决策流"
+        placeholder="请选择关联管理项目（必选）"
         onFocus={() => setIsShowDrop(true)}
         value={placeholder}
         title="回车搜索"
         suffix={
-          Object.keys(selected).length ? (
+          selected && Object.keys(selected).length ? (
             <span
               className={`${styles['icon-select']} iconfont icon-shibai1`}
               onClick={(e) => {
@@ -114,19 +126,19 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
         }
         onChange={(v: any) => {
           setPlaceholder(v.target?.value);
-          setAiDecisionParams({ name: v.target?.value });
+          setChainParams({ name: v.target?.value });
         }}
-        onKeyUp={debounce((v: any) => {
-          httpProjecAiDecisionReq();
-        }, 1000)}
-        onPressEnter={() => {
-          httpProjecAiDecisionReq();
-        }}
+        // onKeyUp={debounce((v: any) => {
+        //   httpGetByChain();
+        // }, 1000)}
+        // onPressEnter={() => {
+        //   httpGetByChain();
+        // }}
       />
       {isShowDrop ? (
         <div
           className={`${styles['label-drop-container']} ${
-            !aiDecision.length ? styles['none-data'] : ''
+            !chainSource.length ? styles['none-data'] : ''
           }`}
           onClick={() => {
             inputRef?.current?.focus();
@@ -134,21 +146,19 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
           }}
         >
           <div className={styles['drop-container']}>
-            {aiDecision.map((item, idx: number) => (
+            {chainSource.map((item: any, idx: number) => (
               <div
                 className={`${styles['drop-father']} ${
-                  item.labels?.length ? styles['drop-padding'] : ''
-                } ${
-                  selected.decisionFlowsVersionId === item.decisionFlowsVersionId
-                    ? styles['drop-active']
-                    : ''
-                }`}
-                key={item.decisionFlowsVersionId}
+                  item.labelNames?.length ? styles['drop-padding'] : ''
+                } ${selected.id === item.id ? styles['drop-active'] : ''}`}
+                key={item.id}
                 onClick={() => handleChecked(item)}
               >
                 <div className={`${styles.father}`}>
-                  <span className={styles['father-label']}>{item.decisionFlowsVersionName}</span>
-                  <span
+                  <span className={styles['father-label']}>
+                    {item.value} | {item.version}
+                  </span>
+                  {/* <span
                     className={styles['father-review']}
                     onClick={(e) => {
                       e.preventDefault();
@@ -156,10 +166,17 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                     }}
                   >
                     查看
-                  </span>
+                  </span> */}
+                  <Link
+                    className={styles['father-review']}
+                    target="_blank"
+                    to={`/project/term/library/planDetail?id=${item.id}`}
+                  >
+                    查看
+                  </Link>
                 </div>
                 <div className={`${styles['drop-son']}`}>
-                  {item?.labels?.map((el, index: number) => (
+                  {item?.labelNames?.map((el: any, index: number) => (
                     <span className={styles['son-label']} key={el}>
                       {el}
                     </span>
@@ -167,7 +184,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
                 </div>
               </div>
             ))}
-            {!aiDecision.length ? <Empty /> : null}
+            {!chainSource.length ? <Empty /> : null}
           </div>
         </div>
       ) : null}

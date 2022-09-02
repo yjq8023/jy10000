@@ -146,13 +146,16 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
 
   const PopoverContent = () => {
     return (
-      <div className={styles['popover-content']}>
-        {selected.map((el) => (
-          <span className={styles['select-tag']} key={el.id}>
-            {el.value}
-          </span>
-        ))}
-      </div>
+      <>
+        <h4 className={styles['tag-title']}>标签</h4>
+        <div className={styles['popover-content']}>
+          {selected.map((el) => (
+            <span className={`${styles['select-tag']} ${styles['tag-fff']}`} key={el.id}>
+              {el.value}
+            </span>
+          ))}
+        </div>
+      </>
     );
   };
 
@@ -203,13 +206,17 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
   return (
     <>
       <div className={styles['label-select']} style={{ width }} ref={inputRef}>
-        <Popover style={{ width: '320px' }} content={selected.length ? PopoverContent : ''}>
+        <Popover
+          color="rgba(0,0,0,0.70)"
+          style={{ width: '320px' }}
+          content={selected.length ? PopoverContent : ''}
+        >
           <div
             className={`${styles['label-value']} ${selected.length ? '' : styles.placeholder}`}
             onClick={() => setIsShowDrop(true)}
           >
             {selected.map((el) => (
-              <span className={styles['select-tag']} key={el.id}>
+              <span className={`${styles['select-tag']}`} key={el.id}>
                 {el.value}
                 <span
                   style={{ fontSize: 12, marginLeft: 5 }}
