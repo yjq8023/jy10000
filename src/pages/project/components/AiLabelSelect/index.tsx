@@ -62,9 +62,9 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
     onSelect && onSelect(selected);
   }, [selected]);
 
-  useEffect(() => {
-    httpProjecAiDecisionReq();
-  }, [aiDecisionParams]);
+  // useEffect(() => {
+  //   httpProjecAiDecisionReq();
+  // }, [aiDecisionParams]);
 
   return (
     <div className={styles['label-select']} style={{ width }} ref={inputRef}>
@@ -114,6 +114,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
           setPlaceholder(v.target?.value);
           setAiDecisionParams({ name: v.target?.value });
         }}
+        onBlur={() => httpProjecAiDecisionReq()}
       />
       {isShowDrop ? (
         <div

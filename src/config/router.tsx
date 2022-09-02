@@ -24,6 +24,12 @@ const FormilyEditor = lazy(() => import('../pages/formily/editor'));
 const PlanMapEditor = lazy(() => import('../pages/planMapEditor'));
 const DictList = lazy(() => import('../pages/dict/list'));
 
+const CustomerOrganList = lazy(() => import('../pages/setting/organ'));
+const CustomerOrganDetail = lazy(() => import('../pages/setting/organ/detail'));
+const DepartmentList = lazy(() => import('../pages/setting/department'));
+const CustomerRoleList = lazy(() => import('../pages/setting/role'));
+const CustomerEmployeesList = lazy(() => import('../pages/setting/employees'));
+
 type routerConfigItem = {
   path: string;
   element?: React.ReactNode;
@@ -126,6 +132,26 @@ const routerConfig: routerConfigItem[] = [
         element: <FormilyEditor />,
         hideInMenu: true,
       },
+      {
+        path: '/setting/organ',
+        element: <CustomerOrganList />,
+      },
+      {
+        path: '/setting/organ/detail',
+        element: <CustomerOrganDetail />,
+      },
+      {
+        path: '/setting/department',
+        element: <DepartmentList />,
+      },
+      {
+        path: '/setting/role',
+        element: <CustomerRoleList />,
+      },
+      {
+        path: '/setting/employees',
+        element: <CustomerEmployeesList />,
+      },
     ],
   },
   {
@@ -154,6 +180,26 @@ export const breadcrumbMap = {
     userList: {
       label: '用户管理',
       path: '/setting/userList',
+    },
+    organ: {
+      label: '组织管理',
+      path: '/setting/organ',
+      detail: {
+        label: '组织详情',
+        path: '/setting/organ/detail',
+      },
+    },
+    department: {
+      label: '部门管理',
+      path: '/setting/department',
+    },
+    role: {
+      label: '角色管理',
+      path: '/setting/role',
+    },
+    employees: {
+      label: '员工管理',
+      path: '/setting/employees',
     },
   },
   weapp: {

@@ -165,7 +165,7 @@ function ProjectAdd() {
               <UserSelect params={{ position: 'caseManager', organizeId }} placeholder="请选择" />
             </Form.Item>
             <Form.Item name="description" label="项目简介" rules={requiredRule}>
-              <Input.TextArea rows={4} placeholder="请输入" />
+              <Input.TextArea showCount maxLength={50} rows={4} placeholder="请输入" />
             </Form.Item>
             <Form.Item name="needCaseManager" label="是否需要个案管理师审核" rules={requiredRule}>
               <Radio.Group>
