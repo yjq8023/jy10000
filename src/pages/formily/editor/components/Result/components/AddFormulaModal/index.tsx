@@ -14,7 +14,7 @@ import style from './index.less';
 const AddFormulaModal = (props: any, ref: any) => {
   const { onOk } = props;
   const [isResult, setIsResult] = useState(false);
-  const [key, setKey] = useState('');
+  const [key, setKey] = useState();
   const [value, setValue] = useState('');
   const [desc, setDesc] = useState('');
   const [scope, setScope] = useState([]);
@@ -32,7 +32,7 @@ const AddFormulaModal = (props: any, ref: any) => {
 
   const handleOpen = (data: any = {}) => {
     setIsResult(data.type === 'result');
-    setKey(data.key || '');
+    setKey(data.key);
     if (data.type === 'result') {
       setValue(data.when || '');
       setDesc(data.desc || '');
@@ -55,7 +55,7 @@ const AddFormulaModal = (props: any, ref: any) => {
     if (isResult) {
       onOk && onOk({ when: value, desc, key });
     } else {
-      const newKey = key || `$S${scope.length + 1}`;
+      const newKey = key !== undefined ? key : `$S${scope.length + 1}`;
       onOk && onOk({ key: newKey, value });
     }
   };

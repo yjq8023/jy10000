@@ -13,7 +13,7 @@
     "@sinohealth/butterfly-formily-components": "^0.0.2-alpha.17",
     "@sinohealth/butterfly-formily-engine": "^0.0.2-alpha.17",
     "@sinohealth/butterfly-ui-components": "1.0.2",
-    "@sinohealth/designable-formily-antd": "1.0.1-beta.4",
+    "@sinohealth/designable-formily-antd": "1.0.1-beta.6",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",

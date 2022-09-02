@@ -61,19 +61,31 @@
 }
 
 .labels {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden;
+  height: 28px;
+  text-overflow: ellipsis;
+}
 
-  .labelsItem {
-    border: 2px solid currentColor;
-    white-space: nowrap;
-    min-width: 50px;
-    text-align: center;
-    color: @primary-color;
-    border-radius: 24px;
-    font-size: 12px;
-    padding: 3px;
-    margin-right: 5px;
-    margin-top: 2px;
-  }
+.labelsItem {
+  border: 2px solid currentColor;
+  white-space: nowrap;
+  min-width: 50px;
+  text-align: center;
+  color: @primary-color;
+  border-radius: 24px;
+  font-size: 14px;
+  padding: 4px 8px;
+  margin-right: 5px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  line-height: 1;
+  display: block;
+}
+
+.poplabels {
+  display: flex;
+  flex-wrap: wrap;
 }

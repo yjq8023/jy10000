@@ -306,6 +306,7 @@ function TenantList() {
           roleId={roleFormData?.id}
           onCancel={() => {
             setShowRoleEmployees(false);
+            setRoleFormData(null);
           }}
         />
       )}
