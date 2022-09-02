@@ -27,7 +27,8 @@ import {
   roleEdit,
 } from '@/services/customer';
 import UploadOne from '@/components/UploadOne';
-import { getBirth, getSex, isEmpty } from '@/utils';
+import { getBirth, getSex, handelOptions, isEmpty } from '@/utils';
+import { clientPrefix } from '@/config/base';
 
 const { Step } = Steps;
 
@@ -48,6 +49,7 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
   const [resourceKeys, setResourceKeys] = useState<any>([]);
   const [departmentTreeOption, setDepartmentTreeOption] = useState<any>([]);
   const [employeeRoleOptions, setEmployeeRoleOptions] = useState<any>([]);
+  const [isDoctor, setIsDoctor] = useState(false);
   const [disableSubmit, setDisableSubmit] = useState(false);
   const [existing, setExisting] = useState(false); // 判断账号是否在其他机构存在
 
@@ -68,6 +70,9 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
       if (props.data.step === 0) {
         employeeInfo(props.data.id)
           .then((res) => {
+            if (res.position === 'doctor') {
+              setIsDoctor(true);
+            }
             form.setFieldsValue({
               ...res,
               departmentId: res.department.id,
@@ -102,6 +107,7 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
   }, [props.data]);
   const onCancel = (success?: boolean) => {
     setExisting(false);
+    setIsDoctor(false); // 清除医生选择
     form.resetFields();
     if (props.onCancel) {
       if (!props.data && stepNum > 0) {
@@ -118,6 +124,13 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
   const queryAccount = () => {
     const phone = form.getFieldValue('phone');
     const idCard = form.getFieldValue('idCard');
+    if (
+      !/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9xX]$/.test(
+        idCard,
+      )
+    ) {
+      return;
+    }
     if (idCard) {
       form.setFieldsValue({ birthday: moment(getBirth(idCard)), gender: getSex(idCard) });
     }
@@ -203,7 +216,7 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
         form.submit();
       }}
       okText={stepNum === 2 || props.data ? '保存' : '下一步'}
-      width={stepNum === 0 ? 960 : 460}
+      width={stepNum === 0 ? 800 : 460}
       loading={loading}
       okButtonProps={{ disabled: disableSubmit }}
       onCancel={() => {
@@ -219,7 +232,7 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
       <Form labelAlign="right" form={form} labelCol={{ span: 7 }} onFinish={finish} colon={false}>
         {stepNum === 0 && (
           <Row gutter={16}>
-            <Col span={9}>
+            <Col span={12}>
               <Form.Item
                 label="手机号"
                 name="phone"
@@ -227,6 +240,7 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
               >
                 <Input
                   placeholder="请输入手机号（必填）"
+                  maxLength={11}
                   onBlur={queryAccount}
                   disabled={props.data}
                 />
@@ -246,21 +260,81 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
                 <DatePicker disabled={props.data} style={{ width: '100%' }} />
               </Form.Item>
               <Form.Item
-                label="账号失效日期"
-                name="expiredTime"
-                rules={[{ required: true, message: '请填账号失效日期' }]}
+                label="组织/部门"
+                name="departmentId"
+                rules={[{ required: true, message: '请填所属部门' }]}
               >
-                <DatePicker style={{ width: '100%' }} />
+                <TreeSelect
+                  treeData={departmentTreeOption}
+                  fieldNames={{ value: 'id', label: 'name' }}
+                />
               </Form.Item>
-              <Form.Item label="用户昵称" name="nickname">
-                <Input placeholder="请输入内容" />
+              <Form.Item
+                label="员工岗位"
+                name="position"
+                rules={[{ required: true, message: '请选择员工岗位（必选）' }]}
+              >
+                <Select
+                  placeholder="请选择员工岗位（必选）"
+                  onChange={(value) => {
+                    if (value === 'doctor') setIsDoctor(true);
+                    else setIsDoctor(false);
+                  }}
+                  options={handelOptions(
+                    clientPrefix.includes('backend') ? dict?.position : dict?.hospitalPosition,
+                  )}
+                />
+              </Form.Item>
+              {isDoctor && (
+                <>
+                  <Form.Item
+                    label="岗位职称"
+                    name="titleLevel"
+                    rules={[{ required: true, message: '请选择岗位职称（必选）' }]}
+                  >
+                    <Select
+                      placeholder="请选择岗位职称（必选）"
+                      options={handelOptions(dict?.doctorTitle)}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="职称级别"
+                    name="titleLevel"
+                    rules={[
+                      {
+                        required: true,
+                        message: '请选择职称级别（必选）',
+                      },
+                    ]}
+                  >
+                    <Select
+                      placeholder="请选择职称级别（必选）"
+                      options={handelOptions(dict?.technicalJobCategory)}
+                    />
+                  </Form.Item>
+                </>
+              )}
+              <Form.Item label="描述：" name="description">
+                <Input.TextArea
+                  placeholder="请输入内容"
+                  showCount
+                  maxLength={120}
+                  autoSize={{ minRows: 7, maxRows: 7 }}
+                />
               </Form.Item>
             </Col>
-            <Col span={9}>
+            <Col span={12}>
               <Form.Item
                 label="身份证号"
                 name="idCard"
-                rules={[{ required: true, message: '请填写身份证号' }]}
+                rules={[
+                  { required: true, message: '请填写身份证号' },
+                  {
+                    pattern:
+                      /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9xX]$/,
+                    message: '请填写正确的身份证',
+                  },
+                ]}
               >
                 <Input
                   placeholder="请输入身份证号（必填）"
@@ -291,20 +365,23 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
                 />
               </Form.Item>
               <Form.Item
-                label="组织/部门"
-                name="departmentId"
-                rules={[{ required: true, message: '请填所属部门' }]}
+                label="账号失效日期"
+                name="expiredTime"
+                rules={[{ required: true, message: '请填账号失效日期' }]}
               >
-                <TreeSelect
-                  treeData={departmentTreeOption}
-                  fieldNames={{ value: 'id', label: 'name' }}
-                />
+                <DatePicker style={{ width: '100%' }} />
               </Form.Item>
+              {isDoctor && (
+                <Form.Item label="执业医院" name="actualOrg">
+                  <Input placeholder="请输入执业医院" />
+                </Form.Item>
+              )}
               <Form.Item label="邮箱" name="email">
                 <Input placeholder="请输入内容" />
               </Form.Item>
-            </Col>
-            <Col span={6}>
+              <Form.Item label="用户昵称" name="nickname">
+                <Input placeholder="请输入内容" />
+              </Form.Item>
               <Form.Item label="头像" name="avatar">
                 <UploadOne />
               </Form.Item>
