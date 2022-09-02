@@ -109,25 +109,31 @@ const TermLibrary: React.FC = () => {
 
   const PopoverContent = (labelVoList: ProjectType.LabelVoList[]) => {
     return (
-      <div className={styles.sortDom}>
-        {labelVoList.map((el, ids) => (
-          <div className={styles.tag} key={el.id}>
-            {el.name}
-          </div>
-        ))}
-      </div>
+      <>
+        <h4 className={styles['tag-title']}>标签</h4>
+        <div className={styles.sortDom}>
+          {labelVoList.map((el) => (
+            <div className={`${styles.tag} ${styles['tag-fff']}`} key={el.id}>
+              {el.name}
+            </div>
+          ))}
+        </div>
+      </>
     );
   };
 
   const AiPopoverContent = (tag: string[]) => {
     return (
-      <div className={styles.sortDom}>
-        {tag.map((el) => (
-          <div className={styles.tag} key={el}>
-            {el}
-          </div>
-        ))}
-      </div>
+      <>
+        <h4 className={styles['tag-title']}>决策流标签</h4>
+        <div className={styles.sortDom}>
+          {tag.map((el) => (
+            <div className={`${styles.tag} ${styles['tag-fff']}`} key={el}>
+              {el}
+            </div>
+          ))}
+        </div>
+      </>
     );
   };
 
@@ -179,6 +185,7 @@ const TermLibrary: React.FC = () => {
             </Space> */}
             <Popover
               trigger="hover"
+              color="rgba(0,0,0,0.70)"
               content={
                 record.labelVoList.length > 2 ? () => PopoverContent(record.labelVoList) : ''
               }
@@ -223,7 +230,11 @@ const TermLibrary: React.FC = () => {
       render(text: string, record: ProjectType.ProjectRes, index: number) {
         const D = text?.split(',');
         return text ? (
-          <Popover trigger="hover" content={D.length > 2 ? () => AiPopoverContent(D) : ''}>
+          <Popover
+            trigger="hover"
+            color="rgba(0,0,0,0.70)"
+            content={D.length > 2 ? () => AiPopoverContent(D) : ''}
+          >
             <div className={`${styles.sortDom} ${D.length > 2 ? styles.pointer : ''}`}>
               {D?.map((el, inx) =>
                 inx < 2 ? (
