@@ -56,53 +56,55 @@ const RoleForm: FC<RoleFormType> = (props) => {
     });
   }, []);
   useEffect(() => {
-    if (props.data && props.data.id) {
-      setStepNum(props.data.step);
-      setLoading(true);
-      if (props.data.step === 0) {
-        roleInfo(props.data.id)
-          .then((res) => {
-            form.setFieldsValue(res);
-          })
-          .catch(() => {
-            setDisableSubmit(true);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
+    if (props.visible) {
+      if (props.data && props.data.id) {
+        setStepNum(props.data.step);
+        setLoading(true);
+        if (props.data.step === 0) {
+          roleInfo(props.data.id)
+            .then((res) => {
+              form.setFieldsValue(res);
+            })
+            .catch(() => {
+              setDisableSubmit(true);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        }
+        if (props.data.step === 1) {
+          roleDataAccessInfo(props.data.id)
+            .then((res) => {
+              if (res.dataAccess) {
+                handleAssignData(res.dataAccess, false);
+              }
+              form.setFieldsValue(res);
+            })
+            .catch(() => {
+              setDisableSubmit(true);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        }
+        if (props.data.step === 2) {
+          roleResourceInfo(props.data.id)
+            .then((res) => {
+              form.setFieldsValue({ resource: res.map((num: number) => num.toString()) });
+            })
+            .catch(() => {
+              setDisableSubmit(true);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        }
+      } else {
+        setStepNum(0);
+        setSelAssignData([]);
       }
-      if (props.data.step === 1) {
-        roleDataAccessInfo(props.data.id)
-          .then((res) => {
-            if (res.dataAccess) {
-              handleAssignData(res.dataAccess, false);
-            }
-            form.setFieldsValue(res);
-          })
-          .catch(() => {
-            setDisableSubmit(true);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      }
-      if (props.data.step === 2) {
-        roleResourceInfo(props.data.id)
-          .then((res) => {
-            form.setFieldsValue({ resource: res.map((num: number) => num.toString()) });
-          })
-          .catch(() => {
-            setDisableSubmit(true);
-          })
-          .finally(() => {
-            setLoading(false);
-          });
-      }
-    } else {
-      setStepNum(0);
-      setSelAssignData([]);
     }
-  }, [props.data]);
+  }, [props.data, props.visible]);
   const onCancel = (success?: boolean) => {
     form.resetFields();
     setStepNum(0);

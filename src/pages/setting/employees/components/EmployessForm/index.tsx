@@ -289,7 +289,7 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
                 <>
                   <Form.Item
                     label="岗位职称"
-                    name="titleLevel"
+                    name="title"
                     rules={[{ required: true, message: '请选择岗位职称（必选）' }]}
                   >
                     <Select
