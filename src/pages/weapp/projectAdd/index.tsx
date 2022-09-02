@@ -19,6 +19,7 @@ import MechanismCascader from '@/components/MechanismCascader';
 import ImageList from '@/pages/weapp/projectAdd/Components/ImageList';
 import { createProject, editProject, getByChain, getProjectDetail } from '@/services/weapp';
 import ProjectSpecify from './Components/ProjectSpecify';
+import AiLabelSelect from './Components/AiLabelSelect';
 
 const { Option } = Select;
 
@@ -92,9 +93,9 @@ function ProjectAdd() {
     }
   }, []);
 
-  useEffect(() => {
-    httpGetByChain();
-  }, [chainParams]);
+  // useEffect(() => {
+  //   httpGetByChain();
+  // }, [chainParams]);
 
   return (
     <div className={['actionPage', style.addFormBox].join(' ')}>
@@ -133,7 +134,7 @@ function ProjectAdd() {
             </Form.Item>
             <Form.Item name="manageProjectId" label="关联管理项目" rules={requiredRule}>
               {/* <Input readOnly value="暂无" /> */}
-              <Select
+              {/* <Select
                 showSearch
                 placeholder="请先选择机构"
                 defaultActiveFirstOption={false}
@@ -153,7 +154,15 @@ function ProjectAdd() {
                     </Link>
                   </Option>
                 ))}
-              </Select>
+              </Select> */}
+              <AiLabelSelect
+                id={projectDetail.manageProjectId || ''}
+                onSelect={(v) =>
+                  form.setFieldsValue({
+                    manageProjectId: v.id,
+                  })
+                }
+              />
             </Form.Item>
             <Form.Item name="organizeId" label="所属机构" rules={requiredRule}>
               <MechanismCascader placeholder="请选择" />

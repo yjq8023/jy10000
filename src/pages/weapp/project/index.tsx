@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Badge, Space, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
+import {
+  Button,
+  Badge,
+  Space,
+  message,
+  Modal,
+  Popover,
+} from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import BaseList, { useList } from '@/components/BaseList';
@@ -61,6 +68,21 @@ function WeappProject() {
     );
   };
 
+  const PopoverContent = (tag: string[]) => {
+    return (
+      <>
+        <h4 className={style['tag-title']}>决策流标签</h4>
+        <div className={style.sortDom}>
+          {tag.map((el) => (
+            <div className={`${style.tag} ${style['tag-fff']}`} key={el}>
+              {el}
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  };
+
   const renderActionDom = (itemData: any) => {
     return (
       <Space>
@@ -113,6 +135,39 @@ function WeappProject() {
       dataIndex: 'projectName',
       key: 'projectName',
       width: 200,
+    },
+    {
+      title: '关联项目版本号',
+      dataIndex: 'projectVersion',
+      key: 'projectVersion',
+      width: 200,
+    },
+    {
+      title: '关联项目标签',
+      dataIndex: 'projectLabelName',
+      key: 'projectLabelName',
+      width: 200,
+      render(text: any, record: ProjectType.ProjectRes, index: number) {
+        return text.length ? (
+          <Popover
+            trigger="hover"
+            color="rgba(0,0,0,0.70)"
+            content={text.length > 2 ? () => PopoverContent(text) : ''}
+          >
+            <div className={`${style.sortDom} ${text.length > 2 ? style.pointer : ''}`}>
+              {text?.map((el: any, inx: number) =>
+                inx < 2 ? (
+                  <div className={style.tag} key={el}>
+                    {el}
+                  </div>
+                ) : null,
+              )}
+            </div>
+          </Popover>
+        ) : (
+          '--'
+        );
+      },
     },
     {
       title: '项目病种',
