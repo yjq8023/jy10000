@@ -1,6 +1,7 @@
 // @ts-nocheck
 import React, { useRef, useEffect, useState } from 'react';
-import { FormRender, registerComponents } from '@sinohealth/butterfly-formily-engine';
+import { FormRender, registerComponents, useFormilyForm } from '@sinohealth/butterfly-formily-engine';
+import { Button, message } from '@sinohealth/butterfly-ui-components';
 import { TreeNode } from '@sinohealth/designable-core';
 import { transformToSchema } from '@sinohealth/designable-formily-transformer';
 import * as components from '@sinohealth/butterfly-formily-components';
@@ -18,6 +19,7 @@ export interface IPreviewWidgetProps {
 
 export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
   const { form: formProps, schema } = transformToSchema(props.tree);
+  const form = useFormilyForm();
   const [isPc, setIsPC] = useState(true);
   const dom = useRef();
   const iframe = useRef();
@@ -35,10 +37,28 @@ export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
       };
     }
   }, [isPc, iframe]);
+  const handleSubmit = () => {
+    form.current?.submit((formValues) => {
+      message.success('表单已提交，请在控制台查看提交的数据');
+      console.log('表单测试提交数据');
+      console.log(formValues);
+    });
+  };
+  const handleReset = () => {
+    form.current?.reset();
+  };
   return (
     <div style={{ width: '100%', height: '100%' }} ref={dom}>
       { isPc && (
-        <FormRender schema={schema} formProps={{ componentProps: formProps }} components={components} />
+        <>
+          <FormRender form={form} schema={schema} formProps={{ componentProps: formProps }} components={components} />
+          <div style={{ textAlign: 'center', padding: '10px' }}>
+            <Button type="primary" onClick={handleSubmit}>测试提交</Button>
+            &nbsp;
+            &nbsp;
+            <Button onClick={handleReset}>测试重置</Button>
+          </div>
+        </>
       )}
       { !isPc && (
         // eslint-disable-next-line jsx-a11y/iframe-has-title
