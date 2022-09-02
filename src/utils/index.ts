@@ -257,6 +257,7 @@ export function isPermission(key: string) {
   }
   return is;
 }
+
 // 根据子节点id获取节点跟父节点id
 export function getFatherNode(arr: any, resourceId: string) {
   let hasFound = false; // 表示是否有找到id值
