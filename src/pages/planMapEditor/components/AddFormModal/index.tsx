@@ -1,40 +1,23 @@
 import React, { useState, useImperativeHandle, useContext, useEffect } from 'react';
-import { Modal, Form, Input, Select, Row, Col, Table, Button } from '@sinohealth/butterfly-ui-components/lib';
+import { Modal, Form, Input, Row, Col, Button, message } from '@sinohealth/butterfly-ui-components/lib';
 import { Link } from 'react-router-dom';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
-import SearchInput from '@/components/SearchInput';
-import { getAiIoComponents } from '@/services/planMapAntForm';
-
-const labelMock = [
-  {
-    label: 'IO1',
-    value: '1',
-  },
-  {
-    label: 'IO2',
-    value: '2',
-  },
-  {
-    label: 'IO3',
-    value: '3',
-  },
-  {
-    label: 'IO4',
-    value: '4',
-  },
-];
+import { httpScalePage } from '@/services/project';
+import BaseList from '@/components/BaseList';
+import IoSelect from '@/pages/planMapEditor/components/IoSelect';
+import style from './index.less';
 
 const columns = [
   {
     title: '量表名称',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'title',
+    key: 'title',
   },
   {
     title: '操作',
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'action',
+    key: 'action',
     width: '60px',
     render() {
       return <Link to="a/detail">查看</Link>;
@@ -43,54 +26,56 @@ const columns = [
 ];
 
 const FormSelectTable = (p: any) => {
-  const { value, onChange } = p;
-  const [dataSource, setDataSource] = useState([
-    {
-      id: '1',
-      name: '测试量表',
-    },
-    {
-      id: '11',
-      name: '测试量表1',
-    },
-    {
-      id: '12',
-      name: '测试量表2',
-    },
-    {
-      id: '13',
-      name: '测试量表3',
-    },
-  ]);
+  const { onChange } = p;
+  const fetchScaleListData = (params: any) => {
+    return httpScalePage({
+      pageNo: params.current,
+      status: 'ENABLE',
+      ...params,
+    }).then((res: any) => {
+      return {
+        listData: res.data,
+        pagination: {
+          current: res.pageNo,
+          pageSize: res.pageSize,
+          total: res.totalCount,
+        },
+      };
+    });
+  };
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any) => {
       onChange(selectedRows[0]);
     },
   };
-  return (
-    <div>
-      <div style={{ marginBottom: '10px' }}>
+  const SearchForm = ({ form }: any) => {
+    return (
+      <Form form={form}>
         <Row gutter={20}>
-          <Col span={16}><SearchInput placeholder="输入量表名称搜索" /></Col>
-          <Col span={8}><Button type="primary">搜索</Button></Col>
+          <Col span={16}>
+            <Form.Item name="title">
+              <Input placeholder="输入量表名称搜索" />
+            </Form.Item>
+          </Col>
+          <Col span={8}><Button type="primary" htmlType="submit">搜索</Button></Col>
         </Row>
-
-      </div>
-      <div className="but-title">
-        搜索结果
-      </div>
-      <div>
-        <Table
-          rowKey="id"
-          rowSelection={{
+      </Form>
+    );
+  };
+  return (
+    <div className={style.listBox}>
+      <BaseList
+        ListTitle="搜索结果"
+        columns={columns}
+        BodyProps={{
+          rowSelection: {
             type: 'radio',
             ...rowSelection,
-          }}
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
-        />
-      </div>
+          },
+        }}
+        fetchApi={fetchScaleListData}
+        SearchForm={SearchForm}
+      />
     </div>
   );
 };
@@ -98,12 +83,9 @@ const FormSelectTable = (p: any) => {
 const AddFormModal = (props: any, ref: any) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nodeData, setNodeData] = useState<any>();
-  const [labelOptions, setLabelOptions] = useState<any>(labelMock);
-  const [articles, setArticles] = useState<any>([]);
-  const { projectPlanData, planMapState, setPlanMapState } = useContext(planMapContext);
-
-  const [form] = Form.useForm();
-
+  const { planMapState, setPlanMapState } = useContext(planMapContext);
+  const [selectedForm, setSelectedForm] = useState<any>({});
+  const [inputFieldId, setInputFieldId] = useState<any>();
   useImperativeHandle(ref, () => {
     return {
       handleOpen,
@@ -112,27 +94,19 @@ const AddFormModal = (props: any, ref: any) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (projectPlanData) {
-      getAiIoComponents(projectPlanData.projectId)
-        .then((res: any) => {
-          setLabelOptions(res.map((item: any) => {
-            return {
-              label: item.label,
-              value: item.fieldId,
-            };
-          }));
-        });
-    }
-  }, [projectPlanData]);
-
   const handleOpen = (node: any) => {
     setNodeData(node);
+    setSelectedForm({});
+    setInputFieldId('');
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
-    form.submit();
+    if (selectedForm.id) {
+      onFinish();
+    } else {
+      message.error('请选择量表');
+    }
   };
 
   const handleCancel = () => {
@@ -140,52 +114,42 @@ const AddFormModal = (props: any, ref: any) => {
     setIsModalVisible(false);
   };
 
-  const onFinish = (data: any) => {
+  const onFinish = () => {
     const newData = { ...nodeData };
     const newInfos = [
       {
-        ...data,
-        itemName: data.form.name,
+        itemName: selectedForm.title,
+        bizId: selectedForm.id,
         itemCategory: planItemTypes.form,
+        inputFieldId,
       },
     ];
-    if (Array.isArray(newData.infos)) {
-      newData.followUpItems = [...newData.infos, ...newInfos];
+    if (Array.isArray(newData.followUpItems)) {
+      newData.followUpItems = [...newData.followUpItems, ...newInfos];
     } else {
       newData.followUpItems = newInfos;
     }
     setPlanMapState('update', newData.path, newData);
     setIsModalVisible(false);
   };
-  const defaultValue: any = {};
+  const handleSelectForm = (data: any) => {
+    setSelectedForm(data);
+  };
   return (
     <Modal title="添加医学量表" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={800}>
-      <Form
-        form={form}
-        name="basic"
-        labelCol={{ span: 2 }}
-        wrapperCol={{ span: 16 }}
-        labelAlign="left"
-        initialValues={defaultValue}
-        onFinish={onFinish}
-        hideRequiredMark={true}
-        autoComplete="off"
-      >
-        <Form.Item
-          name="form"
-          labelCol={{ span: 0 }}
-          wrapperCol={{ span: 24 }}
-          rules={[{ required: true, message: '请选择量表' }]}
-        >
-          <FormSelectTable />
-        </Form.Item>
-        <Form.Item
-          label="关联IO"
-          name="io"
-        >
-          <Select options={labelOptions} />
-        </Form.Item>
-      </Form>
+      <div>
+        {
+          isModalVisible && (
+            <FormSelectTable onChange={handleSelectForm} />
+          )
+        }
+        <Row style={{ marginTop: '20px' }}>
+          <Col span={2} style={{ lineHeight: '32px' }}>关联IO:</Col>
+          <Col span={20}>
+            <IoSelect onChange={setInputFieldId} style={{ width: '240px' }} placeholder="请选择需要关联的IO" />
+          </Col>
+        </Row>
+      </div>
     </Modal>
   );
 };

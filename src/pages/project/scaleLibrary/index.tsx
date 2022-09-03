@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   Button,
   Badge,
@@ -12,10 +13,10 @@ import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
 import { previewFile } from '@/utils';
 import { UCenter } from '@/services/weapp/data';
-import { httpSlideShow } from '@/services/weapp';
 import ScaleSearch from './components/ScaleSearch';
 import ScaleModal from './components/ScaleModal';
 import SwitchCustom from '@/components/SwitchCustom';
+import { httpScalePage } from '@/services/project';
 
 /**
  * 资料库管理-量表库
@@ -24,9 +25,9 @@ import SwitchCustom from '@/components/SwitchCustom';
 const scaleLibrary: React.FC = () => {
   const list: any = useList();
   const [scaleModalVisible, setScaleModalVisible] = useState(false);
-
+  const navigate = useNavigate();
   const fetchAPi = (params: { current: any }) => {
-    return httpSlideShow({
+    return httpScalePage({
       pageNo: params.current,
       ...params,
     }).then((res: any) => {
@@ -44,7 +45,7 @@ const scaleLibrary: React.FC = () => {
   const renderActionDom = (itemData: any) => {
     return (
       <Space size="middle">
-        <a onClick={() => console.log('编辑量表')}>编辑量表</a>
+        <Link to={`/project/formily/editor?type=form&formId=${itemData.id}&name=${itemData.title}`}>编辑量表</Link>
         <a onClick={() => setScaleModalVisible(true)}>基本信息</a>
         <a className={styles['del-color']} onClick={() => console.log(itemData)}>
           删除

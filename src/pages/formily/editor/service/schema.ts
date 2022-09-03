@@ -12,11 +12,13 @@ import {
   saveManagePlanPreInfo,
 } from '@/services/planMapAntForm';
 import { getSchemaItem } from '@/pages/formily/editor/utils/schema';
+import { httpScaleDetail, httpUpdateScale } from '@/services/project';
 
 export const saveSchema = (props: { designer: Engine, type: string, id: string }) => {
   const { designer, type, projectId, formId, name } = props;
 
   const schema = JSON.stringify(transformToSchema(designer.getCurrentTree()));
+  // 前置信息表单
   if (type === 'beforeInfo') {
     saveManagePlanPreInfo({
       projectId,
@@ -27,6 +29,7 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
         message.success('保存成功');
       });
   }
+  // 跟进记录表
   if (type === 'followUp') {
     saveFollowUpFormInfo({
       id: formId,
@@ -34,6 +37,15 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
       formJson: schema,
       name,
       category: 'FOLLOWUP',
+    }).then(() => {
+      message.success('保存成功');
+    });
+  }
+  // 量表
+  if (type === 'form') {
+    httpUpdateScale({
+      id: formId,
+      scaleJson: schema,
     }).then(() => {
       message.success('保存成功');
     });
@@ -63,6 +75,20 @@ export const loadInitialSchema = (props: { designer: Engine, type: string, id: s
           try {
             designer.setCurrentTree(
               transformToTreeNode(JSON.parse(data.formJson)),
+            );
+          } catch {
+            message.error('加载历史数据失败，你可以重新编辑或刷新页面');
+          }
+        }
+      });
+  }
+  if (type === 'form') {
+    httpScaleDetail(formId)
+      .then((data) => {
+        if (data.scaleJson) {
+          try {
+            designer.setCurrentTree(
+              transformToTreeNode(JSON.parse(data.scaleJson)),
             );
           } catch {
             message.error('加载历史数据失败，你可以重新编辑或刷新页面');
