@@ -126,6 +126,48 @@ export const httpServiceProject = (params: ProjectType.ServiceProjectReq) => {
   return request.post(`${prefix}/serviceProject/page`, params, { isReturnAllData: true });
 };
 
+/**
+ * 分页查询量表信息
+ * @param params
+ * @returns
+ */
+export const httpScalePage = (params: any) => {
+  // @ts-ignore
+  return request.post(`${prefix}/scale/page`, params, { isReturnAllData: true });
+};
+/**
+ * 根据标题查询量表信息, 用于路径编辑器关联量表
+ * @param params
+ * @returns
+ */
+export const httpScaleByTitle = (params: any) => {
+  return request.post(`${prefix}/scale/findByTitle`, params);
+};
+/**
+ * 新增编辑量表信息
+ * @param params
+ * @returns
+ */
+export const httpUpdateScale = (params: any) => {
+  return request.post(`${prefix}/scale/insert/or/update`, params);
+};
+/**
+ * 获取量表详情信息
+ * @param params
+ * @returns
+ */
+export const httpScaleDetail = (id: string) => {
+  return request.get(`${prefix}/scale/detail/${id}`);
+};
+/**
+ * 获取量表详情信息
+ * @param params
+ * @returns
+ */
+export const httpDeleteScale = (id: string) => {
+  return request.get(`${prefix}/scale/delete/${id}`);
+};
+
 export default {
   httpGetContent,
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Select } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender, registerComponents } from '@sinohealth/butterfly-formily-engine';
@@ -6,6 +6,9 @@ import * as components from '@sinohealth/butterfly-formily-components';
 import { planItemTypes } from '@/pages/planMapEditor/config';
 import { getBeforeInfoSchema, getFollowUpFormInfo } from '@/services/planMapAntForm';
 import style from './index.less';
+import { planMapContext } from '@/pages/planMapEditor';
+import { httpScaleDetail } from '@/services/project';
+import IoSelect from '@/pages/planMapEditor/components/IoSelect';
 
 const allComponents = {
   components,
@@ -15,6 +18,7 @@ registerComponents(allComponents);
 
 const FormSetting = (props: any) => {
   const { data } = props;
+  const { disabled, setPlanMapState } = useContext(planMapContext);
   const [schema, setSchema] = useState<any>({
     form: {},
     schema: {},
@@ -24,6 +28,7 @@ const FormSetting = (props: any) => {
   const projectId = params.get('id');
   const isBeforeInfo = data.itemCategory === planItemTypes.beforeInfo;
   const isFollowUp = data.itemCategory === planItemTypes.followUp;
+  const isForm = data.itemCategory === planItemTypes.form;
   const formProps = {
     ...schema.form,
     labelCol: 24,
@@ -47,6 +52,14 @@ const FormSetting = (props: any) => {
           }
         });
     }
+    if (data?.bizId && isForm) {
+      httpScaleDetail(data.bizId)
+        .then((res: any) => {
+          if (res.scaleJson) {
+            setSchema(JSON.parse(res.scaleJson));
+          }
+        });
+    }
   }, []);
 
   const titles: any = {
@@ -54,8 +67,14 @@ const FormSetting = (props: any) => {
     [planItemTypes.followUp]: '跟进记录表',
     [planItemTypes.form]: '医学量表',
   };
+  const handleSelectIo = (val: any) => {
+    setPlanMapState('update', data.path, { ...data, inputFieldId: val });
+  };
   const handleEdit = () => {
-    const cType = isBeforeInfo ? 'beforeInfo' : 'followUp';
+    let cType = '';
+    if (isForm) cType = 'form';
+    if (isBeforeInfo) cType = 'beforeInfo';
+    if (isFollowUp) cType = 'followUp';
     navigate(`/project/formily/editor?type=${cType}&formId=${data.bizId}&projectId=${params.get('id')}&name=${data.itemName}`);
   };
   return (
@@ -68,7 +87,7 @@ const FormSetting = (props: any) => {
             <>
               <div className={style.type}>关联IO</div>
               <div>
-                <Select style={{ width: '100%' }} />
+                <IoSelect defaultValue={data.inputFieldId} onChange={handleSelectIo} style={{ width: '100%' }} placeholder="请选择需要关联的IO" />
               </div>
             </>
           )
@@ -83,7 +102,11 @@ const FormSetting = (props: any) => {
         <FormRender schema={schema.schema} formProps={{ componentProps: formProps }} components={components} />
       </div>
       <div className={style.footer}>
-        <Button type="primary" onClick={handleEdit}>查看/编辑</Button>
+        {
+          !disabled && (
+            <Button type="primary" onClick={handleEdit}>查看/编辑</Button>
+          )
+        }
       </div>
     </div>
   );

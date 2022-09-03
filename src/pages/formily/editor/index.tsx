@@ -131,10 +131,12 @@ const FormilyEditor = () => {
     [],
   );
   useEffect(() => {
-    fetchAiIoComponents(projectId)
-      .then((data) => {
-        setIoComponents(data);
-      });
+    if (projectId) {
+      fetchAiIoComponents(projectId)
+        .then((data) => {
+          setIoComponents(data);
+        });
+    }
   }, []);
   // @ts-ignore
   const renderResourceWidget = () => {

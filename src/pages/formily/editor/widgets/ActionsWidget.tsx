@@ -10,12 +10,15 @@ import { loadInitialSchema, saveSchema } from '../service';
 export const ActionsWidget = observer(() => {
   const designer = useDesigner();
   const [params] = useSearchParams();
+  const type = params.get('type');
+  const formId = params.get('formId');
+  const projectId = params.get('projectId');
   useEffect(() => {
     loadInitialSchema({
       designer,
-      type: params.get('type'),
-      formId: params.get('formId'),
-      projectId: params.get('projectId'),
+      type,
+      formId,
+      projectId,
     });
   }, []);
   const supportLocales = ['zh-cn', 'en-us', 'ko-kr'];
@@ -26,13 +29,17 @@ export const ActionsWidget = observer(() => {
   }, []);
   return (
     <div style={{ marginRight: 10 }}>
-      <Button
-        onClick={() => {
-          console.log(1111);
-        }}
-      >
-        查看决策流
-      </Button>
+      {
+        (type === 'beforeInfo' || type === 'followUp') && (
+          <Button
+            onClick={() => {
+              console.log(1111);
+            }}
+          >
+            查看决策流
+          </Button>
+        )
+      }
       &nbsp;
       &nbsp;
       <Button

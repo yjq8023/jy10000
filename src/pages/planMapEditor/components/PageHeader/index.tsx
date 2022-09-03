@@ -26,8 +26,6 @@ const PageHeader = () => {
     );
   });
   const handleSave = () => {
-    console.log('planMapState');
-    console.log(planMapState);
     saveProjectPlanMap({
       ...projectPlanData,
       roadMaps: planMapState,

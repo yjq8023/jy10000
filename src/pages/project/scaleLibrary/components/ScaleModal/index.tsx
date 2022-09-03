@@ -2,7 +2,8 @@ import React from 'react';
 import { Form, Input } from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
 import styles from './index.less';
-import LabelSelect from '@/pages/project/components/LabelSelect';
+import LabelSelect from '@/components/LabelSelect';
+import { httpUpdateScale } from '@/services/project';
 
 const { TextArea } = Input;
 
@@ -22,6 +23,13 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
   const [form] = Form.useForm();
   const { visible, title, params, onOk, onCancel } = props;
 
+  const handleAddScale = (formValues: any) => {
+    httpUpdateScale({
+      ...formValues,
+    }).then(() => {
+      onOk && onOk(formValues);
+    });
+  };
   return (
     <div className={styles['scale-modal']}>
       <SimpleModal
@@ -34,13 +42,7 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
           onCancel && onCancel();
         }}
         onOk={() => {
-          form
-            .validateFields()
-            .then(() => {
-              const insertParams = form.getFieldsValue() as any;
-              onOk && onOk(insertParams);
-            })
-            .catch(() => {});
+          form.submit();
         }}
       >
         <Form
@@ -49,18 +51,18 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
-          onFinish={() => {}}
+          onFinish={handleAddScale}
           onFinishFailed={() => {}}
           autoComplete="off"
         >
           <Form.Item
             label="量表名称"
-            name="name"
+            name="title"
             rules={[{ required: true, message: '请输入量表名称' }]}
           >
             <Input placeholder="请输入项目名称" />
           </Form.Item>
-          <Form.Item label="量表说明">
+          <Form.Item label="量表说明" name="description">
             <TextArea
               showCount
               maxLength={200}
@@ -68,8 +70,8 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
               placeholder="请输入说明内容"
             />
           </Form.Item>
-          <Form.Item label="标签" name="title">
-            <LabelSelect search={false} placeholder="请选择标签" />
+          <Form.Item label="标签" name="labelIds">
+            <LabelSelect mode="multiple" placeholder="请选择标签" />
           </Form.Item>
         </Form>
       </SimpleModal>
