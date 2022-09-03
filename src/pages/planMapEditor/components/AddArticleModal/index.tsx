@@ -98,7 +98,6 @@ export const ArticleSettingContent = (props: any) => {
   ];
 
   const handleShowDetail = (data: any) => {
-    console.log(data);
     setPreviewVisible(true);
     setPreviewData({
       title: data.title,
