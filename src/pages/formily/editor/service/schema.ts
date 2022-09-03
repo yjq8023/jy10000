@@ -98,47 +98,29 @@ export const loadInitialSchema = (props: { designer: Engine, type: string, id: s
   }
 };
 
-export const importSchema = (designer: Engine, formId: string) => {
+const transFormProperties = (properties: any) => {
+  const res = {};
+  Object.keys(properties).forEach((key, index) => {
+    res[key] = {
+      ...properties[key],
+      'x-index': index,
+    };
+  });
+  return res;
+};
+export const importSchema = async (designer: Engine, formId: string) => {
   const nowSchema = transformToSchema(designer.getCurrentTree());
-  const schema = {
-    type: 'object',
-    properties: {
-      enm91kou8a2: {
-        type: 'string',
-        title: '被引入的组件',
-        'x-decorator': 'FormItem',
-        'x-component': 'Input',
-        'x-validator': [],
-        'x-component-props': {},
-        'x-decorator-props': {},
-        'x-linkages': {},
-        'x-designable-id': 'enm91kou8a2',
-        'x-index': 0,
-      },
-      '4stf7hnxy3y': {
-        type: 'string',
-        title: '被引入的组件',
-        'x-decorator': 'FormItem',
-        'x-component': 'Input.TextArea',
-        'x-validator': [],
-        'x-component-props': {},
-        'x-decorator-props': {},
-        'x-linkages': {},
-        'x-designable-id': '4stf7hnxy3y',
-        'x-index': 1,
-      },
-    },
-    'x-designable-id': '9ywsm1aw8jf',
-  };
+  const data = await getFollowUpFormInfo(formId);
+  const schema = JSON.parse(data.formJson).schema;
   try {
     const importedData = {
-      ...nowSchema,
+      form: nowSchema.form,
       schema: {
         ...nowSchema.schema,
-        properties: {
-          ...nowSchema.properties,
+        properties: transFormProperties({
           ...schema.properties,
-        },
+          ...nowSchema.schema.properties,
+        }),
       },
     };
     designer.setCurrentTree(transformToTreeNode(importedData));
