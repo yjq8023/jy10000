@@ -131,7 +131,7 @@ export const httpServiceProject = (params: ProjectType.ServiceProjectReq) => {
  * @param params
  * @returns
  */
-export const httpScalePage = (params: any) => {
+export const httpScalePage = (params: ProjectType.ScalePageReq) => {
   // @ts-ignore
   return request.post(`${prefix}/scale/page`, params, { isReturnAllData: true });
 };
@@ -149,7 +149,16 @@ export const httpScaleByTitle = (params: any) => {
  * @returns
  */
 export const httpUpdateScale = (params: any) => {
-  return request.post(`${prefix}/scale/insert/or/update`, params);
+  // @ts-ignore
+  return request.post(`${prefix}/scale/insert/or/update`, params, { isReturnAllData: true });
+};
+/**
+ * 更改量表信息状态
+ * @param params
+ * @returns
+ */
+export const httpUpdateStatus = (params: any) => {
+  return request.post(`${prefix}/scale/updateStatus`, params);
 };
 /**
  * 获取量表详情信息

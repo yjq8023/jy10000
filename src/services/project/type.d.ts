@@ -177,4 +177,45 @@ declare namespace ProjectType {
     shareUrl?: string;
     labels?: string[];
   };
+
+  type ScalePageReq = {
+    title?: string;
+    labelIds?: string[];
+    status?: string;
+    pageSize?: string;
+    pageNo?: string;
+    orderBy?: string;
+    orderDirection?: string;
+    groupBy?: string;
+    needTotalCount?: boolean;
+  };
+
+  type ScalePageRes = {
+    id?: string;
+    title?: string;
+    scaleJson?: string;
+    description?: string;
+    labelVoList: LabelVoList[];
+    status?: string;
+    deleted?: boolean;
+    creater?: string;
+    createTime?: string;
+    updater?: string;
+    updateTime?: string;
+  };
+
+  type LabelVoList = {
+    id?: string;
+    tenantId?: string;
+    categoryName?: string;
+    name?: string;
+    code?: string;
+    sort?: string;
+    status?: string;
+    bindCountNum?: string;
+    creater?: string;
+    createTime?: string;
+    updater?: string;
+    updateTime?: string;
+  };
 }
