@@ -1,4 +1,5 @@
 @import '../../../style/var';
+
 .loginPage {
   display: flex;
   width: 100vw;
@@ -8,6 +9,7 @@
   background-image: linear-gradient(124deg, #2b7fc4 0%, #53b6a4 100%);
   background-repeat: no-repeat;
   background-size: cover;
+
   .loginBody {
     // border-radius: 5px;
     display: flex;
@@ -16,26 +18,30 @@
     height: 660px;
     margin: auto;
     overflow: hidden;
-    > div {
+
+    >div {
       display: inline-block;
       // width: 50%;
       height: 100%;
       vertical-align: top;
     }
+
     .left {
       // background-image: url('../../../assets/images/user/loginBg.png');
       background-repeat: no-repeat;
       background-size: contain;
+
       .logo {
         display: inline-block;
         width: 521px;
         height: 194.5px;
         margin-top: 18px;
-        margin-left:0;
+        margin-left: 0;
         background-image: url('../../../assets/images/user/logo.png');
         background-repeat: no-repeat;
         background-size: contain;
       }
+
       .bb {
         margin-left: 60px;
         color: #ffffff;
@@ -44,6 +50,7 @@
         margin-top: 30px;
       }
     }
+
     .right {
       max-width: 500px;
       width: 500px;
@@ -51,5 +58,58 @@
       background-color: #fff;
       border-radius: 40px;
     }
+  }
+}
+
+.loginAm {
+  position: relative;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: -1;
+  background-color: #DAEFF2;
+  // background-color: rgba(255, 255, 255, 1);
+
+  overflow: hidden;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    min-width: 300vw;
+    min-height: 300vw;
+    background-image: linear-gradient(124deg, #2b7fc4 0%, #53b6a4 100%);
+    animation-name: rotate;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  &:before {
+    bottom: 15vh;
+    border-radius: 45%;
+    animation-duration: 14s;
+  }
+
+  &:after {
+    bottom: 11vh;
+    opacity: .5;
+    border-radius: 47%;
+    animation-duration: 14s;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, 0) rotateZ(0deg);
+  }
+
+  50% {
+    transform: translate(-50%, -2%) rotateZ(180deg);
+  }
+
+  100% {
+    transform: translate(-50%, 0%) rotateZ(360deg);
   }
 }
