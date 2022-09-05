@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
@@ -7,8 +8,9 @@ import {
   message,
   Modal,
   Space,
+  Popover,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { PlusCircleOutlined, VerticalAlignTopOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, QuestionCircleFilled } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import styles from './index.less';
 import { previewFile } from '@/utils';
@@ -16,7 +18,14 @@ import { UCenter } from '@/services/weapp/data';
 import ScaleSearch from './components/ScaleSearch';
 import ScaleModal from './components/ScaleModal';
 import SwitchCustom from '@/components/SwitchCustom';
-import { httpScalePage } from '@/services/project';
+import {
+  httpDeleteScale,
+  httpScalePage,
+  httpUpdateScale,
+  httpUpdateStatus,
+} from '@/services/project';
+
+const { confirm } = Modal;
 
 /**
  * 资料库管理-量表库
@@ -25,7 +34,9 @@ import { httpScalePage } from '@/services/project';
 const scaleLibrary: React.FC = () => {
   const list: any = useList();
   const [scaleModalVisible, setScaleModalVisible] = useState(false);
-  const navigate = useNavigate();
+  const [isUpdateSucc, setIsUpdateSucc] = useState(false);
+  const [editParams, setEditParams] = useState<ProjectType.ScalePageRes>({ labelVoList: [] });
+
   const fetchAPi = (params: { current: any }) => {
     return httpScalePage({
       pageNo: params.current,
@@ -45,12 +56,61 @@ const scaleLibrary: React.FC = () => {
   const renderActionDom = (itemData: any) => {
     return (
       <Space size="middle">
-        <Link to={`/project/formily/editor?type=form&formId=${itemData.id}&name=${itemData.title}`}>编辑量表</Link>
-        <a onClick={() => setScaleModalVisible(true)}>基本信息</a>
-        <a className={styles['del-color']} onClick={() => console.log(itemData)}>
+        <Link to={`/project/formily/editor?type=form&formId=${itemData.id}&name=${itemData.title}`}>
+          编辑量表
+        </Link>
+        <a
+          onClick={() => {
+            setEditParams(itemData);
+            setScaleModalVisible(true);
+          }}
+        >
+          基本信息
+        </a>
+        <a
+          className={styles['del-color']}
+          onClick={() => {
+            confirm({
+              title: `是否确定删除 "${itemData.title}" 的数据项?`,
+              icon: <QuestionCircleFilled style={{ color: '#EA6868' }} />,
+              okButtonProps: { danger: true },
+              cancelButtonProps: { type: 'info' },
+              onOk: async () => {
+                const res: any = await httpDeleteScale(itemData.id);
+
+                return new Promise((resolve) => {
+                  const timer = setTimeout(() => {
+                    resolve(true);
+                    if (res) {
+                      list.current.reloadListData(true);
+                      message.success('删除成功');
+                    }
+                    clearTimeout(timer);
+                  }, 1000);
+                }).catch(() => console.log('Oops errors!'));
+              },
+              onCancel() {},
+            });
+          }}
+        >
           删除
         </a>
       </Space>
+    );
+  };
+
+  const PopoverContent = (record: ProjectType.ScalePageRes) => {
+    return (
+      <>
+        <h4 className={styles['tag-title']}>标签</h4>
+        <div className={styles.sortDom}>
+          {record.labelVoList.map((el, ids) => (
+            <div className={`${styles.tag} ${styles['tag-fff']}`} key={el.id}>
+              {el.name}
+            </div>
+          ))}
+        </div>
+      </>
     );
   };
 
@@ -83,15 +143,30 @@ const scaleLibrary: React.FC = () => {
       dataIndex: 'weight',
       key: 'weight',
       width: 200,
-      render(text: string, record: UCenter.carouselItem, index: number) {
+      render(text: string, record: ProjectType.ScalePageRes, index: number) {
         if (!record.status) {
           return '--';
         }
         return (
-          <Space className={styles.sortDom}>
-            <div className={styles.tag}>乳腺癌</div>
-            <div className={styles.tag}>肿瘤</div>
-          </Space>
+          <Popover
+            trigger="hover"
+            color="rgba(0,0,0,0.70)"
+            content={record?.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
+          >
+            <div
+              className={`${styles.sortDom} ${record.labelVoList.length > 2 ? styles.pointer : ''}`}
+            >
+              {record.labelVoList.length
+                ? record.labelVoList.map((el, ids) =>
+                    ids < 2 ? (
+                      <div className={styles.tag} key={el.id}>
+                        {el.name}
+                      </div>
+                    ) : null,
+                  )
+                : '--'}
+            </div>
+          </Popover>
         );
       },
     },
@@ -103,8 +178,8 @@ const scaleLibrary: React.FC = () => {
     },
     {
       title: '最后一次更新时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
+      dataIndex: 'updateTime',
+      key: 'updateTime',
       width: 200,
     },
     {
@@ -112,12 +187,30 @@ const scaleLibrary: React.FC = () => {
       dataIndex: 'status',
       key: 'status',
       width: 180,
-      render(text: string, record: any) {
+      render(text: string, record: ProjectType.ScalePageRes) {
         const isUp = text === 'enable';
         return (
-          <Space size="small">
-            <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={text ? '启用' : '禁用'} />
-            <SwitchCustom defaultChecked={isUp} onChange={async (e) => console.log(e)} />
+          <Space>
+            <Badge color={isUp ? '#7ed321' : '#f53f3f'} text={isUp ? '启用' : '禁用'} />
+            <SwitchCustom
+              checked={isUp}
+              onChange={async () => {
+                try {
+                  if (isUpdateSucc) return;
+                  setIsUpdateSucc(true);
+                  const res = await httpUpdateStatus({
+                    id: record.id,
+                    status: isUp ? 'disable' : 'enable',
+                  });
+                  if (res) {
+                    list.current.reloadListData(true);
+                    setIsUpdateSucc(false);
+                  }
+                } catch (err) {
+                  setIsUpdateSucc(false);
+                }
+              }}
+            />
           </Space>
         );
       },
@@ -145,12 +238,29 @@ const scaleLibrary: React.FC = () => {
         Toolbar={Toolbar}
         overflow={false}
       />
-      <ScaleModal
-        visible={scaleModalVisible}
-        title="添加量表"
-        onOk={() => setScaleModalVisible(false)}
-        onCancel={() => setScaleModalVisible(false)}
-      />
+      {scaleModalVisible ? (
+        <ScaleModal
+          visible={scaleModalVisible}
+          params={editParams}
+          title="添加量表"
+          onOk={async (v) => {
+            try {
+              const res: any = await httpUpdateScale({ ...editParams, ...v });
+              if (res.success) {
+                setScaleModalVisible(false);
+                setEditParams({ labelVoList: [] });
+                list.current.reloadListData(true);
+              }
+            } catch (err) {
+              console.log(err);
+            }
+          }}
+          onCancel={() => {
+            setScaleModalVisible(false);
+            setEditParams({ labelVoList: [] });
+          }}
+        />
+      ) : null}
     </div>
   );
 };

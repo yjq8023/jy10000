@@ -26,6 +26,7 @@ function Login() {
   };
   return (
     <section className={style.loginPage}>
+      <div className={style.loginAm} />
       <div className={style.loginBody}>
         <div className={style.left}>
           <div className={style.logo} />

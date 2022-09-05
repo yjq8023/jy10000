@@ -134,13 +134,16 @@ const ArticleLibrary: React.FC = () => {
 
   const PopoverContent = (record: ProjectType.ContentRes) => {
     return (
-      <div className={styles.sortDom}>
-        {record.labelVoList.map((el, ids) => (
-          <div className={styles.tag} key={el.id}>
-            {el.name}
-          </div>
-        ))}
-      </div>
+      <>
+        <h4 className={styles['tag-title']}>标签</h4>
+        <div className={styles.sortDom}>
+          {record.labelVoList.map((el, ids) => (
+            <div className={`${styles.tag} ${styles['tag-fff']}`} key={el.id}>
+              {el.name}
+            </div>
+          ))}
+        </div>
+      </>
     );
   };
 
@@ -172,6 +175,7 @@ const ArticleLibrary: React.FC = () => {
         return (
           <Popover
             trigger="hover"
+            color="rgba(0,0,0,0.70)"
             content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
           >
             <div

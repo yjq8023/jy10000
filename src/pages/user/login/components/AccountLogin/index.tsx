@@ -35,7 +35,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     if (userData) {
       setRememberUser(true);
       form.setFieldsValue(userData);
-      getOrganizeLit();
+      getOrganizeLitForBlur();
     }
   }, []);
   const onCheck = (key: string, e: any) => {
@@ -109,7 +109,7 @@ function AccountLogin(props: { onSelectChain: () => void }) {
     setErrMessage('');
   };
 
-  const getOrganizeLitForBlur = (e: any) => {
+  const getOrganizeLitForBlur = (e?: any) => {
     getErrorMessage();
     const phone = e?.target.value || form.getFieldValue('account');
     if (phone) {
