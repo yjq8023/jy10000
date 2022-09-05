@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input } from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
 import styles from './index.less';
-import LabelSelect from '@/components/LabelSelect';
 import { httpUpdateScale } from '@/services/project';
+import LabelSelect from '@/pages/project/components/LabelSelect';
 
 const { TextArea } = Input;
 
 type ScaleModalProps = {
   visible?: boolean;
   title?: string;
-  params?: any;
+  params: ProjectType.ScalePageRes;
   onOk?: (val: any) => void;
   onCancel?: () => void;
 };
@@ -22,14 +22,27 @@ type ScaleModalProps = {
 const ScaleModal: React.FC<ScaleModalProps> = (props) => {
   const [form] = Form.useForm();
   const { visible, title, params, onOk, onCancel } = props;
+  const [sourMap, setSourMap] = useState<string[]>([]);
 
-  const handleAddScale = (formValues: any) => {
-    httpUpdateScale({
-      ...formValues,
-    }).then(() => {
-      onOk && onOk(formValues);
-    });
-  };
+  // const handleAddScale = (formValues: any) => {
+  //   httpUpdateScale({
+  //     ...formValues,
+  //   }).then(() => {
+  //     onOk && onOk(formValues);
+  //   });
+  // };
+
+  useEffect(() => {
+    if (!Object.keys(params).length) return;
+
+    if (params?.labelVoList.length) {
+      const ids = params?.labelVoList?.map((el) => el.id) as any;
+      setSourMap(ids);
+    }
+
+    form.setFieldsValue(params);
+  }, [params]);
+
   return (
     <div className={styles['scale-modal']}>
       <SimpleModal
@@ -42,7 +55,13 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
           onCancel && onCancel();
         }}
         onOk={() => {
-          form.submit();
+          form
+            .validateFields()
+            .then(() => {
+              const insertParams = form.getFieldsValue() as any;
+              onOk && onOk(insertParams);
+            })
+            .catch(() => {});
         }}
       >
         <Form
@@ -51,7 +70,6 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
-          onFinish={handleAddScale}
           onFinishFailed={() => {}}
           autoComplete="off"
         >
@@ -71,7 +89,15 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
             />
           </Form.Item>
           <Form.Item label="标签" name="labelIds">
-            <LabelSelect mode="multiple" placeholder="请选择标签" />
+            {/* <LabelSelect mode="multiple" placeholder="请选择标签" /> */}
+            <LabelSelect
+              mapSour={sourMap}
+              onSelect={(v) =>
+                form.setFieldsValue({
+                  labelIds: v,
+                })
+              }
+            />
           </Form.Item>
         </Form>
       </SimpleModal>

@@ -37,8 +37,15 @@ const ScaleSearch: React.FC = (props: any) => {
             </Form.Item>
           </Col>
           <Col span={9}>
-            <Form.Item name="appCode" label="选择标签">
-              <LabelSelect search={false} />
+            <Form.Item name="labelIds" label="选择标签">
+              <LabelSelect
+                search={false}
+                onSelect={(v) =>
+                  props.form.setFieldsValue({
+                    labelIds: v,
+                  })
+                }
+              />
             </Form.Item>
           </Col>
           <Col span={4} offset={1}>
