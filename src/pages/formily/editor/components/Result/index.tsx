@@ -67,6 +67,7 @@ Result.Resource = createResource(
         props: {
           type: 'string',
           title: '评测结果',
+          name: 'result',
           'x-component': 'Result',
           'x-component-props': {},
         },

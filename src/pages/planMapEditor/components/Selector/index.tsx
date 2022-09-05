@@ -14,7 +14,7 @@ const PlanMapEditor = () => {
     },
     {
       id: planItemTypes.followUp,
-      name: '根据记录表',
+      name: '跟进记录表',
       type: 'action',
       icon: 'icon-filedone',
     },

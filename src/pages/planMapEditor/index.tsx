@@ -36,6 +36,7 @@ const PlanMapEditor = ({ disabled }: any) => {
   const [projectPlanData, setProjectPlanData] = useState<ProjectPlanMap.data>();
   const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>();
   const [selectedNode, setSelectedNode] = useState<any>(null);
+  const [isEdited, setIsEdited] = useState<any>();
   const [params] = useSearchParams();
   const addNodeModalRef = useRef<any>(null);
   const addFollowUpModal = useRef<any>(null);
@@ -82,12 +83,15 @@ const PlanMapEditor = ({ disabled }: any) => {
       } else {
         setPlanMapStateFn(node);
       }
+      setIsEdited(true);
       // 暂存数据
       // setLocalStorageForJson('planMapState', {
       //   ...projectPlanData,
       //   roadMaps: planMapState,
       // });
     };
+    console.log(101010101);
+    console.log(isEdited);
     return {
       projectPlanData,
       planMapState,
@@ -99,8 +103,10 @@ const PlanMapEditor = ({ disabled }: any) => {
       addArticleModal,
       addDiagnosisModal,
       disabled,
+      isEdited,
+      setIsEdited,
     };
-  }, [planMapState, setPlanMapStateFn, selectedNode, setSelectedNode]);
+  }, [projectPlanData, planMapState, setPlanMapStateFn, selectedNode, setSelectedNode, isEdited, disabled, setIsEdited]);
 
   useEffect(() => {
     const id = params.get('id');
@@ -128,7 +134,7 @@ const PlanMapEditor = ({ disabled }: any) => {
         <div className={style.editorBody}>
           <div className={style.bodyHeader}>
             <div>
-              <div className="but-title">管理计划</div>
+              <div className="but-title">管理计划{isEdited ? '未保存' : '已保存'}</div>
             </div>
             <div>
               <Badge color="cyan" text="前置信息" />
@@ -145,7 +151,7 @@ const PlanMapEditor = ({ disabled }: any) => {
         {
             selectedNode && (
               <div className={style.config}>
-                <Setting />
+                <Setting isEdited={isEdited} />
               </div>
             )
           }
