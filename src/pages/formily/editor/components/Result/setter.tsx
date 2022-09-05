@@ -46,12 +46,14 @@ const ArrayRender = (props: any) => {
 };
 type ruleProps = {
   scope: any,
+  scoreKey: string,
   results: { when: string, desc: string}[]
 }
 export const ResultSetter = (props: any) => {
   const addFormulaModal = useRef<any>(null);
   const [rule, setRule] = useState<ruleProps>({
     scope: {},
+    scoreKey: '',
     results: [],
   });
   useEffect(() => {
@@ -135,6 +137,12 @@ export const ResultSetter = (props: any) => {
       },
     });
   };
+  const handleChangeScore = (scoreKey: string) => {
+    props.onChange && props.onChange({
+      ...rule,
+      scoreKey,
+    });
+  };
   const resultItem = (item: any, i: number) => {
     return (
       <div className={style.resultItem} key={i + item.when}>
@@ -152,11 +160,16 @@ export const ResultSetter = (props: any) => {
         结果配置
       </div>
       <ArrayRender title="计算公式" data={rule.scope} onAdd={handleAddFormula} onDelete={handleDeleteFormula} />
-      <div>
+      <div style={{ paddingBottom: '20px' }}>
         <div className="but-title">
           得分公式:
         </div>
-        <Select style={{ width: '100%' }} options={Object.keys(rule.scope || []).map((key) => ({ label: key, value: key }))} />
+        <Select
+          style={{ width: '100%' }}
+          value={rule.scoreKey}
+          onChange={handleChangeScore}
+          options={Object.keys(rule.scope || []).map((key) => ({ label: key, value: key }))}
+        />
       </div>
       <ArrayRender title="结果提示" data={rule.results} renderItem={resultItem} onAdd={handleAddResult} />
       <AddFormulaModal ref={addFormulaModal} onOk={handleOk} />

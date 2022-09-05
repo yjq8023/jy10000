@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Select } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender, registerComponents } from '@sinohealth/butterfly-formily-engine';
 import * as components from '@sinohealth/butterfly-formily-components';
 import { planItemTypes } from '@/pages/planMapEditor/config';
-import { getBeforeInfoSchema, getFollowUpFormInfo } from '@/services/planMapAntForm';
+import { getBeforeInfoSchema, getFollowUpFormInfo, saveProjectPlanMap } from '@/services/planMapAntForm';
 import style from './index.less';
 import { planMapContext } from '@/pages/planMapEditor';
 import { httpScaleDetail } from '@/services/project';
@@ -17,7 +17,7 @@ const allComponents = {
 registerComponents(allComponents);
 
 const FormSetting = (props: any) => {
-  const { data } = props;
+  const { data, isEdited } = props;
   const { disabled, setPlanMapState } = useContext(planMapContext);
   const [schema, setSchema] = useState<any>({
     form: {},
@@ -71,6 +71,21 @@ const FormSetting = (props: any) => {
     setPlanMapState('update', data.path, { ...data, inputFieldId: val });
   };
   const handleEdit = () => {
+    if (isEdited) {
+      Modal.confirm({
+        title: '数据尚未保存，是否保存?',
+        content: '页面跳转后尚未保存的数据将丢失',
+        okText: '不保存并跳转',
+        cancelText: '取消',
+        onOk() {
+          toEditPage();
+        },
+      });
+    } else {
+      toEditPage();
+    }
+  };
+  const toEditPage = () => {
     let cType = '';
     if (isForm) cType = 'form';
     if (isBeforeInfo) cType = 'beforeInfo';
@@ -104,7 +119,7 @@ const FormSetting = (props: any) => {
       <div className={style.footer}>
         {
           !disabled && (
-            <Button type="primary" onClick={handleEdit}>查看/编辑</Button>
+            <Button type="primary" onClick={handleEdit}>编辑</Button>
           )
         }
       </div>

@@ -6,7 +6,7 @@ import style from './index.less';
 import ArticleSetting from '@/pages/planMapEditor/components/Setting/components/ArticleSetting';
 import DiagnosisSetting from '@/pages/planMapEditor/components/Setting/components/DiagnosisSetting';
 
-const Setting = () => {
+const Setting = (props: any) => {
   const { selectedNode } = useContext(planMapContext);
   const isFormSetting = [planItemTypes.beforeInfo, planItemTypes.followUp, planItemTypes.form].indexOf(selectedNode?.itemCategory) > -1;
   const isArticle = planItemTypes.article === selectedNode?.itemCategory;
@@ -17,7 +17,7 @@ const Setting = () => {
         <div className="but-title">配置面板</div>
       </div>
       <div className={style.body} key={selectedNode.path}>
-        { isFormSetting && <FormSetting data={selectedNode} />}
+        { isFormSetting && <FormSetting isEdited={props.isEdited} data={selectedNode} />}
         { isArticle && <ArticleSetting data={selectedNode} />}
         { isDiagnosis && <DiagnosisSetting data={selectedNode} />}
       </div>

@@ -10,7 +10,7 @@ import style from '@/components/PageHeader/index.less';
 import { saveProjectPlanMap } from '@/services/planMapAntForm';
 
 const PageHeader = () => {
-  const { projectPlanData, planMapState, disabled } = useContext(planMapContext);
+  const { projectPlanData, planMapState, disabled, setIsEdited, isEdited } = useContext(planMapContext);
   const location = useLocation();
   const navigate = useNavigate();
   const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -20,7 +20,7 @@ const PageHeader = () => {
     return (
       <Breadcrumb.Item key={url}>
         {
-          item?.path ? <Link to={item?.path || ''}>{item?.label || '--'}</Link> : item?.label || '管理计划'
+          item?.path ? <a onClick={() => handleCancel(item?.path)}>{item?.label || '--'}</a> : item?.label || '管理计划'
         }
       </Breadcrumb.Item>
     );
@@ -30,17 +30,22 @@ const PageHeader = () => {
       ...projectPlanData,
       roadMaps: planMapState,
     }).then(() => {
+      setIsEdited(false);
       message.success('保存成功');
     });
   };
-  const handleCancel = () => {
-    Modal.confirm({
-      title: '是否确定取消编辑？',
-      content: '尚未保存的信息将丢失',
-      onOk() {
-        navigate(-1);
-      },
-    });
+  const handleCancel = (path: any = -1) => {
+    if (isEdited) {
+      Modal.confirm({
+        title: '是否确定取消编辑？',
+        content: '尚未保存的信息将丢失',
+        onOk() {
+          navigate(-1);
+        },
+      });
+    } else {
+      navigate(-1);
+    }
   };
   return (
     <div className={[style.pageHeader, 'pageHeader'].join(' ')}>
