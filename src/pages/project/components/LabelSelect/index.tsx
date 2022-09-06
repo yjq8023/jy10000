@@ -81,6 +81,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
       if (res.success) {
         httpGetLabelListReq();
         message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+        form.resetFields();
       }
     } catch (err) {
       message.error({ content: '数据更新失败', key: 'updatable', duration: 1 });
