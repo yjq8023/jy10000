@@ -177,6 +177,42 @@ export const httpDeleteScale = (id: string) => {
   return request.get(`${prefix}/scale/delete/${id}`);
 };
 
+/* 分页查询标签信息 */
+export const getLabelTypePage = (params: any) => {
+  return request.post<any, any>('/sys/label/page', params, {
+    // @ts-ignore
+    isReturnAllData: true,
+  });
+};
+
+/* 新增/编辑标签信息 */
+export const getLabelTypeSaveOrUpdate = (params: any) => {
+  return request.post<any, any>('/sys/label/saveOrUpdate', params);
+};
+/* 批量更改标签状态 */
+export const getLabelTypeUpdateStatus = (params: any) => {
+  return request.post<any, any>('/sys/label/updateStatus', params);
+};
+/* 绑定标签 */
+export const getLabelTypeBind = (params: any) => {
+  return request.post<any, any>('/sys/label/bind', params);
+};
+
+/* 删除绑定关系 */
+export const getLabelTypeBindDelete = (params: any) => {
+  return request.post<any, any>('/sys/label/cancelBind', params);
+};
+
+/* 列表删除 */
+export const getLabelTypeListDelete = (id?: string | number) => {
+  return request.get(`/sys/label/delete/${id}`);
+};
+
+/* 获取标签下拉框 */
+export const getLabelListEntity = (params: any) => {
+  return request.post('/sys/label/listEntity', params);
+};
+
 export default {
   httpGetContent,
 };

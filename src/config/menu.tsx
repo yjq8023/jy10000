@@ -94,17 +94,36 @@ const menuConfig: MenuItemProps[] = [
         ],
       },
       {
-        label: '标签管理',
+        label: '标签库管理',
         children: [
+          // {
+          //   label: '标签库',
+          //   path: '/project/tag/library',
+          // },
           {
-            label: '标签库',
-            path: '/project/tag/library',
-          },
-          {
-            label: '标签分类',
+            label: '标签管理',
             path: '/project/tag/classify',
           },
         ],
+      },
+    ],
+  },
+  {
+    label: '个人中心',
+    key: 'personal',
+    visible: false,
+    children: [
+      {
+        label: '资料设置',
+        path: '/personal/dataSettings',
+      },
+      {
+        label: '修改密码',
+        path: '/personal/changePassword',
+      },
+      {
+        label: '登录记录',
+        path: '/personal/loginRecord',
       },
     ],
   },
@@ -134,6 +153,7 @@ export interface MenuItemProps extends AntdMenuItemProps {
   key?: string;
   path?: string;
   parent?: MenuItem;
+  visible?: boolean;
   children?: MenuItemProps[];
 }
 
