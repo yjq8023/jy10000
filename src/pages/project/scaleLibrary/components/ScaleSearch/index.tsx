@@ -18,8 +18,10 @@ const { Option } = Select;
  * @returns
  */
 const ScaleSearch: React.FC = (props: any) => {
-  const { form } = props;
-  const [sources, setSources] = useState<[]>([]);
+  const onReset = () => {
+    props.form.resetFields();
+    props.form.submit();
+  };
 
   return (
     <div className={styles['scale-search']}>
@@ -39,7 +41,7 @@ const ScaleSearch: React.FC = (props: any) => {
           <Col span={9}>
             <Form.Item name="labelIds" label="选择标签">
               <LabelSelect
-                search={false}
+                search={true}
                 onSelect={(v) =>
                   props.form.setFieldsValue({
                     labelIds: v,
@@ -51,7 +53,9 @@ const ScaleSearch: React.FC = (props: any) => {
           <Col span={4} offset={1}>
             <Form.Item labelCol={{ span: 4 }}>
               <Space>
-                <Button type="info">重置</Button>
+                <Button type="info" onClick={() => onReset()}>
+                  重置
+                </Button>
                 <Button type="primary" htmlType="submit">
                   查询
                 </Button>
