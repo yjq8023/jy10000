@@ -1,13 +1,15 @@
 // @ts-nocheck
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button } from '@sinohealth/butterfly-ui-components/lib';
 import { useDesigner, TextWidget } from '@sinohealth/designable-react';
 import { GlobalRegistry } from '@sinohealth/designable-core';
 import { observer } from '@formily/react';
 import { loadInitialSchema, saveSchema } from '../service';
+import { getProjectAiDetail } from '@/services/planMapAntForm';
 
 export const ActionsWidget = observer(() => {
+  const [projectDetail, setProjectDetail] = useState();
   const designer = useDesigner();
   const [params] = useSearchParams();
   const type = params.get('type');
@@ -26,14 +28,20 @@ export const ActionsWidget = observer(() => {
     if (!supportLocales.includes(GlobalRegistry.getDesignerLanguage())) {
       GlobalRegistry.setDesignerLanguage('zh-cn');
     }
+    if (projectId) {
+      getProjectAiDetail(projectId)
+        .then((res) => {
+          setProjectDetail(res);
+        });
+    }
   }, []);
   return (
     <div style={{ marginRight: 10 }}>
       {
-        (type === 'beforeInfo' || type === 'followUp') && (
+        projectDetail?.shareUrl && (
           <Button
             onClick={() => {
-              console.log(1111);
+              window.open(projectDetail?.shareUrl);
             }}
           >
             查看决策流
