@@ -90,8 +90,6 @@ const PlanMapEditor = ({ disabled }: any) => {
       //   roadMaps: planMapState,
       // });
     };
-    console.log(101010101);
-    console.log(isEdited);
     return {
       projectPlanData,
       planMapState,
