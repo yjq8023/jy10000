@@ -109,7 +109,8 @@ function WeappProject() {
         setIsUpdateSucc(false);
       })
       .catch(() => {
-        message.success({ content: '数据处理失败', key: 'updatable', duration: 1 });
+        list.current.reloadListData(true);
+        message.error({ content: '数据处理失败', key: 'updatable', duration: 1 });
         setIsUpdateSucc(false);
       });
   };
@@ -257,7 +258,7 @@ function WeappProject() {
         return (
           <Space>
             <Badge color={isUp ? '#80B446' : '#EA6868'} text={isUp ? '上架' : '下架'} />
-            <SwitchCustom defaultChecked={isUp} onChange={(e) => setProjectStatusFn(e, record)} />
+            <SwitchCustom checked={isUp} onChange={(e) => setProjectStatusFn(e, record)} />
           </Space>
         );
       },
