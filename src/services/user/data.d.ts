@@ -148,4 +148,10 @@ declare namespace UCenter {
     hidden: boolean;
     children: MenuTreeItem[];
   };
+  // 修改个人资料
+  type UpdateUserInfoEmployeeReq = {
+    id?: string;
+    description?: string;
+    avatar?: string;
+  };
 }

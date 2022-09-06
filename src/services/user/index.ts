@@ -75,6 +75,31 @@ export const getListOrganize = (params: any, config: AxiosRequestConfig = {}) =>
   return request.post('/uaa/user/listOrganize', params);
 };
 
+/**
+ * 查询个人企业资料
+ * @param params
+ * @returns
+ */
+export const getUpdateUserInfoEmployee = () => {
+  return request.get('/uaa/user/profile/employee');
+};
+
+/**
+ * 更新个人企业资料
+ * @param params
+ * @returns
+ */
+export const UpdUpdateUserInfoEmployee = (params: UCenter.UpdateUserInfoEmployeeReq) => {
+  return request.post('/uaa/user/update/profile/employee', params);
+};
+
+export const getLoginPage = (params: any) => {
+  return request.post('/uaa/user/login/page', params, {
+    // @ts-ignore
+    isReturnAllData: true,
+  });
+};
+
 export default {
   getToken,
   getUserLinkChain,

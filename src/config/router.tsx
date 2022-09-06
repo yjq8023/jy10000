@@ -30,6 +30,10 @@ const DepartmentList = lazy(() => import('../pages/setting/department'));
 const CustomerRoleList = lazy(() => import('../pages/setting/role'));
 const CustomerEmployeesList = lazy(() => import('../pages/setting/employees'));
 
+const ChangePassword = lazy(() => import('../pages/personal/changePassword'));
+const DataSettings = lazy(() => import('../pages/personal/dataSettings'));
+const LoginRecord = lazy(() => import('../pages/personal/loginRecord'));
+
 type routerConfigItem = {
   path: string;
   element?: React.ReactNode;
@@ -152,6 +156,18 @@ const routerConfig: routerConfigItem[] = [
         path: '/setting/employees',
         element: <CustomerEmployeesList />,
       },
+      {
+        path: '/personal/changePassword',
+        element: <ChangePassword />,
+      },
+      {
+        path: '/personal/dataSettings',
+        element: <DataSettings />,
+      },
+      {
+        path: '/personal/loginRecord',
+        element: <LoginRecord />,
+      },
     ],
   },
   {
@@ -270,16 +286,32 @@ export const breadcrumbMap = {
       },
     },
     tag: {
-      label: '标签管理',
+      label: '标签库管理',
       path: '/project/tag/library',
-      library: {
-        label: '标签库',
-        path: '/project/tag/library',
-      },
+      // library: {
+      //   label: '标签库',
+      //   path: '/project/tag/library',
+      // },
       classify: {
-        label: '标签分类',
+        label: '标签管理',
         path: '/project/tag/classify',
       },
+    },
+  },
+  personal: {
+    label: '个人中心',
+    path: '/personal/dataSettings',
+    dataSettings: {
+      label: '资料设置',
+      path: '/project/dataSettings',
+    },
+    loginRecord: {
+      label: '登录记录',
+      path: '/project/loginRecord',
+    },
+    changePassword: {
+      label: '修改密码',
+      path: '/project/changePassword',
     },
   },
 };
