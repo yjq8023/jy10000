@@ -76,11 +76,14 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
   const httpSaveOrUpdateListReq = async () => {
     message.loading({ content: '数据正在处理中, 请稍候...', key: 'updatable' });
     const insertParams = form.getFieldsValue() as any;
-    const res: any = await httpSaveOrUpdateList(insertParams);
-    console.log(res);
-    if (res.success) {
-      httpGetLabelListReq();
-      message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+    try {
+      const res: any = await httpSaveOrUpdateList(insertParams);
+      if (res.success) {
+        httpGetLabelListReq();
+        message.success({ content: '数据更新成功', key: 'updatable', duration: 1 });
+      }
+    } catch (err) {
+      message.error({ content: '数据更新失败', key: 'updatable', duration: 1 });
     }
   };
 
