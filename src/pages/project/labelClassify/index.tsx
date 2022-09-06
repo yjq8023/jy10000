@@ -6,6 +6,7 @@ import SearchForm from './components/SearchForm';
 import AddForm from './components/AddForm';
 import { getLabelTypePage, getLabelTypeListDelete } from '@/services/project';
 import ConfirmModel from '@/components/Confirm';
+import styles from './index.less';
 
 function OrganList() {
   const [visible, setVisible] = useState(false);
@@ -107,6 +108,9 @@ function OrganList() {
       key: 'name',
       minWidth: 300,
       ellipsis: true,
+      render(text: string, record: any) {
+        return <div className={`${styles.tag}`}>{text}</div>;
+      },
     },
     {
       title: '关联资源数',

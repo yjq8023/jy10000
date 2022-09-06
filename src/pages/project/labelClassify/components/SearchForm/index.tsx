@@ -15,12 +15,12 @@ const SearchForm = (props: any = {}) => {
       >
         <Row gutter={[20, 0]}>
           <Col span={6}>
-            <Form.Item name="categoryName">
+            <Form.Item name="categoryName" label="标签分类名称">
               <Input placeholder="请输入标签分类名称" />
             </Form.Item>
           </Col>
           <Col span={6}>
-            <Form.Item name="name">
+            <Form.Item name="name" label="标签名称">
               <Input placeholder="请输入标签名称" />
             </Form.Item>
           </Col>
