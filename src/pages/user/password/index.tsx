@@ -20,6 +20,7 @@ function Password() {
   };
   return (
     <section className={[style.loginPage, indexStyle.password].join(' ')}>
+      <div className={style.loginAm} />
       <div className={style.loginBody}>
         <div className={[indexStyle.left, style.left].join(' ')}>
           <div className={[style.logo, indexStyle.logo].join(' ')} />

@@ -88,53 +88,43 @@ function CustomerDepartment() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        {isPermission('csr:dept:c') && (
-          <a
-            onClick={() => {
-              console.log(itemData.data);
-              setDepartmentForm({ parentId: itemData.data.id });
-              setShowDictForm(true);
-            }}
-          >
-            添加下级
-          </a>
-        )}
-        {isPermission('csr:dept:u') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                setDepartmentForm({
-                  ...itemData.data,
+        <a
+          onClick={() => {
+            console.log(itemData.data);
+            setDepartmentForm({ parentId: itemData.data.id });
+            setShowDictForm(true);
+          }}
+        >
+          添加下级
+        </a>
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            setDepartmentForm({
+              ...itemData.data,
+            });
+            setShowDictForm(true);
+          }}
+        >
+          编辑
+        </a>
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            ConfirmModel({
+              fun: 'error',
+              title: `是否确定删除${itemData.name}?`,
+              centered: true,
+              onOk: async () => {
+                departmentDelete(itemData.data.id).then((res) => {
+                  fetchAPi();
                 });
-                setShowDictForm(true);
-              }}
-            >
-              编辑
-            </a>
-          </>
-        )}
-        {isPermission('csr:dept:d') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                ConfirmModel({
-                  fun: 'error',
-                  title: `是否确定删除${itemData.name}?`,
-                  centered: true,
-                  onOk: async () => {
-                    departmentDelete(itemData.data.id).then((res) => {
-                      fetchAPi();
-                    });
-                  },
-                });
-              }}
-            >
-              删除
-            </a>
-          </>
-        )}
+              },
+            });
+          }}
+        >
+          删除
+        </a>
       </div>
     );
   };
@@ -168,16 +158,14 @@ function CustomerDepartment() {
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            {isPermission('csr:dept:status:u') && (
-              <Switch
-                checked={isUp}
-                onChange={(value) => {
-                  departmentStatus(value ? 'enabled' : 'disabled', record.data.id).then((res) => {
-                    fetchAPi();
-                  });
-                }}
-              />
-            )}
+            <Switch
+              checked={isUp}
+              onChange={(value) => {
+                departmentStatus(value ? 'enabled' : 'disabled', record.data.id).then((res) => {
+                  fetchAPi();
+                });
+              }}
+            />
           </div>
         );
       },
@@ -247,30 +235,26 @@ function CustomerDepartment() {
       />
       {currOrganizeId ? (
         <div>
-          {isPermission('csr:dept:c') && (
-            <SearchForm
-              organizedid={currOrganizeId}
-              onFinish={(values) => {
-                if (values.name) {
-                  setDataSource(searchTreeData(dataSource, values.name));
-                  expandRows();
-                } else {
-                  fetchAPi();
-                  closeRows();
-                }
-              }}
-            />
-          )}
+          <SearchForm
+            organizedid={currOrganizeId}
+            onFinish={(values) => {
+              if (values.name) {
+                setDataSource(searchTreeData(dataSource, values.name));
+                expandRows();
+              } else {
+                fetchAPi();
+                closeRows();
+              }
+            }}
+          />
           <Row className={styles.listHeader}>
             <Col span={12}>
               <div className={styles.title}>部门列表</div>
             </Col>
             <Col span={12}>
-              {Toolbar && isPermission('csr:dept:q') && (
-                <div className={styles.toolbar}>
-                  <Toolbar />
-                </div>
-              )}
+              <div className={styles.toolbar}>
+                <Toolbar />
+              </div>
             </Col>
           </Row>
           <Table
