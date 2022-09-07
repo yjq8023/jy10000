@@ -110,13 +110,13 @@ const routerConfig: routerConfigItem[] = [
       {
         path: 'project/term/library/editor',
         element: <PlanMapEditor />,
-        code: 'PlanMapEditorWe',
+        // code: 'PlanMapEditorWe',
         hideInMenu: true,
       },
       {
         path: 'project/term/library/planDetail',
         element: <PlanMapEditor disabled={true} />,
-        code: 'PlanMapDetailWe',
+        // code: 'PlanMapDetailWe',
         hideInMenu: true,
       },
       // 资料库管理
@@ -128,7 +128,7 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/project/database/insert',
         element: <ArticleInsert />,
-        code: 'ArticleInsertWe',
+        // code: 'ArticleInsertWe',
       },
       {
         path: '/project/database/scale',
@@ -154,7 +154,7 @@ const routerConfig: routerConfigItem[] = [
       {
         path: 'project/formily/editor',
         element: <FormilyEditor />,
-        code: 'FormilyEditorWe',
+        // code: 'FormilyEditorWe',
         hideInMenu: true,
       },
       {
@@ -165,7 +165,7 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/setting/organ/detail',
         element: <CustomerOrganDetail />,
-        code: 'CustomerOrganDetailWe',
+        // code: 'CustomerOrganDetailWe',
       },
       {
         path: '/setting/department',
