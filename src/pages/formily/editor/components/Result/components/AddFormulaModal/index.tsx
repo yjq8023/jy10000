@@ -16,6 +16,7 @@ const AddFormulaModal = (props: any, ref: any) => {
   const [isResult, setIsResult] = useState(false);
   const [key, setKey] = useState();
   const [value, setValue] = useState('');
+  const [code, setCode] = useState('');
   const [desc, setDesc] = useState('');
   const [scope, setScope] = useState([]);
   const [selectionStart, setSelectionStart] = useState<any>(0);
@@ -36,6 +37,7 @@ const AddFormulaModal = (props: any, ref: any) => {
     if (data.type === 'result') {
       setValue(data.when || '');
       setDesc(data.desc || '');
+      setCode(data.code || '');
     } else {
       setValue(data.value || '');
     }
@@ -53,7 +55,7 @@ const AddFormulaModal = (props: any, ref: any) => {
   const handleOk = () => {
     setVisible(false);
     if (isResult) {
-      onOk && onOk({ when: value, desc, key });
+      onOk && onOk({ when: value, desc, key, code });
     } else {
       const newKey = key !== undefined ? key : `$S${scope.length + 1}`;
       onOk && onOk({ key: newKey, value });
@@ -112,19 +114,15 @@ const AddFormulaModal = (props: any, ref: any) => {
   return (
     <Modal
       className={style.addFormulaModal}
-      title="添加计算公式"
+      title={isResult ? '添加结果提示' : '添加计算公式'}
       visible={visible}
       onOk={handleOk}
       onCancel={onCancel}
       width={800}
     >
-      <div>
+      <div className={style.ruleBox}>
+        <div>{ isResult ? '判断规则' : '公式='}</div>
         <Input.TextArea placeholder={isResult ? '结果提示判断规则，如：$S1 < 10' : '引用公式或编辑，如：$Q1 + $Q2'} ref={inputDom} value={value} onInput={handleInput} onBlur={handelSelectionStart} rows={4} maxLength={6} />
-        {
-          isResult && (
-            <Input value={desc} placeholder="结果提示内容" onInput={(e: any) => setDesc(e.target.value)} />
-          )
-        }
       </div>
       <Row gutter={44}>
         <Col span={12}>
@@ -144,6 +142,14 @@ const AddFormulaModal = (props: any, ref: any) => {
           </div>
         </Col>
       </Row>
+      {
+        isResult && (
+          <div className={style.resultConfig}>
+            <Input addonBefore="评估结果" value={code} placeholder="请输入评估结果" onInput={(e: any) => setCode(e.target.value)} />
+            <Input.TextArea value={desc} rows={4} maxLength={6} placeholder="请输入评估建议" onInput={(e: any) => setDesc(e.target.value)} />
+          </div>
+        )
+      }
     </Modal>
   );
 };
