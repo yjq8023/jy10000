@@ -130,60 +130,52 @@ function DictList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        {isPermission('csr:org:label') && (
-          <a
-            onClick={() => {
-              setLabelData({
-                id: itemData.id,
-                tenantId: currTenantId,
-                labels: itemData?.data?.labels.map((item: any) => item.id),
-              });
-            }}
-          >
-            编辑标签
-          </a>
-        )}
+        <a
+          onClick={() => {
+            setLabelData({
+              id: itemData.id,
+              tenantId: currTenantId,
+              labels: itemData?.data?.labels.map((item: any) => item.id),
+            });
+          }}
+        >
+          编辑标签
+        </a>
         &nbsp; &nbsp;
-        {isPermission('csr:org:c') && (
-          <a
-            onClick={() => {
-              navigate(
-                `/setting/organ/detail?parentId=${itemData.id}&tenantId=${currTenantId}&back=${currTenantId}`,
-              );
-            }}
-          >
-            添加下级
-          </a>
-        )}
+        <a
+          onClick={() => {
+            navigate(
+              `/setting/organ/detail?parentId=${itemData.id}&tenantId=${currTenantId}&back=${currTenantId}`,
+            );
+          }}
+        >
+          添加下级
+        </a>
         &nbsp; &nbsp;
-        {isPermission('csr:org:u') && (
-          <a
-            onClick={() => {
-              navigate(`/setting/organ/detail?id=${itemData.id}&back=${currTenantId}`);
-            }}
-          >
-            编辑
-          </a>
-        )}
+        <a
+          onClick={() => {
+            navigate(`/setting/organ/detail?id=${itemData.id}&back=${currTenantId}`);
+          }}
+        >
+          编辑
+        </a>
         &nbsp; &nbsp;
-        {isPermission('csr:org:d') && (
-          <a
-            onClick={() => {
-              ConfirmModel({
-                fun: 'error',
-                title: `是否确定删除${itemData.name}？`,
-                centered: true,
-                onOk: async () => {
-                  organizeDelete(itemData.id).then((res) => {
-                    fetchAPi();
-                  });
-                },
-              });
-            }}
-          >
-            删除
-          </a>
-        )}
+        <a
+          onClick={() => {
+            ConfirmModel({
+              fun: 'error',
+              title: `是否确定删除${itemData.name}？`,
+              centered: true,
+              onOk: async () => {
+                organizeDelete(itemData.id).then((res) => {
+                  fetchAPi();
+                });
+              },
+            });
+          }}
+        >
+          删除
+        </a>
       </div>
     );
   };
@@ -244,16 +236,14 @@ function DictList() {
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            {isPermission('csr:org:status:u') && (
-              <Switch
-                checked={isUp}
-                onChange={(value) => {
-                  organizeStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
-                    fetchAPi();
-                  });
-                }}
-              />
-            )}
+            <Switch
+              checked={isUp}
+              onChange={(value) => {
+                organizeStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
+                  fetchAPi();
+                });
+              }}
+            />
           </div>
         );
       },
@@ -281,17 +271,15 @@ function DictList() {
           全部展开/折叠
         </Button>
         &nbsp;
-        {isPermission('csr:org:c') && (
-          <Button
-            type="primary"
-            onClick={() => {
-              navigate(`/setting/organ/detail?tenantId=${currTenantId}`);
-            }}
-          >
-            <PlusCircleOutlined />
-            增加组织
-          </Button>
-        )}
+        <Button
+          type="primary"
+          onClick={() => {
+            navigate(`/setting/organ/detail?tenantId=${currTenantId}`);
+          }}
+        >
+          <PlusCircleOutlined />
+          增加组织
+        </Button>
       </>
     );
   };
@@ -323,31 +311,27 @@ function DictList() {
         )}
       />
       <div>
-        {isPermission('csr:org:q') && (
-          <SearchForm
-            tenantid={currTenantId}
-            onFinish={(values) => {
-              // console.log(Object.keys(values));
-              setSearchForm(values);
-              fetchAPi({ ...values });
-              if (values.name) {
-                expandRows();
-              } else {
-                closeRows();
-              }
-            }}
-          />
-        )}
+        <SearchForm
+          tenantid={currTenantId}
+          onFinish={(values) => {
+            // console.log(Object.keys(values));
+            setSearchForm(values);
+            fetchAPi({ ...values });
+            if (values.name) {
+              expandRows();
+            } else {
+              closeRows();
+            }
+          }}
+        />
         <Row className={styles.listHeader}>
           <Col span={12}>
             <div className={styles.title}>组织列表</div>
           </Col>
           <Col span={12}>
-            {Toolbar && isPermission('csr:org:c') && (
-              <div className={styles.toolbar}>
-                <Toolbar />
-              </div>
-            )}
+            <div className={styles.toolbar}>
+              <Toolbar />
+            </div>
           </Col>
         </Row>
         <Table
