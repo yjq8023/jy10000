@@ -100,13 +100,13 @@ export const usePermission = () => {
   }, []);
   const fetchPermissionData = () => {
     // 开发时或者未登录时，直接取本地数据
-    // if (!getToken() || isDev) {
-    //   setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
-    //   setRouterConfig(localRouterConfig);
-    //   setPermission(transFormPermission([], true));
-    //   setLoaded(true);
-    //   return;
-    // }
+    if (!getToken() || isDev) {
+      setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
+      setRouterConfig(localRouterConfig);
+      setPermission(transFormPermission([], true));
+      setLoaded(true);
+      return;
+    }
     // 登录后或者页面进入时，判断没有获取过权限数据则获取
     if (getToken() && !permissionData) {
       setLoaded(false);
