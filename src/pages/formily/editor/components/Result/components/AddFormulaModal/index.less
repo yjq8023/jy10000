@@ -1,11 +1,19 @@
 @import "@/style/var";
 .addFormulaModal {
+  .ruleBox {
+    >div:first-child {
+      padding: 6px 12px;
+      border: 1px solid #d9d9d9;
+      background-color: #F4FBFF;
+    }
+  }
   .vars {
-    border: 1px solid @break-color5;
+    border: 1px solid #d9d9d9;
     margin-top: 20px;
     >div:first-child {
       padding: 6px 12px;
-      border-bottom: 1px solid @break-color5;
+      border-bottom: 1px solid #d9d9d9;
+      background-color: #F4FBFF;
     }
     .body {
       height: 250px;
@@ -20,5 +28,18 @@
         white-space: nowrap;
       }
     }
+  }
+  .resultConfig {
+    padding-top: 20px;
+    :global(.ant-input-group-addon) {
+      border-radius: 0;
+      background-color: #F4FBFF;
+    }
+  }
+  :global(.ant-input) {
+    border-radius: 0;
+  }
+  :global(textarea) {
+    margin-top: -1px;
   }
 }
