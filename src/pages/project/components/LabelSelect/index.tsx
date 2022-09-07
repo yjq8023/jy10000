@@ -127,22 +127,51 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
     if (!value) return arr;
     const newarr: ProjectType.LabelListRes[] = [];
 
-    arr.forEach((el: any) => {
-      if (el.value.indexOf(value) > -1) {
-        // const ab = rebuildTreeData(el.children, value);
-        const obj = {
-          ...el,
-          // children: el.children,
-        };
-        newarr.push(obj);
-      } else if (el.children && el.children.length > 0) {
-        const ab = rebuildTreeData(el.children, value);
-        const obj = {
-          ...el,
-          // children: ab,
-        };
-        if (ab && ab.length > 0) {
-          newarr.push(obj);
+    // arr.forEach((el: any) => {
+    //   if (el.value.indexOf(value) > -1) {
+    //     const ab = rebuildTreeData(el.children, value);
+    //     const obj = {
+    //       ...el,
+    //       children: ab,
+    //     };
+    //     newarr.push(obj);
+    //   } else if (el.children && el.children.length > 0) {
+    //     const ab = rebuildTreeData(el.children, value);
+    //     const obj = {
+    //       ...el,
+    //       children: ab,
+    //     };
+    //     if (ab && ab.length > 0) {
+    //       newarr.push(obj);
+    //     }
+    //   }
+    // });
+    // console.log(newarr);
+    arr.forEach((el) => {
+      // 父级匹配
+      if (el.value.includes(value)) {
+        if (el.children && el.children.length) {
+          const child: ProjectType.LabelListRes[] = [];
+          // el.children.forEach((item) => {
+          //   if (item.value.includes(value)) {
+          //     child.push(item);
+          //   }
+          // });
+          if (child.length) {
+            newarr.push({ ...el, children: child });
+          } else {
+            newarr.push({ ...el });
+          }
+        }
+      } else if (el.children && el.children.length) {
+        const child: ProjectType.LabelListRes[] = [];
+        el.children.forEach((item) => {
+          if (item.value.includes(value)) {
+            child.push(item);
+          }
+        });
+        if (child.length) {
+          newarr.push({ ...el, children: child });
         }
       }
     });

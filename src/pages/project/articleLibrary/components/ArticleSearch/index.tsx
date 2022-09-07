@@ -27,7 +27,7 @@ const ArticleSearch: React.FC = (props: any) => {
           <Col span={9}>
             <Form.Item name="labelIds" label="选择标签">
               <LabelSelect
-                search={false}
+                search={true}
                 add={false}
                 onSelect={(v) =>
                   props.form.setFieldsValue({
