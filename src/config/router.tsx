@@ -80,12 +80,12 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/weapp/project/edit',
         element: <ProjectAdd />,
-        code: 'ProjectEditWe',
+        // code: 'ProjectEditWe',
       },
       {
         path: '/weapp/project/add',
         element: <ProjectAdd />,
-        code: 'ProjectAddWe',
+        // code: 'ProjectAddWe',
       },
       {
         path: '/follow/list',
