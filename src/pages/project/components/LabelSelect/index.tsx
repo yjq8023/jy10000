@@ -152,11 +152,11 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
       if (el.value.includes(value)) {
         if (el.children && el.children.length) {
           const child: ProjectType.LabelListRes[] = [];
-          el.children.forEach((item) => {
-            if (item.value.includes(value)) {
-              child.push(item);
-            }
-          });
+          // el.children.forEach((item) => {
+          //   if (item.value.includes(value)) {
+          //     child.push(item);
+          //   }
+          // });
           if (child.length) {
             newarr.push({ ...el, children: child });
           } else {
