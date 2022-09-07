@@ -34,8 +34,9 @@ const ChangePassword = lazy(() => import('../pages/personal/changePassword'));
 const DataSettings = lazy(() => import('../pages/personal/dataSettings'));
 const LoginRecord = lazy(() => import('../pages/personal/loginRecord'));
 
-type routerConfigItem = {
+export type routerConfigItem = {
   path: string;
+  code?: string;
   element?: React.ReactNode;
   hideInMenu?: boolean;
   children?: routerConfigItem[];
@@ -53,120 +54,148 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/weapp/column',
         element: <WeappColumn />,
+        code: 'WeappColumnWe',
       },
       {
         path: '/weapp/project',
         element: <WeappProject />,
+        code: 'WeappProjectWe',
       },
       {
         path: '/weapp/disease',
         element: <Disease />,
+        code: 'DiseaseWe',
       },
       {
         path: '/setting/organList',
         element: <OrganList />,
+        code: 'OrganListWe',
       },
       {
         path: '/setting/userList',
         element: <UserList />,
+        code: 'UserListWe',
       },
       {
         path: '/weapp/project/edit',
         element: <ProjectAdd />,
+        code: 'ProjectEditWe',
       },
       {
         path: '/weapp/project/add',
         element: <ProjectAdd />,
+        code: 'ProjectAddWe',
       },
       {
         path: '/follow/list',
         element: <FollowList />,
+        code: 'FollowListWe',
       },
       {
         path: '/follow/count',
         element: <FollowCount />,
+        code: 'FollowCountWe',
       },
       {
         path: '/dict/list',
         element: <DictList />,
+        code: 'DictListWe',
       },
       // 项目管理
       {
         path: '/project/term/library',
         element: <TermLibrary />,
+        code: 'TermLibraryWe',
       },
       {
         path: 'project/term/library/editor',
         element: <PlanMapEditor />,
+        code: 'PlanMapEditorWe',
         hideInMenu: true,
       },
       {
         path: 'project/term/library/planDetail',
         element: <PlanMapEditor disabled={true} />,
+        code: 'PlanMapDetailWe',
         hideInMenu: true,
       },
       // 资料库管理
       {
         path: '/project/database/article',
         element: <ArticleLibrary />,
+        code: 'ArticleLibraryWe',
       },
       {
         path: '/project/database/insert',
         element: <ArticleInsert />,
+        code: 'ArticleInsertWe',
       },
       {
         path: '/project/database/scale',
         element: <ScaleLibrary />,
+        code: 'ScaleLibraryWe',
       },
       // 标签管理
       {
         path: '/project/tag/library',
         element: <LabelLibrary />,
+        code: 'LabelLibraryWe',
       },
       {
         path: '/project/tag/classify',
         element: <LabelClassify />,
+        code: 'TagClassifyWe',
       },
       {
         path: '/project/label/classify',
         element: <LabelClassify />,
+        code: 'LabelClassifyWe',
       },
       {
         path: 'project/formily/editor',
         element: <FormilyEditor />,
+        code: 'FormilyEditorWe',
         hideInMenu: true,
       },
       {
         path: '/setting/organ',
         element: <CustomerOrganList />,
+        code: 'CustomerOrganListsWe',
       },
       {
         path: '/setting/organ/detail',
         element: <CustomerOrganDetail />,
+        code: 'CustomerOrganDetailWe',
       },
       {
         path: '/setting/department',
         element: <DepartmentList />,
+        code: 'DepartmentListWe',
       },
       {
         path: '/setting/role',
         element: <CustomerRoleList />,
+        code: 'CustomerRoleListWe',
       },
       {
         path: '/setting/employees',
         element: <CustomerEmployeesList />,
+        code: 'CustomerEmployeesListWe',
       },
       {
         path: '/personal/changePassword',
         element: <ChangePassword />,
+        code: 'ChangePasswordWe',
       },
       {
         path: '/personal/dataSettings',
         element: <DataSettings />,
+        code: 'DataSettingsWe',
       },
       {
         path: '/personal/loginRecord',
         element: <LoginRecord />,
+        code: 'LoginRecordWe',
       },
     ],
   },
@@ -180,7 +209,13 @@ const routerConfig: routerConfigItem[] = [
   },
   {
     path: '*',
-    element: <div>404 page</div>,
+    element: (
+      <div style={{ display: 'flex' }}>
+        <h2 style={{ margin: '20px auto', fontSize: '32px' }}>
+          404-页面路径有误或您没权限访问该页面
+        </h2>
+      </div>
+    ),
   },
 ];
 

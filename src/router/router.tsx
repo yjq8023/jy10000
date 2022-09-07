@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import routerConfig from '@/config/router';
+import { Spin } from '@sinohealth/butterfly-ui-components/lib';
+import usePermission from '@/hooks/usePermission';
 
 type routerConfigProps = {
   path: string;
@@ -8,11 +9,24 @@ type routerConfigProps = {
   children?: routerConfigProps[];
 };
 
-export const renderRoutes = (routerConfigData: any[]) =>
+const renderRoute = (routerConfigData: any[]) =>
   routerConfigData.map(({ children, ...routeProps }) => (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <Route {...routeProps} key={routeProps.path} state={{ test: 1 }}>
-      {children && renderRoutes(children)}
+    <Route {...routeProps} key={routeProps.path}>
+      {children && renderRoute(children)}
     </Route>
   ));
-export default <Routes>{renderRoutes(routerConfig)}</Routes>;
+
+export const RenderRoutes = () => {
+  const { routerConfig, loaded } = usePermission();
+  if (!loaded) {
+    return (
+      <div style={{ display: 'flex', height: '100vh' }}>
+        <Spin size="large" style={{ margin: 'auto' }} />
+      </div>
+    );
+  }
+  return <Routes>{renderRoute(routerConfig)}</Routes>;
+};
+
+export default RenderRoutes;

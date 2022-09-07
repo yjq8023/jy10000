@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getMenuConfig, mapMenuConfig, mapMenuParent, MenuItem } from '@/config/menu';
+import { mapMenuConfig, mapMenuParent, MenuItem } from '@/config/menu';
+import usePermission from '@/hooks/usePermission';
 
 type defaultSelectedDataProps = {
   headerMenuSelectedKeys?: string[];
@@ -67,7 +68,7 @@ function getNoOnePath(menuConfig: MenuItem[]): string {
 }
 export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataProps] {
   const navigate = useNavigate();
-  const [menuConfig, setMenuConfig] = useState<MenuItem[]>([]);
+  const { menuConfig } = usePermission();
   const [defaultSelected, setDefaultSelected] = useState<defaultSelectedDataProps>({});
   const [sideMenu, setSideState] = useState<MenuItem[]>([]);
   const [headerMenu, setHeaderState] = useState<MenuItem[]>([]);
@@ -75,22 +76,22 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
     const defaultSelectedData = getDefaultSelectedMenu(data);
     setDefaultSelected({
       ...defaultSelectedData,
-      defaultOpenKeys: defaultSelectedData.defaultOpenKeys.length > 0 ? defaultSelectedData.defaultOpenKeys : defaultSelected.defaultOpenKeys,
-      sideMenuSelectedKeys: defaultSelectedData.sideMenuSelectedKeys.length > 0 ? defaultSelectedData.sideMenuSelectedKeys : defaultSelected.sideMenuSelectedKeys,
+      defaultOpenKeys:
+        defaultSelectedData.defaultOpenKeys.length > 0
+          ? defaultSelectedData.defaultOpenKeys
+          : defaultSelected.defaultOpenKeys,
+      sideMenuSelectedKeys:
+        defaultSelectedData.sideMenuSelectedKeys.length > 0
+          ? defaultSelectedData.sideMenuSelectedKeys
+          : defaultSelected.sideMenuSelectedKeys,
     });
     if (defaultSelectedData.sideMenuData && defaultSelectedData.sideMenuData.length > 0) {
       setSideState(defaultSelectedData.sideMenuData);
     }
   };
-  // 初始化菜单数据
-  useEffect(() => {
-    getMenuConfig().then((data) => {
-      setMenuConfig(data);
-      changeDefaultSelected(data);
-    });
-  }, []);
   // 提取头部菜单数据以及设置头部菜单和左侧菜单联动逻辑
   useEffect(() => {
+    if (menuConfig.length === 0) return;
     const menuList = menuConfig.map((item) => ({
       ...item,
       children: [],
@@ -106,8 +107,10 @@ export function useMenuConfig(): [MenuItem[], MenuItem[], defaultSelectedDataPro
       },
     }));
     setHeaderState(menuList);
+    changeDefaultSelected(menuConfig);
   }, [menuConfig]);
   useEffect(() => {
+    if (menuConfig.length === 0) return;
     changeDefaultSelected(menuConfig);
   }, [navigate]);
   return [headerMenu, sideMenu, defaultSelected];
