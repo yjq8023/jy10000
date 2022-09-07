@@ -100,6 +100,10 @@ export const getLoginPage = (params: any) => {
   });
 };
 
+export const getMenuPermission = () => {
+  return request.get('/uaa/user/permission');
+};
+
 export default {
   getToken,
   getUserLinkChain,

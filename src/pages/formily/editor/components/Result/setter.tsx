@@ -72,9 +72,9 @@ export const ResultSetter = (props: any) => {
         },
       };
     } else {
-      const results = rule.results || [];
+      const results: any = rule.results || [];
       const index = typeof data.key === 'number' ? data.key : results.length;
-      results[index] = { when: data.when, desc: data.desc };
+      results[index] = { when: data.when, desc: data.desc, code: data.code };
       newData = {
         ...rule,
         results,
