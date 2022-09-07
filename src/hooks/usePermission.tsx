@@ -42,7 +42,7 @@ const getPathFormRouterConfig = (code: string) => {
 // 转换后台配置的菜单数据为本地要求的菜单数据格式
 const transformAsyncMenuConfig = (menus: any) => {
   return menus.map((item: any) => {
-    const code = item.data?.resourceCode;
+    const code = item.data?.resourceCode || item.id; // 存在多层级菜单情况，没有resourceCode会报错
     const visible = item.data?.visible;
     const children = item.children ? transformAsyncMenuConfig(item.children) : [];
     return {
@@ -100,13 +100,13 @@ export const usePermission = () => {
   }, []);
   const fetchPermissionData = () => {
     // 开发时或者未登录时，直接取本地数据
-    if (!getToken() || isDev) {
-      setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
-      setRouterConfig(localRouterConfig);
-      setPermission(transFormPermission([], true));
-      setLoaded(true);
-      return;
-    }
+    // if (!getToken() || isDev) {
+    //   setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
+    //   setRouterConfig(localRouterConfig);
+    //   setPermission(transFormPermission([], true));
+    //   setLoaded(true);
+    //   return;
+    // }
     // 登录后或者页面进入时，判断没有获取过权限数据则获取
     if (getToken() && !permissionData) {
       setLoaded(false);
