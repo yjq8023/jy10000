@@ -76,79 +76,61 @@ function TenantList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        {isPermission('csr:role:u') && (
-          <a
-            onClick={() => {
-              setRoleFormData({ ...itemData, step: 0 });
-              setStepNum(0);
-              setShowRoleForm(true);
-            }}
-          >
-            基本信息
-          </a>
-        )}
-        {isPermission('csr:role:data:config') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                setRoleFormData({ ...itemData, step: 1 });
-                setStepNum(1);
-                setShowRoleForm(true);
-              }}
-            >
-              数据权限
-            </a>
-          </>
-        )}
-        {isPermission('csr:role:res:config') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                setRoleFormData({ ...itemData, step: 2 });
-                setStepNum(2);
-                setShowRoleForm(true);
-              }}
-            >
-              资源权限
-            </a>
-          </>
-        )}
-        {isPermission('csr:role:emp:q') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                setRoleFormData({ ...itemData });
-                setShowRoleEmployees(true);
-              }}
-            >
-              查看员工
-            </a>
-          </>
-        )}
-        {isPermission('csr:role:d') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                ConfirmModel({
-                  fun: 'error',
-                  title: '是否确定删除该角色？',
-                  centered: true,
-                  onOk: async () => {
-                    roleDelete(itemData.id).then((res) => {
-                      fetchAPi();
-                    });
-                  },
+        <a
+          onClick={() => {
+            setRoleFormData({ ...itemData, step: 0 });
+            setStepNum(0);
+            setShowRoleForm(true);
+          }}
+        >
+          基本信息
+        </a>
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            setRoleFormData({ ...itemData, step: 1 });
+            setStepNum(1);
+            setShowRoleForm(true);
+          }}
+        >
+          数据权限
+        </a>
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            setRoleFormData({ ...itemData, step: 2 });
+            setStepNum(2);
+            setShowRoleForm(true);
+          }}
+        >
+          资源权限
+        </a>
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            setRoleFormData({ ...itemData });
+            setShowRoleEmployees(true);
+          }}
+        >
+          查看员工
+        </a>
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            ConfirmModel({
+              fun: 'error',
+              title: '是否确定删除该角色？',
+              centered: true,
+              onOk: async () => {
+                roleDelete(itemData.id).then((res) => {
+                  fetchAPi();
                 });
-              }}
-            >
-              删除
-            </a>
-          </>
-        )}
+              },
+            });
+          }}
+        >
+          删除
+        </a>
       </div>
     );
   };
@@ -188,16 +170,14 @@ function TenantList() {
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            {isPermission('csr:role:status:u') && (
-              <Switch
-                checked={isUp}
-                onChange={(value) => {
-                  roleStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
-                    fetchAPi();
-                  });
-                }}
-              />
-            )}
+            <Switch
+              checked={isUp}
+              onChange={(value) => {
+                roleStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
+                  fetchAPi();
+                });
+              }}
+            />
           </div>
         );
       },
@@ -254,24 +234,20 @@ function TenantList() {
       />
       {currOrganizeId ? (
         <div className={styles.roleTable}>
-          {isPermission('csr:role:q') && (
-            <SearchForm
-              organizedid={currOrganizeId}
-              onFinish={(values: any) => {
-                fetchAPi(currOrganizeId, values);
-              }}
-            />
-          )}
+          <SearchForm
+            organizedid={currOrganizeId}
+            onFinish={(values: any) => {
+              fetchAPi(currOrganizeId, values);
+            }}
+          />
           <Row className={styles.listHeader}>
             <Col span={12}>
               <div className={styles.title}>角色列表</div>
             </Col>
             <Col span={12}>
-              {Toolbar && isPermission('csr:role:c') && (
-                <div className={styles.toolbar}>
-                  <Toolbar />
-                </div>
-              )}
+              <div className={styles.toolbar}>
+                <Toolbar />
+              </div>
             </Col>
           </Row>
           <Table

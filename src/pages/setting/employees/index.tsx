@@ -86,34 +86,26 @@ function TenantList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        {isPermission('csr:emp:u') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                setEmployeeFormData({ ...itemData, step: 0 });
-                setStepNum(0);
-                setShowEmployeeForm(true);
-              }}
-            >
-              基本信息
-            </a>
-          </>
-        )}
-        {isPermission('csr:emp:role:config') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                setEmployeeFormData({ ...itemData, step: 1 });
-                setStepNum(2);
-                setShowEmployeeForm(true);
-              }}
-            >
-              角色
-            </a>
-          </>
-        )}
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            setEmployeeFormData({ ...itemData, step: 0 });
+            setStepNum(0);
+            setShowEmployeeForm(true);
+          }}
+        >
+          基本信息
+        </a>
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            setEmployeeFormData({ ...itemData, step: 1 });
+            setStepNum(2);
+            setShowEmployeeForm(true);
+          }}
+        >
+          角色
+        </a>
         &nbsp; &nbsp;
         <a
           onClick={() => {
@@ -132,27 +124,23 @@ function TenantList() {
         >
           重置密码
         </a>
-        {isPermission('csr:emp:d') && (
-          <>
-            &nbsp; &nbsp;
-            <a
-              onClick={() => {
-                ConfirmModel({
-                  fun: 'error',
-                  title: '是否确定删除该员工？',
-                  centered: true,
-                  onOk: async () => {
-                    employeeDelete(itemData.id).then((res) => {
-                      fetchAPi();
-                    });
-                  },
+        &nbsp; &nbsp;
+        <a
+          onClick={() => {
+            ConfirmModel({
+              fun: 'error',
+              title: '是否确定删除该员工？',
+              centered: true,
+              onOk: async () => {
+                employeeDelete(itemData.id).then((res) => {
+                  fetchAPi();
                 });
-              }}
-            >
-              删除
-            </a>
-          </>
-        )}
+              },
+            });
+          }}
+        >
+          删除
+        </a>
       </div>
     );
   };
@@ -230,16 +218,14 @@ function TenantList() {
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            {isPermission('csr:emp:u') && (
-              <Switch
-                checked={isUp}
-                onChange={(value) => {
-                  employeeStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
-                    fetchAPi();
-                  });
-                }}
-              />
-            )}
+            <Switch
+              checked={isUp}
+              onChange={(value) => {
+                employeeStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
+                  fetchAPi();
+                });
+              }}
+            />
           </div>
         );
       },
@@ -302,24 +288,20 @@ function TenantList() {
       />
       {currOrganizeId ? (
         <div className={styles.roleTable}>
-          {isPermission('csr:emp:q') && (
-            <SearchForm
-              organizedid={currOrganizeId}
-              onFinish={(values: any) => {
-                fetchAPi(currOrganizeId, values);
-              }}
-            />
-          )}
+          <SearchForm
+            organizedid={currOrganizeId}
+            onFinish={(values: any) => {
+              fetchAPi(currOrganizeId, values);
+            }}
+          />
           <Row className={styles.listHeader}>
             <Col span={12}>
               <div className={styles.title}>员工列表</div>
             </Col>
             <Col span={12}>
-              {Toolbar && isPermission('csr:emp:c') && (
-                <div className={styles.toolbar}>
-                  <Toolbar />
-                </div>
-              )}
+              <div className={styles.toolbar}>
+                <Toolbar />
+              </div>
             </Col>
           </Row>
           <Table
