@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { Avatar, Dropdown, LayoutPage, Modal, Spin } from '@sinohealth/butterfly-ui-components/lib';
 import {
   UserOutlined,
@@ -7,7 +7,7 @@ import {
   LockOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMenuConfig } from '@/hooks';
 import { hideInMenuPages } from '@/config/router';
 import PageHeader from '@/components/PageHeader';
@@ -20,6 +20,7 @@ import UserInfoModal from '../user/userinfo-modal';
 import SwitchChainModal from '@/components/SwitchChainModal';
 import { getUserInfo } from '@/services/user';
 import { previewFile } from '@/utils';
+import { sysUserInfo } from '@/hooks/sysUserInfo';
 
 function Home(props: any) {
   const [collapsed, setCollapsed] = useState(true);
@@ -28,18 +29,21 @@ function Home(props: any) {
   const location = useLocation();
   const [headerMenuList, sideMenuList, defaultSelected] = useMenuConfig();
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
-
+  const [isFlag, setIsFlag] = useState(false);
+  const [Info] = sysUserInfo(isFlag);
+  const userInfoStore = useRecoilValue(userInfoAtom);
   const [passwordModalVisible, setPasswordModalVisible] = useState<any>(false);
   const [userInfoModalVisible, setUserInfoModalVisible] = useState<any>(false);
   const [switchChainModalVisible, setSwitchChainModalVisible] = useState<any>(false);
 
   useEffect(() => {
-    getUserInfo({}).then((data) => {
-      console.log(data);
-      if (data) {
-        setUserInfo(data);
-      }
-    });
+    // getUserInfo({}).then((data) => {
+    //   console.log(data);
+    //   if (data) {
+    //     setUserInfo(data);
+    //   }
+    // });
+    setUserInfo(userInfoStore);
   }, []);
 
   // 拼装菜单数据，配置内容跟Menu组件保持一致，增加了menuList数据渲染
@@ -89,12 +93,43 @@ function Home(props: any) {
   const logo = <div>全病程管理服务平台</div>;
   const menu = (
     <ul className={style.menu}>
-      <li onClick={() => setUserInfoModalVisible(true)}>
+      <li>
+        <Link style={{ color: '#666' }} to="/personal/dataSettings">
+          {/* <ShareAltOutlined /> */}
+          <span
+            className="iconfont icon-cluster"
+            style={{ fontSize: '16px', verticalAlign: 'top' }}
+          />
+          &nbsp;
+          <span style={{ verticalAlign: 'top' }}>修改资料</span>
+        </Link>
+      </li>
+      <li>
+        <Link style={{ color: '#666' }} to="/personal/changePassword">
+          <span
+            className="iconfont icon-setting1"
+            style={{ fontSize: '16px', verticalAlign: 'top' }}
+          />
+          &nbsp;
+          <span style={{ verticalAlign: 'top' }}>修改密码</span>
+        </Link>
+      </li>
+      <li>
+        <Link style={{ color: '#666' }} to="/personal/loginRecord">
+          <span
+            className="iconfont icon-change-chain"
+            style={{ fontSize: '16px', verticalAlign: 'top' }}
+          />
+          &nbsp;
+          <span style={{ verticalAlign: 'top' }}>登录记录</span>
+        </Link>
+      </li>
+      {/* <li onClick={() => setUserInfoModalVisible(true)}>
         <span className="iconfont icon-user" /> 修改资料
       </li>
       <li onClick={() => setPasswordModalVisible(true)}>
         <LockOutlined /> 修改密码
-      </li>
+      </li> */}
       {/* <li onClick={() => setSwitchChainModalVisible(true)}>
         <span className="iconfont icon-change-chain" /> 切换机构
       </li> */}

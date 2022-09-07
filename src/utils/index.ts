@@ -5,6 +5,7 @@ import { getLocalStorage } from './cookies';
 
 const { NODE_ENV } = process.env;
 export const isDev = NODE_ENV === 'development';
+const DATE_FORMAT = 'YYYY-MM-DD';
 /**
  * 生成随机的uuid
  */
@@ -314,6 +315,87 @@ export function getSex(idCard: string) {
   }
   return sexStr;
 }
+
+/**
+ * 时间格式 YYYY-MM-DD
+ * @param date moment 格式
+ * @param format 格式
+ * @returns string
+ */
+export function formatToDate(date: moment.MomentInput = undefined, format = DATE_FORMAT): string {
+  return moment(date).format(format);
+}
+
+const getStandardDateBeforeWeek = () => {
+  const date = new Date();
+  date.setDate(date.getDate() - 6);
+  const year = date.getFullYear();
+  let month: any = date.getMonth() + 1;
+  let day: any = date.getDate();
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  if (day < 10) {
+    day = `0${day}`;
+  }
+  return `${year}-${month}-${day}`;
+};
+
+export function getTimeFrame(date: string) {
+  const time: any = [];
+  const str: any = date.replace(/\s+/g, '');
+  const day: any = new Date();
+  if (str === '今日') {
+    time[0] = `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`;
+    time[1] = `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`;
+  } else if (str === '最近一周') {
+    time[0] = getStandardDateBeforeWeek(); // 获取7天前的日期
+    time[1] = `${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`;
+  } else if (str === '最近一月') {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month: any = now.getMonth() + 1;
+    const days = day.getDate();
+
+    time[1] = `${year}-${month}-${days}`;
+    let lsTime: string = '';
+    const nowMonthDay = new Date(year, month, 0).getDate();
+    if (month - 1 <= 0) {
+      // 如果是1月，年数往前推一年<br>
+      lsTime = `${year - 1}-${12}-${days}`;
+    } else {
+      const lastMonthDay = new Date(year, parseInt(month, 10) - 1, 0).getDate() + 1;
+      if (lastMonthDay < days) {
+        // 1个月前所在月的总天数小于现在的天日期
+        if (days < nowMonthDay) {
+          // 当前天日期小于当前月总天数
+          lsTime = `${year}-${month - 1}-${lastMonthDay - (nowMonthDay - days)}`;
+        } else {
+          lsTime = `${year}-${month - 1}-${lastMonthDay}`;
+        }
+      } else {
+        lsTime = `${year}-${month - 1}-${days}`;
+      }
+    }
+    time[0] = `${lsTime}`;
+  } else if (str === '最近半年') {
+    const cc = day.getTime();
+    const halfYear = (365 / 2) * 24 * 3600 * 1000;
+    const pastResult = cc - halfYear;
+    const pastDate = new Date(pastResult);
+    time[0] = `${pastDate.getFullYear()}-${pastDate.getMonth() + 2}`;
+    time[1] = `${new Date()}`;
+  } else if (str === '最近一年') {
+    const cc = day.getTime();
+    const halfYear = 365 * 24 * 3600 * 1000;
+    const pastResult = cc - halfYear;
+    const pastDate = new Date(pastResult);
+    time[0] = `${pastDate.getFullYear()}-${pastDate.getMonth() + 2}`;
+    time[1] = `${new Date()}`;
+  }
+  return [formatToDate(time[0]), formatToDate(time[1])];
+}
+
 export default {
   getUuid,
   randomLenNum,

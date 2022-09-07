@@ -41,6 +41,11 @@ export const getFollowUpFormInfo = (formId: string) => {
   return request.get(url);
 };
 
+export const getProjectAiDetail = (projectId: string) => {
+  const url = `${prefix}/managerProject/findAiDecisionFlowsBaseByProjectId/${projectId}`;
+  return request.get(url);
+};
+
 export default {
   getProjectPlanMap,
 };
