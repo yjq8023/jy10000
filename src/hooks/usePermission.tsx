@@ -5,6 +5,7 @@ import localRouterConfig, { routerConfigItem } from '@/config/router';
 import localMenuConfig, { MenuItem } from '@/config/menu';
 import permissionCodes from '@/config/permissionCode';
 import { isDev } from '@/config/base';
+import { getToken } from '@/utils/cookies';
 
 type permissionMenuItem = {
   id: string;
@@ -16,19 +17,22 @@ type permissionMenuItem = {
     visible: boolean;
   };
 };
-const storageKey = 'permission';
+
 // 请求账户权限数据
-let localPermissionData: any;
+const localPermissionData: any = {};
 const getPermissionData = () => {
+  const token = getToken();
   return new Promise((res, rej) => {
-    if (localPermissionData) {
-      res(localPermissionData);
+    if (token && localPermissionData[token]) {
+      res(localPermissionData[token]);
     } else {
       // @ts-ignore
       request.get('/uaa/user/permission', { noAuthentication: true, isReturnAllData: true })
         .then((response) => {
           const { data } = response;
-          localPermissionData = data;
+          if (token) {
+            localPermissionData[token] = data;
+          }
           res(data);
         })
         .catch((e) => {
