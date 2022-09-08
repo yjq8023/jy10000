@@ -107,9 +107,10 @@ export const ArticleSettingContent = (props: any) => {
     });
   };
   const getDefaultParams = () => {
+    const values: any = form.getFieldsValue(['include', 'exclusive']);
     return Promise.resolve({
-      notContainsLabelIds: formValue.exclusive,
-      labelIds: formValue.include,
+      notContainsLabelIds: values.exclusive,
+      labelIds: values.include,
     });
   };
   const onFinishFn = (data: any) => {
@@ -125,10 +126,12 @@ export const ArticleSettingContent = (props: any) => {
   };
   const defaultValue: any = {};
 
-  const fetchAPi = (params: { current: any }) => {
+  const fetchAPi = async (params: { current: any }) => {
+    const defaultParams: any = await getDefaultParams();
     return httpGetContent({
       pageNo: params.current,
       ...params,
+      ...defaultParams,
     }).then((res: any) => {
       return {
         listData: res.data,
@@ -156,12 +159,9 @@ export const ArticleSettingContent = (props: any) => {
     );
   };
   const listBodyProps = isMini ? { Body: ListBody, paginationOptions: { simple: true } } : {};
-  const onFieldsChange = (changeFields: any) => {
-    const values = form.getFieldsValue(['include', 'exclusive']);
+  const onFieldsChange = () => {
     list.current?.fetchListData({
       current: 1,
-      notContainsLabelIds: values.exclusive,
-      labelIds: values.include,
     });
   };
 
@@ -205,7 +205,6 @@ export const ArticleSettingContent = (props: any) => {
           fetchApi={fetchAPi}
           columns={columns}
           list={list}
-          getDefaultParams={getDefaultParams}
           BodyProps={{ scroll: { y: 240 } }}
           {...listBodyProps}
         />
