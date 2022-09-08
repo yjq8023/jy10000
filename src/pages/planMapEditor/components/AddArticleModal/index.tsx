@@ -132,6 +132,7 @@ export const ArticleSettingContent = (props: any) => {
       pageNo: params.current,
       ...params,
       ...defaultParams,
+      needLabel: true,
     }).then((res: any) => {
       return {
         listData: res.data,
