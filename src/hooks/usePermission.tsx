@@ -3,9 +3,7 @@ import { useLocation, Navigate } from 'react-router-dom';
 import { request } from '@/core/request';
 import localRouterConfig, { routerConfigItem } from '@/config/router';
 import localMenuConfig, { MenuItem } from '@/config/menu';
-import { getUuid } from '@/utils';
 import permissionCodes from '@/config/permissionCode';
-import { getToken } from '@/utils/cookies';
 import { isDev } from '@/config/base';
 
 type permissionMenuItem = {
@@ -26,10 +24,16 @@ const getPermissionData = () => {
     if (localPermissionData) {
       res(localPermissionData);
     } else {
-      request.get('/uaa/user/permission').then((data) => {
-        localPermissionData = data;
-        res(data);
-      });
+      // @ts-ignore
+      request.get('/uaa/user/permission', { noAuthentication: true, isReturnAllData: true })
+        .then((response) => {
+          const { data } = response;
+          localPermissionData = data;
+          res(data);
+        })
+        .catch((e) => {
+          rej(e);
+        });
     }
   });
 };
@@ -67,10 +71,25 @@ const filterRouterConfig = (config: any[], permission: string[]) => {
     if (item.children) {
       newItem.children = filterRouterConfig(item.children, permission);
     }
-    // todo: 默认路由可能与权限路由表不匹配，考虑是否要根据权限路由表生成默认路由
     newConfig.push(newItem);
   });
   return newConfig;
+};
+// 动态生成路由表后，默认路由需要同步修改
+const changeDefaultRoute = (routerConfig: any[]) => {
+  return routerConfig.map((i, index: number) => {
+    const item = { ...i };
+    if (item.path === '/' && !item.children) {
+      return {
+        path: '/',
+        element: <Navigate to={routerConfig[index + 1].path} replace />,
+      };
+    }
+    if (item.children) {
+      item.children = changeDefaultRoute(item.children);
+    }
+    return item;
+  });
 };
 // 资源权限数据
 const transFormPermission = (permissionData: string[], val: boolean = false) => {
@@ -92,36 +111,48 @@ export const usePermission = () => {
     menu: permissionMenuItem[];
     permission: string[];
   }>();
-  useEffect(() => {
-    fetchPermissionData();
-  }, [location]);
+  // useEffect(() => {
+  //   fetchPermissionData();
+  // }, [location]);
   useEffect(() => {
     fetchPermissionData();
   }, []);
   const fetchPermissionData = () => {
-    // 开发时或者未登录时，直接取本地数据
-    if (!getToken() || isDev) {
-      setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
-      setRouterConfig(localRouterConfig);
-      setPermission(transFormPermission([], true));
-      setLoaded(true);
+    setLoaded(false);
+    // 开发时不控制权限，直接取本地数据
+    if (isDev) {
+      setLocalMenuConfig();
       return;
     }
-    // 登录后或者页面进入时，判断没有获取过权限数据则获取
-    if (getToken() && !permissionData) {
-      setLoaded(false);
-      localPermissionData = '';
-      getPermissionData().then((data: any) => {
+    // 获取权限数据
+    getPermissionData()
+      .then((data: any) => {
         setPermissionData(data);
+      })
+      .catch((error: any) => {
+        // 未登录时，为了正常的路由显示，还是需要把本地的路由配置生效
+        if (error.response.status === 401) {
+          setLocalMenuConfig();
+        }
+      })
+      .finally(() => {
+        setLoaded(true);
       });
-    }
   };
+  const setLocalMenuConfig = () => {
+    setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
+    setRouterConfig(localRouterConfig);
+    setPermission(transFormPermission([], true));
+    setLoaded(true);
+  };
+
   // 当权限配置更新时
   useEffect(() => {
-    console.log(permissionData);
     if (permissionData) {
       // 生成路由表
-      setRouterConfig(filterRouterConfig(localRouterConfig, permissionData.permission));
+      let newRouterConfig = filterRouterConfig(localRouterConfig, permissionData.permission);
+      newRouterConfig = changeDefaultRoute(newRouterConfig);
+      setRouterConfig(newRouterConfig);
       // 生成菜单数据
       setMenuConfig(
         transformAsyncMenuConfig(permissionData.menu).map((config: any) => new MenuItem(config)),
