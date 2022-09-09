@@ -25,6 +25,7 @@ declare namespace ProjectType {
     orderDirection?: string;
     groupBy?: string;
     needTotalCount?: boolean;
+    notContainsLabelIds?: boolean;
   };
 
   type ContentRes = {
