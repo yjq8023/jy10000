@@ -12,19 +12,10 @@ import { planItemTypes, timeUnitToShowUnit } from '@/pages/planMapEditor/config'
 import { planMapContext } from '@/pages/planMapEditor';
 import { useDictKeyValue } from '@/hooks/useDict';
 
-const getInfoItemCls = (type: string) => {
-  return cls({
-    [style.selectItem]: true,
-    [style.beforeInfo]: type === planItemTypes.beforeInfo,
-    [style.followUp]: type === planItemTypes.followUp,
-    [style.article]: type === planItemTypes.article,
-    [style.form]: type === planItemTypes.form,
-    [style.diagnosis]: type === planItemTypes.diagnosis,
-  });
-};
 export const PlanMapItem = (props: any) => {
   const { data = {}, index, hasRootNode } = props;
   const {
+    selectedNode,
     setSelectedNode,
     addFollowUpModal,
     addFormModal,
@@ -88,6 +79,21 @@ export const PlanMapItem = (props: any) => {
     [style.loopItem]: loop,
     [style.hasRootNode]: hasRootNode,
   });
+  const getInfoItemCls = (itemData: any) => {
+    const type = itemData.itemCategory;
+    return cls({
+      [style.selectItem]: true,
+      [style.selectedItem]: selectedNode?.path === itemData.path && itemData.path,
+      [style.beforeInfo]: type === planItemTypes.beforeInfo,
+      [style.followUp]: type === planItemTypes.followUp,
+      [style.article]: type === planItemTypes.article,
+      [style.form]: type === planItemTypes.form,
+      [style.diagnosis]: type === planItemTypes.diagnosis,
+      [style.aiItem]: !!itemData.aiDecisionFlowsNodeId,
+      [style.customItem]: !itemData.aiDecisionFlowsNodeId,
+    });
+  };
+
   const handleClickInfo = (item: any) => {
     setSelectedNode(item);
   };
@@ -113,7 +119,7 @@ export const PlanMapItem = (props: any) => {
         <div className={style.title}>随访项目</div>
         <div className={style.infos} ref={domRef}>
           {data?.followUpItems?.map((item: any) => (
-            <div className={getInfoItemCls(item.itemCategory)} data-path={item.path} key={getUuid()} onClick={() => handleClickInfo(item)}>
+            <div className={getInfoItemCls(item)} data-path={item.path} key={getUuid()} onClick={() => handleClickInfo(item)}>
               <Badge color="cyan" />
               {item.itemName}
               &nbsp;

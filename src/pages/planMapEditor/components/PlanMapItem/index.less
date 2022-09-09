@@ -12,6 +12,12 @@
     font-size: 16px;
     cursor: pointer;
     vertical-align: initial;
+    opacity: 0;
+  }
+  &:hover .header {
+    :global( .icon-delete1) {
+      opacity: 1;
+    }
   }
   &:after {
     content: ' ';
@@ -69,10 +75,23 @@
       height: 140px;
       background-color: #fff;
       border-radius: 4px;
-      padding: 6px;
+      padding: 6px 4px;
       overflow: auto;
       .selectItem {
+        box-sizing: border-box;
         cursor: pointer;
+        white-space: nowrap;
+        padding: 0 6px;
+        position: relative;
+        :global(.icon-delete1) {
+          position: absolute;
+          right: 0;
+        }
+        &:hover {
+          :global(.icon-delete1) {
+            opacity: 1;
+          }
+        }
         &.beforeInfo {
           color: #217BA0;
           :global(.ant-badge-status-cyan) {
@@ -103,6 +122,25 @@
             background-color: #9C38E1;
           }
         }
+      }
+      .aiItem {
+        & + .customItem {
+          margin-top: 8px;
+          &:before {
+            content: ' ';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            width: 100%;
+            border-top: 1px @break-color5 dashed;
+            height: 1px;
+          }
+        }
+      }
+      .selectedItem {
+        border: 1px solid #46A0C0;
+        background-color: #EFFAFF;
+        border-radius: 6px;
       }
     }
   }
