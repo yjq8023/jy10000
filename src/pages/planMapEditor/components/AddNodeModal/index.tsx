@@ -1,5 +1,5 @@
 import React, { useState, useImperativeHandle, useContext } from 'react';
-import { Modal, Form, InputNumber, Select, Radio, message } from '@sinohealth/butterfly-ui-components/lib';
+import { Modal, Form, InputNumber, Select, Radio, message, Row, Col } from '@sinohealth/butterfly-ui-components/lib';
 import lodash from 'lodash';
 import moment from 'moment';
 import { planMapContext } from '@/pages/planMapEditor';
@@ -90,8 +90,10 @@ const AddNodeModal = (props: any, ref: any) => {
       setIsLoop(values.loop);
     }
   };
+  const defaultUnit = dict?.DateUnit && dict?.DateUnit[dict.DateUnit.length - 1].code;
   const defaultValue: any = {
-    triggerTimeUnit: 'DAYS',
+    triggerTimeUnit: defaultUnit,
+    durationTimeUnit: defaultUnit,
     loop: false,
   };
   return (
@@ -99,61 +101,72 @@ const AddNodeModal = (props: any, ref: any) => {
       <Form
         form={form}
         name="basic"
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 16 }}
+        labelCol={{ span: 10 }}
+        wrapperCol={{ span: 14 }}
         initialValues={defaultValue}
         onFinish={onFinish}
         onValuesChange={handleFormChange}
-        hideRequiredMark={true}
         autoComplete="off"
       >
-        <Form.Item
-          label="周期数值"
-          name="triggerNumber"
-          rules={[{ required: true, message: '该字段为必填项' }]}
-        >
-          <InputNumber style={{ width: '100%' }} min={1} />
-        </Form.Item>
-        <Form.Item
-          label="周期单位"
-          name="triggerTimeUnit"
-          rules={[{ required: true, message: '该字段为必填项' }]}
-        >
-          <Select style={{ width: '100%' }} options={dict?.DateUnit?.map((item: any) => ({ label: item.name, value: item.code }))} />
-        </Form.Item>
-        <Form.Item
-          label="是否循环"
-          name="loop"
-          rules={[{ required: true, message: '该字段为必填项' }]}
-        >
-          <Radio.Group>
-            <Radio value={false}>否</Radio>
-            <Radio value={true}>是</Radio>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item
-          label="持续周期数量"
-          name="durationTimes"
-          dependencies={['loop']}
-          hidden={!loop}
-          rules={[({ getFieldValue }) => ({
-            required: getFieldValue('loop') === 1,
-            message: '该字段为必填项',
-          })]}
-        >
-          <InputNumber style={{ width: '100%' }} min={1} />
-        </Form.Item>
-        <Form.Item
-          label="持续周期单位"
-          name="durationTimeUnit"
-          hidden={!loop}
-          rules={[({ getFieldValue }) => ({
-            required: getFieldValue('loop') === 1,
-            message: '该字段为必填项',
-          })]}
-        >
-          <Select style={{ width: '100%' }} options={dict?.DateUnit?.map((item: any) => ({ label: item.name, value: item.code }))} />
-        </Form.Item>
+        <Row>
+          <Col span={15}>
+            <Form.Item
+              label="是否循环"
+              name="loop"
+              rules={[{ required: true, message: '该字段为必填项' }]}
+            >
+              <Radio.Group>
+                <Radio value={false}>否</Radio>
+                <Radio value={true}>是</Radio>
+              </Radio.Group>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={14}>
+          <Col span={15}>
+            <Form.Item
+              label={!loop ? '周期数值' : '循环间隔多久一次'}
+              name="triggerNumber"
+              rules={[{ required: true, message: '该字段为必填项' }]}
+            >
+              <InputNumber placeholder="请输入数值" style={{ width: '100%' }} min={1} />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item
+              label="周期单位"
+              name="triggerTimeUnit"
+              noStyle
+              rules={[{ required: true, message: '该字段为必填项' }]}
+            >
+              <Select placeholder="单位" style={{ width: '100%' }} options={dict?.DateUnit?.map((item: any) => ({ label: item.name, value: item.code }))} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={14}>
+          <Col span={15}>
+            <Form.Item
+              label="循环持续时长"
+              name="durationTimes"
+              dependencies={['loop']}
+              hidden={!loop}
+              rules={[{ required: loop, message: '该字段为必填项' }]}
+            >
+              <InputNumber placeholder="请输入数值" style={{ width: '100%' }} min={1} />
+            </Form.Item>
+          </Col>
+          <Col span={6}>
+            <Form.Item
+              label="持续周期单位"
+              name="durationTimeUnit"
+              hidden={!loop}
+              noStyle
+              rules={[{ required: loop, message: '该字段为必填项' }]}
+            >
+              <Select placeholder="单位" style={{ width: '100%' }} options={dict?.DateUnit?.map((item: any) => ({ label: item.name, value: item.code }))} />
+            </Form.Item>
+          </Col>
+        </Row>
       </Form>
     </Modal>
   );
