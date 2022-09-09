@@ -26,8 +26,9 @@ const getPermissionData = () => {
     if (token && localPermissionData[token]) {
       res(localPermissionData[token]);
     } else {
-      // @ts-ignore
-      request.get('/uaa/user/permission', { noAuthentication: true, isReturnAllData: true })
+      request
+        // @ts-ignore
+        .get('/uaa/user/permission', { noAuthentication: true, isReturnAllData: true })
         .then((response) => {
           const { data } = response;
           if (token) {
@@ -50,7 +51,8 @@ const getPathFormRouterConfig = (code: string) => {
 // 转换后台配置的菜单数据为本地要求的菜单数据格式
 const transformAsyncMenuConfig = (menus: any) => {
   return menus.map((item: any) => {
-    const code = item.data?.resourceCode || item.id; // 存在多层级菜单情况，没有resourceCode会报错s
+    // const code = item.data?.resourceCode || item.id; // 存在多层级菜单情况，没有resourceCode会报错s
+    const code = item.data?.resourceCode || '';
     const visible = item.data?.visible;
     const children = item.children ? transformAsyncMenuConfig(item.children) : [];
     return {

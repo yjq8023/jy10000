@@ -76,7 +76,10 @@ function reject(error: any) {
   } else if (error.request) {
     errorMessageText = error.request;
   }
-  message.error(`${errorMessageText || '服务器出错了，请稍后再试！'}`);
+  if (!response.config?.noAuthentication) {
+    message.error(`${errorMessageText || '服务器出错了，请稍后再试！'}`);
+  }
+  // message.error(`${errorMessageText || '服务器出错了，请稍后再试！'}`);
   if (response?.config?.isReturnAllData) {
     return Promise.reject(error);
   }
