@@ -66,8 +66,9 @@ function resolve(response: any) {
 }
 function reject(error: any) {
   let errorMessageText = error.errMessage;
-  if (error.response) {
-    if (error.response.status === 401) {
+  const { response } = error;
+  if (response) {
+    if (response.status === 401 && !response.config?.noAuthentication) {
       message.error('登录状态已过期，请重新登录');
       window.location.href = '/login';
     }
@@ -76,6 +77,9 @@ function reject(error: any) {
     errorMessageText = error.request;
   }
   message.error(`${errorMessageText || '服务器出错了，请稍后再试！'}`);
+  if (response?.config?.isReturnAllData) {
+    return Promise.reject(error);
+  }
   return Promise.reject(error && error.response && error.response.data);
 }
 request.interceptors.request.use(beforeRequest);

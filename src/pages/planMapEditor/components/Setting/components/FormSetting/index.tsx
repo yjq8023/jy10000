@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Modal } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Modal, Input } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender, registerComponents } from '@sinohealth/butterfly-formily-engine';
 import * as components from '@sinohealth/butterfly-formily-components';
 import { planItemTypes } from '@/pages/planMapEditor/config';
@@ -70,6 +70,9 @@ const FormSetting = (props: any) => {
   const handleSelectIo = (val: any) => {
     setPlanMapState('update', data.path, { ...data, inputFieldId: val });
   };
+  const handleChangeName = (e: any) => {
+    setPlanMapState('update', data.path, { ...data, itemName: e.target.value || '--' });
+  };
   const handleEdit = () => {
     if (isEdited) {
       Modal.confirm({
@@ -96,7 +99,11 @@ const FormSetting = (props: any) => {
     <div className={style.formSetting}>
       <div className={style.header}>
         <div className={style.type}>{titles[data.itemCategory]}</div>
-        <div className={style.title}>{data.itemName}</div>
+        { isFollowUp ? (
+          <Input defaultValue={data.itemName} onChange={handleChangeName} />
+        ) : (
+          <div className={style.title}>{data.itemName}</div>
+        )}
         {
           data.itemCategory === planItemTypes.form && (
             <>

@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 import Home from '../pages/home';
 import Login from '../pages/user/login';
 import Password from '../pages/user/password';
+import NoFind from '../pages/user/noFind';
 import { Navigate } from 'react-router-dom';
 import ProjectAdd from '@/pages/weapp/projectAdd';
 import LabelClassify from '@/pages/project/labelClassify';
@@ -79,12 +80,12 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/weapp/project/edit',
         element: <ProjectAdd />,
-        code: 'ProjectEditWe',
+        // code: 'ProjectEditWe',
       },
       {
         path: '/weapp/project/add',
         element: <ProjectAdd />,
-        code: 'ProjectAddWe',
+        // code: 'ProjectAddWe',
       },
       {
         path: '/follow/list',
@@ -209,13 +210,7 @@ const routerConfig: routerConfigItem[] = [
   },
   {
     path: '*',
-    element: (
-      <div style={{ display: 'flex' }}>
-        <h2 style={{ margin: '20px auto', fontSize: '32px' }}>
-          404-页面路径有误或您没权限访问该页面
-        </h2>
-      </div>
-    ),
+    element: <NoFind />,
   },
 ];
 

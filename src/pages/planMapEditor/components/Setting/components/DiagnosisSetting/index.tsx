@@ -6,7 +6,7 @@ import { planMapContext } from '@/pages/planMapEditor';
 
 const debounce = lodash.debounce((c) => {
   c && c();
-}, 1000);
+}, 400);
 const DiagnosisSetting = (props: any) => {
   const { data } = props;
   const [form] = Form.useForm();

@@ -6,11 +6,25 @@ import {
   Row,
   Col,
   Tree,
+  message,
 } from '@sinohealth/butterfly-ui-antd';
 import { useSelectedNode } from '@sinohealth/designable-react';
 import { transformDataSource } from '@/pages/formily/editor/utils/schema';
 import style from './index.less';
 
+const validRule = (ruleStr: string, scope: any = {}) => {
+  return new Promise((resolve, reject) => {
+    try {
+      // eslint-disable-next-line no-new-func
+      const fn = new Function(...Object.keys(scope), `return ${ruleStr}`);
+      const r = fn(...Object.keys(scope).map((key) => scope[key]));
+      console.log(r);
+      resolve(true);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 const AddFormulaModal = (props: any, ref: any) => {
   const { onOk } = props;
   const [isResult, setIsResult] = useState(false);
@@ -31,6 +45,10 @@ const AddFormulaModal = (props: any, ref: any) => {
     };
   });
 
+  const varsData = [
+    ...scope,
+    ...dataSource,
+  ];
   const handleOpen = (data: any = {}) => {
     setIsResult(data.type === 'result');
     setKey(data.key);
@@ -53,22 +71,30 @@ const AddFormulaModal = (props: any, ref: any) => {
   };
 
   const handleOk = () => {
-    setVisible(false);
-    if (isResult) {
-      onOk && onOk({ when: value, desc, key, code });
-    } else {
-      const newKey = key !== undefined ? key : `$S${scope.length + 1}`;
-      onOk && onOk({ key: newKey, value });
-    }
+    const scopeObj: any = {};
+    varsData.forEach((item) => {
+      scopeObj[item.value] = 1;
+    });
+    validRule(value, scopeObj)
+      .then(() => {
+        if (isResult) {
+          onOk && onOk({ when: value, desc, key, code });
+        } else {
+          const newKey = key !== undefined ? key : `$S${scope.length + 1}`;
+          onOk && onOk({ key: newKey, value });
+        }
+        setVisible(false);
+      })
+      .catch((e) => {
+        console.error('公式/规则错误内容');
+        console.error(e);
+        message.error('公式/规则格式错误，请检查确认');
+      });
   };
   const onCancel = () => {
     setVisible(false);
     props.onCancel && props.onCancel();
   };
-  const varsData = [
-    ...scope,
-    ...dataSource,
-  ];
   const formulaData = !isResult ?
     [
       { label: '加', value: '+' },

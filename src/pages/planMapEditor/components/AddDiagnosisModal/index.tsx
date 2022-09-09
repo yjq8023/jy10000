@@ -52,7 +52,7 @@ const AddDiagnosisModal = (props: any, ref: any) => {
 
   const defaultValue: any = {};
   return (
-    <Modal title="添加跟进记录表" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={600}>
+    <Modal title="添加复诊复查" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={600}>
       <Form
         form={form}
         name="basic"
