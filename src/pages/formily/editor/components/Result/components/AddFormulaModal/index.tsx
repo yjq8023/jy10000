@@ -153,6 +153,8 @@ const AddFormulaModal = (props: any, ref: any) => {
       visible={visible}
       onOk={handleOk}
       onCancel={onCancel}
+      okText="确定"
+      cancelText="取消"
       width={800}
     >
       <div className={style.ruleBox}>
