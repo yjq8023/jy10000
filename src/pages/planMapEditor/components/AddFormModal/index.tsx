@@ -1,32 +1,18 @@
-import React, { useState, useImperativeHandle, useContext, useEffect } from 'react';
-import { Modal, Form, Input, Row, Col, Button, message } from '@sinohealth/butterfly-ui-components/lib';
-import { Link } from 'react-router-dom';
+import React, { useState, useImperativeHandle, useContext } from 'react';
+import { Modal, Form, Input, Row, Col, Button, message, Drawer } from '@sinohealth/butterfly-ui-components/lib';
+import { FormRender } from '@sinohealth/butterfly-formily-engine';
+import * as components from '@sinohealth/butterfly-formily-components';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
-import { httpScalePage } from '@/services/project';
+import { httpScaleDetail, httpScalePage } from '@/services/project';
 import BaseList from '@/components/BaseList';
-import IoSelect from '@/pages/planMapEditor/components/IoSelect';
 import style from './index.less';
-
-const columns = [
-  {
-    title: '量表名称',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    key: 'action',
-    width: '60px',
-    render() {
-      return <Link to="a/detail">查看</Link>;
-    },
-  },
-];
+import schema from '@/pages/formily/editor/utils/schema';
 
 const FormSelectTable = (p: any) => {
   const { onChange } = p;
+  const [drawerData, setDrawerData] = useState<any>({});
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const fetchScaleListData = (params: any) => {
     return httpScalePage({
       pageNo: params.current,
@@ -64,6 +50,36 @@ const FormSelectTable = (p: any) => {
       </Form>
     );
   };
+  const columns = [
+    {
+      title: '量表名称',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
+      width: '60px',
+      render(text: string, record: any) {
+        return <a onClick={() => handleOpen(record)}>查看</a>;
+      },
+    },
+  ];
+  const handleOpen = (record: any) => {
+    httpScaleDetail(record.id)
+      .then((res: any) => {
+        if (res.scaleJson) {
+          setDrawerData({
+            ...record,
+            schema: JSON.parse(res.scaleJson),
+          });
+        } else {
+          setDrawerData(record);
+        }
+        setDrawerOpen(true);
+      });
+  };
   return (
     <div className={style.listBox}>
       <BaseList
@@ -78,6 +94,14 @@ const FormSelectTable = (p: any) => {
         fetchApi={fetchScaleListData}
         SearchForm={SearchForm}
       />
+      <Drawer title={drawerData.title} placement="right" onClose={() => setDrawerOpen(false)} visible={drawerOpen}>
+        { drawerData.schema && (
+          <FormRender schema={drawerData.schema?.schema} components={components} />
+        )}
+        { !drawerData.schema && (
+          <div className={style.empty}>暂无内容</div>
+        )}
+      </Drawer>
     </div>
   );
 };
