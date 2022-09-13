@@ -8,7 +8,6 @@ import { getBeforeInfoSchema, getFollowUpFormInfo, saveProjectPlanMap } from '@/
 import style from './index.less';
 import { planMapContext } from '@/pages/planMapEditor';
 import { httpScaleDetail } from '@/services/project';
-import IoSelect from '@/pages/planMapEditor/components/IoSelect';
 
 const allComponents = {
   components,
@@ -67,9 +66,6 @@ const FormSetting = (props: any) => {
     [planItemTypes.followUp]: '跟进记录表',
     [planItemTypes.form]: '医学量表',
   };
-  const handleSelectIo = (val: any) => {
-    setPlanMapState('update', data.path, { ...data, inputFieldId: val });
-  };
   const handleChangeName = (e: any) => {
     setPlanMapState('update', data.path, { ...data, itemName: e.target.value || '--' });
   };
@@ -104,16 +100,6 @@ const FormSetting = (props: any) => {
         ) : (
           <div className={style.title}>{data.itemName}</div>
         )}
-        {
-          data.itemCategory === planItemTypes.form && (
-            <>
-              <div className={style.type}>关联IO</div>
-              <div>
-                <IoSelect defaultValue={data.inputFieldId} onChange={handleSelectIo} style={{ width: '100%' }} placeholder="请选择需要关联的IO" />
-              </div>
-            </>
-          )
-        }
       </div>
       <div className={style.body}>
         {

@@ -87,7 +87,6 @@ const AddFormModal = (props: any, ref: any) => {
   const [nodeData, setNodeData] = useState<any>();
   const { planMapState, setPlanMapState } = useContext(planMapContext);
   const [selectedForm, setSelectedForm] = useState<any>({});
-  const [inputFieldId, setInputFieldId] = useState<any>();
   useImperativeHandle(ref, () => {
     return {
       handleOpen,
@@ -99,7 +98,6 @@ const AddFormModal = (props: any, ref: any) => {
   const handleOpen = (node: any) => {
     setNodeData(node);
     setSelectedForm({});
-    setInputFieldId('');
     setIsModalVisible(true);
   };
 
@@ -123,7 +121,6 @@ const AddFormModal = (props: any, ref: any) => {
         itemName: selectedForm.title,
         bizId: selectedForm.id,
         itemCategory: planItemTypes.form,
-        inputFieldId,
       },
     ];
     if (Array.isArray(newData.followUpItems)) {
@@ -145,12 +142,6 @@ const AddFormModal = (props: any, ref: any) => {
             <FormSelectTable onChange={handleSelectForm} />
           )
         }
-        <Row style={{ marginTop: '20px' }}>
-          <Col span={2} style={{ lineHeight: '32px' }}>关联IO:</Col>
-          <Col span={20}>
-            <IoSelect onChange={setInputFieldId} style={{ width: '240px' }} placeholder="请选择需要关联的IO" />
-          </Col>
-        </Row>
       </div>
     </Modal>
   );
