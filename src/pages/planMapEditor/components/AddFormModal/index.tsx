@@ -7,10 +7,9 @@ import { planItemTypes } from '@/pages/planMapEditor/config';
 import { httpScaleDetail, httpScalePage } from '@/services/project';
 import BaseList from '@/components/BaseList';
 import style from './index.less';
-import schema from '@/pages/formily/editor/utils/schema';
 
 const FormSelectTable = (p: any) => {
-  const { onChange } = p;
+  const { value, onChange } = p;
   const [drawerData, setDrawerData] = useState<any>({});
   const [drawerOpen, setDrawerOpen] = useState(false);
   const fetchScaleListData = (params: any) => {
@@ -30,6 +29,7 @@ const FormSelectTable = (p: any) => {
     });
   };
   const rowSelection = {
+    selectedRowKeys: [value.id],
     onChange: (selectedRowKeys: React.Key[], selectedRows: any) => {
       onChange(selectedRows[0]);
     },
@@ -163,7 +163,7 @@ const AddFormModal = (props: any, ref: any) => {
       <div>
         {
           isModalVisible && (
-            <FormSelectTable onChange={handleSelectForm} />
+            <FormSelectTable value={selectedForm} onChange={handleSelectForm} />
           )
         }
       </div>
