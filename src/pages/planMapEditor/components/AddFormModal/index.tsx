@@ -48,16 +48,18 @@ const FormSelectTable = (p: any) => {
       onChange(selectedRows[0]);
     },
   };
-  const SearchForm = ({ form }: any) => {
+  const SearchForm = (props: any) => {
     return (
-      <Form form={form}>
+      <Form {...props}>
         <Row gutter={20}>
           <Col span={16}>
             <Form.Item name="title">
               <Input placeholder="输入量表名称搜索" />
             </Form.Item>
           </Col>
-          <Col span={8}><Button type="primary" htmlType="submit">搜索</Button></Col>
+          <Col span={8}>
+            <Button type="primary" htmlType="submit">搜索</Button>
+          </Col>
         </Row>
       </Form>
     );
