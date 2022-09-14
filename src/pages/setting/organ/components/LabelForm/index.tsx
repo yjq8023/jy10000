@@ -37,7 +37,7 @@ const LabelForm: FC<LabelFormType> = (props) => {
   useEffect(() => {
     labelList({ ...props.labelData }).then((res) => {
       setLabelOptions(res);
-      form.setFieldsValue({ labels: props.labelData.labels });
+      form.setFieldsValue({ labels: props.labelData?.labels });
     });
   }, [props.labelData]);
 
