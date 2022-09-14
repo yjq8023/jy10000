@@ -63,6 +63,16 @@ export const httpContentDelete = (id: string) => {
 };
 
 /**
+ * 上传文件
+ * @param params
+ * @returns
+ */
+export const httpUploadFile = (params: any) => {
+  // @ts-ignore
+  return request.post('/cs/file/public/upload', params, { isReturnAllData: true });
+};
+
+/**
  * 分页查询项目库
  * @param params
  * @returns

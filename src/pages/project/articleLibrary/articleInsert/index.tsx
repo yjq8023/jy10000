@@ -59,15 +59,19 @@ const ArticleInsert: React.FC = () => {
 
   const httpContentUpdateReq = async (params: ProjectType.ContentReq) => {
     setLoading(true);
-    const res: any = await httpContentUpdate({ ...insertParams, ...params });
+    try {
+      const res: any = await httpContentUpdate({ ...insertParams, ...params });
 
-    if (res.success) {
-      message.success('数据保存成功');
-      const timer = setTimeout(() => {
-        navigateBack();
-        setLoading(false);
-        clearTimeout(timer);
-      }, 1000);
+      if (res.success) {
+        message.success('数据保存成功');
+        const timer = setTimeout(() => {
+          navigateBack();
+          setLoading(false);
+          clearTimeout(timer);
+        }, 1000);
+      }
+    } catch (err) {
+      setLoading(false);
     }
   };
 

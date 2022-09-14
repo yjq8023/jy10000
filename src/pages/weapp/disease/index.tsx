@@ -253,6 +253,7 @@ const Disease: React.FC = () => {
         SearchForm={SearchForm}
         getDefaultParams={getDefaultParams}
         Toolbar={Toolbar}
+        fixed
       />
       {carouselVisible ? (
         <Carousel
