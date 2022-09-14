@@ -11,6 +11,7 @@ import {
   Input,
   Form,
   Popover,
+  Radio,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -262,15 +263,22 @@ function DictList() {
   const Toolbar = () => {
     return (
       <>
-        <Button
-          type="primary"
-          onClick={() => {
-            triggerExpandRows();
+        <Radio.Group
+          value={!!(expandIds && expandIds.length > 0)}
+          buttonStyle="solid"
+          optionType="button"
+          onChange={(e) => {
+            if (e.target.value) {
+              expandRows();
+            } else {
+              closeRows();
+            }
           }}
         >
-          全部展开/折叠
-        </Button>
-        &nbsp;
+          <Radio.Button value={true}>全局展开</Radio.Button>
+          <Radio.Button value={false}>全局折叠</Radio.Button>
+        </Radio.Group>
+        &nbsp; &nbsp;
         <Button
           type="primary"
           onClick={() => {
@@ -293,9 +301,12 @@ function DictList() {
         className={styles['content-page-list']}
         bordered={true}
         header={
-          <div>
-            <Search placeholder="请输入关键词进行过滤" allowClear onSearch={onSearch} />
-          </div>
+          <Search
+            className={styles['content-page-list-search']}
+            placeholder="请输入关键词进行过滤"
+            allowClear
+            onSearch={onSearch}
+          />
         }
         dataSource={tenantList}
         renderItem={(item: any) => (
@@ -310,7 +321,7 @@ function DictList() {
           </List.Item>
         )}
       />
-      <div>
+      <div className={styles['content-page-main']}>
         <SearchForm
           tenantid={currTenantId}
           onFinish={(values) => {
@@ -324,29 +335,31 @@ function DictList() {
             }
           }}
         />
-        <Row className={styles.listHeader}>
-          <Col span={12}>
-            <div className={styles.title}>组织列表</div>
-          </Col>
-          <Col span={12}>
-            <div className={styles.toolbar}>
-              <Toolbar />
-            </div>
-          </Col>
-        </Row>
-        <Table
-          dataSource={dataSource}
-          expandedRowKeys={expandIds}
-          expandable={{
-            //   expandedRowRender,
-            //   rowExpandable: (record: any) => record.parentId === null,
-            onExpand: () => {
-              closeRows();
-            },
-          }}
-          columns={columns}
-          rowKey="id"
-        />
+        <div className={styles['content-page-main_table']}>
+          <Row className={styles.listHeader}>
+            <Col span={12}>
+              <div className={styles.title}>组织列表</div>
+            </Col>
+            <Col span={12}>
+              <div className={styles.toolbar}>
+                <Toolbar />
+              </div>
+            </Col>
+          </Row>
+          <Table
+            dataSource={dataSource}
+            expandedRowKeys={expandIds}
+            expandable={{
+              //   expandedRowRender,
+              //   rowExpandable: (record: any) => record.parentId === null,
+              onExpand: () => {
+                closeRows();
+              },
+            }}
+            columns={columns}
+            rowKey="id"
+          />
+        </div>
       </div>
       <OrganForm visible={showOrganForm} onCancel={closeOrganForm} />
       <LabelForm

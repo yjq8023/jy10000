@@ -10,6 +10,7 @@ import {
   TableColumnsType,
   Input,
   Empty,
+  Radio,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -183,14 +184,21 @@ function CustomerDepartment() {
   const Toolbar = () => {
     return (
       <div>
-        <Button
-          type="primary"
-          onClick={() => {
-            triggerExpandRows();
+        <Radio.Group
+          value={!!(expandIds && expandIds.length > 0)}
+          buttonStyle="solid"
+          optionType="button"
+          onChange={(e) => {
+            if (e.target.value) {
+              expandRows();
+            } else {
+              closeRows();
+            }
           }}
         >
-          全部展开/折叠
-        </Button>
+          <Radio.Button value={true}>全局展开</Radio.Button>
+          <Radio.Button value={false}>全局折叠</Radio.Button>
+        </Radio.Group>
         &nbsp;
         <Button
           type="primary"
