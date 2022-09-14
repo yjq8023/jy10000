@@ -10,25 +10,65 @@
 .content-page {
   display: flex;
   height: 100%;
-  padding: 20px;
-  background-color: #fff;
+
+  :global {
+    .ant-input-affix-wrapper {
+      border: 1px solid #FAFAFA;
+      background: #FAFAFA;
+
+      input {
+        background: #FAFAFA;
+
+      }
+    }
+  }
+
+  // padding: 16px;
 
   &-list {
+    box-sizing: border-box;
     margin-right: 12px;
+    background-color: #fff;
+    padding: 24px 16px;
+    border: none !important;
+    width: 320px;
+    flex-shrink: 0;
+
+    &-search {
+      border: 1px solid #FAFAFA;
+      button {
+        border: 0;
+        background: #FAFAFA;
+      }
+    }
 
     .active {
-      background-color: #b4cfd4;
+      background-color: #EFFAFF;
+      color: #217BA0;
     }
 
     :global {
+
       .ant-list-header {
-        padding: 10px;
+        padding: 0;
+        margin-bottom: 24px;
+        border: none;
       }
 
       .ant-list-item {
-        min-width: 285px;
+        // min-width: 320px;
         cursor: pointer;
+        border: none;
       }
+    }
+  }
+
+  &-main {
+    flex-grow: 1;
+
+    &_table {
+      background-color: #fff;
+      padding: 16px;
     }
   }
 }

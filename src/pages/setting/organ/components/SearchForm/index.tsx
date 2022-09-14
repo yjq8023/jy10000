@@ -28,15 +28,16 @@ const SearchForm = (props: SearchFormProps = {}) => {
 
   return (
     <Form
+      style={{ backgroundColor: 'white', padding: '24px 24px 0', borderRadius: 4, marginBottom: 8 }}
       name="organ"
-      labelCol={{ xl: 6, xxl: 4 }}
+      labelCol={{ xl: 7, xxl: 5 }}
       wrapperCol={{ xl: 18, xxl: 20 }}
       labelAlign="left"
-      colon={false}
+      // colon={false}
       form={formRef}
       {...props}
     >
-      <Row gutter={24}>
+      <Row gutter={16}>
         <Col span={8}>
           <Form.Item name="name" label="组织名称">
             <Input placeholder="请输入组织名称" />
