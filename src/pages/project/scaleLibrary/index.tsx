@@ -33,6 +33,7 @@ const { confirm } = Modal;
  */
 const scaleLibrary: React.FC = () => {
   const list: any = useList();
+  const navigate = useNavigate();
   const [scaleModalVisible, setScaleModalVisible] = useState(false);
   const [isUpdateSucc, setIsUpdateSucc] = useState(false);
   const [editParams, setEditParams] = useState<ProjectType.ScalePageRes>({ labelVoList: [] });
@@ -237,6 +238,7 @@ const scaleLibrary: React.FC = () => {
         SearchForm={ScaleSearch}
         Toolbar={Toolbar}
         overflow={false}
+        fixed
       />
       {scaleModalVisible ? (
         <ScaleModal
@@ -249,7 +251,9 @@ const scaleLibrary: React.FC = () => {
               if (res.success) {
                 setScaleModalVisible(false);
                 setEditParams({ labelVoList: [] });
-                list.current.reloadListData(true);
+                navigate(`/project/formily/editor?type=form&formId=${res.data}&name=${v.title}`);
+                // /project/formily/editor?type=form&formId=1680986254197395479&name=测试量表1
+                // list.current.reloadListData(true);
               }
             } catch (err) {
               console.log(err);

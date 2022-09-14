@@ -270,6 +270,7 @@ const ArticleLibrary: React.FC = () => {
         SearchForm={ArticleSearch}
         Toolbar={Toolbar}
         overflow={false}
+        fixed
       />
       {updateLabelVisible ? (
         <UpdateLabel

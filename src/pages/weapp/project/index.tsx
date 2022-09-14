@@ -103,14 +103,20 @@ function WeappProject() {
       ids: [item.id],
       status: isUp ? 'ENABLE' : 'UNABLE',
     })
-      .then(() => {
-        message.success({ content: isUp ? '上架成功' : '下架成功', key: 'updatable', duration: 1 });
+      .then((res: any) => {
+        const content = isUp ? '上架成功' : '下架成功';
+        message.success({
+          content: res.errMessage ? res.errMessage : content,
+          key: 'updatable',
+          duration: 1,
+        });
+        // message.success();
         list.current.reloadListData(true);
         setIsUpdateSucc(false);
       })
       .catch(() => {
         list.current.reloadListData(true);
-        message.error({ content: '数据处理失败', key: 'updatable', duration: 1 });
+        // message.error({ content: '数据处理失败', key: 'updatable', duration: 1 });
         setIsUpdateSucc(false);
       });
   };

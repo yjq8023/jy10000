@@ -7,7 +7,7 @@ type AiSchema = {
   label: string;
   required: boolean;
   type: categoryType;
-  enum: any[]
+  fieldItems?: AiSchema[]
 }
 
 const defaultSchemaConfig = {
@@ -24,11 +24,13 @@ const defaultSchemaConfig = {
         value: '0',
       },
     ],
+    required: true,
     key: 'IoRadio.Group',
     'x-decorator': 'FormItem',
     'x-component': 'Radio.Group',
   },
   Datetime: {
+    type: 'string',
     title: '日期时间',
     key: 'IoDatePicker',
     'x-decorator': 'FormItem',
@@ -37,9 +39,10 @@ const defaultSchemaConfig = {
       placeholder: '请选择时间',
       showTime: true,
     },
-    type: 'string',
+    required: true,
   },
   Number: {
+    type: 'number',
     title: '数字',
     key: 'IoNumberPicker',
     'x-decorator': 'FormItem',
@@ -47,23 +50,35 @@ const defaultSchemaConfig = {
     'x-component-props': {
       placeholder: '请输入',
     },
+    required: true,
+  },
+  Radio: {
     type: 'string',
+    title: '单选',
+    key: 'IoRadioPicker',
+    'x-decorator': 'FormItem',
+    'x-component': 'Radio.Group',
+    'x-component-props': {
+      placeholder: '请选择',
+    },
+    required: true,
   },
 };
 
 export const getSchemaItem = (aiSchema: AiSchema) => {
   const defaultSchemaItem = defaultSchemaConfig[aiSchema.type] || {};
   return {
+    enum: transformOptions(aiSchema.fieldItems),
     ...defaultSchemaItem,
     name: aiSchema.fieldId,
     title: aiSchema.label,
   };
 };
 
-const transformOptions = (labelOptions: labelOptionsItem[] = []) => {
+const transformOptions = (labelOptions: AiSchema[] = []) => {
   return labelOptions?.map((item) => ({
     label: item.label,
-    value: item.labelCode,
+    value: item.fieldId,
   }));
 };
 

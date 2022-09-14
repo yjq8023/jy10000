@@ -1,32 +1,17 @@
-import React, { useState, useImperativeHandle, useContext, useEffect } from 'react';
-import { Modal, Form, Input, Row, Col, Button, message } from '@sinohealth/butterfly-ui-components/lib';
-import { Link } from 'react-router-dom';
+import React, { useState, useImperativeHandle, useContext } from 'react';
+import { Modal, Form, Input, Row, Col, Button, message, Drawer } from '@sinohealth/butterfly-ui-components/lib';
+import { FormRender } from '@sinohealth/butterfly-formily-engine';
+import * as components from '@sinohealth/butterfly-formily-components';
 import { planMapContext } from '@/pages/planMapEditor';
 import { planItemTypes } from '@/pages/planMapEditor/config';
-import { httpScalePage } from '@/services/project';
+import { httpScaleDetail, httpScalePage } from '@/services/project';
 import BaseList from '@/components/BaseList';
-import IoSelect from '@/pages/planMapEditor/components/IoSelect';
 import style from './index.less';
 
-const columns = [
-  {
-    title: '量表名称',
-    dataIndex: 'title',
-    key: 'title',
-  },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    key: 'action',
-    width: '60px',
-    render() {
-      return <Link to="a/detail">查看</Link>;
-    },
-  },
-];
-
 const FormSelectTable = (p: any) => {
-  const { onChange } = p;
+  const { value, onChange } = p;
+  const [drawerData, setDrawerData] = useState<any>({});
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const fetchScaleListData = (params: any) => {
     return httpScalePage({
       pageNo: params.current,
@@ -44,23 +29,56 @@ const FormSelectTable = (p: any) => {
     });
   };
   const rowSelection = {
+    selectedRowKeys: [value.id],
     onChange: (selectedRowKeys: React.Key[], selectedRows: any) => {
       onChange(selectedRows[0]);
     },
   };
-  const SearchForm = ({ form }: any) => {
+  const SearchForm = (props: any) => {
     return (
-      <Form form={form}>
+      <Form {...props}>
         <Row gutter={20}>
           <Col span={16}>
             <Form.Item name="title">
               <Input placeholder="输入量表名称搜索" />
             </Form.Item>
           </Col>
-          <Col span={8}><Button type="primary" htmlType="submit">搜索</Button></Col>
+          <Col span={8}>
+            <Button type="primary" htmlType="submit">搜索</Button>
+          </Col>
         </Row>
       </Form>
     );
+  };
+  const columns = [
+    {
+      title: '量表名称',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
+      width: '60px',
+      render(text: string, record: any) {
+        return <a onClick={() => handleOpen(record)}>查看</a>;
+      },
+    },
+  ];
+  const handleOpen = (record: any) => {
+    httpScaleDetail(record.id)
+      .then((res: any) => {
+        if (res.scaleJson) {
+          setDrawerData({
+            ...record,
+            schema: JSON.parse(res.scaleJson),
+          });
+        } else {
+          setDrawerData(record);
+        }
+        setDrawerOpen(true);
+      });
   };
   return (
     <div className={style.listBox}>
@@ -76,6 +94,14 @@ const FormSelectTable = (p: any) => {
         fetchApi={fetchScaleListData}
         SearchForm={SearchForm}
       />
+      <Drawer title={drawerData.title} placement="right" onClose={() => setDrawerOpen(false)} visible={drawerOpen}>
+        { drawerData.schema && (
+          <FormRender schema={drawerData.schema?.schema} components={components} />
+        )}
+        { !drawerData.schema && (
+          <div className={style.empty}>暂无内容</div>
+        )}
+      </Drawer>
     </div>
   );
 };
@@ -85,7 +111,6 @@ const AddFormModal = (props: any, ref: any) => {
   const [nodeData, setNodeData] = useState<any>();
   const { planMapState, setPlanMapState } = useContext(planMapContext);
   const [selectedForm, setSelectedForm] = useState<any>({});
-  const [inputFieldId, setInputFieldId] = useState<any>();
   useImperativeHandle(ref, () => {
     return {
       handleOpen,
@@ -97,7 +122,6 @@ const AddFormModal = (props: any, ref: any) => {
   const handleOpen = (node: any) => {
     setNodeData(node);
     setSelectedForm({});
-    setInputFieldId('');
     setIsModalVisible(true);
   };
 
@@ -121,7 +145,6 @@ const AddFormModal = (props: any, ref: any) => {
         itemName: selectedForm.title,
         bizId: selectedForm.id,
         itemCategory: planItemTypes.form,
-        inputFieldId,
       },
     ];
     if (Array.isArray(newData.followUpItems)) {
@@ -140,15 +163,9 @@ const AddFormModal = (props: any, ref: any) => {
       <div>
         {
           isModalVisible && (
-            <FormSelectTable onChange={handleSelectForm} />
+            <FormSelectTable value={selectedForm} onChange={handleSelectForm} />
           )
         }
-        <Row style={{ marginTop: '20px' }}>
-          <Col span={2} style={{ lineHeight: '32px' }}>关联IO:</Col>
-          <Col span={20}>
-            <IoSelect onChange={setInputFieldId} style={{ width: '240px' }} placeholder="请选择需要关联的IO" />
-          </Col>
-        </Row>
       </div>
     </Modal>
   );

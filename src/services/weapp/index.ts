@@ -34,7 +34,8 @@ export const getProjectList = (params: UCenter.ServiceProjectReq) => {
 };
 
 export const setProjectStatus = (params: UCenter.UpdateStatusReq) => {
-  return request.post(`${prefix}/serviceProject/updateStatus`, params);
+  // @ts-ignore
+  return request.post(`${prefix}/serviceProject/updateStatus`, params, { isReturnAllData: true });
 };
 
 export const createProject = (params: any) => {

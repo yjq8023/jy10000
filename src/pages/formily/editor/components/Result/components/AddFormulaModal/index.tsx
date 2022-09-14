@@ -113,15 +113,24 @@ const AddFormulaModal = (props: any, ref: any) => {
       { label: '不等于', value: '!=' },
     ];
   const handleSelectItem = (val: any) => {
-    setSelectionStart(selectionStart + val.length);
+    let selectedStart = selectionStart + val.length + 2; // 因为操作符合在set时默认前后加空格了，所以光标位置+2
+    if (val === '()') {
+      selectedStart -= 2; // 双括号光标默认位置移动到括号中间
+    }
+    setSelectionStart(selectedStart);
     const index = selectionStart;
-    setValue(value.substring(0, index) + val + value.substring(index, value.length + val.length));
-    inputDom.current.focus();
+    setValue(`${value.substring(0, index)} ${val} ${value.substring(index, value.length + val.length)}`);
+    // 需要等dom重渲染后才去设置光标位置，否则不会生效
+    setTimeout(() => {
+      const dom = inputDom.current.resizableTextArea.textArea;
+      dom.focus();
+      dom.setSelectionRange(selectedStart, selectedStart);
+    }, 300);
   };
   const renderOperator = (data: any) => {
     const titleRender = (item: any, i: number) => {
       return (
-        <div key={item.value + i} onClick={() => handleSelectItem(` ${item.value} `)}>
+        <div key={item.value + i} onClick={() => handleSelectItem(item.value)}>
           <div className={style.item} title={item.title || item.label}>
             {item.value}: {item.title || item.label}
           </div>
@@ -144,6 +153,8 @@ const AddFormulaModal = (props: any, ref: any) => {
       visible={visible}
       onOk={handleOk}
       onCancel={onCancel}
+      okText="确定"
+      cancelText="取消"
       width={800}
     >
       <div className={style.ruleBox}>

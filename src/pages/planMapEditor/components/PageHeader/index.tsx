@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, Breadcrumb, message, Modal } from '@sinohealth/butterfly-ui-components/lib';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 // @ts-ignore
@@ -11,6 +11,7 @@ import { saveProjectPlanMap } from '@/services/planMapAntForm';
 
 const PageHeader = () => {
   const { projectPlanData, planMapState, disabled, setIsEdited, isEdited } = useContext(planMapContext);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const pathSnippets = location.pathname.split('/').filter((i) => i);
@@ -26,12 +27,18 @@ const PageHeader = () => {
     );
   });
   const handleSave = () => {
+    setLoading(true);
     saveProjectPlanMap({
       ...projectPlanData,
       roadMaps: planMapState,
     }).then(() => {
       setIsEdited(false);
-      message.success('保存成功');
+      setTimeout(() => {
+        setLoading(false);
+        message.success('保存成功');
+      }, 500);
+    }).finally(() => {
+      setLoading(false);
     });
   };
   const handleCancel = (path: any = -1) => {
@@ -62,7 +69,7 @@ const PageHeader = () => {
                 <Button onClick={handleCancel}>取消</Button>
                 &nbsp;
                 &nbsp;
-                <Button type="primary" onClick={handleSave}>保存</Button>
+                <Button type="primary" onClick={handleSave} loading={loading}>保存</Button>
               </>
             )
           }
