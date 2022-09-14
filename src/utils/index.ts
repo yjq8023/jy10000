@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import moment from 'moment';
-import { baseURL } from '@/config/base';
+// import { baseURL } from '@/config/base';
 import { getLocalStorage } from './cookies';
 
 const { NODE_ENV } = process.env;
@@ -70,7 +70,9 @@ export function handleDicToObj(dictArr: any) {
 }
 
 export function previewFile(fileId: string) {
-  return `${baseURL}cs/file/preview/${fileId}`;
+  const baseURL =
+    NODE_ENV === 'development' ? 'https://backend-hccm-dev.zmnyun.cn' : window.location.origin;
+  return `${baseURL}/cs/file/preview/${fileId}`;
 }
 
 export function downloadFile(oldUrl: string, fileName?: string) {
