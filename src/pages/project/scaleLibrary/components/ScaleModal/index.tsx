@@ -78,7 +78,7 @@ const ScaleModal: React.FC<ScaleModalProps> = (props) => {
             name="title"
             rules={[{ required: true, message: '请输入量表名称' }]}
           >
-            <Input placeholder="请输入项目名称" />
+            <Input placeholder="请输入量表名称" />
           </Form.Item>
           <Form.Item label="量表说明" name="description">
             <TextArea
