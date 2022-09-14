@@ -5,7 +5,7 @@ import {
   transformToSchema,
   transformToTreeNode,
 } from '@sinohealth/designable-formily-transformer';
-import { message, Modal } from '@sinohealth/butterfly-ui-components/lib';
+import { message, Modal, Button } from '@sinohealth/butterfly-ui-components/lib';
 import {
   getAiIoComponents,
   getBeforeInfoSchema,
@@ -189,29 +189,72 @@ export const loadInitialSchema = (props: { designer: Engine, type: string, id: s
   }
 };
 
-const transFormProperties = (properties: any) => {
-  const res = {};
-  Object.keys(properties).forEach((key, index) => {
-    res[key] = {
-      ...properties[key],
-      'x-index': index,
-    };
+const transFormProperties = (nowProperties: any, properties: any) => {
+  const confirms = [];
+  let res = nowProperties;
+  const repeatKeys = {};
+  // 拼接导入的字段
+  Object.keys(properties).forEach((key) => {
+    if (!res[key]) {
+      res[key] = {
+        ...properties[key],
+      };
+    } else {
+      repeatKeys[key] = {
+        ...properties[key],
+      };
+    }
   });
-  return res;
+  // 重复字段弹确认框
+  Object.keys(repeatKeys).forEach((key: string) => {
+    const p = new Promise((reslove) => {
+      Modal.confirm({
+        title: `${repeatKeys[key].title}（${repeatKeys[key].name}）控件已存在，是否覆盖?`,
+        okText: '覆盖',
+        cancelText: '跳过',
+        onOk() {
+          reslove({
+            [key]: repeatKeys[key],
+          });
+        },
+        onCancel() {
+          reslove({
+            [key]: res[key],
+          });
+        },
+      });
+    });
+    confirms.push(p);
+  });
+  // 等待确认框
+  return Promise.all(confirms)
+    .then((data) => {
+      data.forEach((item) => {
+        res = {
+          ...res,
+          ...item,
+        };
+      });
+      Object.keys(res).forEach((key, index) => {
+        res[key] = {
+          ...res[key],
+          'x-index': index,
+        };
+      });
+      return res;
+    });
 };
 export const importSchema = async (designer: Engine, formId: string) => {
   const nowSchema = transformToSchema(designer.getCurrentTree());
   const data = await getFollowUpFormInfo(formId);
   const schema = JSON.parse(data.formJson).schema;
   try {
+    const propertiesData = await transFormProperties(nowSchema.schema.properties, schema.properties);
     const importedData = {
       form: nowSchema.form,
       schema: {
         ...nowSchema.schema,
-        properties: transFormProperties({
-          ...schema.properties,
-          ...nowSchema.schema.properties,
-        }),
+        properties: propertiesData,
       },
     };
     designer.setCurrentTree(transformToTreeNode(importedData));
