@@ -327,6 +327,7 @@ const TermLibrary: React.FC = () => {
         SearchForm={TermSearch}
         Toolbar={Toolbar}
         overflow={false}
+        fixed
       />
       {projectModalVisible ? (
         <ProjectModal

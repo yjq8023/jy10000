@@ -238,6 +238,7 @@ const scaleLibrary: React.FC = () => {
         SearchForm={ScaleSearch}
         Toolbar={Toolbar}
         overflow={false}
+        fixed
       />
       {scaleModalVisible ? (
         <ScaleModal
