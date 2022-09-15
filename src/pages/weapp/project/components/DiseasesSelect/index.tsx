@@ -79,7 +79,7 @@ const DiseasesSelect: React.FC<DiseasesSelectProps> = (props) => {
     return (
       <div className={styles['popover-content']}>
         {selected.map((el) => (
-          <span className={styles['select-tag']} key={el.id}>
+          <span className={`${styles['select-tag']} ${styles['tag-fff']}`} key={el.id}>
             {el.name}
           </span>
         ))}
@@ -131,7 +131,12 @@ const DiseasesSelect: React.FC<DiseasesSelectProps> = (props) => {
 
   return (
     <div className={styles['diseases-select']} style={{ width }} ref={inputRef}>
-      <Popover style={{ width: '320px' }} content={selected.length ? PopoverContent : ''}>
+      <Popover
+        overlayClassName="back-popover"
+        color="rgba(0,0,0,0.70)"
+        style={{ width: '320px' }}
+        content={selected.length ? PopoverContent : ''}
+      >
         <div
           className={`${styles['label-value']} ${selected.length ? '' : styles.placeholder}`}
           onClick={() => setIsShowDrop(true)}

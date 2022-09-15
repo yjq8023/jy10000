@@ -241,6 +241,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
     <>
       <div className={styles['label-select']} style={{ width }} ref={inputRef}>
         <Popover
+          overlayClassName="back-popover"
           color="rgba(0,0,0,0.70)"
           style={{ width: '320px' }}
           content={selected.length ? PopoverContent : ''}

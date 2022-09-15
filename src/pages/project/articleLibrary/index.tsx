@@ -174,6 +174,7 @@ const ArticleLibrary: React.FC = () => {
         }
         return (
           <Popover
+            overlayClassName="back-popover"
             trigger="hover"
             color="rgba(0,0,0,0.70)"
             content={record.labelVoList.length > 2 ? () => PopoverContent(record) : ''}

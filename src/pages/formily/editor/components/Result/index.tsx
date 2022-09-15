@@ -78,7 +78,13 @@ Result.Resource = createResource(
           title: '评测结果',
           name: 'result',
           'x-component': 'Result',
-          'x-component-props': {},
+          'x-component-props': {
+            rule: {
+              scope: {},
+              scoreKey: '',
+              results: [],
+            },
+          },
         },
       },
     ],
