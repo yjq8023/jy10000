@@ -144,11 +144,12 @@ function TenantList() {
       </div>
     );
   };
-  const columns = [
+  const columns: any = [
     {
       title: '序号',
       dataIndex: 'index',
       key: 'index',
+      width: 80,
       render(text: string, record: any, index: number): JSX.Element {
         return <span>{index + 1}</span>;
       },
@@ -207,6 +208,7 @@ function TenantList() {
       title: '账号失效期',
       dataIndex: 'expiredTime',
       key: 'expiredTime',
+      width: 160,
     },
     {
       title: '状态',
@@ -232,7 +234,7 @@ function TenantList() {
     },
     {
       title: '更新时间',
-      width: 150,
+      width: 160,
       dataIndex: 'updateTime',
       key: 'updateTime',
     },
@@ -241,6 +243,7 @@ function TenantList() {
       dataIndex: 'action',
       key: 'action',
       width: 250,
+      fixed: 'right',
       render(text: string, record: any) {
         return renderActionDom(record);
       },
@@ -294,33 +297,35 @@ function TenantList() {
               fetchAPi(currOrganizeId, values);
             }}
           />
-          <Row className={styles.listHeader}>
-            <Col span={12}>
-              <div className={styles.title}>员工列表</div>
-            </Col>
-            <Col span={12}>
-              <div className={styles.toolbar}>
-                <Toolbar />
-              </div>
-            </Col>
-          </Row>
-          <Table
-            loading={tableLoading}
-            dataSource={dataSource}
-            columns={columns}
-            rowKey="id"
-            size="small"
-            pagination={paginationParams}
-            onChange={(pagination) => {
-              fetchAPi(currOrganizeId, {}, pagination);
-            }}
-            expandable={{
-              rowExpandable: (record: any) => {
-                console.log(record);
-                return record.children.length > 0;
-              },
-            }}
-          />
+          <div className={styles.roleTable_content}>
+            <Row className={styles.listHeader}>
+              <Col span={12}>
+                <div className={styles.title}>员工列表</div>
+              </Col>
+              <Col span={12}>
+                <div className={styles.toolbar}>
+                  <Toolbar />
+                </div>
+              </Col>
+            </Row>
+            <Table
+              loading={tableLoading}
+              dataSource={dataSource}
+              columns={columns}
+              scroll={{ x: 2000 }}
+              rowKey="id"
+              pagination={paginationParams}
+              onChange={(pagination) => {
+                fetchAPi(currOrganizeId, {}, pagination);
+              }}
+              expandable={{
+                rowExpandable: (record: any) => {
+                  console.log(record);
+                  return record.children.length > 0;
+                },
+              }}
+            />
+          </div>
         </div>
       ) : (
         <Empty style={{ width: '100%' }} />

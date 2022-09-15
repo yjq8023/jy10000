@@ -255,33 +255,35 @@ function CustomerDepartment() {
               }
             }}
           />
-          <Row className={styles.listHeader}>
-            <Col span={12}>
-              <div className={styles.title}>部门列表</div>
-            </Col>
-            <Col span={12}>
-              <div className={styles.toolbar}>
-                <Toolbar />
-              </div>
-            </Col>
-          </Row>
-          <Table
-            loading={tableLoading}
-            dataSource={dataSource}
-            columns={columns}
-            rowKey="id"
-            pagination={false}
-            expandedRowKeys={expandIds}
-            expandable={{
-              rowExpandable: (record: any) => {
-                console.log(record);
-                return record.children.length > 0;
-              },
-              onExpand: (e) => {
-                closeRows();
-              },
-            }}
-          />
+          <div className={styles.table}>
+            <Row className={styles.listHeader}>
+              <Col span={12}>
+                <div className={styles.title}>部门列表</div>
+              </Col>
+              <Col span={12}>
+                <div className={styles.toolbar}>
+                  <Toolbar />
+                </div>
+              </Col>
+            </Row>
+            <Table
+              loading={tableLoading}
+              dataSource={dataSource}
+              columns={columns}
+              rowKey="id"
+              pagination={false}
+              expandedRowKeys={expandIds}
+              expandable={{
+                rowExpandable: (record: any) => {
+                  console.log(record);
+                  return record.children.length > 0;
+                },
+                onExpand: (e) => {
+                  closeRows();
+                },
+              }}
+            />
+          </div>
         </div>
       ) : (
         <Empty style={{ width: '100%' }} />

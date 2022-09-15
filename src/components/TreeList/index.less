@@ -3,26 +3,63 @@
 .tree-list {
   flex-shrink: 0;
   box-sizing: border-box;
-  min-width: 285px;
-  margin-right: 12px;
-  border: 1px solid #ddd;
+  min-width: 320px;
+  margin-right: 8px;
+  // border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 10px;
+  padding: 16px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
+
+  &-header {
+    padding: 8px 0;
+
+    :global {
+      .ant-input-affix-wrapper {
+        border: 1px solid #FAFAFA;
+        background: #FAFAFA;
+
+        input {
+          background: #FAFAFA;
+
+        }
+      }
+    }
+
+    &-search {
+      border: 1px solid #FAFAFA;
+
+      button {
+        border: 0;
+        background: #FAFAFA;
+      }
+    }
+  }
+
   &-content {
     margin-top: 12px;
     flex-grow: 1;
     overflow: auto;
     height: 0;
+
     :global {
+      .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {
+        background-color: #EFFAFF;
+        color: @primary-color;
+      }
+
       .ant-tree .ant-tree-list .ant-tree-treenode {
         width: 100%;
       }
+
       .ant-tree .ant-tree-node-content-wrapper {
         width: 100%;
+
+        min-height: 30px;
+        line-height: 30px;
       }
+
       .ant-tree-indent-unit {
         width: 16px;
       }
