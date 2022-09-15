@@ -232,7 +232,7 @@ const TermLibrary: React.FC = () => {
         return text ? (
           <Popover
             overlayClassName="back-popover"
-            trigger="click"
+            trigger="hover"
             color="rgba(0,0,0,0.70)"
             content={D.length > 2 ? () => AiPopoverContent(D) : ''}
           >

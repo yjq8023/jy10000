@@ -92,12 +92,19 @@
   text-align: right;
 }
 
-:global(.back-popover) {
-  .ant-popover-arrow-content {
-    background: @break-color3  !important;
+:global {
+  .back-popover {
 
-    &::before {
-      background: none !important;
+    .ant-popover-inner {
+      border-radius: 8px;
+    }
+
+    .ant-popover-arrow-content {
+      background: @break-color3  !important;
+
+      &::before {
+        background: none !important;
+      }
     }
   }
 }
