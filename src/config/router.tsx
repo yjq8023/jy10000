@@ -259,11 +259,11 @@ export const breadcrumbMap = {
       label: '服务项目管理',
       path: '/weapp/project',
       add: {
-        label: '新增病种项目',
+        label: '新增服务项目',
         path: '/weapp/project/add',
       },
       edit: {
-        label: '编辑病种项目',
+        label: '编辑服务项目',
         path: '/weapp/project/edit',
       },
     },

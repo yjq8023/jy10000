@@ -1,11 +1,4 @@
-// .tag {
-//   border: 1px solid #217BA0;
-//   border-radius: 12px;
-//   font-size: 14px;
-//   line-height: 12px;
-//   color: #217BA0;
-//   padding: 6px 10px;
-// }
+@import '@/style/var.less';
 
 .del-color {
   color: #EA6868;
@@ -58,4 +51,14 @@
 
 .pointer {
   cursor: pointer;
+}
+
+:global(.back-popover) {
+  .ant-popover-arrow-content {
+    background: @break-color3  !important;
+
+    &::before {
+      background: none !important;
+    }
+  }
 }

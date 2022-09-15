@@ -56,41 +56,45 @@ const SearchForm: React.FC<any> = (props: any) => {
   return (
     <div className={styles['search-form']}>
       <Form labelAlign="left" colon={false} {...props}>
-        <Row gutter={[120, 24]}>
-          <Col span={9}>
-            <Form.Item name="appCode" label="选择轮播图所属应用">
-              <Select style={{ width: '100%' }} placeholder="选择轮播图所属应用">
-                {sources.map((el: any) => (
-                  <Option value={el.id} key={el.id}>
-                    {el.value}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={9}>
-            <Form.Item labelCol={{ span: 4 }} name="title" label="搜索查询">
-              <div className={styles.search}>
-                <Input placeholder="轮播图名称" />
-                <div
-                  className={`${styles['search-icon']} iconfont icon-search`}
-                  onClick={() => {}}
-                />
-              </div>
-            </Form.Item>
-          </Col>
-          <Col span={4} offset={1}>
-            <Form.Item labelCol={{ span: 4 }}>
-              <Space>
-                <Button type="info" onClick={() => onReset()}>
-                  重置
-                </Button>
-                <Button type="primary" htmlType="submit">
-                  查询
-                </Button>
-              </Space>
-            </Form.Item>
-          </Col>
+        <Row
+          className={styles['flex-row']}
+          style={{ width: 'calc(100% + 93px)' }}
+          gutter={[120, 24]}
+        >
+          <>
+            <Col span={9}>
+              <Form.Item name="appCode" label="选择轮播图所属应用">
+                <Select style={{ width: '100%' }} placeholder="选择轮播图所属应用">
+                  {sources.map((el: any) => (
+                    <Option value={el.id} key={el.id}>
+                      {el.value}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={9}>
+              <Form.Item name="title" label="搜索查询">
+                <div className={styles.search}>
+                  <Input placeholder="轮播图名称" />
+                  <div
+                    className={`${styles['search-icon']} iconfont icon-search`}
+                    onClick={() => {}}
+                  />
+                </div>
+              </Form.Item>
+            </Col>
+          </>
+          <Form.Item className={styles['space-padding']} labelCol={{ span: 4 }}>
+            <Space>
+              <Button type="info" onClick={() => onReset()}>
+                重置
+              </Button>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+            </Space>
+          </Form.Item>
         </Row>
       </Form>
     </div>

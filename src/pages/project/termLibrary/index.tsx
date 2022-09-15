@@ -231,7 +231,8 @@ const TermLibrary: React.FC = () => {
         const D = text?.split(',');
         return text ? (
           <Popover
-            trigger="hover"
+            overlayClassName="back-popover"
+            trigger="click"
             color="rgba(0,0,0,0.70)"
             content={D.length > 2 ? () => AiPopoverContent(D) : ''}
           >

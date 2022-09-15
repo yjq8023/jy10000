@@ -68,14 +68,7 @@ function WeappProject(props: any) {
 
   return (
     <div>
-      <Form
-        labelCol={{ xl: 5 }}
-        wrapperCol={{ xl: 18 }}
-        labelAlign="left"
-        colon={false}
-        onFieldsChange={onChange}
-        {...props}
-      >
+      <Form labelAlign="left" colon={false} onFieldsChange={onChange} {...props}>
         <div className={style.tabHeader}>
           <Form.Item name="categoryId" noStyle>
             <Tabs>
@@ -85,26 +78,32 @@ function WeappProject(props: any) {
             </Tabs>
           </Form.Item>
         </div>
-        <Row style={{ width: 'calc(100% + 93px)' }} gutter={[120, 24]}>
-          <Col span={8}>
-            <Form.Item name="diseaseIds" label="所属病种">
-              {/* <ProjectSelect placeholder="请选择" parentId={selectedTab} /> */}
-              <DiseasesSelect
-                placeholder="请选择所属病种"
-                onSelect={(v) =>
-                  form.setFieldsValue({
-                    diseaseIds: v,
-                  })
-                }
-              />
-            </Form.Item>
-          </Col>
-          <Col span={9}>
-            <Form.Item name="name" label="项目查询">
-              <Input placeholder="请输入项目名称" autoComplete="off" />
-            </Form.Item>
-          </Col>
-          <Col span={5} offset={2}>
+        <Row
+          className={style['flex-row']}
+          style={{ width: 'calc(100% + 93px)' }}
+          gutter={[120, 24]}
+        >
+          <>
+            <Col span={9}>
+              <Form.Item name="diseaseIds" label="所属病种">
+                {/* <ProjectSelect placeholder="请选择" parentId={selectedTab} /> */}
+                <DiseasesSelect
+                  placeholder="请选择所属病种"
+                  onSelect={(v) =>
+                    form.setFieldsValue({
+                      diseaseIds: v,
+                    })
+                  }
+                />
+              </Form.Item>
+            </Col>
+            <Col span={9}>
+              <Form.Item name="name" label="项目查询">
+                <Input placeholder="请输入项目名称" autoComplete="off" />
+              </Form.Item>
+            </Col>
+          </>
+          <Form.Item className={style['space-padding']} labelCol={{ span: 4 }}>
             <Space>
               <Button type="info" onClick={() => onReset()}>
                 重置
@@ -113,7 +112,7 @@ function WeappProject(props: any) {
                 查询
               </Button>
             </Space>
-          </Col>
+          </Form.Item>
         </Row>
       </Form>
     </div>

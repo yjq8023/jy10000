@@ -1,16 +1,31 @@
 import React, { useState } from 'react';
-import { Button, Badge, Switch, Tabs, Modal, message } from '@sinohealth/butterfly-ui-components/lib';
+import {
+  Button,
+  Badge,
+  Switch,
+  Tabs,
+  Modal,
+  message,
+  Space,
+} from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
 import AddColumnModal from './components/AddColumnModal';
-import { deleteColumn, deleteProject, getColumnsList, setColumnStatus, setProjectStatus } from '@/services/weapp';
+import {
+  deleteColumn,
+  deleteProject,
+  getColumnsList,
+  setColumnStatus,
+  setProjectStatus,
+} from '@/services/weapp';
+import SwitchCustom from '@/components/SwitchCustom';
 
 const { TabPane } = Tabs;
 
 type sourceItem = {
-  sourceId: string,
-  sourceName: string,
-}
+  sourceId: string;
+  sourceName: string;
+};
 function WeappColumn() {
   const [showModal, setShowModal] = useState(false);
   const [sources, setSources] = useState<sourceItem[]>([]);
@@ -23,17 +38,18 @@ function WeappColumn() {
       type: 'PLATFORM_CATEGORY',
       pageNo: 1,
       pageSize: 999,
-    })
-      .then((res: any) => {
-        if (res.data.length) {
-          setSources(res.data.map((item: any) => ({
+    }).then((res: any) => {
+      if (res.data.length) {
+        setSources(
+          res.data.map((item: any) => ({
             sourceName: item.name,
             sourceId: item.id,
-          })));
-          setSelectedTab(res.data[0].id);
-        }
-        return res;
-      });
+          })),
+        );
+        setSelectedTab(res.data[0].id);
+      }
+      return res;
+    });
   };
   const getDefaultParams = () => {
     return new Promise((reslove, reject) => {
@@ -43,12 +59,11 @@ function WeappColumn() {
         });
         return;
       }
-      getParentColumnsList()
-        .then((res: any) => {
-          reslove({
-            parentId: res.data[0].id,
-          });
+      getParentColumnsList().then((res: any) => {
+        reslove({
+          parentId: res.data[0].id,
         });
+      });
     });
   };
   const fetchAPi = (params: any) => {
@@ -56,31 +71,34 @@ function WeappColumn() {
       ...params,
       type: 'DISEASE_CATEGORY',
       pageNo: params.current,
-    })
-      .then((res: any) => {
-        return {
-          listData: res.data,
-          pagination: {
-            current: res.pageNo,
-            pageSize: res.pageSize,
-            total: res.totalCount,
-          },
-        };
-      });
+    }).then((res: any) => {
+      return {
+        listData: res.data,
+        pagination: {
+          current: res.pageNo,
+          pageSize: res.pageSize,
+          total: res.totalCount,
+        },
+      };
+    });
   };
   const Toolbar = () => {
-    return <Button type="primary" onClick={handleCreate}><PlusCircleOutlined />新建栏目病种</Button>;
+    return (
+      <Button type="primary" onClick={handleCreate}>
+        <PlusCircleOutlined />
+        新建栏目病种
+      </Button>
+    );
   };
   const handleDelete = (id: string) => {
     Modal.confirm({
       title: '是否确定删除该病种？',
       content: '',
       onOk() {
-        deleteColumn(id)
-          .then(() => {
-            message.success('删除成功');
-            list.current.reloadListData(true);
-          });
+        deleteColumn(id).then(() => {
+          message.success('删除成功');
+          list.current.reloadListData(true);
+        });
       },
     });
   };
@@ -88,8 +106,7 @@ function WeappColumn() {
     return (
       <div>
         <a onClick={() => handleEdit(itemData)}>编辑</a>
-        &nbsp;
-        &nbsp;
+        &nbsp; &nbsp;
         <a onClick={() => handleDelete(itemData.id)}>删除</a>
       </div>
     );
@@ -98,11 +115,10 @@ function WeappColumn() {
     setColumnStatus({
       ...item,
       status: isUp ? 'ENABLE' : 'UNABLE',
-    })
-      .then(() => {
-        message.success(isUp ? '上架成功' : '下架成功');
-        list.current.reloadListData(true);
-      });
+    }).then(() => {
+      message.success(isUp ? '上架成功' : '下架成功');
+      list.current.reloadListData(true);
+    });
   };
   const columns = [
     {
@@ -133,11 +149,11 @@ function WeappColumn() {
       render(text: string, record: any) {
         const isUp = text === 'ENABLE';
         return (
-          <div>
+          <Space>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '上架' : '下架'} />
-            &nbsp;
-            <Switch defaultChecked={isUp} onChange={(e) => setProjectStatusFn(e, record)} />
-          </div>
+
+            <SwitchCustom defaultChecked={isUp} onChange={(e) => setProjectStatusFn(e, record)} />
+          </Space>
         );
       },
     },
@@ -159,11 +175,9 @@ function WeappColumn() {
     };
     return (
       <Tabs onChange={onSelectedTab} defaultValue={selectedTab}>
-        {
-          sources.map((item) => (
-            <TabPane tab={item.sourceName} key={item.sourceId} />
-          ))
-        }
+        {sources.map((item) => (
+          <TabPane tab={item.sourceName} key={item.sourceId} />
+        ))}
       </Tabs>
     );
   };
@@ -189,10 +203,18 @@ function WeappColumn() {
   };
   return (
     <div>
-      <BaseList getDefaultParams={getDefaultParams} list={list} ListTitle={ListTitleRef} columns={columns} fetchApi={fetchAPi} Toolbar={Toolbar} fixed />
-      {
-        showModal && <AddColumnModal data={modalData} onCancel={handleCancel} onOk={handleCreated} />
-      }
+      <BaseList
+        getDefaultParams={getDefaultParams}
+        list={list}
+        ListTitle={ListTitleRef}
+        columns={columns}
+        fetchApi={fetchAPi}
+        Toolbar={Toolbar}
+        fixed
+      />
+      {showModal && (
+        <AddColumnModal data={modalData} onCancel={handleCancel} onOk={handleCreated} />
+      )}
     </div>
   );
 }
