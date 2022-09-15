@@ -1,10 +1,12 @@
 @import "@/style/var";
+
 .searchFormIcon {
   font-size: 18px;
   color: @break-color4;
   cursor: pointer;
   user-select: none;
 }
+
 .content-page {
   display: flex;
   height: 100%;
@@ -18,6 +20,7 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
+
     &:before {
       position: absolute;
       top: 5px;
@@ -30,11 +33,17 @@
       content: '';
     }
   }
+
   .toolbar {
     text-align: right;
   }
 }
+
 .roleTable {
-  padding: 12px;
-  background-color: #fff;
+
+  &_content {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+  }
 }

@@ -10,7 +10,7 @@ import {
   Slider,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { DownSquareOutlined, UpSquareOutlined } from '@ant-design/icons';
-import style from '../../index.less';
+import styles from './index.less';
 
 const { Option } = Select;
 
@@ -28,10 +28,10 @@ const SearchForm = (props: SearchFormProps = {}) => {
 
   return (
     <Form
+      className={styles.searchForm}
       name="organ"
       wrapperCol={{ xl: 18, xxl: 20 }}
       labelAlign="left"
-      colon={false}
       form={formRef}
       {...props}
     >

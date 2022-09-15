@@ -240,32 +240,34 @@ function TenantList() {
               fetchAPi(currOrganizeId, values);
             }}
           />
-          <Row className={styles.listHeader}>
-            <Col span={12}>
-              <div className={styles.title}>角色列表</div>
-            </Col>
-            <Col span={12}>
-              <div className={styles.toolbar}>
-                <Toolbar />
-              </div>
-            </Col>
-          </Row>
-          <Table
-            loading={tableLoading}
-            dataSource={dataSource}
-            columns={columns}
-            rowKey="id"
-            pagination={paginationParams}
-            onChange={(pagination) => {
-              fetchAPi(currOrganizeId, {}, pagination);
-            }}
-            expandable={{
-              rowExpandable: (record: any) => {
-                console.log(record);
-                return record.children.length > 0;
-              },
-            }}
-          />
+          <div className={styles.roleTable_content}>
+            <Row className={styles.listHeader}>
+              <Col span={12}>
+                <div className={styles.title}>角色列表</div>
+              </Col>
+              <Col span={12}>
+                <div className={styles.toolbar}>
+                  <Toolbar />
+                </div>
+              </Col>
+            </Row>
+            <Table
+              loading={tableLoading}
+              dataSource={dataSource}
+              columns={columns}
+              rowKey="id"
+              pagination={paginationParams}
+              onChange={(pagination) => {
+                fetchAPi(currOrganizeId, {}, pagination);
+              }}
+              expandable={{
+                rowExpandable: (record: any) => {
+                  console.log(record);
+                  return record.children.length > 0;
+                },
+              }}
+            />
+          </div>
         </div>
       ) : (
         <Empty style={{ width: '100%' }} />
