@@ -12,7 +12,15 @@ const LabelSelect = (props: any) => {
       });
   }, []);
   return (
-    <Select {...props}>
+    <Select
+      filterOption={(input: string, option: any) => {
+        const text = option.label || option.children;
+        if (typeof text !== 'string') return false;
+        return text.toLowerCase().includes(input.toLowerCase());
+      }}
+      showSearch
+      {...props}
+    >
       {labelList.map((group: any) => {
         return (
           <Select.OptGroup label={group.value} key={getUuid()}>
