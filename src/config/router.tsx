@@ -50,7 +50,7 @@ const routerConfig: routerConfigItem[] = [
     children: [
       {
         path: '/',
-        element: <Navigate to="/weapp/column" replace />,
+        element: <Navigate to="/weapp/disease" replace />,
       },
       {
         path: '/weapp/column',
