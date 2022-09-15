@@ -150,6 +150,7 @@ const scaleLibrary: React.FC = () => {
         }
         return (
           <Popover
+            overlayClassName="back-popover"
             trigger="hover"
             color="rgba(0,0,0,0.70)"
             content={record?.labelVoList.length > 2 ? () => PopoverContent(record) : ''}
@@ -244,16 +245,18 @@ const scaleLibrary: React.FC = () => {
         <ScaleModal
           visible={scaleModalVisible}
           params={editParams}
-          title="添加量表"
+          title={editParams.id ? '编辑量表' : '添加量表'}
           onOk={async (v) => {
             try {
               const res: any = await httpUpdateScale({ ...editParams, ...v });
               if (res.success) {
                 setScaleModalVisible(false);
                 setEditParams({ labelVoList: [] });
-                navigate(`/project/formily/editor?type=form&formId=${res.data}&name=${v.title}`);
-                // /project/formily/editor?type=form&formId=1680986254197395479&name=测试量表1
-                // list.current.reloadListData(true);
+                if (!editParams.id) {
+                  navigate(`/project/formily/editor?type=form&formId=${res.data}&name=${v.title}`);
+                } else {
+                  list.current.reloadListData(true);
+                }
               }
             } catch (err) {
               console.log(err);
