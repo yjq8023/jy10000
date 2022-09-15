@@ -6,7 +6,7 @@ import { planMapContext } from '@/pages/planMapEditor';
 import { useDict } from '@/hooks/useDict';
 import { timeUnitToMomentUnit, timeUnitToShowUnit } from '@/pages/planMapEditor/config';
 
-// 将周期转为具体时间，以当前时间加上周期
+// 将周期转为具体时间，以当前时间加上周期11
 const getTriggerNumberToDay = (number: number, type: string) => {
   // @ts-ignore
   return moment(moment().format('YYYY-MM-DD')).add(number, timeUnitToMomentUnit[type]);
