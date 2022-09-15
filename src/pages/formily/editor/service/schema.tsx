@@ -80,6 +80,13 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
             type: 'number',
             name: 'result',
             'x-component': 'Result',
+            'x-component-props': {
+              rule: {
+                scope: {},
+                scoreKey: '',
+                results: [],
+              },
+            },
           };
           designer.setCurrentTree(
             transformToTreeNode(formConfig),
