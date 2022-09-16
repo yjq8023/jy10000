@@ -22,6 +22,14 @@ export const getSystemDict = () => {
   return request.get('/sys/dict/list', { isReturnAllData: true });
 };
 
+/**
+ * 文章上传拼接路径
+ * @returns
+ */
+export const httpFileBaseUrl = () => {
+  return request.get('/cs/file/base/url');
+};
+
 export default {
   getRegionList,
 };
