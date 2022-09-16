@@ -18,12 +18,12 @@ import { ContentUtils } from 'braft-utils';
 import styles from './index.less';
 import { httpContentUpdate } from '@/services/project';
 import { getLocalStorage, removeLocalStorage } from '@/utils/cookies';
-import { previewFile } from '@/utils';
 import UploadCover from '../components/UploadCover';
 import Upload from '@/components/Upload';
 import NetworkModal from '../components/NetworkModal';
 import PreviewDrawer from '../components/PreviewDrawer';
 import useConfig, { MEDIATYPE } from './useConfig';
+import { httpFileBaseUrl } from '@/services/common';
 
 /**
  * 文章库-新增文章
@@ -33,6 +33,7 @@ const ArticleInsert: React.FC = () => {
   const [form] = Form.useForm();
   const { Controls, navigateBack, handleCancelSave } = useConfig();
   const [editorState, setEditorState] = useState(BraftEditor.createEditorState(null));
+  const [fileBaseUrl, setFileBaseUrl] = useState('');
   const [insertParams, setInsertParams] = useState<ProjectType.ContentReq>({});
   const [loading, setLoading] = useState(false);
   const [isEditInsert, setIsEditInsert] = useState(false);
@@ -75,6 +76,15 @@ const ArticleInsert: React.FC = () => {
     }
   };
 
+  const httpFileBaseUrlReq = async () => {
+    try {
+      const res: any = await httpFileBaseUrl();
+      setFileBaseUrl(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const insertMedias = (lis: any) => {
     const D = ContentUtils.insertMedias(editorState, lis);
     setEditorState(D);
@@ -92,7 +102,7 @@ const ArticleInsert: React.FC = () => {
           onUpload={(v) => {
             if (Object.keys(v).length) {
               const { response } = v;
-              const url = previewFile(response.data);
+              const url = `${fileBaseUrl}${response.data}`;
               setMediaSource([
                 ...mediaSource,
                 { id: new Date().getTime(), url, name: '', type: 'IMAGE' },
@@ -119,7 +129,7 @@ const ArticleInsert: React.FC = () => {
           onUpload={(v) => {
             if (Object.keys(v).length) {
               const { response } = v;
-              const url = previewFile(response.data);
+              const url = `${fileBaseUrl}${response.data}`;
               setMediaSource([
                 ...mediaSource,
                 {
@@ -150,6 +160,7 @@ const ArticleInsert: React.FC = () => {
   ];
 
   useEffect(() => {
+    httpFileBaseUrlReq();
     const D = getLocalStorage('ARTICLE_DATA');
     setInsertParams(D || {});
     if (!D) return;
@@ -203,7 +214,8 @@ const ArticleInsert: React.FC = () => {
               <Form.Item labelCol={{ span: 5 }} name="storageId" label="封面">
                 <UploadCover
                   maxSize={0.5}
-                  fileId={insertParams?.storageId ? previewFile(insertParams?.storageId) : ''}
+                  // eslint-disable-next-line no-unsafe-optional-chaining
+                  fileId={insertParams?.storageId ? `${fileBaseUrl}${insertParams?.storageId}` : ''}
                   onSuccess={(v) => {
                     form.setFieldsValue({ storageId: v });
                     setIsEditInsert(true);
