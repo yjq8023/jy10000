@@ -1,1 +1,1 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[24],{"73":function(n,t,e){"use strict";e.r(t),e.d(t,"taro_custom_wrapper_core",(function(){return c}));var o=e(31),c=function(){function r(n){Object(o.g)(this,n)}return r.prototype.render=function(){return Object(o.e)(o.a,null)},r}()}}]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[24],{"75":function(n,t,o){"use strict";o.r(t),o.d(t,"taro_block_core",(function(){return c}));var e=o(32),c=function(){function r(n){Object(e.g)(this,n)}return r.prototype.render=function(){return Object(e.e)(e.a,null)},r}()}}]);
