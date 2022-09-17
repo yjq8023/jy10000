@@ -71,7 +71,7 @@ function WeappProject() {
   const PopoverContent = (tag: string[]) => {
     return (
       <>
-        <h4 className={style['tag-title']}>决策流标签</h4>
+        <h4 className={style['tag-title']}>标签</h4>
         <div className={style.sortDom}>
           {tag.map((el) => (
             <div className={`${style.tag} ${style['tag-fff']}`} key={el}>
