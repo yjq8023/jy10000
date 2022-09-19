@@ -100,7 +100,6 @@ const UploadCover: React.FC<CustomUploadProps> = (props) => {
                 onSuccess(res.data);
                 setEditImageModalVisible(false);
                 setSrcCropper('');
-                setCropperInstall(null);
                 setConfirmLoading(false);
               }
             })
