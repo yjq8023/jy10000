@@ -51,7 +51,10 @@ export const useConfig = () => {
     // 'media',
     'separator',
     'remove-styles',
-    'clear',
+    {
+      key: 'clear',
+      title: '清除全部内容',
+    },
     'separator',
     'fullscreen',
     'undo',
