@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Engine, createBehavior, createResource } from '@sinohealth/designable-core';
-import { Schema } from '@formily/react';
+import { CloseCircleOutlined } from '@ant-design/icons';
 import {
   transformToSchema,
   transformToTreeNode,
@@ -56,8 +56,63 @@ const validSchema = (schema: any, options) => {
   }
   return errors;
 };
+
+const mapTreeNode = (node, callback) => {
+  callback(node.props);
+  if (Array.isArray(node.children) && node.children.length > 0) {
+    node.children.forEach((item: any) => mapTreeNode(item, callback));
+  }
+};
+const validTreeNodeOnly = (treeNode) => {
+  const names = [];
+  const fields = {};
+  const repeatingFields = {};
+  mapTreeNode(treeNode, (nodeItem) => {
+    if (nodeItem.name === undefined) {
+      return;
+    }
+    // 重复字段归类记录
+    if (names.indexOf(nodeItem.name) > -1) {
+      if (Array.isArray(repeatingFields[nodeItem.name])) {
+        repeatingFields[nodeItem.name].push(nodeItem);
+      } else {
+        repeatingFields[nodeItem.name] = [fields[nodeItem.name], nodeItem];
+      }
+    } else {
+      fields[nodeItem.name] = nodeItem;
+      names.push(nodeItem.name);
+    }
+  });
+  const repeatingFieldKeys = Object.keys(repeatingFields);
+  if (repeatingFieldKeys.length > 0) {
+    repeatingFieldKeys.forEach((key: string) => {
+      message.open({
+        content: (
+          <div style={{ textAlign: 'left', padding: '0px 0px 0px 40px', position: 'relative' }}>
+            <div><CloseCircleOutlined style={{ fontSize: '26px', color: 'red', position: 'absolute', left: '0px', top: '5px' }} /> </div>
+            表单有重复项，请保留一项：
+            <ul>
+              { repeatingFields[key].map((filed, index) => (
+                <li>{index + 1}、{filed.title}</li>
+              ))}
+            </ul>
+          </div>
+        ),
+      });
+    });
+    return false;
+  }
+  return true;
+};
 export const saveSchema = (props: { designer: Engine, type: string, id: string }) => {
   const { designer, type, projectId, formId, name } = props;
+  const treeNode = designer.getCurrentTree();
+  // 校验控件字段唯一，避免重复ID
+  const validTree = validTreeNodeOnly(treeNode);
+  if (!validTree) {
+    return;
+  }
+  // 组件树转换成schema数据
   const formConfig = transformToSchema(designer.getCurrentTree());
   const errors = validSchema(formConfig.schema, {
     isValidResult: type === 'form', // 量表校验必须设置评测结果
