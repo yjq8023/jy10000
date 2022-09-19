@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import lodash from 'lodash';
 import { Badge, message } from '@sinohealth/butterfly-ui-components/lib';
 import { LinkOutlined } from '@ant-design/icons';
@@ -11,9 +11,12 @@ import { getUuid } from '@/utils';
 import { planItemTypes, timeUnitToShowUnit } from '@/pages/planMapEditor/config';
 import { planMapContext } from '@/pages/planMapEditor';
 import { useDictKeyValue } from '@/hooks/useDict';
+import { getFollowUpFormInfo, saveFollowUpFormInfo } from '@/services/planMapAntForm';
 
 export const PlanMapItem = (props: any) => {
   const { data = {}, index, hasRootNode } = props;
+  const [params] = useSearchParams();
+  const projectId = params.get('id');
   const {
     selectedNode,
     setSelectedNode,
@@ -36,7 +39,7 @@ export const PlanMapItem = (props: any) => {
       put: data.triggerNumber === 0 || disabled ? false : 'action',
     },
     animation: 150,
-    onAdd(e: any) {
+    onAdd: async (e: any) => {
       // type 有值代表新增，path是复制
       const { type, path } = e.clone.dataset;
       if (type === planItemTypes.followUp) {
@@ -58,6 +61,10 @@ export const PlanMapItem = (props: any) => {
         delete newItems.id;
         delete newItems.aiDecisionFlowsNodeId;
         delete newItems.projectPlanStepId;
+        // 复制跟进记录表新增一个表单，不能直接复制
+        if (newItems.itemCategory === planItemTypes.followUp) {
+          newItems.bizId = await copyFollowUp(newItems.bizId);
+        }
         setPlanMapState('update', data.path, {
           ...data,
           followUpItems: [
@@ -72,6 +79,14 @@ export const PlanMapItem = (props: any) => {
   useEffect(() => {
     const sortObj = new Sortable(domRef.current, sortableConfig);
   }, []);
+  const copyFollowUp = async (id: string) => {
+    const formInfo = await getFollowUpFormInfo(id);
+    const newFormId = await saveFollowUpFormInfo({
+      ...formInfo,
+      id: undefined,
+    });
+    return newFormId;
+  };
   const classNames = cls({
     [style.planMapItem]: true,
     [style.planMapItemHasChildren]: data.isHasChildren,
