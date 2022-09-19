@@ -186,7 +186,7 @@ export const ArticleSettingContent = (props: any) => {
           <Form.Item
             label="包含标签"
             name="include"
-            rules={[{ required: true, message: '该字段为必填项' }]}
+            rules={[{ required: true, message: isMini ? '该字段为必填项，清空操作将不被保存' : '该字段为必填项' }]}
           >
             <LabelSelect disabled={disabled} mode="multiple" placeholder="请选择包含的标签" />
           </Form.Item>
@@ -216,7 +216,7 @@ export const ArticleSettingContent = (props: any) => {
       </div>
       <Form.Item
         name="pushNum"
-        rules={[{ required: true, message: '该字段为必填项' }]}
+        rules={[{ required: true, message: isMini ? '该字段为必填项，清空操作将不被保存' : '该字段为必填项' }]}
       >
         <AcNumber />
       </Form.Item>

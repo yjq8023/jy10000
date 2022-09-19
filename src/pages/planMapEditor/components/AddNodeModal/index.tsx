@@ -13,7 +13,6 @@ const getTriggerNumberToDay = (number: number, type: string) => {
 };
 
 const AddNodeModal = (props: any, ref: any) => {
-  getTriggerNumberToDay(1, 'days');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loop, setIsLoop] = useState(false);
   const [path, setPath] = useState('');
@@ -93,7 +92,6 @@ const AddNodeModal = (props: any, ref: any) => {
   const defaultUnit = dict?.DateUnit && dict?.DateUnit[dict.DateUnit.length - 1].code;
   const defaultValue: any = {
     triggerTimeUnit: defaultUnit,
-    durationTimeUnit: defaultUnit,
     loop: false,
   };
   return (
@@ -103,10 +101,10 @@ const AddNodeModal = (props: any, ref: any) => {
         name="basic"
         labelCol={{ span: 10 }}
         wrapperCol={{ span: 14 }}
-        initialValues={defaultValue}
         onFinish={onFinish}
         onValuesChange={handleFormChange}
         autoComplete="off"
+        initialValues={defaultValue}
       >
         <Row>
           <Col span={15}>

@@ -30,12 +30,12 @@ const TreeList: React.FC<{
   return (
     <div className={styles['tree-list']}>
       <div className={styles['tree-list-header']}>
-        <Search placeholder="搜索文字" allowClear onSearch={onSearch} />
+        <Search className={styles['tree-list-header-search']} placeholder="搜索文字" allowClear onSearch={onSearch} />
       </div>
       <div className={styles['tree-list-content']}>
         {dataSource && (
           <Tree
-            showLine
+            // showLine
             treeData={dataSource}
             fieldNames={fieldNames || {}}
             autoExpandParent={autoExpandParent}

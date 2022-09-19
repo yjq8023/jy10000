@@ -1,8 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export const LogoWidget: React.FC = () => {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const formName = params.get('name');
   return (
     <div style={{ paddingLeft: '6px' }}>
       <div>
@@ -11,7 +13,7 @@ export const LogoWidget: React.FC = () => {
           返回上一级
         </a>
       </div>
-      <div style={{ fontSize: '20px', fontWeight: 500 }}>表单编辑</div>
+      <div style={{ fontSize: '20px', fontWeight: 500 }}>{formName}</div>
     </div>
   );
 };

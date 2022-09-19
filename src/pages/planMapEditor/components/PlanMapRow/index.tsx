@@ -33,7 +33,7 @@ const PlanMapRow = (props: any) => {
   // 循环节点是否存在相同周期的不循环节点，用于样式的变化
   const loopItemIsHasRootNode = (item: any, nodeIndex: number) => {
     const res = listData.roadMapSteps.filter((listItem: any, i: number) => {
-      return listItem.triggerNumber === item.triggerNumber && i < nodeIndex;
+      return listItem.triggerNumber === item.triggerNumber && listItem.triggerTimeUnit === item.triggerTimeUnit && i < nodeIndex;
     });
     return res.length > 0;
   };
