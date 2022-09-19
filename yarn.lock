@@ -2565,10 +2565,10 @@
   resolved "https://registry.npmmirror.com/@rushstack/eslint-patch/-/eslint-patch-1.1.1.tgz"
   integrity sha512-BUyKJGdDWqvWC5GEhyOiUrGNi9iJUr4CU0O2WxJL6QJhHeeA/NVBalH+FeK0r/x/W0rPymXt5s78TDS7d6lCwg==
 
-"@sinohealth/butterfly-formily-components@^0.0.4-alpha.8":
-  version "0.0.4-alpha.8"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-components/-/butterfly-formily-components-0.0.4-alpha.8.tgz#91b9a89bbc86b6bf25fe3c7f3e7aaa421849e19d"
-  integrity sha512-BUn3QxbwC0OOrqP9F5ofHgrX/59bLNbAt3ahER9pyJrl3Q7VojRMV/zlVVsqraHq3CjQVlCudxFcZCtp4bAtMQ==
+"@sinohealth/butterfly-formily-components@^0.0.4-alpha.11":
+  version "0.0.4-alpha.11"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-components/-/butterfly-formily-components-0.0.4-alpha.11.tgz#794ebfcf55b3f137049556a596af128447c5ff47"
+  integrity sha512-5KpDf+GyMWbViMKMDC9OpKGRyXJMDB/g+R/UtfO0QMhAqp1Vp502saqq0H0XmR7DJVIzVb843CPcCnCvbvi+Nw==
   dependencies:
     "@ant-design/icons" "^4.7.0"
     "@babel/runtime" "^7.17.8"
@@ -2578,10 +2578,10 @@
     react-sortable-hoc "^2.0.0"
     react-sticky-box "^1.0.2"
 
-"@sinohealth/butterfly-formily-engine@^0.0.4-alpha.8":
-  version "0.0.4-alpha.8"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-engine/-/butterfly-formily-engine-0.0.4-alpha.8.tgz#f39200be7b81a237a09a90bce525e623bb418ea7"
-  integrity sha512-+ofENf8ZDWq6g5jHjt4a9Aqz+EcoL1Q4KzAJTGuthLXk/6BriX/twCnszXrutTtzitYIzrNf+o1ExWw/Tmfdhw==
+"@sinohealth/butterfly-formily-engine@^0.0.4-alpha.11":
+  version "0.0.4-alpha.11"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-engine/-/butterfly-formily-engine-0.0.4-alpha.11.tgz#3d33073ecbfa680accdfc4302a7216e80c32dc71"
+  integrity sha512-/NR+3oSGFbO/tkhXnlZrJ5gtG29x9W5PNc3sqh4B1MdAZEcG52mc+2PQYJRuG1lABukgJvNBTSltrXzuB0oX7Q==
   dependencies:
     "@babel/runtime" "^7.17.8"
 
