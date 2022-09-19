@@ -110,7 +110,7 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
   // 校验控件字段唯一，避免重复ID
   const validTree = validTreeNodeOnly(treeNode);
   if (!validTree) {
-    return;
+    return Promise.reject();
   }
   // 组件树转换成schema数据
   const formConfig = transformToSchema(designer.getCurrentTree());
@@ -157,9 +157,9 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
         onCancel() {},
       });
     }
-    return;
+    return Promise.reject();
   }
-  saveFormConfigApi({
+  return saveFormConfigApi({
     type,
     formId,
     projectId,
@@ -173,7 +173,7 @@ const saveFormConfigApi = (props) => {
   const formJson = JSON.stringify(formConfig);
   // 前置信息表单
   if (type === 'beforeInfo') {
-    saveManagePlanPreInfo({
+    return saveManagePlanPreInfo({
       projectId,
       formJson,
       category: 'PRE',
@@ -184,7 +184,7 @@ const saveFormConfigApi = (props) => {
   }
   // 跟进记录表
   if (type === 'followUp') {
-    saveFollowUpFormInfo({
+    return saveFollowUpFormInfo({
       id: formId,
       projectId,
       formJson,
@@ -196,13 +196,14 @@ const saveFormConfigApi = (props) => {
   }
   // 量表
   if (type === 'form') {
-    httpUpdateScale({
+    return httpUpdateScale({
       id: formId,
       scaleJson: formJson,
     }).then(() => {
       message.success('保存成功');
     });
   }
+  return Promise.reject();
 };
 
 export const loadInitialSchema = (props: { designer: Engine, type: string, id: string }) => {
