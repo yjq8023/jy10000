@@ -37,7 +37,6 @@ const DictForm: FC<DictFormType> = (props) => {
   const [dictId, setUserId] = useState('');
   const [disableSubmit, setDisableSubmit] = useState(false);
   useEffect(() => {
-    console.log(props.dictData);
     if (props.dictData) {
       form.setFieldsValue({ ...props.dictData });
     }
@@ -52,7 +51,6 @@ const DictForm: FC<DictFormType> = (props) => {
       ...values,
       scopeCode: scope,
     };
-    console.log(params);
     setLoading(true);
     if (props.dictData?.id) params.id = props.dictData.id;
     if (props.dictData?.parentId) params.parentId = props.dictData.parentId;

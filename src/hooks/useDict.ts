@@ -18,7 +18,6 @@ export const useDict = () => {
       setDictObj(dictStateList);
     } else {
       const res: any = await getSystemDict();
-      console.log(res);
       setDictStateList(res.data);
       setDictObj(res.data);
     }
