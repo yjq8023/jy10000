@@ -268,28 +268,46 @@ const transFormProperties = (nowProperties: any, properties: any) => {
       };
     }
   });
+  // 重复字段弹确认框选择全部覆盖或关闭
+  let allIsCover;
+  const handleAll = (isCover) => {
+    allIsCover = isCover;
+    Modal.destroyAll();
+  };
   // 重复字段弹确认框
   Object.keys(repeatKeys).forEach((key: string) => {
     const p = new Promise((reslove) => {
-      Modal.confirm({
-        title: `${repeatKeys[key].title}（${repeatKeys[key].name}）控件已存在，是否覆盖?`,
-        okText: '覆盖',
-        cancelText: '跳过',
-        onOk() {
-          reslove({
-            [key]: repeatKeys[key],
-          });
-        },
-        onCancel() {
-          reslove({
-            [key]: res[key],
-          });
+      const handleSelf = (isCover) => {
+        reslove({
+          [key]: isCover ? repeatKeys[key] : res[key],
+        });
+        modal.destroy();
+      };
+      const modal = Modal.confirm({
+        className: 'formily-field-confirm',
+        title: `${repeatKeys[key].title}（${repeatKeys[key].name}）字段已存在，是否覆盖?`,
+        maskClosable: false,
+        mask: false,
+        width: 460,
+        content: (
+          <div style={{ textAlign: 'right', paddingTop: '60px' }}>
+            <Button onClick={() => handleAll(false)}>全部跳过</Button>&nbsp;
+            <Button onClick={() => handleAll(true)}>全部覆盖</Button>&nbsp;
+            <Button onClick={() => handleSelf(false)}>跳过</Button>&nbsp;
+            <Button onClick={() => handleSelf(true)} type="primary">覆盖</Button>
+          </div>
+        ),
+        afterClose() {
+          // 当选择全部覆盖时，会触发关闭事件
+          if (typeof allIsCover === 'boolean') {
+            handleSelf(allIsCover);
+          }
         },
       });
     });
     confirms.push(p);
   });
-  // 等待确认框
+  // 等待确认框全部操作完成再合并数据
   return Promise.all(confirms)
     .then((data) => {
       data.forEach((item) => {
