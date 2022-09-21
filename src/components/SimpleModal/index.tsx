@@ -17,6 +17,7 @@ const SimpleModal: React.FC<SimpleModalType> = (props) => {
       confirmLoading={props.loading}
       closeIcon={<img style={{ width: 18 }} src={cancelIcon} alt="" />}
       className={styles['simple-modal']}
+      maskClosable={false}
       {...props}
     >
       {props.h2 && <h2 className={styles.title}>{props.h2}</h2>}
