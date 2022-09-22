@@ -192,7 +192,7 @@ function CustomerDepartment() {
             if (e.target.value) {
               expandRows();
             } else {
-              closeRows();
+              closeRows([]);
             }
           }}
         >

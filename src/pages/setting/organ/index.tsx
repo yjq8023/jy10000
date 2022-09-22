@@ -271,7 +271,7 @@ function DictList() {
             if (e.target.value) {
               expandRows();
             } else {
-              closeRows();
+              closeRows([]);
             }
           }}
         >
