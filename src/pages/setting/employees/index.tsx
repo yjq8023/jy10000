@@ -28,6 +28,7 @@ import {
 } from '@/services/customer';
 import TreeList from '@/components/TreeList';
 import { handleTreeData, isPermission } from '@/utils';
+import SwitchCustom from '@/components/SwitchCustom';
 import styles from './index.less';
 
 function TenantList() {
@@ -220,7 +221,7 @@ function TenantList() {
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            <Switch
+            <SwitchCustom
               checked={isUp}
               onChange={(value) => {
                 employeeStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
@@ -314,7 +315,7 @@ function TenantList() {
               columns={columns}
               scroll={{ x: 2000 }}
               rowKey="id"
-              pagination={paginationParams}
+              pagination={{ ...paginationParams, position: ['bottomLeft'] }}
               onChange={(pagination) => {
                 fetchAPi(currOrganizeId, {}, pagination);
               }}
