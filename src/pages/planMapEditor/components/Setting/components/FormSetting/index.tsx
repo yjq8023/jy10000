@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, Modal, Input } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Modal, Input, message } from '@sinohealth/butterfly-ui-components/lib';
 import { FormRender, registerComponents } from '@sinohealth/butterfly-formily-engine';
 import * as components from '@sinohealth/butterfly-formily-components';
 import { planItemTypes } from '@/pages/planMapEditor/config';
@@ -17,7 +17,8 @@ registerComponents(allComponents);
 
 const FormSetting = (props: any) => {
   const { data, isEdited } = props;
-  const { disabled, setPlanMapState } = useContext(planMapContext);
+  const [newName, setNewName] = useState('');
+  const { disabled, setPlanMapState, projectPlanData, planMapState } = useContext(planMapContext);
   const [schema, setSchema] = useState<any>({
     form: {},
     schema: {},
@@ -67,6 +68,7 @@ const FormSetting = (props: any) => {
     [planItemTypes.form]: '医学量表',
   };
   const handleChangeName = (e: any) => {
+    setNewName(e.target.value);
     setPlanMapState('update', data.path, { ...data, itemName: e.target.value || '--' });
   };
   const handleEdit = () => {
@@ -74,22 +76,34 @@ const FormSetting = (props: any) => {
       Modal.confirm({
         title: '数据尚未保存，是否保存?',
         content: '页面跳转后尚未保存的数据将丢失',
-        okText: '不保存并跳转',
-        cancelText: '取消',
+        okText: '保存并跳转',
+        cancelText: '不保存跳转',
+        closable: true,
         onOk() {
-          toEditPage();
+          saveProjectPlanMap({
+            ...projectPlanData,
+            roadMaps: planMapState,
+          }).then(() => {
+            toEditPage(newName);
+          });
+        },
+        onCancel(e) {
+          if (!e.triggerCancel) {
+            toEditPage();
+          }
+          return Promise.resolve();
         },
       });
     } else {
       toEditPage();
     }
   };
-  const toEditPage = () => {
+  const toEditPage = (name = '') => {
     let cType = '';
     if (isForm) cType = 'form';
     if (isBeforeInfo) cType = 'beforeInfo';
     if (isFollowUp) cType = 'followUp';
-    navigate(`/project/formily/editor?type=${cType}&formId=${data.bizId}&projectId=${params.get('id')}&name=${data.itemName}`);
+    navigate(`/project/formily/editor?type=${cType}&formId=${data.bizId}&projectId=${params.get('id')}&name=${name || data.itemName}`);
   };
   return (
     <div className={style.formSetting}>

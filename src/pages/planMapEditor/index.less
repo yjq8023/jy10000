@@ -1,3 +1,4 @@
+@import "@/style/var";
 .planMapEditor {
   display: flex;
   height: calc(100vh - 160px);
@@ -13,10 +14,12 @@
   .editorBody {
     flex: 1;
     background-color: #fff;
-    padding: 10px;
     overflow: auto;
     .bodyHeader {
-      padding-bottom: 35px;
+      padding: 10px;
+      .colorRed {
+        color: @error-color;
+      }
       :global(.ant-badge) {
         margin-right: 20px;
         :global(.ant-badge-status-dot) {
@@ -24,6 +27,27 @@
           height: 10px;
         }
       }
+      .scale {
+        float: right;
+        :global(.ant-btn) {
+          border-radius: 0;
+          &:hover {
+            z-index: 12;
+          }
+        }
+        :global(.ant-input-number) {
+          border-radius: 0;
+          margin: 0 -1px;
+          position: relative;
+          z-index: 10;
+        }
+      }
+    }
+    .canvasBox {
+      padding-top: 20px;
+      width: 100%;
+      height: calc(100vh - 245px);
+      overflow: auto;
     }
   }
   .config {
