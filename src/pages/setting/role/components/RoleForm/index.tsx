@@ -270,10 +270,10 @@ const RoleForm: FC<RoleFormType> = (props) => {
       }}
     >
       {!props.data && (
-        <Steps current={stepNum} style={{ marginBottom: 30 }}>
-          <Step title="基本信息" />
-          <Step title="数据权限" />
-          <Step title="资源权限" />
+        <Steps current={stepNum} style={{ marginBottom: 30 }} size="small">
+          <Step title="基本信息" className={styles.stepsList} />
+          <Step title="数据权限" className={styles.stepsList} />
+          <Step title="资源权限" className={styles.stepsList} />
         </Steps>
       )}
       <Form labelAlign="right" form={form} labelCol={{ span: 4 }} onFinish={finish} colon={false}>
