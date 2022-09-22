@@ -68,6 +68,7 @@ const PlanMapEditor = ({ disabled }: any) => {
     const handleSetValue = (type: string, path: string, data: any) => {
       const state = planMapState ? [...planMapState] : [];
       let node = path ? lodash.get(state, path) : state;
+      setIsEdited(true);
       if (type === 'add') {
         addNodeModalRef.current.handleOpen(path);
         return;
@@ -85,7 +86,6 @@ const PlanMapEditor = ({ disabled }: any) => {
       } else {
         setPlanMapStateFn(node);
       }
-      setIsEdited(true);
       // 暂存数据
       // setLocalStorageForJson('planMapState', {
       //   ...projectPlanData,
