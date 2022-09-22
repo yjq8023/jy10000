@@ -88,7 +88,7 @@ function OrganList() {
             });
           }}
         >
-          <span style={{ color: itemData.bindCountNum > 0 ? '#999' : '' }}>删除</span>
+          <span style={{ color: itemData.bindCountNum > 0 ? 'rgb(175, 175, 175)' : '' }}>删除</span>
         </a>
       </div>
     );
@@ -144,7 +144,7 @@ function OrganList() {
         }}
       >
         <PlusCircleOutlined />
-        添加标签分类
+        添加标签
       </Button>
     );
   };

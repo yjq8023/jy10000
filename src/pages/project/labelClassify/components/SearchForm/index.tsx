@@ -24,7 +24,7 @@ const SearchForm = (props: any = {}) => {
               <Input placeholder="请输入标签名称" />
             </Form.Item>
           </Col>
-          <Col span={12}>
+          <Col span={12} style={{ textAlign: 'right' }}>
             <Button
               onClick={() => {
                 props.form.resetFields();
