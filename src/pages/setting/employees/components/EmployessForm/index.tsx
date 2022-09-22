@@ -229,7 +229,14 @@ const EmployessForm: FC<EmployessFormType> = (props) => {
           <Step title="配置角色" />
         </Steps>
       )}
-      <Form labelAlign="right" form={form} labelCol={{ span: 7 }} onFinish={finish} colon={false}>
+      <Form
+        labelAlign="right"
+        form={form}
+        labelCol={{ span: 7 }}
+        style={{ paddingRight: '25px' }}
+        onFinish={finish}
+        colon={false}
+      >
         {stepNum === 0 && (
           <Row gutter={16}>
             <Col span={12}>
