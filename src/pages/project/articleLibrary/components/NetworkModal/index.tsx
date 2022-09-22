@@ -71,48 +71,51 @@ const NetworkModal: React.FC<NetworkModalProps> = (props) => {
       >
         <div className={`${styles['network-container']}`}>
           {isNetwork ? (
-            <Space size="middle">
-              <Select
-                value={currentType}
-                style={{ width: 100 }}
-                onChange={(v) => setCurrentType(v)}
-              >
-                <Option value="IMAGE">图片资源</Option>
-                <Option value="VIDEO">视频资源</Option>
-              </Select>
-              <Input
-                value={networkUrl}
-                style={{ width: 260 }}
-                placeholder="http:// | https:// | 网络资源地址"
-                onChange={(v: any) => setNetworkUrl(v.target.value)}
-              />
-              <Button
-                type="primary"
-                onClick={() => {
-                  // if (!validateUrl(networkUrl)) {
-                  //   message.error('输入的地址有问题');
-                  //   return;
-                  // }
-                  if (!networkUrl || networkUrl.trim() === '') {
-                    message.error('请输入正确的地址');
-                    return;
-                  }
-                  const F = {
-                    id: new Date().getTime(),
-                    name: '',
-                    type: currentType,
-                    url: networkUrl,
-                    data: { controls: false },
-                  };
-                  setMediaSource([...mediaSource, F]);
-                  setCurrentSelect([...currentSelect, F]);
-                  setIsNetwork(false);
-                  setNetworkUrl('');
-                }}
-              >
-                确认
-              </Button>
-            </Space>
+            <>
+              <Space size="middle">
+                <Select
+                  value={currentType}
+                  style={{ width: 100 }}
+                  onChange={(v) => setCurrentType(v)}
+                >
+                  <Option value="IMAGE">图片资源</Option>
+                  <Option value="VIDEO">视频资源</Option>
+                </Select>
+                <Input
+                  value={networkUrl}
+                  style={{ width: 260 }}
+                  placeholder="http:// | https:// | 网络资源地址"
+                  onChange={(v: any) => setNetworkUrl(v.target.value)}
+                />
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    // if (!validateUrl(networkUrl)) {
+                    //   message.error('输入的地址有问题');
+                    //   return;
+                    // }
+                    if (!networkUrl || networkUrl.trim() === '') {
+                      message.error('请输入正确的地址');
+                      return;
+                    }
+                    const F = {
+                      id: new Date().getTime(),
+                      name: '',
+                      type: currentType,
+                      url: networkUrl,
+                      data: { controls: false },
+                    };
+                    setMediaSource([...mediaSource, F]);
+                    setCurrentSelect([...currentSelect, F]);
+                    setIsNetwork(false);
+                    setNetworkUrl('');
+                  }}
+                >
+                  确认
+                </Button>
+              </Space>
+              <div className={styles.tip}>当前仅支持上传至云服务器的视频链接</div>
+            </>
           ) : (
             <div className={styles['network-content']}>
               {mediaSource.map((el) => {

@@ -96,7 +96,7 @@ const LabelSelect: React.FC<LabelSelectProps> = (props) => {
       </div> */}
       <Input
         className={`${styles['label-select-input']}`}
-        placeholder="请选择决策流"
+        placeholder="请输入决策流名称进行搜索"
         onFocus={() => setIsShowDrop(true)}
         value={placeholder}
         title="回车搜索"
