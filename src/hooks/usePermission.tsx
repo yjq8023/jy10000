@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { request } from '@/core/request';
-import localRouterConfig, { routerConfigItem } from '@/config/router';
+import localRouterConfig, { routerConfigItem, baseRouterConfig } from '@/config/router';
 import localMenuConfig, { MenuItem } from '@/config/menu';
 import permissionCodes from '@/config/permissionCode';
 import { isDev } from '@/config/base';
@@ -138,16 +138,17 @@ export const usePermission = () => {
       .catch((error: any) => {
         // 未登录时，为了正常的路由显示，还是需要把本地的路由配置生效
         if (error.response.status === 401) {
-          setLocalMenuConfig();
+          setLocalMenuConfig(true);
         }
       })
       .finally(() => {
         setLoaded(true);
       });
   };
-  const setLocalMenuConfig = () => {
-    setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
-    setRouterConfig(localRouterConfig);
+  const setLocalMenuConfig = (isBaseConfig = false) => {
+    const localConfig = isBaseConfig ? baseRouterConfig : localRouterConfig;
+    setMenuConfig(localConfig.map((config: any) => new MenuItem(config)));
+    setRouterConfig(localConfig);
     setPermission(transFormPermission([], true));
     setLoaded(true);
   };

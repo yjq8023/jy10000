@@ -43,6 +43,21 @@ export type routerConfigItem = {
   children?: routerConfigItem[];
   meta?: any;
 };
+
+export const baseRouterConfig = [
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '/password',
+    element: <Password />,
+  },
+  {
+    path: '*',
+    element: <NoFind />,
+  }
+]
 const routerConfig: routerConfigItem[] = [
   {
     path: '/',
@@ -200,18 +215,7 @@ const routerConfig: routerConfigItem[] = [
       },
     ],
   },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/password',
-    element: <Password />,
-  },
-  {
-    path: '*',
-    element: <NoFind />,
-  },
+  ...baseRouterConfig
 ];
 
 // todo: 与路由表结合生成面包屑地图数据
