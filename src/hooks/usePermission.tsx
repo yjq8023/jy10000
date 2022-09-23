@@ -138,7 +138,7 @@ export const usePermission = () => {
       .catch((error: any) => {
         // 未登录时，为了正常的路由显示，还是需要把本地的路由配置生效
         if (error.response.status === 401) {
-          setLocalMenuConfig(true);
+          setLocalMenuConfig();
         }
       })
       .finally(() => {
@@ -147,7 +147,7 @@ export const usePermission = () => {
   };
   const setLocalMenuConfig = (isBaseConfig = false) => {
     const localConfig = isBaseConfig ? baseRouterConfig : localRouterConfig;
-    setMenuConfig(localConfig.map((config: any) => new MenuItem(config)));
+    setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
     setRouterConfig(localConfig);
     setPermission(transFormPermission([], true));
     setLoaded(true);
