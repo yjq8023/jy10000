@@ -6,14 +6,13 @@ import { planMapContext } from '@/pages/planMapEditor';
 import { useDict } from '@/hooks/useDict';
 import { timeUnitToMomentUnit, timeUnitToShowUnit } from '@/pages/planMapEditor/config';
 
-// 将周期转为具体时间，以当前时间加上周期
+// 将周期转为具体时间，以当前时间加上周期11
 const getTriggerNumberToDay = (number: number, type: string) => {
   // @ts-ignore
   return moment(moment().format('YYYY-MM-DD')).add(number, timeUnitToMomentUnit[type]);
 };
 
 const AddNodeModal = (props: any, ref: any) => {
-  getTriggerNumberToDay(1, 'days');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loop, setIsLoop] = useState(false);
   const [path, setPath] = useState('');
@@ -93,7 +92,6 @@ const AddNodeModal = (props: any, ref: any) => {
   const defaultUnit = dict?.DateUnit && dict?.DateUnit[dict.DateUnit.length - 1].code;
   const defaultValue: any = {
     triggerTimeUnit: defaultUnit,
-    durationTimeUnit: defaultUnit,
     loop: false,
   };
   return (
@@ -103,10 +101,10 @@ const AddNodeModal = (props: any, ref: any) => {
         name="basic"
         labelCol={{ span: 10 }}
         wrapperCol={{ span: 14 }}
-        initialValues={defaultValue}
         onFinish={onFinish}
         onValuesChange={handleFormChange}
         autoComplete="off"
+        initialValues={defaultValue}
       >
         <Row>
           <Col span={15}>

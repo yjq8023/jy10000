@@ -12,16 +12,16 @@ const menuConfig: MenuItemProps[] = [
     key: 'weapp',
     children: [
       {
+        label: '轮播图管理',
+        path: '/weapp/disease',
+      },
+      {
         label: '病种管理',
         path: '/weapp/column',
       },
       {
         label: '服务项目管理',
         path: '/weapp/project',
-      },
-      {
-        label: '轮播图管理',
-        path: '/weapp/disease',
       },
     ],
   },
@@ -208,7 +208,6 @@ export function getMenuConfig() {
     // 缓存
     setLocalStorage('permission', data.permission);
     const newMenuConfig = transformAsyncMenuConfig(data.menu);
-    console.log(newMenuConfig);
     // 加一个判断，如果是开发环境用上面那一份，如果是生产环境，取接口返回的
     return newMenuConfig.map((config: any) => new MenuItem(config));
   });

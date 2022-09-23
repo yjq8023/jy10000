@@ -157,7 +157,6 @@ const ProjectModal: React.FC<ProjectModalProps> = (props: any) => {
           <Form.Item label="标签" name="labelIds">
             <LabelSelect
               search={true}
-              add={false}
               mapSour={labelMapSour}
               placeholder="请选择标签"
               onSelect={(v) =>

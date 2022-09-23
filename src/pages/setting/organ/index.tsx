@@ -31,6 +31,7 @@ import OrganForm from './components/OrganForm';
 import { handleTreeData, searchTreeData, isPermission, filterChildren } from '@/utils';
 import { useExpandRowKeys } from '@/hooks';
 import LabelForm from './components/LabelForm';
+import SwitchCustom from '@/components/SwitchCustom';
 
 const { Search } = Input;
 
@@ -237,7 +238,7 @@ function DictList() {
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            <Switch
+            <SwitchCustom
               checked={isUp}
               onChange={(value) => {
                 organizeStatus(value ? 'enabled' : 'disabled', record.id).then((res) => {
@@ -356,6 +357,7 @@ function DictList() {
                 closeRows();
               },
             }}
+            pagination={{ position: ['bottomLeft'] }}
             columns={columns}
             rowKey="id"
           />

@@ -29,6 +29,7 @@ import {
 import DepartmentForm from './components/DepartmentForm';
 import { filterChildren, handleTreeData, searchTreeData, isPermission } from '@/utils';
 import { useExpandRowKeys } from '@/hooks';
+import SwitchCustom from '@/components/SwitchCustom';
 
 const { Search } = Input;
 
@@ -159,7 +160,7 @@ function CustomerDepartment() {
           <div>
             <Badge color={isUp ? '#217ba0' : 'yellow'} text={isUp ? '启用' : '禁用'} />
             &nbsp;
-            <Switch
+            <SwitchCustom
               checked={isUp}
               onChange={(value) => {
                 departmentStatus(value ? 'enabled' : 'disabled', record.data.id).then((res) => {

@@ -40,8 +40,6 @@ const uploadProps = {
   onChange(info: any) {
     if (info.file.status === 'done') {
       message.success(`${info.file.name} 上传成功`);
-      console.log(info);
-      console.log(info.file.response.data);
       //   form.setFieldsValue({
       //     pic: info.file.response.data,
       //   });

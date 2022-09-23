@@ -10,6 +10,7 @@ import { getProjectAiDetail } from '@/services/planMapAntForm';
 
 export const ActionsWidget = observer(() => {
   const [projectDetail, setProjectDetail] = useState();
+  const [loading, setLoading] = useState(false);
   const designer = useDesigner();
   const [params] = useSearchParams();
   const type = params.get('type');
@@ -35,6 +36,21 @@ export const ActionsWidget = observer(() => {
         });
     }
   }, []);
+
+  const handleSave = () => {
+    setLoading(true);
+    saveSchema({
+      designer,
+      type: params.get('type'),
+      formId: params.get('formId'),
+      projectId: params.get('projectId'),
+      name: params.get('name'),
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    });
+  };
   return (
     <div style={{ marginRight: 10 }}>
       {
@@ -52,17 +68,10 @@ export const ActionsWidget = observer(() => {
       &nbsp;
       <Button
         type="primary"
-        onClick={() => {
-          saveSchema({
-            designer,
-            type: params.get('type'),
-            formId: params.get('formId'),
-            projectId: params.get('projectId'),
-            name: params.get('name'),
-          });
-        }}
+        onClick={handleSave}
+        loading={loading}
       >
-        <TextWidget>Save</TextWidget>
+        保存
       </Button>
     </div>
   );

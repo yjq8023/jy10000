@@ -133,6 +133,7 @@ export const ArticleSettingContent = (props: any) => {
       ...params,
       ...defaultParams,
       needLabel: true,
+      status: 'enable',
     }).then((res: any) => {
       return {
         listData: res.data,

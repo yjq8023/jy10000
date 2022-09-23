@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Engine, createBehavior, createResource } from '@sinohealth/designable-core';
-import { Schema } from '@formily/react';
+import { CloseCircleOutlined } from '@ant-design/icons';
 import {
   transformToSchema,
   transformToTreeNode,
@@ -56,8 +56,63 @@ const validSchema = (schema: any, options) => {
   }
   return errors;
 };
+
+const mapTreeNode = (node, callback) => {
+  callback(node.props);
+  if (Array.isArray(node.children) && node.children.length > 0) {
+    node.children.forEach((item: any) => mapTreeNode(item, callback));
+  }
+};
+const validTreeNodeOnly = (treeNode) => {
+  const names = [];
+  const fields = {};
+  const repeatingFields = {};
+  mapTreeNode(treeNode, (nodeItem) => {
+    if (nodeItem.name === undefined) {
+      return;
+    }
+    // 重复字段归类记录
+    if (names.indexOf(nodeItem.name) > -1) {
+      if (Array.isArray(repeatingFields[nodeItem.name])) {
+        repeatingFields[nodeItem.name].push(nodeItem);
+      } else {
+        repeatingFields[nodeItem.name] = [fields[nodeItem.name], nodeItem];
+      }
+    } else {
+      fields[nodeItem.name] = nodeItem;
+      names.push(nodeItem.name);
+    }
+  });
+  const repeatingFieldKeys = Object.keys(repeatingFields);
+  if (repeatingFieldKeys.length > 0) {
+    repeatingFieldKeys.forEach((key: string) => {
+      message.open({
+        content: (
+          <div style={{ textAlign: 'left', padding: '0px 0px 0px 40px', position: 'relative' }}>
+            <div><CloseCircleOutlined style={{ fontSize: '26px', color: 'red', position: 'absolute', left: '0px', top: '5px' }} /> </div>
+            表单有重复项，请保留一项：
+            <ul>
+              { repeatingFields[key].map((filed, index) => (
+                <li>{index + 1}、{filed.title}</li>
+              ))}
+            </ul>
+          </div>
+        ),
+      });
+    });
+    return false;
+  }
+  return true;
+};
 export const saveSchema = (props: { designer: Engine, type: string, id: string }) => {
   const { designer, type, projectId, formId, name } = props;
+  const treeNode = designer.getCurrentTree();
+  // 校验控件字段唯一，避免重复ID
+  const validTree = validTreeNodeOnly(treeNode);
+  if (!validTree) {
+    return Promise.reject();
+  }
+  // 组件树转换成schema数据
   const formConfig = transformToSchema(designer.getCurrentTree());
   const errors = validSchema(formConfig.schema, {
     isValidResult: type === 'form', // 量表校验必须设置评测结果
@@ -80,6 +135,13 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
             type: 'number',
             name: 'result',
             'x-component': 'Result',
+            'x-component-props': {
+              rule: {
+                scope: {},
+                scoreKey: '',
+                results: [],
+              },
+            },
           };
           designer.setCurrentTree(
             transformToTreeNode(formConfig),
@@ -95,9 +157,9 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
         onCancel() {},
       });
     }
-    return;
+    return Promise.reject();
   }
-  saveFormConfigApi({
+  return saveFormConfigApi({
     type,
     formId,
     projectId,
@@ -111,7 +173,7 @@ const saveFormConfigApi = (props) => {
   const formJson = JSON.stringify(formConfig);
   // 前置信息表单
   if (type === 'beforeInfo') {
-    saveManagePlanPreInfo({
+    return saveManagePlanPreInfo({
       projectId,
       formJson,
       category: 'PRE',
@@ -122,7 +184,7 @@ const saveFormConfigApi = (props) => {
   }
   // 跟进记录表
   if (type === 'followUp') {
-    saveFollowUpFormInfo({
+    return saveFollowUpFormInfo({
       id: formId,
       projectId,
       formJson,
@@ -134,13 +196,14 @@ const saveFormConfigApi = (props) => {
   }
   // 量表
   if (type === 'form') {
-    httpUpdateScale({
+    return httpUpdateScale({
       id: formId,
       scaleJson: formJson,
     }).then(() => {
       message.success('保存成功');
     });
   }
+  return Promise.reject();
 };
 
 export const loadInitialSchema = (props: { designer: Engine, type: string, id: string }) => {
@@ -205,28 +268,46 @@ const transFormProperties = (nowProperties: any, properties: any) => {
       };
     }
   });
+  // 重复字段弹确认框选择全部覆盖或关闭
+  let allIsCover;
+  const handleAll = (isCover) => {
+    allIsCover = isCover;
+    Modal.destroyAll();
+  };
   // 重复字段弹确认框
   Object.keys(repeatKeys).forEach((key: string) => {
     const p = new Promise((reslove) => {
-      Modal.confirm({
-        title: `${repeatKeys[key].title}（${repeatKeys[key].name}）控件已存在，是否覆盖?`,
-        okText: '覆盖',
-        cancelText: '跳过',
-        onOk() {
-          reslove({
-            [key]: repeatKeys[key],
-          });
-        },
-        onCancel() {
-          reslove({
-            [key]: res[key],
-          });
+      const handleSelf = (isCover) => {
+        reslove({
+          [key]: isCover ? repeatKeys[key] : res[key],
+        });
+        modal.destroy();
+      };
+      const modal = Modal.confirm({
+        className: 'formily-field-confirm',
+        title: `${repeatKeys[key].title}（${repeatKeys[key].name}）字段已存在，是否覆盖?`,
+        maskClosable: false,
+        mask: false,
+        width: 460,
+        content: (
+          <div style={{ textAlign: 'right', paddingTop: '60px' }}>
+            <Button onClick={() => handleAll(false)}>全部跳过</Button>&nbsp;
+            <Button onClick={() => handleAll(true)}>全部覆盖</Button>&nbsp;
+            <Button onClick={() => handleSelf(false)}>跳过</Button>&nbsp;
+            <Button onClick={() => handleSelf(true)} type="primary">覆盖</Button>
+          </div>
+        ),
+        afterClose() {
+          // 当选择全部覆盖时，会触发关闭事件
+          if (typeof allIsCover === 'boolean') {
+            handleSelf(allIsCover);
+          }
         },
       });
     });
     confirms.push(p);
   });
-  // 等待确认框
+  // 等待确认框全部操作完成再合并数据
   return Promise.all(confirms)
     .then((data) => {
       data.forEach((item) => {

@@ -45,7 +45,7 @@ const AddFormulaModal = (props: any, ref: any) => {
     };
   });
 
-  const varsData = [
+  const varsData = isResult ? [...scope] : [
     ...scope,
     ...dataSource,
   ];

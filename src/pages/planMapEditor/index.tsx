@@ -1,7 +1,8 @@
 import React, { useState, createContext, useMemo, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import lodash from 'lodash';
-import { Badge, Modal } from '@sinohealth/butterfly-ui-components/lib';
+import { Badge, Modal, Button, InputNumber } from '@sinohealth/butterfly-ui-components/lib';
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import Selector from '@/pages/planMapEditor/components/Selector';
 import Canvas from '@/pages/planMapEditor/components/Canvas';
 import { getUuid } from '@/utils';
@@ -37,6 +38,7 @@ const PlanMapEditor = ({ disabled }: any) => {
   const [planMapState, setPlanMapStateFn] = useState<ProjectPlanMap.roadMaps>();
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [isEdited, setIsEdited] = useState<any>();
+  const [scaleNum, setScaleNum] = useState<number>(100);
   const [params] = useSearchParams();
   const addNodeModalRef = useRef<any>(null);
   const addFollowUpModal = useRef<any>(null);
@@ -66,6 +68,7 @@ const PlanMapEditor = ({ disabled }: any) => {
     const handleSetValue = (type: string, path: string, data: any) => {
       const state = planMapState ? [...planMapState] : [];
       let node = path ? lodash.get(state, path) : state;
+      setIsEdited(true);
       if (type === 'add') {
         addNodeModalRef.current.handleOpen(path);
         return;
@@ -83,7 +86,6 @@ const PlanMapEditor = ({ disabled }: any) => {
       } else {
         setPlanMapStateFn(node);
       }
-      setIsEdited(true);
       // 暂存数据
       // setLocalStorageForJson('planMapState', {
       //   ...projectPlanData,
@@ -122,6 +124,13 @@ const PlanMapEditor = ({ disabled }: any) => {
         });
     }
   }, []);
+
+  const handleScaleChange = (isAdd = false) => {
+    const step = isAdd ? 5 : -5;
+    if (scaleNum <= 50 && !isAdd) return;
+    if (scaleNum >= 200 && isAdd) return;
+    setScaleNum(scaleNum + step);
+  };
   return (
     <planMapContext.Provider value={contextData}>
       <PageHeader />
@@ -132,7 +141,25 @@ const PlanMapEditor = ({ disabled }: any) => {
         <div className={style.editorBody}>
           <div className={style.bodyHeader}>
             <div>
-              <div className="but-title">管理计划{isEdited ? '未保存' : '已保存'}</div>
+              <div className="but-title">
+                管理计划
+                <span className={style.colorRed}>
+                  {isEdited ? '*' : ''}
+                </span>
+                <div className={style.scale}>
+                  <Button.Group>
+                    <Button onClick={() => handleScaleChange()} icon={<MinusOutlined />} />
+                    <InputNumber
+                      value={scaleNum}
+                      min={50}
+                      max={200}
+                      onChange={(v) => setScaleNum(v)}
+                      style={{ width: '70px' }}
+                    />
+                    <Button onClick={() => handleScaleChange(true)} icon={<PlusOutlined />} />
+                  </Button.Group>
+                </div>
+              </div>
             </div>
             <div>
               <Badge color="cyan" text="前置信息" />
@@ -142,8 +169,8 @@ const PlanMapEditor = ({ disabled }: any) => {
               <Badge color="purple" text="复诊复查项目" />
             </div>
           </div>
-          <div>
-            <Canvas />
+          <div className={style.canvasBox}>
+            <Canvas scale={scaleNum / 100} />
           </div>
         </div>
         {

@@ -28,6 +28,7 @@ const getChildrenLength = (data: any = [], allListData: any = null) => {
 };
 
 const Canvas = (props: any) => {
+  const { scale } = props;
   const { planMapState, projectPlanData, setPlanMapState } = useContext(planMapContext);
   const [planMapList, setPlanMapList] = useState<any>([]);
 
@@ -91,7 +92,7 @@ const Canvas = (props: any) => {
     return newMapData;
   };
   return (
-    <div>
+    <div className={style.canvasBox} style={{ zoom: scale }}>
       { planMapList.map((listData: any, index: number) => (<PlanMapRow key={getUuid()} listData={listData} offset={listData.offset} />))}
     </div>
   );

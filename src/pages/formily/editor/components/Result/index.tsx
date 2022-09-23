@@ -15,6 +15,17 @@ export const Result: any = (props: any) => {
             </div>
             <div>
               <div style={{ float: 'left' }}>
+                评测结果：
+              </div>
+              <div style={{ paddingLeft: '70px' }}>
+                { (!rule?.results || rule?.results?.length === 0) && '无'}
+                {rule?.results?.map((item: any, index: number) => {
+                  return <div key={item.code}>{index + 1}、{item.code}</div>;
+                })}
+              </div>
+            </div>
+            <div>
+              <div style={{ float: 'left' }}>
                 评估建议：
               </div>
               <div style={{ paddingLeft: '70px' }}>
@@ -78,7 +89,13 @@ Result.Resource = createResource(
           title: '评测结果',
           name: 'result',
           'x-component': 'Result',
-          'x-component-props': {},
+          'x-component-props': {
+            rule: {
+              scope: {},
+              scoreKey: '',
+              results: [],
+            },
+          },
         },
       },
     ],
