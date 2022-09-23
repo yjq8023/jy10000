@@ -33,8 +33,11 @@ export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
     if (!isPc && iframe.current) {
       const win = iframe.current.contentWindow;
       iframe.current.onload = () => {
-        win.postMessage(JSON.stringify({ formProps, schema }), '*');
-        win.document.body.style = 'zoom: 0.99;'; // 未知原因会导致渲染出来的表单按钮布局定位不准确，改变一下size触发回流
+        setTimeout(() => {
+          win.postMessage(JSON.stringify({ formProps, schema }), '*');
+          const myEvent = new Event('resize');
+          win.dispatchEvent(myEvent);
+        }, 500);
       };
     }
   }, [isPc, iframe]);
