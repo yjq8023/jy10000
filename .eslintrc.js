@@ -49,5 +49,6 @@ module.exports = {
     'arrow-body-style': 'off',
     'react/no-danger': 'off',
     'func-names': 'off',
+    'import/order': 'off',
   },
 };
