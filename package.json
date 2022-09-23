@@ -11,7 +11,7 @@
     "@formily/shared": "^2.0.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@sinohealth/butterfly-formily-components": "^0.0.4-alpha.13",
-    "@sinohealth/butterfly-formily-engine": "^0.0.4-alpha.13",
+    "@sinohealth/butterfly-formily-engine": "^0.0.4-alpha.16",
     "@sinohealth/butterfly-ui-components": "1.0.2",
     "@sinohealth/designable-formily-antd": "1.0.1-beta.8",
     "@svgr/webpack": "^5.5.0",

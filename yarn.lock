@@ -2578,10 +2578,10 @@
     react-sortable-hoc "^2.0.0"
     react-sticky-box "^1.0.2"
 
-"@sinohealth/butterfly-formily-engine@^0.0.4-alpha.13":
-  version "0.0.4-alpha.13"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-engine/-/butterfly-formily-engine-0.0.4-alpha.13.tgz#58a455a42d47b16b6817067532e25fbe58845480"
-  integrity sha512-TGL4KSRilvbCcxJ2OtPxTcmqaDvFJVgDS310BxQgWfEHqpWcvfPpKppB2snl9S9DCzfSxuGGgf7oyrie85Oscw==
+"@sinohealth/butterfly-formily-engine@^0.0.4-alpha.16":
+  version "0.0.4-alpha.16"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/butterfly-formily-engine/-/butterfly-formily-engine-0.0.4-alpha.16.tgz#91d396a45b3390f49983ce0d48a133015c086c34"
+  integrity sha512-b+8fryaf4neYLHaVj7OMKFteZq2FWJJJMSvfy0FhBEfuVCnDCobiKEDEkVq49Dhf+/Egbu/Bvn1wUmkUenTwEQ==
   dependencies:
     "@babel/runtime" "^7.17.8"
 
