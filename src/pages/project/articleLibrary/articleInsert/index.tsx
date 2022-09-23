@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import Upload from '@/components/Upload';
+import { httpFileBaseUrl } from '@/services/common';
+import { httpContentUpdate } from '@/services/project';
+import { getLocalStorage } from '@/utils/cookies';
 import {
   Button,
-  Space,
+  Col,
   Form,
   Input,
-  Row,
-  Col,
-  Spin,
   message,
-  Modal,
+  Row,
+  Space,
+  Spin,
 } from '@sinohealth/butterfly-ui-components/lib';
+import BraftEditor, { ExtendControlType } from 'braft-editor';
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/color-picker.css';
 import 'braft-extensions/dist/table.css';
-import BraftEditor, { ExtendControlType } from 'braft-editor';
 import { ContentUtils } from 'braft-utils';
-import styles from './index.less';
-import { httpContentUpdate } from '@/services/project';
-import { getLocalStorage, removeLocalStorage } from '@/utils/cookies';
-import UploadCover from '../components/UploadCover';
-import Upload from '@/components/Upload';
+import React, { useEffect, useState } from 'react';
 import NetworkModal from '../components/NetworkModal';
 import PreviewDrawer from '../components/PreviewDrawer';
+import UploadCover from '../components/UploadCover';
+import styles from './index.less';
 import useConfig, { MEDIATYPE } from './useConfig';
-import { httpFileBaseUrl } from '@/services/common';
 
 /**
  * 文章库-新增文章
@@ -243,6 +242,15 @@ const ArticleInsert: React.FC = () => {
                         mediaData.width = '100%';
                       },
                     },
+                  ]}
+                  headings={[
+                    'unstyled',
+                    'header-one',
+                    'header-two',
+                    'header-three',
+                    'header-four',
+                    'header-five',
+                    'header-six',
                   ]}
                   placeholder="请输入正文内容"
                   onChange={(v) => handleChangeContent(v)}
