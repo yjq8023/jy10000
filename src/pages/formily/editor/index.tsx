@@ -20,16 +20,8 @@ import {
   SettingsPanel,
   ComponentTreeWidget,
 } from '@sinohealth/designable-react';
-import {
-  SettingsForm,
-  setNpmCDNRegistry,
-} from '@sinohealth/designable-react-settings-form';
-import {
-  createDesigner,
-  GlobalRegistry,
-  Shortcut,
-  KeyCode,
-} from '@sinohealth/designable-core';
+import { SettingsForm, setNpmCDNRegistry } from '@sinohealth/designable-react-settings-form';
+import { createDesigner, GlobalRegistry, Shortcut, KeyCode } from '@sinohealth/designable-core';
 import {
   Form,
   Field,
@@ -61,9 +53,7 @@ import {
 } from '@sinohealth/designable-formily-antd';
 import { useSearchParams } from 'react-router-dom';
 import { Collapse } from '@sinohealth/butterfly-ui-antd';
-import {
-  ReactionsSetter,
-} from '@sinohealth/designable-formily-setters';
+import { ReactionsSetter } from '@sinohealth/designable-formily-setters';
 import {
   LogoWidget,
   ActionsWidget,
@@ -87,6 +77,8 @@ GlobalRegistry.registerDesignerLocales({
       Layouts: '布局组件',
       Arrays: '自增组件',
       Displays: '展示组件',
+      Other: '其他组件',
+      Common: '常用组件',
     },
   },
   'en-US': {
@@ -132,66 +124,70 @@ const FormilyEditor = () => {
   );
   useEffect(() => {
     if (projectId) {
-      fetchAiIoComponents(projectId)
-        .then((data) => {
-          setIoComponents(data);
-        });
+      fetchAiIoComponents(projectId).then((data) => {
+        setIoComponents(data);
+      });
     }
   }, []);
   // @ts-ignore
   const renderResourceWidget = () => {
     const IoResourceWidget = (
-      <ResourceWidget
-        title="决策流IO"
-        className={style.ioComponents}
-        sources={ioComponents}
-      />
+      <ResourceWidget title="决策流IO" className={style.ioComponents} sources={ioComponents} />
     );
     const InputResourceWidget = (
       <ResourceWidget
         title="sources.Inputs"
+        defaultExpand={false}
+        sources={[Transfer, ObjectContainer]}
+      />
+    );
+    const LayoutsResourceWidget = (
+      <ResourceWidget title="sources.Layouts" defaultExpand={false} sources={[]} />
+    );
+    const ArrayResourceWidget = (
+      <ResourceWidget defaultExpand={false} title="sources.Arrays" sources={[]} />
+    );
+    const TextResourceWidget = (
+      <ResourceWidget defaultExpand={false} title="sources.Displays" sources={[]} />
+    );
+    const CommonResourceWidget = (
+      <ResourceWidget
+        title="sources.Common"
         sources={[
-          Input,
-          Password,
-          NumberPicker,
-          Rate,
-          Slider,
+          Checkbox,
+          Radio,
           Select,
           TreeSelect,
           Cascader,
-          Transfer,
-          Checkbox,
-          Radio,
           DatePicker,
-          TimePicker,
-          Upload,
-          Switch,
-          ObjectContainer,
+          Input,
+          NumberPicker,
           Result,
         ]}
       />
     );
-    const LayoutsResourceWidget = (
+    const OtherResourceWidget = (
       <ResourceWidget
-        title="sources.Layouts"
+        title="sources.Other"
+        defaultExpand={false}
         sources={[
+          TimePicker,
+          Password,
+          Rate,
+          Slider,
+          Upload,
+          Switch,
           Card,
           FormGrid,
           FormTab,
           FormLayout,
           FormCollapse,
           Space,
+          Text,
+          ArrayCards,
+          ArrayTable,
         ]}
       />
-    );
-    const ArrayResourceWidget = (
-      <ResourceWidget
-        title="sources.Arrays"
-        sources={[ArrayCards, ArrayTable]}
-      />
-    );
-    const TextResourceWidget = (
-      <ResourceWidget title="sources.Displays" sources={[Text]} />
     );
     const ImportResourceWidget = (
       <Collapse>
@@ -204,29 +200,33 @@ const FormilyEditor = () => {
     if (type === 'beforeInfo') {
       return (
         <>
-          { TextResourceWidget }
-          { IoResourceWidget }
+          {TextResourceWidget}
+          {IoResourceWidget}
         </>
       );
     }
     if (type === 'followUp') {
       return (
         <>
-          { ImportResourceWidget }
-          { IoResourceWidget }
-          { InputResourceWidget }
-          { LayoutsResourceWidget }
-          { ArrayResourceWidget }
-          { TextResourceWidget }
+          {CommonResourceWidget}
+          {OtherResourceWidget}
+          {/* {ImportResourceWidget}
+          {IoResourceWidget}
+          {InputResourceWidget}
+          {LayoutsResourceWidget}
+          {ArrayResourceWidget}
+          {TextResourceWidget} */}
         </>
       );
     }
     return (
       <>
-        { TextResourceWidget }
-        { InputResourceWidget }
-        { LayoutsResourceWidget }
-        { ArrayResourceWidget }
+        {CommonResourceWidget}
+        {OtherResourceWidget}
+        {/* {TextResourceWidget}
+        {InputResourceWidget}
+        {LayoutsResourceWidget}
+        {ArrayResourceWidget} */}
       </>
     );
   };
@@ -236,7 +236,7 @@ const FormilyEditor = () => {
         <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
           <CompositePanel>
             <CompositePanel.Item title="panels.Component" icon="Component">
-              { renderResourceWidget() }
+              {renderResourceWidget()}
             </CompositePanel.Item>
             <CompositePanel.Item title="panels.OutlinedTree" icon="Outline">
               <OutlineTreeWidget />
@@ -249,9 +249,7 @@ const FormilyEditor = () => {
             <WorkspacePanel>
               <ToolbarPanel>
                 <DesignerToolsWidget />
-                <ViewToolsWidget
-                  use={['DESIGNABLE', 'JSONTREE', 'MARKUP', 'PREVIEW']}
-                />
+                <ViewToolsWidget use={['DESIGNABLE', 'JSONTREE', 'MARKUP', 'PREVIEW']} />
               </ToolbarPanel>
               <ViewportPanel style={{ height: '100%' }}>
                 <ViewPanel type="DESIGNABLE">
@@ -291,21 +289,20 @@ const FormilyEditor = () => {
                   )}
                 </ViewPanel>
                 <ViewPanel type="JSONTREE" scrollable={false}>
-                  {(tree, onChange) => (
-                    <SchemaEditorWidget tree={tree} onChange={onChange} />
-                  )}
+                  {(tree, onChange) => <SchemaEditorWidget tree={tree} onChange={onChange} />}
                 </ViewPanel>
                 <ViewPanel type="MARKUP" scrollable={false}>
                   {(tree) => <MarkupSchemaWidget tree={tree} />}
                 </ViewPanel>
-                <ViewPanel type="PREVIEW">
-                  {(tree) => <PreviewWidget tree={tree} />}
-                </ViewPanel>
+                <ViewPanel type="PREVIEW">{(tree) => <PreviewWidget tree={tree} />}</ViewPanel>
               </ViewportPanel>
             </WorkspacePanel>
           </Workspace>
           <SettingsPanel title="panels.PropertySettings">
-            <SettingsForm components={{ LinkagesSetter: ReactionsSetter, ResultSetter }} uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76" />
+            <SettingsForm
+              components={{ LinkagesSetter: ReactionsSetter, ResultSetter }}
+              uploadAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            />
           </SettingsPanel>
         </StudioPanel>
       </Designer>
