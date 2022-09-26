@@ -30,7 +30,7 @@ const validNameRequired = (item, errors) => {
     errors.push({
       type: 'required',
       filed: item,
-      message: `"${item.title}"控件未设置字段标识`,
+      message: `"${item.title}"控件未设置字段编号`,
     });
   }
 };

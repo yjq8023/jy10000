@@ -64,6 +64,9 @@ Result.Behavior = createBehavior(
                 type: 'string',
                 'x-decorator': 'FormItem',
                 'x-component': 'Input',
+                'x-component-props': {
+                  disabled: true,
+                },
               },
               'x-component-props.rule': {
                 type: 'object',
