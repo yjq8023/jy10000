@@ -43,7 +43,7 @@ const validSchema = (schema: any, options) => {
     if (item.type !== 'void') {
       validNameRequired(item, errors);
     }
-    // 2、校验是否设置评测结果
+    // 2、校验是否设置评估结果
     if (item['x-component'] === 'Result') {
       isHasResult = true;
     }
@@ -51,7 +51,7 @@ const validSchema = (schema: any, options) => {
   if (isValidResult && !isHasResult) {
     errors.push({
       type: 'result',
-      message: '量表未设置评测结果',
+      message: '量表未设置评估结果',
     });
   }
   return errors;
@@ -115,7 +115,7 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
   // 组件树转换成schema数据
   const formConfig = transformToSchema(designer.getCurrentTree());
   const errors = validSchema(formConfig.schema, {
-    isValidResult: type === 'form', // 量表校验必须设置评测结果
+    isValidResult: type === 'form', // 量表校验必须设置评估结果
   });
   if (errors.length > 0) {
     errors.forEach((errorItem) => {
@@ -123,13 +123,13 @@ export const saveSchema = (props: { designer: Engine, type: string, id: string }
         message.error(errorItem.message);
       }
     });
-    // 最后的最后才校验量表是否设置评测结果
+    // 最后的最后才校验量表是否设置评估结果
     if (errors.length === 1 && errors[0].type === 'result') {
       Modal.confirm({
-        title: '未设置评测结果，确认保存？',
-        content: '如无需评测结果，可直接保存，系统会自动添加量表提交按钮',
+        title: '未设置评估结果，确认保存？',
+        content: '如无需评估结果，可直接保存，系统会自动添加量表提交按钮',
         okText: '保存',
-        cancelText: '返回添加评测结果',
+        cancelText: '返回添加评估结果',
         onOk() {
           formConfig.schema.properties.result = {
             type: 'number',
