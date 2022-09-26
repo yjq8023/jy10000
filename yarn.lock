@@ -2691,70 +2691,70 @@
     "@babel/runtime" "^7.17.8"
     "@sinohealth/butterfly-ui-antd" "1.0.3-alpha.1"
 
-"@sinohealth/designable-core@1.0.1-beta.12":
-  version "1.0.1-beta.12"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-core/-/designable-core-1.0.1-beta.12.tgz#705b8c24219d28144beb70552a3d38e6e4f22ace"
-  integrity sha512-Sty5LFE65ti9vwzoSCcs7YX305pX08JfEbV8QpUNIUeJ+2YjF/TC1HFf5WzJPjY9g0uKTyo48X6hGBvRRAv6qQ==
+"@sinohealth/designable-core@1.0.1-beta.13":
+  version "1.0.1-beta.13"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-core/-/designable-core-1.0.1-beta.13.tgz#72da38d1d2558a4e75cbfe3f82e4170dbb18027d"
+  integrity sha512-4cCjH1WTzn1KdF/LGv4rSRnSAm1fD3gOQIbVSu5uYyYu93GHxLUz5e02VwP6NSyy+YziY3LjYrRWCTytE72B6g==
   dependencies:
     "@juggle/resize-observer" "^3.3.1"
-    "@sinohealth/designable-shared" "1.0.1-beta.12"
+    "@sinohealth/designable-shared" "1.0.1-beta.13"
 
-"@sinohealth/designable-formily-antd@1.0.1-beta.12":
-  version "1.0.1-beta.12"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-antd/-/designable-formily-antd-1.0.1-beta.12.tgz#1292d657cd355c5534aa272d9132662176ee5a8b"
-  integrity sha512-bmg7RwO4/1uL2JETWc+zRS0I6rEy5TXvTUHv5bYNwIjGZsdqKBiAzU0W2NnuaH/KXi/l2WecOb7q9vJND8F44w==
+"@sinohealth/designable-formily-antd@1.0.1-beta.13":
+  version "1.0.1-beta.13"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-antd/-/designable-formily-antd-1.0.1-beta.13.tgz#2e12054b6ca3ba1cac6fa76988f5c229c2fa5365"
+  integrity sha512-llrMbKSx9tBGYjvA1qX3Ew/7lPzxLqI2HY7muApBp38v4U9K0HeecyGr0+kiR7Q9nSQ/waF7PmL1y/xzzT/eug==
   dependencies:
-    "@sinohealth/designable-core" "1.0.1-beta.12"
-    "@sinohealth/designable-formily-setters" "1.0.1-beta.12"
-    "@sinohealth/designable-formily-transformer" "1.0.1-beta.12"
-    "@sinohealth/designable-react" "1.0.1-beta.12"
+    "@sinohealth/designable-core" "1.0.1-beta.13"
+    "@sinohealth/designable-formily-setters" "1.0.1-beta.13"
+    "@sinohealth/designable-formily-transformer" "1.0.1-beta.13"
+    "@sinohealth/designable-react" "1.0.1-beta.13"
 
-"@sinohealth/designable-formily-setters@1.0.1-beta.12":
-  version "1.0.1-beta.12"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-setters/-/designable-formily-setters-1.0.1-beta.12.tgz#c2fa83525426f022c9a666822e242bf1b88885c2"
-  integrity sha512-Rno46Qg+aU5PpmR3YPzEi8C9zAOrGht/WcttIKB8YPjuHPsL7+de1qa8cwFMPo+mkLsq+zQZxfhZfTZgHIb5eg==
+"@sinohealth/designable-formily-setters@1.0.1-beta.13":
+  version "1.0.1-beta.13"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-setters/-/designable-formily-setters-1.0.1-beta.13.tgz#1c4385f9087093786d46fc7b8a008b8b55c01367"
+  integrity sha512-c0mIx12OSziNm9YWKQll705H8Z5mLElnBWHkFpt01wqeBcEZ56FzjlZQSG+19NO254x1yqXsAi6/Q9f3yDX8EQ==
   dependencies:
-    "@sinohealth/designable-core" "1.0.1-beta.12"
-    "@sinohealth/designable-formily-transformer" "1.0.1-beta.12"
-    "@sinohealth/designable-react" "1.0.1-beta.12"
-    "@sinohealth/designable-react-settings-form" "1.0.1-beta.12"
+    "@sinohealth/designable-core" "1.0.1-beta.13"
+    "@sinohealth/designable-formily-transformer" "1.0.1-beta.13"
+    "@sinohealth/designable-react" "1.0.1-beta.13"
+    "@sinohealth/designable-react-settings-form" "1.0.1-beta.13"
 
-"@sinohealth/designable-formily-transformer@1.0.1-beta.12":
-  version "1.0.1-beta.12"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-transformer/-/designable-formily-transformer-1.0.1-beta.12.tgz#323346c3b3bbad6f8c8d75537a7d017f11c2bb8d"
-  integrity sha512-qRbpkyhFO/Rs0VkEIztVEJ7MyHjfJPjaIGm4FGMHW6W7/tKjLUTd3amTIaY8quMww78cG4JNu4nH0K5p13+cyw==
+"@sinohealth/designable-formily-transformer@1.0.1-beta.13":
+  version "1.0.1-beta.13"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-formily-transformer/-/designable-formily-transformer-1.0.1-beta.13.tgz#06828b2943c8d33e10198019c9cb7ec57840c93d"
+  integrity sha512-jHhcMfY/bwrouibKc4Nf2ftv1lIZrx+B/rftvcPl1+VArgI/aGJKGpSQXv1c13XDy8+YkJM6WQyXh26axoVclQ==
   dependencies:
-    "@sinohealth/designable-core" "1.0.1-beta.12"
-    "@sinohealth/designable-shared" "1.0.1-beta.12"
+    "@sinohealth/designable-core" "1.0.1-beta.13"
+    "@sinohealth/designable-shared" "1.0.1-beta.13"
 
-"@sinohealth/designable-react-settings-form@1.0.1-beta.12":
-  version "1.0.1-beta.12"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react-settings-form/-/designable-react-settings-form-1.0.1-beta.12.tgz#060ce230f7a2011359be95b886ee032d1ef312f4"
-  integrity sha512-5wvNmwVdSnr1qnTOCnQ7oLMKqKKIIXf/bpPtVzF5eel4SLn0MJhCPEGjW2gFWLCWOFvjTefJcGmXxaFe6QLlwQ==
+"@sinohealth/designable-react-settings-form@1.0.1-beta.13":
+  version "1.0.1-beta.13"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react-settings-form/-/designable-react-settings-form-1.0.1-beta.13.tgz#821b50143ffe7ddd3b680158588ff4b52d57795f"
+  integrity sha512-u5HfhnPM4cQBetq1uxMyNOQ65pOkVOi7+YJuzva3B+kSrZyiwd9r5HbgcUCLjMYEG8/rRWtLOEsSaO//CpqBNw==
   dependencies:
     "@babel/parser" "^7.14.7"
     "@monaco-editor/react" "^4.2.1"
-    "@sinohealth/designable-core" "1.0.1-beta.12"
-    "@sinohealth/designable-react" "1.0.1-beta.12"
-    "@sinohealth/designable-shared" "1.0.1-beta.12"
+    "@sinohealth/designable-core" "1.0.1-beta.13"
+    "@sinohealth/designable-react" "1.0.1-beta.13"
+    "@sinohealth/designable-shared" "1.0.1-beta.13"
     monaco-editor "^0.25.2"
     prettier "^2.3.2"
     react-color "^2.19.3"
     react-tiny-popover "^6.0.5"
 
-"@sinohealth/designable-react@1.0.1-beta.12":
-  version "1.0.1-beta.12"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react/-/designable-react-1.0.1-beta.12.tgz#ec82b8348fef97b3bcda01883b4efac92365fac0"
-  integrity sha512-4BO1NcPT2DruhusZrMNDJBSmKx4/LFrBGD+nh4NGc8iIMtNIYMinAIxIPGBkz5Yru9J3JQ0gudaOuDyWOZHcOA==
+"@sinohealth/designable-react@1.0.1-beta.13":
+  version "1.0.1-beta.13"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-react/-/designable-react-1.0.1-beta.13.tgz#de9123d64d2a42c5b6ae61199a6ebf3185216f95"
+  integrity sha512-ChaQNK5kLnw4M4wNHbHuZKT3AtkykRnH/1JD05YpvI1PsMA9pjxAS5rwYUJEtjEBoZRDriOqkZWQCXRDd9EcqA==
   dependencies:
-    "@sinohealth/designable-core" "1.0.1-beta.12"
-    "@sinohealth/designable-shared" "1.0.1-beta.12"
+    "@sinohealth/designable-core" "1.0.1-beta.13"
+    "@sinohealth/designable-shared" "1.0.1-beta.13"
     dateformat "^4.5.1"
 
-"@sinohealth/designable-shared@1.0.1-beta.12":
-  version "1.0.1-beta.12"
-  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-shared/-/designable-shared-1.0.1-beta.12.tgz#eff84ceb5d5bfd64271276ad52df2093c7862557"
-  integrity sha512-MVrQBCJZ6GpTuU2oFCe3ivP/ulxtaSzD4GdsARZypt8jWy59q3zPktNkc44IULRyLuDKZQxDmWXVDw6efCDRkg==
+"@sinohealth/designable-shared@1.0.1-beta.13":
+  version "1.0.1-beta.13"
+  resolved "http://zmnyun.cn:30610/repository/npm-releases-repository/@sinohealth/designable-shared/-/designable-shared-1.0.1-beta.13.tgz#a1731ae1295cc79fb470ef86d37a3d6ee42801c3"
+  integrity sha512-zsGOF5fQ8eyi06c/39k6dsVglY4LP4sks5CWaHXunG/clNF+TnN8mP6k2ccuLnZviu0WcYy+10Q4zTKg6M3wgg==
   dependencies:
     requestidlecallback "^0.3.0"
 
