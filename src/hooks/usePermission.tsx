@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { request } from '@/core/request';
-import localRouterConfig, { routerConfigItem } from '@/config/router';
+import localRouterConfig, { routerConfigItem, baseRouterConfig } from '@/config/router';
 import localMenuConfig, { MenuItem } from '@/config/menu';
 import permissionCodes from '@/config/permissionCode';
 import { isDev } from '@/config/base';
@@ -145,9 +145,10 @@ export const usePermission = () => {
         setLoaded(true);
       });
   };
-  const setLocalMenuConfig = () => {
+  const setLocalMenuConfig = (isBaseConfig = false) => {
+    const localConfig = isBaseConfig ? baseRouterConfig : localRouterConfig;
     setMenuConfig(localMenuConfig.map((config: any) => new MenuItem(config)));
-    setRouterConfig(localRouterConfig);
+    setRouterConfig(localConfig);
     setPermission(transFormPermission([], true));
     setLoaded(true);
   };

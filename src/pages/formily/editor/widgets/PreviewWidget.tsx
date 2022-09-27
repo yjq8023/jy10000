@@ -33,7 +33,11 @@ export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
     if (!isPc && iframe.current) {
       const win = iframe.current.contentWindow;
       iframe.current.onload = () => {
-        win.postMessage(JSON.stringify({ formProps, schema }), '*');
+        setTimeout(() => {
+          win.postMessage(JSON.stringify({ formProps, schema }), '*');
+          const myEvent = new Event('resize');
+          win.dispatchEvent(myEvent);
+        }, 500);
       };
     }
   }, [isPc, iframe]);

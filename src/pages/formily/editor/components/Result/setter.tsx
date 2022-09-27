@@ -150,7 +150,7 @@ export const ResultSetter = (props: any) => {
           <div className="text-ellipsis" onClick={() => handleAddResult({ ...item, key: i })}>提示规则：{item.when}</div>
           <DeleteOutlined onClick={() => handleDeleteResult(i)} />
         </div>
-        <div className={style.code}>评测结果：{item.code}</div>
+        <div className={style.code}>评估结果：{item.code}</div>
         <div className={style.desc}>提示内容：{item.desc}</div>
       </div>
     );
