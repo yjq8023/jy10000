@@ -132,7 +132,7 @@ const FormilyEditor = () => {
   // @ts-ignore
   const renderResourceWidget = () => {
     const IoResourceWidget = (
-      <ResourceWidget title="决策流IO" className={style.ioComponents} sources={ioComponents} />
+      <ResourceWidget defaultExpand title="决策流IO" className={style.ioComponents} sources={ioComponents} />
     );
     const InputResourceWidget = (
       <ResourceWidget
@@ -190,8 +190,8 @@ const FormilyEditor = () => {
       />
     );
     const ImportResourceWidget = (
-      <Collapse>
-        <Collapse.Panel header="引用已有跟进记录表">
+      <Collapse activeKey="ImportResource">
+        <Collapse.Panel key="ImportResource" header="引用已有跟进记录表">
           <ImportForm />
         </Collapse.Panel>
       </Collapse>
@@ -200,19 +200,19 @@ const FormilyEditor = () => {
     if (type === 'beforeInfo') {
       return (
         <>
-          {TextResourceWidget}
           {IoResourceWidget}
+          {/* {TextResourceWidget} */}
         </>
       );
     }
     if (type === 'followUp') {
       return (
         <>
+          {ImportResourceWidget}
+          {IoResourceWidget}
           {CommonResourceWidget}
           {OtherResourceWidget}
-          {/* {ImportResourceWidget}
-          {IoResourceWidget}
-          {InputResourceWidget}
+          {/* {InputResourceWidget}
           {LayoutsResourceWidget}
           {ArrayResourceWidget}
           {TextResourceWidget} */}
