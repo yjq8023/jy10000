@@ -69,8 +69,17 @@ function BaseList(props: ListPageProps, ref: any) {
       pageNo: paramsConfig.current || pagination.current,
     };
     fetchApi(params).then((res: fetchApiRes) => {
-      setListData(res.listData);
-      setPagination(res.pagination);
+      // 特殊情况下（如删除最后一页的最后一条数据后重新获取数据），当前页大于总页数，跳到最后一页
+      if (res.listData.length === 0) {
+        const { total, pageSize, current } = res.pagination;
+        const pageCount = Math.ceil(total / pageSize);
+        if (current > pageCount) {
+          onPaginationChange(pageCount, pageSize);
+        }
+      } else {
+        setListData(res.listData);
+        setPagination(res.pagination);
+      }
     });
   };
   const reloadListData = (isNoResetPageNo = false) => {
