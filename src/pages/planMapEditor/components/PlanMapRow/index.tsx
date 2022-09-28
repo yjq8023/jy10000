@@ -15,7 +15,7 @@ const PlanMapRow = (props: any) => {
       pull: 'clone',
       put: disabled ? false : 'container',
     },
-    animation: 150,
+    animation: 0,
     onAdd(e: any) {
       handleAddItem();
     },

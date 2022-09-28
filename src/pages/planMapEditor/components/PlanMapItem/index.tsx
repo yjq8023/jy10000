@@ -38,7 +38,7 @@ export const PlanMapItem = (props: any) => {
       pull: 'clone',
       put: data.triggerNumber === 0 || disabled ? false : 'action',
     },
-    animation: 150,
+    animation: 0,
     onAdd: async (e: any) => {
       // type 有值代表新增，path是复制
       const { type, path } = e.clone.dataset;
