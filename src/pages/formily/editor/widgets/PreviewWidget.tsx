@@ -56,12 +56,12 @@ export const PreviewWidget: React.FC<IPreviewWidgetProps> = (props) => {
       { isPc && (
         <>
           <FormRender form={form} schema={schema} formProps={{ componentProps: formProps }} components={components} />
-          <div style={{ textAlign: 'center', padding: '10px' }}>
-            <Button type="primary" onClick={handleSubmit}>测试提交</Button>
-            &nbsp;
-            &nbsp;
-            <Button onClick={handleReset}>测试重置</Button>
-          </div>
+          {/* <div style={{ textAlign: 'center', padding: '10px' }}> */}
+          {/*  <Button type="primary" onClick={handleSubmit}>测试提交</Button> */}
+          {/*  &nbsp; */}
+          {/*  &nbsp; */}
+          {/*  <Button onClick={handleReset}>测试重置</Button> */}
+          {/* </div> */}
         </>
       )}
       { !isPc && (
