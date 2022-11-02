@@ -12,8 +12,6 @@ import '@sinohealth/butterfly-ui-components/lib/index.css';
 import '@/style/iconfont/iconfont.css';
 import 'moment/locale/zh-cn';
 
-import Editor from '@/pages/formily/editor';
-
 moment.locale('zh-cn');
 
 const loading = (

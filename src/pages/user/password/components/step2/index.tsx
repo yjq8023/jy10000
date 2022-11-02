@@ -4,7 +4,6 @@ import { LockOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import style from '@/pages/user/login/components/AccountLogin/index.less';
 import { isNull, validIsPasswordReg } from '@/utils/validate';
-import { resetPassword } from '@/services/user';
 import { userResetPassword } from '@/services/setting';
 
 const { Item, useForm } = Form;
