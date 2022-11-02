@@ -8,60 +8,6 @@ export const isDev = NODE_ENV === 'development';
 
 const menuConfig: MenuItemProps[] = [
   {
-    label: '小程序管理',
-    key: 'weapp',
-    children: [
-      {
-        label: '轮播图管理',
-        path: '/weapp/disease',
-      },
-      {
-        label: '病种管理',
-        path: '/weapp/column',
-      },
-      {
-        label: '服务项目管理',
-        path: '/weapp/project',
-      },
-    ],
-  },
-  {
-    label: '配置',
-    key: 'setting',
-    children: [
-      // {
-      //   label: '机构管理',
-      //   path: '/setting/organList',
-      // },
-      // {
-      //   label: '用户管理',
-      //   path: '/setting/userList',
-      // },
-      {
-        label: '组织管理',
-        path: '/setting/organ',
-        // children: [
-        //   {
-        //     label: '组织详情',
-        //     path: '/setting/organ/detail',
-        //   },
-        // ],
-      },
-      {
-        label: '部门管理',
-        path: '/setting/department',
-      },
-      {
-        label: '角色管理',
-        path: '/setting/role',
-      },
-      {
-        label: '员工管理',
-        path: '/setting/employees',
-      },
-    ],
-  },
-  {
     label: '字典管理',
     key: 'dict',
     children: [
@@ -69,47 +15,6 @@ const menuConfig: MenuItemProps[] = [
         label: '字典管理列表',
         path: '/dict/list',
         icon: <span className="iconfont icon-project"></span>,
-      },
-    ],
-  },
-  {
-    label: '项目管理',
-    key: 'project',
-    children: [
-      {
-        label: '项目库管理',
-        children: [
-          {
-            label: '项目库',
-            path: '/project/term/library',
-          },
-        ],
-      },
-      {
-        label: '资料库管理',
-        children: [
-          {
-            label: '文章库',
-            path: '/project/database/article',
-          },
-          {
-            label: '量表库',
-            path: '/project/database/scale',
-          },
-        ],
-      },
-      {
-        label: '标签库管理',
-        children: [
-          // {
-          //   label: '标签库',
-          //   path: '/project/tag/library',
-          // },
-          {
-            label: '标签管理',
-            path: '/project/tag/classify',
-          },
-        ],
       },
     ],
   },
