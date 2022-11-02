@@ -1,48 +1,32 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { Avatar, Dropdown, LayoutPage, Modal, Spin } from '@sinohealth/butterfly-ui-components/lib';
-import {
-  UserOutlined,
-  LogoutOutlined,
-  LockOutlined,
-  ExclamationCircleOutlined,
-} from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMenuConfig } from '@/hooks';
 import { hideInMenuPages } from '@/config/router';
 import PageHeader from '@/components/PageHeader';
 
 import style from './index.less';
-import MessagePage from '@/components/messagePage';
 import { userInfoAtom } from '@/store/atom';
 import PasswordModal from '../user/password-modal';
 import UserInfoModal from '../user/userinfo-modal';
 import SwitchChainModal from '@/components/SwitchChainModal';
-import { getUserInfo } from '@/services/user';
 import { previewFile } from '@/utils';
-import { sysUserInfo } from '@/hooks/sysUserInfo';
 
-function Home(props: any) {
+function Home() {
   const [collapsed, setCollapsed] = useState(true);
   const [menuConfig, setMenuConfig] = useState<any>({});
   const navigate = useNavigate();
   const location = useLocation();
   const [headerMenuList, sideMenuList, defaultSelected] = useMenuConfig();
   const [userInfo, setUserInfo] = useRecoilState(userInfoAtom);
-  const [isFlag, setIsFlag] = useState(false);
-  const [Info] = sysUserInfo(isFlag);
   const userInfoStore = useRecoilValue(userInfoAtom);
   const [passwordModalVisible, setPasswordModalVisible] = useState<any>(false);
   const [userInfoModalVisible, setUserInfoModalVisible] = useState<any>(false);
   const [switchChainModalVisible, setSwitchChainModalVisible] = useState<any>(false);
 
   useEffect(() => {
-    // getUserInfo({}).then((data) => {
-    //   console.log(data);
-    //   if (data) {
-    //     setUserInfo(data);
-    //   }
-    // });
     setUserInfo(userInfoStore);
   }, []);
 
@@ -124,15 +108,6 @@ function Home(props: any) {
           <span style={{ verticalAlign: 'top' }}>登录记录</span>
         </Link>
       </li>
-      {/* <li onClick={() => setUserInfoModalVisible(true)}>
-        <span className="iconfont icon-user" /> 修改资料
-      </li>
-      <li onClick={() => setPasswordModalVisible(true)}>
-        <LockOutlined /> 修改密码
-      </li> */}
-      {/* <li onClick={() => setSwitchChainModalVisible(true)}>
-        <span className="iconfont icon-change-chain" /> 切换机构
-      </li> */}
       <li onClick={onLogout}>
         <span className="iconfont icon-out" /> 退出登录
       </li>
@@ -140,14 +115,6 @@ function Home(props: any) {
   );
   const toolbar = (
     <div className={style.headerToolbar}>
-      {/* <MessagePage
-        unreas={0}
-        // unreas={unrea}
-        ifOpMsgCount={() => {
-          // setUnrea(Math.random()); // 刷新红点数
-          // setVisible(!visible);
-        }}
-      /> */}
       <Dropdown overlay={menu} placement="bottomRight">
         <div className={style.userInfo}>
           <Avatar src={previewFile(userInfo?.avatar)} />
@@ -182,23 +149,12 @@ function Home(props: any) {
       {switchChainModalVisible && (
         <SwitchChainModal
           visible={true}
-          // chainId={data?.chainId || '1'}
           chainId="1"
           onOk={onSelectedChain}
           onCancel={() => setSwitchChainModalVisible(false)}
           cancelBtnText="返回"
         />
       )}
-      {/* 消息抽屉 */}
-      {/* <MsgDrawer
-        visible={visible}
-        refreshUnrea={() => {
-          setUnrea(Math.random()); // 刷新红点数
-        }}
-        ifOpMsgCount={() => {
-          setVisible(!visible);
-        }}
-      /> */}
     </div>
   );
 }
