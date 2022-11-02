@@ -1,26 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import {
-  Button,
-  Cascader,
   Form,
   Input,
-  message,
-  Select,
   Spin,
 } from '@sinohealth/butterfly-ui-components/lib';
 import SimpleModal from '@/components/SimpleModal';
-import {
-  listDepartment,
-  userDetail,
-  userEdit,
-  userResetPassword,
-  userSave,
-} from '@/services/setting';
-import { useDict } from '@/hooks/useDict';
-import { handelOptions } from '@/utils';
-import MechanismCascader from '@/components/MechanismCascader';
-import ConfirmModel from '@/components/Confirm';
-import { clientPrefix, scope } from '@/config/base';
+import { scope } from '@/config/base';
 import { insertDict } from '@/services/system';
 
 type DictFormType = {
@@ -29,13 +14,8 @@ type DictFormType = {
   onCancel?: (success?: boolean, parentId?: string | number) => void;
 };
 const DictForm: FC<DictFormType> = (props) => {
-  const dict = useDict();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [departmentOptions, setDpartmentOptions] = useState<any[]>([]);
-  const [isDoctor, setIsDoctor] = useState(false);
-  const [dictId, setUserId] = useState('');
-  const [disableSubmit, setDisableSubmit] = useState(false);
   useEffect(() => {
     if (props.dictData) {
       form.setFieldsValue({ ...props.dictData });
@@ -76,7 +56,7 @@ const DictForm: FC<DictFormType> = (props) => {
       }}
       width={560}
       loading={loading}
-      okButtonProps={{ disabled: disableSubmit }}
+      okButtonProps={{ disabled: false }}
       onCancel={() => {
         onCancel();
       }}
