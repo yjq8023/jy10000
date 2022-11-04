@@ -6,7 +6,7 @@ import NoFind from '../pages/user/noFind';
 import { Navigate } from 'react-router-dom';
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
-const DictList = lazy(() => import('../pages/dict/list'));
+const DictList = lazy(() => import('../pages/listPage'));
 
 const ChangePassword = lazy(() => import('../pages/personal/changePassword'));
 const DataSettings = lazy(() => import('../pages/personal/dataSettings'));
@@ -42,10 +42,10 @@ const routerConfig: routerConfigItem[] = [
     children: [
       {
         path: '/',
-        element: <Navigate to="/weapp/disease" replace />,
+        element: <Navigate to="/demo/list" replace />,
       },
       {
-        path: '/dict/list',
+        path: '/demo/list',
         element: <DictList />,
         code: 'DictListWe',
       },
@@ -71,9 +71,9 @@ const routerConfig: routerConfigItem[] = [
 
 // todo: 与路由表结合生成面包屑地图数据
 export const breadcrumbMap = {
-  dict: {
+  demo: {
     label: '字典管理',
-    path: '/dict',
+    path: '/demo',
     list: {
       label: '字典列表',
       path: '/list',

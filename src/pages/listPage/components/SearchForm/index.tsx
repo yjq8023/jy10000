@@ -1,22 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Form,
   Row,
   Col,
   Button,
   Input,
-  Select,
-  Checkbox,
-  Slider,
 } from '@sinohealth/butterfly-ui-components/lib';
-import { DownSquareOutlined, UpSquareOutlined } from '@ant-design/icons';
-import style from '../../index.less';
-
-const { Option } = Select;
-const weappOptions = [
-  { label: '已绑定', value: '1' },
-  { label: '未绑定', value: '0' },
-];
 
 const SearchForm = (props: any = {}) => {
   return (

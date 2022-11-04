@@ -13,7 +13,7 @@ const menuConfig: MenuItemProps[] = [
     children: [
       {
         label: '字典管理列表',
-        path: '/dict/list',
+        path: '/demo/list',
         icon: <span className="iconfont icon-project"></span>,
       },
     ],
