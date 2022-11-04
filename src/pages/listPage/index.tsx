@@ -11,7 +11,7 @@ import { scope } from '@/config/base';
 import { getColumns } from '@/pages/listPage/config';
 import styles from './index.less';
 
-function DictList() {
+function DemoList() {
   const list = useList();
   const formModal = useFormModal();
   // 获取列表数据
@@ -87,7 +87,7 @@ function DictList() {
   };
 
   return (
-    <div className={styles['content-page']}>
+    <div className={styles.listPageBox}>
       <BaseList
         list={list}
         ListTitle="字典列表"
@@ -105,4 +105,4 @@ function DictList() {
   );
 }
 
-export default DictList;
+export default DemoList;
