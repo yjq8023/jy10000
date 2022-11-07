@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { httpGetSystemDict } from '@/services/system';
 import { dictState } from '@/store/dict';
 import { getSystemDict } from '@/services/common';
 import { handleDicToObj } from '@/utils';

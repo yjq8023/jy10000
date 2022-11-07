@@ -2,32 +2,68 @@ import React from 'react';
 import { Button } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/components/BaseList';
+import BaseFormModal, { useFormModal } from '@/components/BaseFormModal';
 import SearchForm from './components/SearchForm';
 import AddForm from './components/AddForm';
-import ConfirmModel from '@/components/Confirm';
-import { getDictPage, insertDict } from '@/services/system';
-import BaseFormModal, { useFormModal } from '@/components/BaseFormModal';
-import { scope } from '@/config/base';
 import { getColumns } from '@/pages/listPage/config';
 import styles from './index.less';
 
+const demoListData: any = [
+  {
+    code: 'gender',
+    description: null,
+    id: '1',
+    leaf: '0',
+    name: '性别',
+    parentId: null,
+    scopeCode: 'scope-common',
+    sort: 0,
+    status: 'enable',
+    type: 'gender',
+    version: '0',
+  },
+  {
+    code: 'female',
+    description: null,
+    id: '2',
+    leaf: '1',
+    name: '女',
+    parentId: '1',
+    scopeCode: 'scope-common',
+    sort: 1,
+    status: 'enable',
+    type: 'gender',
+    version: '0',
+  },
+  {
+    code: 'male',
+    description: null,
+    id: '3',
+    leaf: '1',
+    name: '男',
+    parentId: '1',
+    scopeCode: 'scope-common',
+    sort: 2,
+    status: 'enable',
+    type: 'gender',
+    version: '0',
+  },
+];
 function DemoList() {
   const list = useList();
   const formModal = useFormModal();
   // 获取列表数据
   const fetchListData = (params: any = {}) => {
-    return getDictPage({
-      ...params,
-      pageNo: params.current,
-    }).then((res) => {
-      return {
-        listData: res.data,
-        pagination: {
-          current: res.pageIndex,
-          pageSize: res.pageSize,
-          total: res.totalCount,
-        },
-      };
+    console.log('查询参数');
+    console.log(params);
+    // 响应Promise更新列表数据和分页
+    return Promise.resolve({
+      listData: demoListData,
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        total: 100,
+      },
     });
   };
   // 渲染列表项操作栏
@@ -40,17 +76,7 @@ function DemoList() {
           编辑
         </a>
         &nbsp; &nbsp;
-        <a
-          onClick={() => {
-            ConfirmModel({
-              fun: 'error',
-              title: '是否确定删除该字典类型？',
-              centered: true,
-              onOk: async () => {
-              },
-            });
-          }}
-        >
+        <a>
           删除
         </a>
       </div>
@@ -76,19 +102,20 @@ function DemoList() {
   };
   // 新增/编辑弹窗提交事件
   const handleSubmit = (values: any) => {
-    const params = {
-      ...values,
-      scopeCode: scope,
-    };
-    return insertDict(params)
-      .then(() => {
-        list.current.fetchListData();
-      });
+    // 响应Promise，成功会关闭弹窗，失败则不会关闭
+    return new Promise(() => {
+      console.log('新增数据');
+      console.log(values);
+    }).then(() => {
+      // 新增成功刷新数据
+      list.current.fetchListData();
+    });
   };
 
   return (
     <div className={styles.listPageBox}>
       <BaseList
+        fixed
         list={list}
         ListTitle="字典列表"
         columns={columns}
