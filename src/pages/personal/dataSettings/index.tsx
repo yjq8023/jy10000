@@ -26,7 +26,7 @@ import { baseURL, scope } from '@/config/base';
 import { getToken } from '@/utils/cookies';
 import { getBase64, previewFile } from '@/utils';
 import SimpleModal from '@/components/SimpleModal';
-import { sysUserInfo } from '@/hooks/sysUserInfo';
+import { sysUserInfo } from '@/core/hooks/sysUserInfo';
 
 const { Item } = Form;
 interface UserInfoModalProps extends ModalProps {}
