@@ -50,12 +50,12 @@ const demoListData: any = [
   },
 ];
 function DemoList() {
+  // 列表实例
   const list = useList();
+  // 新增表单弹窗实例
   const formModal = useFormModal();
   // 获取列表数据
   const fetchListData = (params: any = {}) => {
-    console.log('查询参数');
-    console.log(params);
     // 响应Promise更新列表数据和分页
     return Promise.resolve({
       listData: demoListData,
@@ -111,7 +111,6 @@ function DemoList() {
       list.current.fetchListData();
     });
   };
-
   return (
     <div className={styles.listPageBox}>
       <BaseList
