@@ -1,0 +1,3 @@
+[submodule "src/core"]
+	path = src/core
+	url = http://gitea.zmnyun.cn/tech-frontend-framework/web-core.git
