@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from '@sinohealth/butterfly-ui-components/lib';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import BaseList, { useList } from '@/core/components/BaseList';
-import BaseFormModal, { useFormModal } from '@/core/components/BaseFormModal';
+import BaseList, { useList } from '@/common/components/BaseList';
+import BaseFormModal, { useFormModal } from '@/common/components/BaseFormModal';
 import SearchForm from './components/SearchForm';
 import AddForm from './components/AddForm';
 import { getColumns } from '@/pages/listPage/config';

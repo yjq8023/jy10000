@@ -3,7 +3,7 @@ import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
 import { Avatar, Dropdown, LayoutPage, Modal, Spin } from '@sinohealth/butterfly-ui-components';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useMenuConfig } from '@/core/hooks';
+import { useMenuConfig } from '@/common/hooks';
 import { hideInMenuPages } from '@/config/router';
 import PageHeader from '@/components/PageHeader';
 

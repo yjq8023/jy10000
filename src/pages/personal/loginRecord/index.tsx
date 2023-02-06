@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ListPage, { useList } from '@/core/components/BaseList';
+import ListPage, { useList } from '@/common/components/BaseList';
 import SearchForm from './components/SearchForm';
 import { getLoginPage } from '@/services/user';
 import { getTimeFrame, formatToDate } from '@/utils/index';
