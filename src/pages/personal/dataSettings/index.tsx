@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   ModalProps,
-  Modal,
   Input,
   Form,
   message,
@@ -14,10 +13,7 @@ import {
   Descriptions,
 } from '@sinohealth/butterfly-ui-components/lib';
 import { CloudUploadOutlined } from '@ant-design/icons';
-import useSWR from 'swr';
 import {
-  getUserInfo,
-  updateUserInfo,
   getUpdateUserInfoEmployee,
   UpdUpdateUserInfoEmployee,
 } from '@/services/user';
@@ -25,8 +21,6 @@ import style from './index.less';
 import { baseURL, scope } from '@/config/base';
 import { getToken } from '@/utils/cookies';
 import { getBase64, previewFile } from '@/utils';
-import SimpleModal from '@/components/SimpleModal';
-import { sysUserInfo } from '@/core/hooks/sysUserInfo';
 
 const { Item } = Form;
 interface UserInfoModalProps extends ModalProps {}
@@ -43,11 +37,9 @@ function Ava(props: any) {
 
 function UserInfoModal(props: UserInfoModalProps) {
   const { visible, onOk, ...other } = props;
-  // const { data } = useSWR<any>('getUserInfo', getUserInfo);
   const [form] = Form.useForm();
   const [data, setData] = useState<any>({});
   const [isFlag, setIsFlag] = useState(false);
-  const [msgCount] = sysUserInfo(isFlag);
   useEffect(() => {
     form.setFieldsValue({
       ...data,
