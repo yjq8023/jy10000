@@ -54,7 +54,7 @@ const SearchForm = (props: any = {}) => {
         <Form.Item name="dates">
           <RangePicker
             disabledDate={disabledTaskDate}
-            onCalendarChange={(val) => setDates(val)}
+            onCalendarChange={(val: any) => setDates(val)}
             // value={dateVal}
             onChange={onChangeDate}
             format="YYYY-MM-DD"

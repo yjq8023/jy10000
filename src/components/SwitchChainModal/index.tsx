@@ -14,6 +14,7 @@ import { setToken } from '@/utils/cookies';
 interface SwitchChainModalProps extends ModalProps {
   chainId?: string;
   cancelBtnText?: string;
+  onCancel?: any;
 }
 function SwitchChainModal(props: SwitchChainModalProps) {
   const { chainId, visible, cancelBtnText = '返回登录', onCancel, onOk } = props;

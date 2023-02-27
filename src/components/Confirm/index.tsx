@@ -33,7 +33,7 @@ const ConfirmModel = (props: ConfirmModelProps) => {
     centered: true,
     className: styles.confirm,
     icon: icons[props.fun],
-    cancelButtonProps: { type: 'info' },
+    cancelButtonProps: { type: 'default' },
     okButtonProps: { danger: props.fun === 'error', type: btnType[props.fun] },
     content: (
       <div>
