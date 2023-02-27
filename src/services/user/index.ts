@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { request, requestFd } from '@/core/request';
+import { request, requestFd } from '@/common/request';
 import { clientPrefix, getTokenParams } from '@/config/base';
 import { setToken } from '@/utils/cookies';
 import { UCenter } from '@/services/user/data';

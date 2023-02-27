@@ -1,9 +1,9 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
-import { Avatar, Dropdown, LayoutPage, Modal, Spin } from '@sinohealth/butterfly-ui-components/lib';
+import { Avatar, Dropdown, LayoutPage, Modal, Spin } from '@sinohealth/butterfly-ui-components';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useMenuConfig } from '@/hooks';
+import { useMenuConfig } from '@/common/hooks';
 import { hideInMenuPages } from '@/config/router';
 import PageHeader from '@/components/PageHeader';
 

@@ -1,4 +1,4 @@
-import { request } from '@/core/request';
+import { request } from '@/common/request';
 
 /**
  * 用户重置密码
