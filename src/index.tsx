@@ -7,10 +7,10 @@ import theme from '@/config/theme';
 import zhCN from 'antd/lib/locale/zh_CN';
 import moment from 'moment';
 import App from './App';
-import Empty from '@/components/Empty';
 import '@/style/iconfont/iconfont.css';
 // import 'antd/index.css';
 import 'moment/locale/zh-cn';
+import '@/services/mock';
 
 moment.locale('zh-cn');
 
@@ -20,7 +20,7 @@ const loading = (
   </div>
 );
 ReactDOM.render(
-  <ConfigProvider theme={{ token: theme }} locale={zhCN} renderEmpty={Empty}>
+  <ConfigProvider theme={{ token: theme }} locale={zhCN}>
     <RecoilRoot>
       <Suspense fallback={loading}>
         <BrowserRouter>
