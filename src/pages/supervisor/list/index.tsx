@@ -6,27 +6,12 @@ import SearchForm from './components/SearchForm';
 import { getColumns } from './config';
 import Services from '../services';
 import styles from './index.less';
-import { transformColumns } from '@/common/components/BaseList/util';
+import { transformColumns, transformFetchApi } from '@/common/components/BaseList/util';
+import { Link } from 'react-router-dom';
 
 function SupervisorList() {
   // 列表实例
   const list = useList();
-  // 获取列表数据
-  const fetchListData = (params: any = {}): any => {
-    // 响应Promise更新列表数据和分页
-    return Services.getListData(params).then((res) => {
-      console.log('res');
-      console.log(res);
-      return {
-        listData: res,
-        pagination: {
-          current: 1,
-          pageSize: 10,
-          total: 100,
-        },
-      };
-    });
-  };
   // 渲染列表项操作栏
   const renderActionDom = (itemData: any) => {
     return (
@@ -42,25 +27,25 @@ function SupervisorList() {
   // 列表操作栏
   const Toolbar = () => {
     return (
-      <Button
-        type="primary"
-      >
-        <PlusCircleOutlined />
-        新增导师
-      </Button>
+      <Link to="edit">
+        <Button
+          type="primary"
+        >
+          <PlusCircleOutlined />
+          新增导师
+        </Button>
+      </Link>
     );
   };
   return (
-    <div className={styles.listPageBox}>
-      <BaseList
-        list={list}
-        ListTitle="导师列表"
-        columns={transformColumns(columns)}
-        fetchApi={fetchListData}
-        SearchForm={SearchForm}
-        Toolbar={Toolbar}
-      />
-    </div>
+    <BaseList
+      list={list}
+      ListTitle="导师列表"
+      columns={transformColumns(columns)}
+      fetchApi={transformFetchApi(Services.getListData)}
+      SearchForm={SearchForm}
+      Toolbar={Toolbar}
+    />
   );
 }
 

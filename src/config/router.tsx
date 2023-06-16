@@ -5,6 +5,7 @@ import NoFind from "@/pages/user/noFind";
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const SupervisorList = lazy(() => import('../pages/supervisor/list'));
+const SupervisorEdit = lazy(() => import('../pages/supervisor/edit'));
 
 export type routerConfigItem = {
   path: string;
@@ -33,7 +34,11 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/supervisor',
         element: <SupervisorList />,
-      }
+      },
+      {
+        path: '/supervisor/edit',
+        element: <SupervisorEdit />,
+      },
     ],
   },
   ...baseRouterConfig
@@ -42,8 +47,12 @@ const routerConfig: routerConfigItem[] = [
 // todo: 与路由表结合生成面包屑地图数据
 export const breadcrumbMap = {
   supervisor: {
-    label: '导师',
+    label: '导师列表',
     path: '/supervisor',
+    edit: {
+      label: '编辑导师',
+      path: '/edit',
+    }
   },
 };
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {
