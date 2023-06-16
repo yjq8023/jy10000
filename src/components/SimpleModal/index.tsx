@@ -1,4 +1,4 @@
-import { Form, Modal, ModalProps } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Modal, ModalProps } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
 import cancelIcon from '@/assets/images/common/cancel.svg';

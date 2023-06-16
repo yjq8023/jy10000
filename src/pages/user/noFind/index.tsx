@@ -1,4 +1,4 @@
-import { Image } from '@sinohealth/butterfly-ui-components/lib';
+import { Image } from 'antd';
 import accuPatient from '@/assets/images/user/noFindImg.png';
 import style from './index.less';
 

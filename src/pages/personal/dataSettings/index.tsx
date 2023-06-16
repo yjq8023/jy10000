@@ -11,7 +11,7 @@ import {
   Button,
   Avatar,
   Descriptions,
-} from '@sinohealth/butterfly-ui-components/lib';
+} from 'antd';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import {
   getUpdateUserInfoEmployee,

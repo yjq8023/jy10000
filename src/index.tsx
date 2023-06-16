@@ -2,14 +2,14 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { ConfigProvider, Spin } from '@sinohealth/butterfly-ui-components/lib';
+import { ConfigProvider, Spin } from 'antd';
 import theme from '@/config/theme';
-import zhCN from '@sinohealth/butterfly-ui-antd/lib/locale/zh_CN';
+import zhCN from 'antd/lib/locale/zh_CN';
 import moment from 'moment';
 import App from './App';
 import Empty from '@/components/Empty';
 import '@/style/iconfont/iconfont.css';
-import '@sinohealth/butterfly-ui-components/lib/index.css';
+// import 'antd/index.css';
 import 'moment/locale/zh-cn';
 
 moment.locale('zh-cn');

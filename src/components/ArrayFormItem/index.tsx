@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Form } from 'antd';
 import style from './index.less';
 
 function ArrayFormItem(props: any) {

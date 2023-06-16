@@ -1,4 +1,4 @@
-import { Badge } from '@sinohealth/butterfly-ui-components/lib';
+import { Badge } from 'antd';
 
 export const getColumns = (params: any) => {
   const { renderActionDom } = params;

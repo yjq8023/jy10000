@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Spin } from '@sinohealth/butterfly-ui-components/lib';
+import { Spin } from 'antd';
 import { usePermission } from '@/common/hooks';
 
 type routerConfigProps = {

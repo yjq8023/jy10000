@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@sinohealth/butterfly-ui-components/lib';
+import { Button } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/common/components/BaseList';
 import BaseFormModal, { useFormModal } from '@/common/components/BaseFormModal';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, FormInstance, Select } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Input, FormInstance, Select } from 'antd';
 import { UserOutlined, ApartmentOutlined } from '@ant-design/icons';
 import PhoneCodeInput from '@/components/PhoneCodeInput';
 import { validIsMobile } from '@/utils/validate';

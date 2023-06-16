@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // @ts-ignore
 import lodash from 'lodash';
-import { Breadcrumb } from '@sinohealth/butterfly-ui-components/lib';
+import { Breadcrumb } from 'antd';
 import { breadcrumbMap } from '@/config/router';
 import style from './index.less';
 

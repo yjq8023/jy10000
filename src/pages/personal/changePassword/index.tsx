@@ -8,7 +8,7 @@ import {
   Button,
   Row,
   Col,
-} from '@sinohealth/butterfly-ui-components/lib';
+} from 'antd';
 import useSWR from 'swr';
 import { useNavigate } from 'react-router-dom';
 import style from './index.less';

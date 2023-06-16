@@ -13,6 +13,7 @@ export const getTokenParams = {
   clientSecret: 'healthplus-oms',
   scope: 'zmn-rx-oms-server',
 };
+export const sendCodeTimeKey = 'sendCodeTimeKey'
 export const loginRememberKey = 'zk-hccm-w'; // 记住密码时保存数据的key
 export default {
   baseURL,

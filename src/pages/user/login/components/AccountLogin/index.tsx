@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Checkbox, Button, Select } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Input, Checkbox, Button, Select } from 'antd';
 import {
   UserOutlined,
   LockOutlined,

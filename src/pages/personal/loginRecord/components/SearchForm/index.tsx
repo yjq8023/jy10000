@@ -7,7 +7,7 @@ import {
   DatePicker,
   Radio,
   InputNumber,
-} from '@sinohealth/butterfly-ui-components/lib';
+} from 'antd';
 import moment from 'moment';
 import type { Moment } from 'moment';
 

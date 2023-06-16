@@ -6,7 +6,7 @@ import {
   RadioChangeEvent,
   ModalProps,
   Modal,
-} from '@sinohealth/butterfly-ui-components/lib';
+} from 'antd';
 import style from './index.less';
 import { getUserLinkChain, switchChain } from '@/services/user';
 import { setToken } from '@/utils/cookies';

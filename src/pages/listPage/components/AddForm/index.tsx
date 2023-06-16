@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Form,
   Input,
-} from '@sinohealth/butterfly-ui-components/lib';
+} from 'antd';
 
 const FormModalContent = (props: any) => {
   return (

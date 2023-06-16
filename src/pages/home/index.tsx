@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { Outlet, useNavigate, useLocation, Link } from 'react-router-dom';
-import { Avatar, Dropdown, LayoutPage, Modal, Spin } from '@sinohealth/butterfly-ui-components';
+import { Avatar, Dropdown, Modal, Spin } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMenuConfig } from '@/common/hooks';
@@ -130,16 +130,17 @@ function Home() {
   );
   return (
     <div>
-      <LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>
-        <Suspense fallback={loading}>
-          <div className={`${style.homeBody} ${collapsed ? style.collapsed : ''}`}>
-            <PageHeader />
-            <div className={style.homeBodyContent}>
-              <Outlet />
-            </div>
-          </div>
-        </Suspense>
-      </LayoutPage>
+      <Outlet />
+      {/*<LayoutPage menuConfig={menuConfig} collapsed={collapsed} logo={logo} toolbar={toolbar}>*/}
+      {/*  <Suspense fallback={loading}>*/}
+      {/*    <div className={`${style.homeBody} ${collapsed ? style.collapsed : ''}`}>*/}
+      {/*      <PageHeader />*/}
+      {/*      <div className={style.homeBodyContent}>*/}
+      {/*        <Outlet />*/}
+      {/*      </div>*/}
+      {/*    </div>*/}
+      {/*  </Suspense>*/}
+      {/*</LayoutPage>*/}
       {passwordModalVisible && (
         <PasswordModal visible={true} onCancel={onClosePasswordModal} onOk={onClosePasswordModal} />
       )}

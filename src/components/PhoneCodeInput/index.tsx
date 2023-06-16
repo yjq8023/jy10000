@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Checkbox, Button, InputProps } from '@sinohealth/butterfly-ui-components/lib';
+import { Input, Checkbox, Button, InputProps } from 'antd';
 import { KeyOutlined } from '@ant-design/icons';
 import { getLocalStorage, setLocalStorage } from '@/utils/cookies';
 import { validIsMobile } from '@/utils/validate';

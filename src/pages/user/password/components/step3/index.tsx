@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Result } from '@sinohealth/butterfly-ui-components/lib';
+import { Button, Result } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 function Step3() {

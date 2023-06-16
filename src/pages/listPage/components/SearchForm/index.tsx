@@ -5,7 +5,7 @@ import {
   Col,
   Button,
   Input,
-} from '@sinohealth/butterfly-ui-components/lib';
+} from 'antd';
 
 const SearchForm = (props: any = {}) => {
   return (

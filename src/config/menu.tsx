@@ -1,5 +1,5 @@
 import { getUuid } from '@/utils';
-import { MenuItemProps as AntdMenuItemProps } from '@sinohealth/butterfly-ui-components/lib';
+import { MenuItemProps as AntdMenuItemProps } from 'antd';
 import { getMenuPermission } from '@/services/user';
 import routerConfig from './router';
 import { setLocalStorage } from '@/utils/cookies';

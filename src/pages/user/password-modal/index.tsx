@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModalProps, Modal, Input, Form, message } from '@sinohealth/butterfly-ui-components/lib';
+import { ModalProps, Modal, Input, Form, message } from 'antd';
 import useSWR from 'swr';
 import { useNavigate } from 'react-router-dom';
 import style from './index.less';

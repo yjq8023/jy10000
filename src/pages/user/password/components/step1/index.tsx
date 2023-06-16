@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Button, Select } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Button, Select } from 'antd';
 import {
   ExclamationCircleOutlined,
   CloseCircleOutlined,

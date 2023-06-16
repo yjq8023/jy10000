@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { Modal, ModalFuncProps } from '@sinohealth/butterfly-ui-components/lib';
+import { Modal, ModalFuncProps } from 'antd';
 import { ExclamationCircleFilled, QuestionCircleTwoTone } from '@ant-design/icons';
 import styles from './index.less';
 

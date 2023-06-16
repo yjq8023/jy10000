@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button } from '@sinohealth/butterfly-ui-components/lib';
+import { Form, Input, Button } from 'antd';
 import { LockOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import style from '@/pages/user/login/components/AccountLogin/index.less';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Steps } from '@sinohealth/butterfly-ui-components/lib';
+import { Steps } from 'antd';
 import Step1 from './components/step1';
 import Step2 from './components/step2';
 import Step3 from './components/step3';
