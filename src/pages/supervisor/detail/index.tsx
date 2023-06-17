@@ -3,6 +3,13 @@ import { Tabs } from 'antd';
 import UserInfo from '@/components/UserInfo';
 import styles from './index.less';
 import TabInfo from '@/pages/supervisor/detail/componens/TabInfo';
+import TabFollowUp from '@/pages/supervisor/detail/componens/TabFollowUp';
+import TabSchoolWork from '@/pages/supervisor/detail/componens/TabSchoolWork';
+import TabSignIn from '@/pages/supervisor/detail/componens/TabSignIn';
+import TabCourse from '@/pages/supervisor/detail/componens/TabCourse';
+import TabAccount from '@/pages/supervisor/detail/componens/TabAccount';
+import TabLog from '@/pages/supervisor/detail/componens/TabLog';
+import TabSchoolCheck from '@/pages/supervisor/detail/componens/TabSchoolCheck';
 
 const Detail = () => {
   const tabItems = [
@@ -14,37 +21,37 @@ const Detail = () => {
     {
       key: '2',
       label: '跟进',
-      children: 'Content of Tab Pane 1',
+      children: <TabFollowUp />,
     },
     {
       key: '3',
       label: '课程',
-      children: 'Content of Tab Pane 1',
+      children: <TabCourse />,
     },
     {
       key: '4',
       label: '签到',
-      children: 'Content of Tab Pane 1',
+      children: <TabSignIn />,
     },
     {
       key: '5',
       label: '作业',
-      children: 'Content of Tab Pane 1',
+      children: <TabSchoolWork />,
     },
     {
       key: '6',
       label: '测试',
-      children: 'Content of Tab Pane 1',
+      children: <TabSchoolCheck />,
     },
     {
       key: '7',
       label: 'APP账号',
-      children: 'Content of Tab Pane 1',
+      children: <TabAccount />,
     },
     {
       key: '8',
       label: '操作日志',
-      children: 'Content of Tab Pane 1',
+      children: <TabLog />,
     },
   ];
   return (
