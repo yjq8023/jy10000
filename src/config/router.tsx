@@ -6,6 +6,7 @@ import NoFind from "@/pages/user/noFind";
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const SupervisorList = lazy(() => import('../pages/supervisor/list'));
 const SupervisorEdit = lazy(() => import('../pages/supervisor/edit'));
+const SupervisorDetail = lazy(() => import('../pages/supervisor/detail'));
 
 export type routerConfigItem = {
   path: string;
@@ -39,6 +40,10 @@ const routerConfig: routerConfigItem[] = [
         path: '/supervisor/edit',
         element: <SupervisorEdit />,
       },
+      {
+        path: '/supervisor/detail',
+        element: <SupervisorDetail />
+      }
     ],
   },
   ...baseRouterConfig
@@ -52,6 +57,10 @@ export const breadcrumbMap = {
     edit: {
       label: '编辑导师',
       path: '/edit',
+    },
+    detail: {
+      label: '导师详情',
+      path: '/detail',
     }
   },
 };

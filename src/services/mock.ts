@@ -31,6 +31,7 @@ Mock.mock(`${prefix}/teacher/list`, 'get', {
       university: title,
       class_room: title,
       tech_subject: title,
+      avatar: '@img',
     },
   ],
 });

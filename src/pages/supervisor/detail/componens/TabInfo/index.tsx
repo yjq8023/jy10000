@@ -1,12 +1,12 @@
 import React from 'react';
 import InfoForm from '@/pages/supervisor/edit/infoForm';
 
-const Edit = () => {
+const TabInfo = () => {
   return (
-    <div className="content-page">
+    <div>
       <InfoForm />
     </div>
   );
 };
 
-export default Edit;
+export default TabInfo;
