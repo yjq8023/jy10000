@@ -1,5 +1,5 @@
 const { NODE_ENV } = process.env;
-export const baseURL = NODE_ENV === 'development' ? '/' : '/';
+export const baseURL = NODE_ENV === 'development' ? '/api' : '/';
 export const scope = 'sdc-hccm';
 export const appName = 'sdc-hccm';
 export const clientPrefix = '/backend';

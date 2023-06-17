@@ -25,14 +25,24 @@ function TabFollowUp() {
   // 列表操作栏
   const Toolbar = () => {
     return (
-      <Link to="edit">
-        <Button
-          type="primary"
-        >
-          <PlusCircleOutlined />
-          新增跟进
-        </Button>
-      </Link>
+      <Space>
+        <Link to="edit">
+          <Button
+            type="primary"
+            ghost
+          >
+            课程汇总表
+          </Button>
+        </Link>
+        <Link to="edit">
+          <Button
+            type="primary"
+          >
+            <PlusCircleOutlined />
+            新增课程
+          </Button>
+        </Link>
+      </Space>
     );
   };
   return (

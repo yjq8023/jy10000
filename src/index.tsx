@@ -7,10 +7,14 @@ import theme from '@/config/theme';
 import zhCN from 'antd/lib/locale/zh_CN';
 import moment from 'moment';
 import App from './App';
+// import proxy from '@/services/proxy';
 import '@/style/iconfont/iconfont.css';
 // import 'antd/index.css';
 import 'moment/locale/zh-cn';
 import '@/services/mock';
+import { isDev } from '@/utils';
+
+// isDev && proxy();
 
 moment.locale('zh-cn');
 

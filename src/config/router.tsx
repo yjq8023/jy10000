@@ -2,6 +2,7 @@ import React, { lazy } from 'react';
 import Home from '../pages/home';
 import { Navigate } from 'react-router-dom';
 import NoFind from "@/pages/user/noFind";
+import Login from "@/pages/user/Login";
 
 // 懒加载只能针对挂载在Home组件下的组件，因为Suspense组件放在Home中
 const SupervisorList = lazy(() => import('../pages/supervisor/list'));
@@ -21,6 +22,10 @@ export const baseRouterConfig = [
   {
     path: '*',
     element: <NoFind />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
   }
 ]
 const routerConfig: routerConfigItem[] = [

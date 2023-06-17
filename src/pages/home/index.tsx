@@ -9,17 +9,24 @@ import style from './index.less';
 const { Header, Content, Footer, Sider } = Layout;
 function Home() {
   const [menuItems] = useMenuConfig();
+
+  const { pathname } = window.location;
+  const selectedKey = pathname.split('/')[1];
   const loading = (
     <div style={{ display: 'flex', height: 'calc(100vh - 360px)' }}>
       <Spin size="large" style={{ margin: 'auto' }} />
     </div>
   );
+  const handleSelect = (p: any) => {
+    console.log('p');
+    console.log(p);
+  };
   return (
     <div>
       <Layout className={style.layout}>
         <Sider>
           <div className={style.logo}>教育平台</div>
-          <Menu theme="light" items={menuItems} />
+          <Menu theme="light" items={menuItems} defaultSelectedKeys={[selectedKey]} onSelect={handleSelect} />
         </Sider>
         <Content>
           <Suspense fallback={loading}>
