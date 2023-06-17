@@ -9,6 +9,7 @@ import style from './index.less';
 const { Header, Content, Footer, Sider } = Layout;
 function Home() {
   const [menuItems] = useMenuConfig();
+  const navigate = useNavigate();
 
   const { pathname } = window.location;
   const selectedKey = pathname.split('/')[1];
@@ -18,8 +19,8 @@ function Home() {
     </div>
   );
   const handleSelect = (p: any) => {
-    console.log('p');
-    console.log(p);
+    const path = p.keyPath.join('/');
+    navigate(path);
   };
   return (
     <div>

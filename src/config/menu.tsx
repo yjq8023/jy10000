@@ -7,6 +7,10 @@ const menuConfig = [
     label: '导师',
     key: 'supervisor',
   },
+  {
+    label: '学生',
+    key: 'student',
+  },
 ];
 
 export default menuConfig;

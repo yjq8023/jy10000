@@ -81,7 +81,7 @@ const InfoForm = (props: any) => {
       <FormItem label="上课星期几" name="tech_week_day">
         <DatePicker />
       </FormItem>
-      <FormItem label="上课时间段">
+      <FormItem label="上课时间段" name="class_shedule">
         <Input />
       </FormItem>
       <FormItem label="分校" name="branch">

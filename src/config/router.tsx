@@ -8,6 +8,8 @@ import Login from "@/pages/user/Login";
 const SupervisorList = lazy(() => import('../pages/supervisor/list'));
 const SupervisorEdit = lazy(() => import('../pages/supervisor/edit'));
 const SupervisorDetail = lazy(() => import('../pages/supervisor/detail'));
+const StudentList = lazy(() => import('../pages/student/list'));
+const StudentEdit = lazy(() => import('../pages/student/edit'));
 
 export type routerConfigItem = {
   path: string;
@@ -48,6 +50,14 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/supervisor/detail',
         element: <SupervisorDetail />
+      },
+      {
+        path: '/student',
+        element: <StudentList />
+      },
+      {
+        path: '/student/edit',
+        element: <StudentEdit />
       }
     ],
   },
