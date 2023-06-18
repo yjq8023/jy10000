@@ -2,13 +2,16 @@ import React from 'react';
 import { Form, Input, Button } from 'antd';
 import Services from './services';
 import styles from './index.less';
+import { setToken } from '@/utils/cookies';
 
 const FormItem = Form.Item;
 const Login = () => {
   const handleLogin = (formData: any) => {
     Services.login(formData)
-      .then((res) => {
+      .then((res: any) => {
         console.log(res);
+        const { token } = res;
+        setToken(token);
       });
   };
   const defaultValue = {

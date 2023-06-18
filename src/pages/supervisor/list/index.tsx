@@ -16,9 +16,11 @@ function SupervisorList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <a>
-          操作
-        </a>
+        <Link to={`detail?id=${itemData.user_id}`}>
+          <a>
+            详情
+          </a>
+        </Link>
       </div>
     );
   };

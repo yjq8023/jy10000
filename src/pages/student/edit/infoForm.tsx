@@ -3,6 +3,7 @@ import { Radio, Input, DatePicker, Select } from 'antd';
 import { getUuid } from '@/utils';
 import { Form, FormItem, FormTitle } from '@/common/components/BaseForm';
 import useDictOption from '@/common/hooks/useDictOption';
+import LabelSelect from '@/components/LabelSelect';
 
 const InfoForm = (props: any) => {
   const { readOnly } = props;
@@ -21,16 +22,16 @@ const InfoForm = (props: any) => {
       <FormItem label="出生日期" name="birth_day">
         <DatePicker />
       </FormItem>
-      <FormItem label="联系人关系" name="todo">
+      <FormItem label="联系人关系" name="contact_relation">
         <Select />
       </FormItem>
-      <FormItem label="联系人姓名" name="todo">
+      <FormItem label="联系人姓名" name="contact_name">
         <Input />
       </FormItem>
-      <FormItem label="联系人电话" name="todo">
+      <FormItem label="联系人电话" name="contact_phone">
         <Input />
       </FormItem>
-      <FormItem label="联系人邮箱" name="todo">
+      <FormItem label="联系人邮箱" name="contact_email">
         <Input />
       </FormItem>
       <FormItem label="住址" name="address">
@@ -68,13 +69,13 @@ const InfoForm = (props: any) => {
         <Input />
       </FormItem>
       <FormTitle>紧急联系人</FormTitle>
-      <FormItem label="姓名" name="todo">
+      <FormItem label="姓名" name="emergency_contact">
         <Input />
       </FormItem>
-      <FormItem label="电话" name="todo">
+      <FormItem label="电话" name="emergency_phone">
         <Input />
       </FormItem>
-      <FormItem label="邮箱" name="todo">
+      <FormItem label="邮箱" name="emergency_email">
         <Input />
       </FormItem>
       <FormTitle>获知渠道</FormTitle>
@@ -91,8 +92,8 @@ const InfoForm = (props: any) => {
         <Input />
       </FormItem>
       <FormTitle>标签信息</FormTitle>
-      <FormItem label="选择标签" name="tech_subject">
-        <Input />
+      <FormItem label="选择标签" name="labels">
+        <LabelSelect />
       </FormItem>
     </Form>
   );

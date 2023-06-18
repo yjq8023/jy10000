@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import { Tabs } from 'antd';
+import { useSearchParams } from 'react-router-dom';
 import UserInfo from '@/components/UserInfo';
 import styles from './index.less';
 import TabInfo from '@/pages/supervisor/detail/componens/TabInfo';
@@ -10,8 +11,20 @@ import TabCourse from '@/pages/supervisor/detail/componens/TabCourse';
 import TabAccount from '@/pages/supervisor/detail/componens/TabAccount';
 import TabLog from '@/pages/supervisor/detail/componens/TabLog';
 import TabSchoolCheck from '@/pages/supervisor/detail/componens/TabSchoolCheck';
+import Services from '@/pages/supervisor/services';
 
+const SupervisorContext = createContext<any>({});
 const Detail = () => {
+  const [params] = useSearchParams();
+  const id = params.get('id');
+  useEffect(() => {
+    console.log('id');
+    console.log(id);
+    Services.getDetail({ id }).then((res) => {
+      console.log('res');
+      console.log(res);
+    });
+  }, []);
   const tabItems = [
     {
       key: '1',

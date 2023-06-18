@@ -1,14 +1,26 @@
 import React, { createContext, useContext } from 'react';
-import { Row, Col, Input, DatePicker, Select } from 'antd';
+import { Row, Radio, Input, DatePicker, Select } from 'antd';
 import { getUuid } from '@/utils';
 import { Form, FormItem, FormTitle } from '@/common/components/BaseForm';
 import useDictOption from '@/common/hooks/useDictOption';
 
 const InfoForm = (props: any) => {
-  const { readOnly } = props;
+  const { readOnly, ...other } = props;
   return (
-    <Form readOnly={readOnly}>
+    <Form {...props}>
       <FormTitle>基本信息</FormTitle>
+      <FormItem label="编号" name="serial_num" required>
+        <Input />
+      </FormItem>
+      <FormItem label="中文姓名" name="cn_name">
+        <Input />
+      </FormItem>
+      <FormItem label="性别" name="sex" dictKey="sex">
+        <Radio.Group />
+      </FormItem>
+      <FormItem label="英文姓名" name="en_name">
+        <Input />
+      </FormItem>
       <FormItem label="出生日期" name="birth_day">
         <DatePicker />
       </FormItem>
