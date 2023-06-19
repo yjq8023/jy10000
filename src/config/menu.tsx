@@ -11,6 +11,10 @@ const menuConfig = [
     label: '学生',
     key: 'student',
   },
+  {
+    label: '课程',
+    key: 'school-class',
+  },
 ];
 
 export default menuConfig;

@@ -10,6 +10,8 @@ const SupervisorEdit = lazy(() => import('../pages/supervisor/edit'));
 const SupervisorDetail = lazy(() => import('../pages/supervisor/detail'));
 const StudentList = lazy(() => import('../pages/student/list'));
 const StudentEdit = lazy(() => import('../pages/student/edit'));
+const SchoolClassList = lazy(() => import('../pages/schoolClass/list'));
+const SchoolClassEdit = lazy(() => import('../pages/schoolClass/edit'));
 
 export type routerConfigItem = {
   path: string;
@@ -58,6 +60,14 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/student/edit',
         element: <StudentEdit />
+      },
+      {
+        path: '/school-class',
+        element: <SchoolClassList />
+      },
+      {
+        path: '/school-class/edit',
+        element: <SchoolClassEdit />
       }
     ],
   },
@@ -71,11 +81,35 @@ export const breadcrumbMap = {
     path: '/supervisor',
     edit: {
       label: '编辑导师',
-      path: '/edit',
+      path: '/supervisor/edit',
     },
     detail: {
       label: '导师详情',
-      path: '/detail',
+      path: '/supervisor/detail',
+    }
+  },
+  student: {
+    label: '学生列表',
+    path: '/supervisor',
+    edit: {
+      label: '编辑学生',
+      path: '/supervisor/edit',
+    },
+    detail: {
+      label: '学生详情',
+      path: '/supervisor/detail',
+    }
+  },
+  'school-class': {
+    label: '学生列表',
+    path: '/school-class',
+    edit: {
+      label: '编辑课程',
+      path: '/school-class/edit',
+    },
+    detail: {
+      label: '课程详情',
+      path: '/school-class/detail',
     }
   },
 };
