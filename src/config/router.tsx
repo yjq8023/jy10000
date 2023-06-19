@@ -8,8 +8,11 @@ import Login from "@/pages/user/Login";
 const SupervisorList = lazy(() => import('../pages/supervisor/list'));
 const SupervisorEdit = lazy(() => import('../pages/supervisor/edit'));
 const SupervisorDetail = lazy(() => import('../pages/supervisor/detail'));
+
 const StudentList = lazy(() => import('../pages/student/list'));
 const StudentEdit = lazy(() => import('../pages/student/edit'));
+const StudentDetail = lazy(() => import('../pages/student/detail'));
+
 const SchoolClassList = lazy(() => import('../pages/schoolClass/list'));
 const SchoolClassEdit = lazy(() => import('../pages/schoolClass/edit'));
 
@@ -60,6 +63,10 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/student/edit',
         element: <StudentEdit />
+      },
+      {
+        path: '/student/detail',
+        element: <StudentDetail />
       },
       {
         path: '/school-class',

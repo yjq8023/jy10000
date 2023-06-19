@@ -9,7 +9,12 @@ export const addStudent = (params: any) => {
   const url = `${prefix}/student/add`;
   return request.post(url, params);
 };
+export const getDetail = (params: any) => {
+  const url = `${prefix}/student/detail`;
+  return request.post(url, params);
+};
 export default {
   getListData,
   addStudent,
+  getDetail,
 };
