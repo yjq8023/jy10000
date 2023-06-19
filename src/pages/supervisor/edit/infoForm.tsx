@@ -88,7 +88,7 @@ const InfoForm = (props: any) => {
         <Input />
       </FormItem>
       <FormItem label="上课日期范围" name="class_schedule_range">
-        <DatePicker.RangePicker />
+        <DatePicker.RangePicker placeholder={['开始日期', '结束日期']} />
       </FormItem>
       <FormItem label="上课星期几" name="tech_week_day">
         <DatePicker />

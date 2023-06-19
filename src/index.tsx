@@ -5,6 +5,8 @@ import { RecoilRoot } from 'recoil';
 import { ConfigProvider, Spin } from 'antd';
 import theme from '@/config/theme';
 import zhCN from 'antd/lib/locale/zh_CN';
+
+import 'dayjs/locale/zh-cn';
 import moment from 'moment';
 import App from './App';
 // import proxy from '@/services/proxy';

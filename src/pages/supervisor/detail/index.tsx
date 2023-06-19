@@ -18,8 +18,6 @@ const Detail = () => {
   const [params] = useSearchParams();
   const id = params.get('id');
   useEffect(() => {
-    console.log('id');
-    console.log(id);
     Services.getDetail({ id }).then((res) => {
       console.log('res');
       console.log(res);

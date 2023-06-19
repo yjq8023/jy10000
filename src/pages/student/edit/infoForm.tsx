@@ -6,12 +6,11 @@ import useDictOption from '@/common/hooks/useDictOption';
 import LabelSelect from '@/components/LabelSelect';
 
 const InfoForm = (props: any) => {
-  const { readOnly } = props;
   return (
-    <Form readOnly={readOnly}>
+    <Form {...props}>
       <FormTitle>基本信息</FormTitle>
-      <FormItem label="编号" required name="birth_day">
-        <DatePicker />
+      <FormItem label="编号" required name="serial_num">
+        <Input />
       </FormItem>
       <FormItem label="学生姓名" required name="name">
         <Input />
