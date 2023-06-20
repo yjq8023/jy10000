@@ -51,7 +51,7 @@ const successResult = {
 const teacherDetail = {
   serial_num: '@id',
   cn_name: name,
-  sex: sex(),
+  sex,
   status: teacherStatus,
   phone: '@integer(11)',
   branch: school,
@@ -76,9 +76,14 @@ const studentDetail = {
   sex,
   status: studentStatus,
   phone: '@integer(11)',
-  university: title,
-  class_room: title,
-  tech_subject: title,
+  contact_name: name,
+  contact_phone: '@integer(11)',
+  contact_email: '@integer(11).com',
+  nationality: name,
+  city: name,
+  address: title,
+  school: title,
+  majors: title,
   avatar: img,
 };
 Mock.mock(`${mockPrefix}/student/list`, 'get', {

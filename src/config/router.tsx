@@ -15,6 +15,7 @@ const StudentDetail = lazy(() => import('../pages/student/detail'));
 
 const SchoolClassList = lazy(() => import('../pages/schoolClass/list'));
 const SchoolClassEdit = lazy(() => import('../pages/schoolClass/edit'));
+const ClassSchedulePreview = lazy(() => import('../pages/schoolClass/classSchedulePreview'));
 
 export type routerConfigItem = {
   path: string;
@@ -75,6 +76,10 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/school-class/edit',
         element: <SchoolClassEdit />
+      },
+      {
+        path: '/school-class/schedule',
+        element: <ClassSchedulePreview />
       }
     ],
   },
@@ -97,18 +102,18 @@ export const breadcrumbMap = {
   },
   student: {
     label: '学生列表',
-    path: '/supervisor',
+    path: '/student',
     edit: {
       label: '编辑学生',
-      path: '/supervisor/edit',
+      path: '/student/edit',
     },
     detail: {
       label: '学生详情',
-      path: '/supervisor/detail',
+      path: '/student/detail',
     }
   },
   'school-class': {
-    label: '学生列表',
+    label: '课程列表',
     path: '/school-class',
     edit: {
       label: '编辑课程',
@@ -116,6 +121,10 @@ export const breadcrumbMap = {
     },
     detail: {
       label: '课程详情',
+      path: '/school-class/detail',
+    },
+    schedule: {
+      label: '课程总览表',
       path: '/school-class/detail',
     }
   },

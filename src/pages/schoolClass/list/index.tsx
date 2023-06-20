@@ -16,9 +16,9 @@ function SchoolClassList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <a>
-          操作
-        </a>
+        <Link to="schedule">
+          课程表
+        </Link>
       </div>
     );
   };
