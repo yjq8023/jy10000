@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { Tabs } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import UserInfo from '@/components/UserInfo';
@@ -13,16 +13,22 @@ import TabLog from '@/pages/supervisor/detail/componens/TabLog';
 import TabSchoolCheck from '@/pages/supervisor/detail/componens/TabSchoolCheck';
 import Services from '@/pages/supervisor/services';
 
-const SupervisorContext = createContext<any>({});
+export const TeacherContext = createContext<any>({});
 const Detail = () => {
   const [params] = useSearchParams();
+  const [teacherDetail, setTeacherDetail] = useState({});
   const id = params.get('id');
   useEffect(() => {
     Services.getDetail({ id }).then((res) => {
-      console.log('res');
-      console.log(res);
+      setTeacherDetail(res);
     });
   }, []);
+
+  const contextValue = useMemo(() => {
+    return {
+      teacherDetail,
+    };
+  }, [teacherDetail]);
   const tabItems = [
     {
       key: '1',
@@ -69,7 +75,9 @@ const Detail = () => {
     <div className="content-page">
       <UserInfo />
       <div className={styles.content}>
-        <Tabs items={tabItems} />
+        <TeacherContext.Provider value={contextValue}>
+          <Tabs items={tabItems} />
+        </TeacherContext.Provider>
       </div>
     </div>
   );

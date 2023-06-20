@@ -1,11 +1,8 @@
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 import { Row, Radio, Input, DatePicker, Select } from 'antd';
-import { getUuid } from '@/utils';
 import { Form, FormItem, FormTitle } from '@/common/components/BaseForm';
-import useDictOption from '@/common/hooks/useDictOption';
 
 const InfoForm = (props: any) => {
-  const { readOnly, ...other } = props;
   return (
     <Form {...props}>
       <FormTitle>基本信息</FormTitle>
@@ -84,8 +81,8 @@ const InfoForm = (props: any) => {
       <FormItem label="收费单价" name="price">
         <Input />
       </FormItem>
-      <FormItem label="任教科目" name="tech_subject">
-        <Input />
+      <FormItem label="任教科目" name="tech_subject" dictKey="schoolSubject">
+        <Select />
       </FormItem>
       <FormItem label="上课日期范围" name="class_schedule_range">
         <DatePicker.RangePicker placeholder={['开始日期', '结束日期']} />
@@ -96,14 +93,14 @@ const InfoForm = (props: any) => {
       <FormItem label="上课时间段" name="class_shedule">
         <Input />
       </FormItem>
-      <FormItem label="分校" name="branch">
-        <Input />
+      <FormItem label="分校" name="branch" dictKey="school">
+        <Select />
       </FormItem>
-      <FormItem label="教室" name="class_room">
-        <Input />
+      <FormItem label="教室" name="class_room" dictKey="schoolClass">
+        <Select />
       </FormItem>
-      <FormItem label="状态" name="status">
-        <Input />
+      <FormItem label="状态" name="status" dictKey="teacherStatus">
+        <Select />
       </FormItem>
       <FormItem label="最多可上班时间">
         <Input />

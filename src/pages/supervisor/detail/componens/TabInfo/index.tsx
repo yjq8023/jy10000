@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import { Button, Space } from 'antd';
+import React, { useState, useContext, useEffect } from 'react';
+import { Button, Space, Form } from 'antd';
 import InfoForm from '@/pages/supervisor/edit/infoForm';
 import styles from './index.less';
+import { TeacherContext } from '@/pages/supervisor/detail';
 
 const TabInfo = () => {
   const [isEdit, setIsEdit] = useState(false);
+  const { teacherDetail } = useContext(TeacherContext);
+  const [form] = Form.useForm();
+  useEffect(() => {
+    form && form.setFieldsValue(teacherDetail);
+  }, [form, teacherDetail]);
   const handleEdit = () => {
     setIsEdit((true));
   };
@@ -31,7 +37,7 @@ const TabInfo = () => {
           }
         </Space>
       </div>
-      <InfoForm readOnly={!isEdit} />
+      <InfoForm form={form} readOnly={!isEdit} />
     </div>
   );
 };
