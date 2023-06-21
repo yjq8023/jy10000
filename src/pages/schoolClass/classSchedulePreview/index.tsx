@@ -18,7 +18,9 @@ const ClassSchedulePreview = () => {
       <div style={{ textAlign: 'center', marginBottom: 12 }}>
         <Radio.Group size="large" options={options} onChange={onChange} value={type} optionType="button" buttonStyle="solid" />
       </div>
-      <div>
+      <div
+        style={{ background: '#fff', padding: 16 }}
+      >
         <ClassSchedule />
       </div>
     </div>

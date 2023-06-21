@@ -1,5 +1,8 @@
 import React from 'react';
-import { Table } from 'antd';
+import FullCalendar from '@fullcalendar/react'; // must go before plugins
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 const ClassSchedule = () => {
   const dataSource = [
@@ -57,8 +60,26 @@ const ClassSchedule = () => {
       key: '2-6',
     },
   ];
+  const v: any = ['dayGridMonth', 'dayGridWeek', 'dayGridDay', 'timeGridWeek'];
+  const events: any = [
+    {
+      title: '胡老师',
+      start: '2023-06-20 08:30:00',
+      end: '2023-06-20 09:40:00',
+    },
+    {
+      title: '胡老师课程2',
+      start: '2023-06-20 09:30:00',
+      end: '2023-06-20 12:40:00',
+    },
+  ];
   return (
-    <Table dataSource={dataSource} columns={columns} pagination={false} bordered size="small" />
+    <FullCalendar
+      plugins={[dayGridPlugin, timeGridPlugin]}
+      initialView="timeGridWeek"
+      events={events}
+      locale="zh-cn"
+    />
   );
 };
 
