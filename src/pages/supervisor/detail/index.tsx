@@ -12,14 +12,16 @@ import TabAccount from '@/pages/supervisor/detail/componens/TabAccount';
 import TabLog from '@/pages/supervisor/detail/componens/TabLog';
 import TabSchoolCheck from '@/pages/supervisor/detail/componens/TabSchoolCheck';
 import Services from '@/pages/supervisor/services';
+import { useDict } from '@/common/hooks';
 
 export const TeacherContext = createContext<any>({});
 const Detail = () => {
   const [params] = useSearchParams();
-  const [teacherDetail, setTeacherDetail] = useState({});
+  const [teacherDetail, setTeacherDetail] = useState<any>({});
+  const teacherStatusDict = useDict('teacherStatus');
   const id = params.get('id');
   useEffect(() => {
-    Services.getDetail({ id }).then((res) => {
+    Services.getDetail({ id: Number(id) }).then((res) => {
       setTeacherDetail(res);
     });
   }, []);
@@ -71,9 +73,17 @@ const Detail = () => {
       children: <TabLog />,
     },
   ];
+  const userInfoData: any = {
+    userInfo: {
+      name: teacherDetail?.cn_name,
+      phone: teacherDetail?.phone,
+      who: '本人',
+      status: teacherStatusDict[teacherDetail.status],
+    },
+  };
   return (
     <div className="content-page">
-      <UserInfo />
+      <UserInfo data={userInfoData} />
       <div className={styles.content}>
         <TeacherContext.Provider value={contextValue}>
           <Tabs items={tabItems} />

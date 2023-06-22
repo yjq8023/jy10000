@@ -2,7 +2,22 @@ import React from 'react';
 import { Descriptions } from 'antd';
 import styles from './index.less';
 
-const UserInfo = () => {
+type Data = {
+  userInfo: {
+    name?: string;
+    who?: string;
+    phone?: string;
+    status?: string;
+  }
+  extendField: { label: string, value: string}[]
+}
+type UserInfoProps = {
+  data?: Data
+}
+const UserInfo: React.FC<UserInfoProps> = (props) => {
+  const { data = {} } = props;
+  // @ts-ignore
+  const { userInfo = {}, extendField = [] } = data;
   return (
     <div className={styles.userInfo}>
       <div className={styles.baseInfo}>
@@ -10,9 +25,9 @@ const UserInfo = () => {
           <img src="http://dummyimage.com/720x300" alt="" />
         </div>
         <div className={styles.infoBody}>
-          <div className={styles.name}>李小萌 <div className={styles.status}>在读</div></div>
-          <div className={styles.who}>本人</div>
-          <div className={styles.phone}>13674829122</div>
+          <div className={styles.name}>{userInfo?.name} <div className={styles.status}>{userInfo?.status}</div></div>
+          <div className={styles.who}>{userInfo?.who}</div>
+          <div className={styles.phone}>{userInfo?.phone || '--'}</div>
         </div>
       </div>
       <div className={styles.moreInfo}>

@@ -3,6 +3,7 @@ import { Button, Space, Form } from 'antd';
 import InfoForm from '@/pages/supervisor/edit/infoForm';
 import styles from './index.less';
 import { TeacherContext } from '@/pages/supervisor/detail';
+import Services from '@/pages/supervisor/services';
 
 const TabInfo = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -15,7 +16,15 @@ const TabInfo = () => {
     setIsEdit((true));
   };
   const handleSave = () => {
-    setIsEdit((false));
+    form.validateFields()
+      .then((formData: any) => {
+        Services.updateData({
+          ...teacherDetail,
+          ...formData,
+        }).then(() => {
+          setIsEdit((false));
+        });
+      });
   };
   const handleCancel = () => {
     setIsEdit((false));

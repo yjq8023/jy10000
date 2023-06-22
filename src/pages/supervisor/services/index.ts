@@ -9,6 +9,10 @@ export const addData = (params: any) => {
   const url = `${prefix}/teacher/add`;
   return request.post(url, params);
 };
+export const updateData = (params: any) => {
+  const url = `${prefix}/teacher/update`;
+  return request.post(url, params);
+};
 export const getDetail = (params: any) => {
   const url = `${prefix}/teacher/detail`;
   return request.post(url, params);
@@ -18,4 +22,5 @@ export default {
   getListData,
   addData,
   getDetail,
+  updateData,
 };

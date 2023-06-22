@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Radio, Input, DatePicker, Select } from 'antd';
 import { Form, FormItem, FormTitle } from '@/common/components/BaseForm';
+import CitySelect from '@/components/CitySelect';
 
 const InfoForm = (props: any) => {
   return (
@@ -31,7 +32,7 @@ const InfoForm = (props: any) => {
         <Input />
       </FormItem>
       <FormItem label="城市" name="city_id">
-        <Input />
+        <CitySelect />
       </FormItem>
       <FormItem label="地址" name="address">
         <Input />
