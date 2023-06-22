@@ -16,11 +16,9 @@ function SupervisorList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <Link to="detail">
-          <a>
-            详情
-          </a>
-        </Link>
+        <a>
+          操作
+        </a>
       </div>
     );
   };
@@ -42,7 +40,7 @@ function SupervisorList() {
   return (
     <BaseList
       list={list}
-      ListTitle="学生列表"
+      ListTitle="投诉/建议列表"
       columns={transformColumns(columns)}
       fetchApi={transformFetchApi(Services.getListData)}
       SearchForm={SearchForm}

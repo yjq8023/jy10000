@@ -19,7 +19,7 @@ function Home() {
     </div>
   );
   const handleSelect = (p: any) => {
-    const path = p.keyPath.join('/');
+    const path = p.keyPath.reverse().join('/');
     navigate(path);
   };
   return (

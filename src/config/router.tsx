@@ -17,6 +17,8 @@ const SchoolClassList = lazy(() => import('../pages/schoolClass/list'));
 const SchoolClassEdit = lazy(() => import('../pages/schoolClass/edit'));
 const ClassSchedulePreview = lazy(() => import('../pages/schoolClass/classSchedulePreview'));
 
+const FollowUpList = lazy(() => import('../pages/followUp/list'));
+const ComplainList = lazy(() => import('../pages/complain/list'));
 export type routerConfigItem = {
   path: string;
   code?: string;
@@ -80,6 +82,14 @@ const routerConfig: routerConfigItem[] = [
       {
         path: '/school-class/schedule',
         element: <ClassSchedulePreview />
+      },
+      {
+        path: '/follow-up',
+        element: <FollowUpList />
+      },
+      {
+        path: '/follow-up/complain',
+        element: <ComplainList />
       }
     ],
   },
@@ -128,6 +138,14 @@ export const breadcrumbMap = {
       path: '/school-class/detail',
     }
   },
+  'follow-up': {
+    label: '跟进列表',
+    path: '/follow-up',
+    complain: {
+      label: '投诉与建议',
+      path: '/follow-up/complain',
+    }
+  }
 };
 function mapRouterConfig(config: routerConfigItem[], fn: any, parentPath = '') {
   config.forEach((item) => {

@@ -13,7 +13,7 @@ const Edit = () => {
         console.log(formData);
         Services.addStudent(formData)
           .then(() => {
-            message.success('新增导师成功');
+            message.success('新增学生成功');
             navigate(-1);
           });
       });

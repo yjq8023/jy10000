@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Space } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/common/components/BaseList';
 import SearchForm from './components/SearchForm';
@@ -16,11 +16,9 @@ function SupervisorList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <Link to="detail">
-          <a>
-            详情
-          </a>
-        </Link>
+        <a>
+          操作
+        </a>
       </div>
     );
   };
@@ -29,20 +27,30 @@ function SupervisorList() {
   // 列表操作栏
   const Toolbar = () => {
     return (
-      <Link to="edit">
-        <Button
-          type="primary"
-        >
-          <PlusCircleOutlined />
-          新建学生
-        </Button>
-      </Link>
+      <Space>
+        <Link to="complain">
+          <Button
+            type="primary"
+            ghost
+          >
+            投诉与建议
+          </Button>
+        </Link>
+        <Link to="edit">
+          <Button
+            type="primary"
+          >
+            <PlusCircleOutlined />
+            新建跟进
+          </Button>
+        </Link>
+      </Space>
     );
   };
   return (
     <BaseList
       list={list}
-      ListTitle="学生列表"
+      ListTitle="跟进列表"
       columns={transformColumns(columns)}
       fetchApi={transformFetchApi(Services.getListData)}
       SearchForm={SearchForm}
