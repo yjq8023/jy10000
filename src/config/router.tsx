@@ -84,7 +84,7 @@ const routerConfig: routerConfigItem[] = [
         element: <ClassSchedulePreview />
       },
       {
-        path: '/follow-up',
+        path: '/follow-up/list',
         element: <FollowUpList />
       },
       {
@@ -139,8 +139,12 @@ export const breadcrumbMap = {
     }
   },
   'follow-up': {
-    label: '跟进列表',
-    path: '/follow-up',
+    label: '跟进',
+    path: '/follow-up/list',
+    list: {
+      label: '跟进列表',
+      path: '/follow-up/list',
+    },
     complain: {
       label: '投诉与建议',
       path: '/follow-up/complain',

@@ -18,6 +18,32 @@ const menuConfig = [
   {
     label: '跟进',
     key: 'follow-up',
+    type: 'group',
+    children: [
+      {
+        label: '跟进列表',
+        key: 'follow-up/list'
+      },
+      {
+        label: '投诉与建议',
+        key: 'follow-up/complain'
+      }
+    ]
+  },
+  {
+    label: '设置',
+    key: 'setting',
+    type: 'group',
+    children: [
+      {
+        label: '校区设置',
+        key: 'setting/school'
+      },
+      {
+        label: '权限',
+        key: 'setting/auth'
+      }
+    ]
   },
 ];
 

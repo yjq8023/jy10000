@@ -12,7 +12,7 @@ function Home() {
   const navigate = useNavigate();
 
   const { pathname } = window.location;
-  const selectedKey = pathname.split('/')[1];
+  const selectedKey = pathname.substring(1);
   const loading = (
     <div style={{ display: 'flex', height: 'calc(100vh - 360px)' }}>
       <Spin size="large" style={{ margin: 'auto' }} />
@@ -27,7 +27,7 @@ function Home() {
       <Layout className={style.layout}>
         <Sider>
           <div className={style.logo}>教育平台</div>
-          <Menu theme="light" items={menuItems} defaultSelectedKeys={[selectedKey]} onSelect={handleSelect} />
+          <Menu theme="light" mode="inline" items={menuItems} defaultSelectedKeys={[selectedKey]} onSelect={handleSelect} />
         </Sider>
         <Content>
           <Suspense fallback={loading}>
