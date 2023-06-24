@@ -11,7 +11,10 @@ const Edit = () => {
     form.validateFields()
       .then((formData: any) => {
         console.log(formData);
-        Services.addStudent(formData)
+        Services.addStudent({
+          ...formData,
+          status: Number(formData.status),
+        })
           .then(() => {
             message.success('新增学生成功');
             navigate(-1);

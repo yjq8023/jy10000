@@ -4,6 +4,7 @@ import { getUuid } from '@/utils';
 import { Form, FormItem, FormTitle } from '@/common/components/BaseForm';
 import useDictOption from '@/common/hooks/useDictOption';
 import LabelSelect from '@/components/LabelSelect';
+import UserSelect from '@/components/UserSelect';
 
 const InfoForm = (props: any) => {
   return (
@@ -18,10 +19,10 @@ const InfoForm = (props: any) => {
       <FormItem label="性别" name="sex" dictKey="sex">
         <Radio.Group />
       </FormItem>
-      <FormItem label="出生日期" name="birth_day">
+      <FormItem label="出生日期" name="birthday" isDate={true}>
         <DatePicker />
       </FormItem>
-      <FormItem label="联系人关系" name="contact_relation">
+      <FormItem label="联系人关系" name="contact_relation" dictKey="studentContactRelation">
         <Select />
       </FormItem>
       <FormItem label="联系人姓名" name="contact_name">
@@ -42,14 +43,14 @@ const InfoForm = (props: any) => {
       <FormItem label="城市" name="city">
         <Input />
       </FormItem>
-      <FormItem label="登记日期" name="record_date">
+      <FormItem label="登记日期" name="record_date" isDate={true}>
         <DatePicker />
       </FormItem>
       <FormItem label="Branch分校" name="branch">
         <Input />
       </FormItem>
       <FormItem label="跟进员工" name="staff_id">
-        <Input />
+        <UserSelect />
       </FormItem>
       <FormItem label="状态" name="status" dictKey="studentStatus">
         <Select />

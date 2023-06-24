@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
-import { Button, Space } from 'antd';
+import React, { useState, useContext, useEffect } from 'react';
+import { Button, Space, Form } from 'antd';
 import InfoForm from '@/pages/student/edit/infoForm';
 import styles from './index.less';
+import { StudentContext } from '@/pages/student/detail';
+import Services from '@/pages/student/services';
 
 const TabInfo = () => {
   const [isEdit, setIsEdit] = useState(false);
+
+  const { studentDetail } = useContext(StudentContext);
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form && form.setFieldsValue(studentDetail);
+  }, [form, studentDetail]);
+
   const handleEdit = () => {
     setIsEdit((true));
   };
   const handleSave = () => {
-    setIsEdit((false));
+    form.validateFields()
+      .then((formData: any) => {
+        Services.updateData({
+          ...studentDetail,
+          ...formData,
+        }).then(() => {
+          setIsEdit((false));
+        });
+      });
   };
   const handleCancel = () => {
     setIsEdit((false));
@@ -31,7 +49,7 @@ const TabInfo = () => {
           }
         </Space>
       </div>
-      <InfoForm readOnly={!isEdit} />
+      <InfoForm form={form} readOnly={!isEdit} />
     </div>
   );
 };

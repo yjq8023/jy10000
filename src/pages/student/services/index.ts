@@ -13,8 +13,13 @@ export const getDetail = (params: any) => {
   const url = `${prefix}/student/detail`;
   return request.post(url, params);
 };
+export const updateData = (params: any) => {
+  const url = `${prefix}/student/update`;
+  return request.post(url, params);
+};
 export default {
   getListData,
   addStudent,
   getDetail,
+  updateData,
 };

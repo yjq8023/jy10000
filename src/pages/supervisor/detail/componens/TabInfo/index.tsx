@@ -19,6 +19,7 @@ const TabInfo = () => {
     form.validateFields()
       .then((formData: any) => {
         Services.updateData({
+          id: teacherDetail.user_id,
           ...teacherDetail,
           ...formData,
         }).then(() => {

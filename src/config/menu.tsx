@@ -14,6 +14,17 @@ const menuConfig = [
   {
     label: '课程',
     key: 'school-class',
+    type: 'group',
+    children: [
+      {
+        label: '课程列表',
+        key: 'school-class'
+      },
+      {
+        label: '课程总览表',
+        key: 'school-class/schedule'
+      }
+    ]
   },
   {
     label: '跟进',

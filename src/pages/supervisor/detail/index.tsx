@@ -19,6 +19,7 @@ const Detail = () => {
   const [params] = useSearchParams();
   const [teacherDetail, setTeacherDetail] = useState<any>({});
   const teacherStatusDict = useDict('teacherStatus');
+  const sexDict = useDict('sex');
   const id = params.get('id');
   useEffect(() => {
     Services.getDetail({ id: Number(id) }).then((res) => {
@@ -80,6 +81,40 @@ const Detail = () => {
       who: '本人',
       status: teacherStatusDict[teacherDetail.status],
     },
+    extendFields: [
+      {
+        label: '编号',
+        value: teacherDetail.serial_num,
+      },
+      {
+        label: '性别',
+        value: sexDict[teacherDetail.sex],
+      },
+      {
+        label: '生日',
+        value: teacherDetail.birth_day,
+      },
+      {
+        label: '电子邮箱',
+        value: teacherDetail.email,
+      },
+      {
+        label: '英文姓名',
+        value: teacherDetail.en_name,
+      },
+      {
+        label: '国籍',
+        value: teacherDetail.nationality,
+      },
+      {
+        label: '城市',
+        value: teacherDetail.city_id,
+      },
+      {
+        label: '居住地址',
+        value: teacherDetail.address,
+      },
+    ],
   };
   return (
     <div className="content-page">

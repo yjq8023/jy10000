@@ -1,26 +1,26 @@
-import React, { useEffect, useState, createContext } from 'react';
+import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { Tabs } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import UserInfo from '@/components/UserInfo';
 import styles from './index.less';
-import TabInfo from '@/pages/supervisor/detail/componens/TabInfo';
-import TabFollowUp from '@/pages/supervisor/detail/componens/TabFollowUp';
-import TabSchoolWork from '@/pages/supervisor/detail/componens/TabSchoolWork';
-import TabSignIn from '@/pages/supervisor/detail/componens/TabSignIn';
-import TabCourse from '@/pages/supervisor/detail/componens/TabCourse';
-import TabAccount from '@/pages/supervisor/detail/componens/TabAccount';
-import TabLog from '@/pages/supervisor/detail/componens/TabLog';
-import TabSchoolCheck from '@/pages/supervisor/detail/componens/TabSchoolCheck';
+import TabInfo from './componens/TabInfo';
+import TabFollowUp from './componens/TabFollowUp';
+import TabSchoolWork from './componens/TabSchoolWork';
+import TabSignIn from './componens/TabSignIn';
+import TabCourse from './componens/TabCourse';
+import TabAccount from './componens/TabAccount';
+import TabLog from './componens/TabLog';
+import TabSchoolCheck from './componens/TabSchoolCheck';
 import Services from '../services';
 
-const SupervisorContext = createContext<any>({});
+export const StudentContext = createContext<any>({});
 const Detail = () => {
   const [params] = useSearchParams();
+  const [studentDetail, setStudentDetail] = useState<any>({});
   const id = params.get('id');
   useEffect(() => {
-    Services.getDetail({ id }).then((res) => {
-      console.log('res');
-      console.log(res);
+    Services.getDetail({ id: Number(id) }).then((res) => {
+      setStudentDetail(res);
     });
   }, []);
   const tabItems = [
@@ -65,11 +65,18 @@ const Detail = () => {
       children: <TabLog />,
     },
   ];
+  const contextValue = useMemo(() => {
+    return {
+      studentDetail,
+    };
+  }, [studentDetail]);
   return (
     <div className="content-page">
       <UserInfo />
       <div className={styles.content}>
-        <Tabs items={tabItems} />
+        <StudentContext.Provider value={contextValue}>
+          <Tabs items={tabItems} />
+        </StudentContext.Provider>
       </div>
     </div>
   );

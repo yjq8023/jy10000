@@ -16,7 +16,7 @@ function SupervisorList() {
   const renderActionDom = (itemData: any) => {
     return (
       <div>
-        <Link to="detail">
+        <Link to={`detail?id=${itemData.id}`}>
           <a>
             详情
           </a>
