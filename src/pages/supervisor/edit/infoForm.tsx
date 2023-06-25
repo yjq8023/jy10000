@@ -2,7 +2,18 @@ import React from 'react';
 import { Row, Radio, Input, DatePicker, Select } from 'antd';
 import { Form, FormItem, FormTitle } from '@/common/components/BaseForm';
 import CitySelect from '@/components/CitySelect';
+import dayjs from 'dayjs';
 
+const TimeRange = (props: any) => {
+  const { value, onChange, ...other } = props;
+  const newValue = value ? value.split(',').map((i: any) => dayjs(i)) : value;
+  const handleChange = (v: any) => {
+    onChange(v.map((d: any) => d.format('YYYY-MM-DD')).join(','));
+  };
+  return (
+    <DatePicker.RangePicker {...other} value={newValue} onChange={handleChange} placeholder={['开始日期', '结束日期']} />
+  );
+};
 const InfoForm = (props: any) => {
   return (
     <Form {...props}>
@@ -19,7 +30,7 @@ const InfoForm = (props: any) => {
       <FormItem label="英文姓名" name="en_name">
         <Input />
       </FormItem>
-      <FormItem label="出生日期" name="birth_day">
+      <FormItem label="出生日期" name="birthday" isDate={true}>
         <DatePicker />
       </FormItem>
       <FormItem label="电话" name="phone">
@@ -31,7 +42,7 @@ const InfoForm = (props: any) => {
       <FormItem label="国籍" name="nationality">
         <Input />
       </FormItem>
-      <FormItem label="城市" name="city_id">
+      <FormItem label="城市" name="city">
         <CitySelect />
       </FormItem>
       <FormItem label="地址" name="address">
@@ -73,7 +84,7 @@ const InfoForm = (props: any) => {
         <Input />
       </FormItem>
       <FormTitle>任教信息</FormTitle>
-      <FormItem label="入职时间" name="work_time">
+      <FormItem label="入职时间" name="work_time" isDate={true}>
         <DatePicker />
       </FormItem>
       <FormItem label="水平" name="tech_level">
@@ -86,12 +97,12 @@ const InfoForm = (props: any) => {
         <Select />
       </FormItem>
       <FormItem label="上课日期范围" name="class_schedule_range">
-        <DatePicker.RangePicker placeholder={['开始日期', '结束日期']} />
+        <TimeRange placeholder={['开始日期', '结束日期']} />
       </FormItem>
-      <FormItem label="上课星期几" name="tech_week_day">
-        <DatePicker />
+      <FormItem label="上课星期几" name="tech_week_day" dictKey="week">
+        <Select />
       </FormItem>
-      <FormItem label="上课时间段" name="class_shedule">
+      <FormItem label="上课时间段" name="class_time_range">
         <Input />
       </FormItem>
       <FormItem label="分校" name="branch" dictKey="school">
@@ -103,10 +114,10 @@ const InfoForm = (props: any) => {
       <FormItem label="状态" name="status" dictKey="teacherStatus">
         <Select />
       </FormItem>
-      <FormItem label="最多可上班时间">
+      <FormItem label="最多可上班时间" name="can_work_time">
         <Input />
       </FormItem>
-      <FormItem label="备注">
+      <FormItem label="备注" name="remark">
         <Input />
       </FormItem>
     </Form>

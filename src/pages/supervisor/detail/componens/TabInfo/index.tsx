@@ -7,7 +7,7 @@ import Services from '@/pages/supervisor/services';
 
 const TabInfo = () => {
   const [isEdit, setIsEdit] = useState(false);
-  const { teacherDetail } = useContext(TeacherContext);
+  const { teacherDetail, updateDetailData } = useContext(TeacherContext);
   const [form] = Form.useForm();
   useEffect(() => {
     form && form.setFieldsValue(teacherDetail);
@@ -24,6 +24,7 @@ const TabInfo = () => {
           ...formData,
         }).then(() => {
           setIsEdit((false));
+          updateDetailData();
         });
       });
   };

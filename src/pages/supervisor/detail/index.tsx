@@ -22,14 +22,19 @@ const Detail = () => {
   const sexDict = useDict('sex');
   const id = params.get('id');
   useEffect(() => {
+    updateDetailData();
+  }, []);
+
+  const updateDetailData = () => {
     Services.getDetail({ id: Number(id) }).then((res) => {
       setTeacherDetail(res);
     });
-  }, []);
+  };
 
   const contextValue = useMemo(() => {
     return {
       teacherDetail,
+      updateDetailData,
     };
   }, [teacherDetail]);
   const tabItems = [

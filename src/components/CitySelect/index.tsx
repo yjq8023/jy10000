@@ -4,7 +4,7 @@ import { getCityList } from '@/services';
 
 const fieldNames = {
   label: 'name',
-  value: 'p_id',
+  value: 'name',
 };
 const CitySelect = (props: any) => {
   const [options, setOptions] = useState([]);
