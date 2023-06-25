@@ -17,7 +17,7 @@ const LabelSelect: React.FC = () => {
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
     // eslint-disable-next-line no-plusplus
-    setItems([...items, name || `New item ${index++}`]);
+    setItems([...items, name || `添加 ${index++}`]);
     setName('');
     setTimeout(() => {
       inputRef.current?.focus();
@@ -27,20 +27,21 @@ const LabelSelect: React.FC = () => {
   return (
     <Select
       style={{ width: 300 }}
-      placeholder="custom dropdown render"
+      placeholder="选择标签"
+      mode="multiple"
       dropdownRender={(menu) => (
         <>
           {menu}
           <Divider style={{ margin: '8px 0' }} />
           <Space style={{ padding: '0 8px 4px' }}>
             <Input
-              placeholder="Please enter item"
+              placeholder="标签名称"
               ref={inputRef}
               value={name}
               onChange={onNameChange}
             />
             <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
-              Add item
+              新增
             </Button>
           </Space>
         </>

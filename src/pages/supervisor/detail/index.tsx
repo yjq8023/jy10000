@@ -97,7 +97,7 @@ const Detail = () => {
       },
       {
         label: '生日',
-        value: teacherDetail.birth_day,
+        value: teacherDetail.birthday,
       },
       {
         label: '电子邮箱',
@@ -113,7 +113,7 @@ const Detail = () => {
       },
       {
         label: '城市',
-        value: teacherDetail.city_id,
+        value: teacherDetail.city,
       },
       {
         label: '居住地址',

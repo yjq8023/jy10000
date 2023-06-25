@@ -100,7 +100,9 @@
     "eslintfix": "eslint --fix --ext .js,.tsx,.ts src",
     "lint-staged": "lint-staged",
     "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\" --loglevel warn",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "tar": "tar -zcvf html.tar.gz ./dist",
+    "publish": "scp html.tar.gz root@35.174.205.112:/usr/share/nginx"
   },
   "eslintConfig": {
     "extends": [

@@ -21,13 +21,15 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
   return (
     <div className={styles.userInfo}>
       <div className={styles.baseInfo}>
-        <div className={styles.avatar}>
-          <img src="http://dummyimage.com/720x300" alt="" />
-        </div>
-        <div className={styles.infoBody}>
-          <div className={styles.name}>{userInfo?.name} <div className={styles.status}>{userInfo?.status}</div></div>
-          <div className={styles.who}>{userInfo?.who}</div>
-          <div className={styles.phone}>{userInfo?.phone || '--'}</div>
+        <div className={styles.box}>
+          <div className={styles.avatar}>
+            <img src="http://dummyimage.com/720x300" alt="" />
+          </div>
+          <div className={styles.infoBody}>
+            <div className={styles.name}>{userInfo?.name} <div className={styles.status}>{userInfo?.status}</div></div>
+            <div className={styles.who}>{userInfo?.who}</div>
+            <div className={styles.phone}>{userInfo?.phone || '--'}</div>
+          </div>
         </div>
       </div>
       <div className={styles.moreInfo}>
