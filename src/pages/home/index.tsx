@@ -27,7 +27,7 @@ function Home() {
       <Layout className={style.layout}>
         <Sider>
           <div className={style.logo}>教育平台</div>
-          <Menu theme="light" mode="inline" items={menuItems} defaultSelectedKeys={[selectedKey]} onSelect={handleSelect} />
+          <Menu theme="dark" mode="inline" items={menuItems} defaultSelectedKeys={[selectedKey]} onSelect={handleSelect} />
         </Sider>
         <Content>
           <Suspense fallback={loading}>

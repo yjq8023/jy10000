@@ -3,8 +3,19 @@
 :global(.layout.ant-layout .ant-layout-content .content .body) {
   padding: 0px;
 }
-:global(.ant-layout-sider) {
-  background-color: #fff!important;
+:global {
+  .ant-layout-sider {
+    background-color: rgba(0,0,0,0)!important;
+    background-image: linear-gradient(180deg, #217ba0, 80%, #45b2ce 95%)!important;
+  }
+  .ant-menu {
+    //background-color: #254168!important;
+    background: rgba(0,0,0,0)!important;
+    color: #fff;
+    .ant-menu-item-selected {
+      background-color: rgba(0,0,0,0.2);
+    }
+  }
 }
 .layout {
   min-height: 100vh;
@@ -13,7 +24,9 @@
     height: 77px;
     font-size: 32px;
     line-height: 77px;
-    color: @primary-color;
+    color: #fff;
+    font-weight: 600;
+    font-family: "WenQuanYi Micro Hei";
   }
 }
 .homeBody {

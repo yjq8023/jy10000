@@ -102,7 +102,9 @@
     "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\" --loglevel warn",
     "prepare": "husky install",
     "tar": "tar -zcvf html.tar.gz ./dist",
-    "publish": "scp html.tar.gz root@35.174.205.112:/usr/share/nginx"
+    "pub": "scp -r dist root@35.174.205.112:/usr/share/nginx/html",
+    "pub2": "scp html.tar.gz root@35.174.205.112:/usr/share/nginx",
+    "ssh2": "ssh root@35.174.205.112 && cd /usr/share/nginx"
   },
   "eslintConfig": {
     "extends": [
