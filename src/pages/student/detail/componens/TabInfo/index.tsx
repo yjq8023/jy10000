@@ -6,6 +6,7 @@ import { StudentContext } from '@/pages/student/detail';
 import Services from '@/pages/student/services';
 
 const TabInfo = () => {
+  const [loading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
   const { studentDetail } = useContext(StudentContext);
@@ -21,11 +22,14 @@ const TabInfo = () => {
   const handleSave = () => {
     form.validateFields()
       .then((formData: any) => {
+        setLoading(true);
         Services.updateData({
           ...studentDetail,
           ...formData,
         }).then(() => {
           setIsEdit((false));
+        }).finally(() => {
+          setLoading(false);
         });
       });
   };
@@ -43,13 +47,13 @@ const TabInfo = () => {
             isEdit && (
               <>
                 <Button type="primary" ghost onClick={handleCancel}>取消</Button>
-                <Button type="primary" onClick={handleSave}>保存</Button>
+                <Button type="primary" onClick={handleSave} loading={loading}>保存</Button>
               </>
             )
           }
         </Space>
       </div>
-      <InfoForm form={form} readOnly={!isEdit} />
+      <InfoForm showInfoItem={isEdit} form={form} readOnly={!isEdit} />
     </div>
   );
 };

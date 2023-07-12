@@ -26,9 +26,12 @@ const UserInfo: React.FC<UserInfoProps> = (props) => {
             <img src="http://dummyimage.com/720x300" alt="" />
           </div>
           <div className={styles.infoBody}>
-            <div className={styles.name}>{userInfo?.name} <div className={styles.status}>{userInfo?.status}</div></div>
-            <div className={styles.who}>{userInfo?.who}</div>
+            <div className={styles.name}>{userInfo?.name}</div>
+            （
+            <div className={styles.who}>{userInfo?.who}&nbsp;-&nbsp;</div>
             <div className={styles.phone}>{userInfo?.phone || '--'}</div>
+            ）
+            <div className={styles.status}>{userInfo?.status}</div>
           </div>
         </div>
       </div>

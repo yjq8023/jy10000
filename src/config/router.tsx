@@ -102,7 +102,7 @@ export const breadcrumbMap = {
     label: '导师列表',
     path: '/supervisor',
     edit: {
-      label: '编辑导师',
+      label: '新增导师',
       path: '/supervisor/edit',
     },
     detail: {
@@ -114,7 +114,7 @@ export const breadcrumbMap = {
     label: '学生列表',
     path: '/student',
     edit: {
-      label: '编辑学生',
+      label: '新增学生',
       path: '/student/edit',
     },
     detail: {

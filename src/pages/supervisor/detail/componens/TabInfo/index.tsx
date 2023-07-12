@@ -6,6 +6,7 @@ import { TeacherContext } from '@/pages/supervisor/detail';
 import Services from '@/pages/supervisor/services';
 
 const TabInfo = () => {
+  const [loading, setLoading] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const { teacherDetail, updateDetailData } = useContext(TeacherContext);
   const [form] = Form.useForm();
@@ -18,6 +19,7 @@ const TabInfo = () => {
   const handleSave = () => {
     form.validateFields()
       .then((formData: any) => {
+        setLoading(true);
         Services.updateData({
           id: teacherDetail.user_id,
           ...teacherDetail,
@@ -25,6 +27,8 @@ const TabInfo = () => {
         }).then(() => {
           setIsEdit((false));
           updateDetailData();
+        }).finally(() => {
+          setLoading(false);
         });
       });
   };
@@ -42,13 +46,13 @@ const TabInfo = () => {
             isEdit && (
               <>
                 <Button type="primary" ghost onClick={handleCancel}>取消</Button>
-                <Button type="primary" onClick={handleSave}>保存</Button>
+                <Button type="primary" onClick={handleSave} loading={loading}>保存</Button>
               </>
             )
           }
         </Space>
       </div>
-      <InfoForm form={form} readOnly={!isEdit} />
+      <InfoForm showInfoItem={isEdit} form={form} readOnly={!isEdit} />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { Row, Radio, Input, DatePicker, Select } from 'antd';
 import { Form, FormItem, FormTitle } from '@/common/components/BaseForm';
 import CitySelect from '@/components/CitySelect';
 import dayjs from 'dayjs';
+import ClassTimeRangeSelect from '@/components/ClassTimeRangeSelect';
 
 const TimeRange = (props: any) => {
   const { value, onChange, ...other } = props;
@@ -15,39 +16,46 @@ const TimeRange = (props: any) => {
   );
 };
 const InfoForm = (props: any) => {
+  const { showInfoItem = true } = props;
   return (
     <Form {...props}>
-      <FormTitle>基本信息</FormTitle>
-      <FormItem label="编号" name="serial_num" required>
-        <Input />
-      </FormItem>
-      <FormItem label="中文姓名" name="cn_name">
-        <Input />
-      </FormItem>
-      <FormItem label="性别" name="sex" dictKey="sex">
-        <Radio.Group />
-      </FormItem>
-      <FormItem label="英文姓名" name="en_name">
-        <Input />
-      </FormItem>
-      <FormItem label="出生日期" name="birthday" isDate={true}>
-        <DatePicker />
-      </FormItem>
-      <FormItem label="电话" name="phone">
-        <Input />
-      </FormItem>
-      <FormItem label="邮箱" name="email">
-        <Input />
-      </FormItem>
-      <FormItem label="国籍" name="nationality">
-        <Input />
-      </FormItem>
-      <FormItem label="城市" name="city">
-        <CitySelect />
-      </FormItem>
-      <FormItem label="地址" name="address">
-        <Input />
-      </FormItem>
+      {
+        showInfoItem && (
+          <>
+            <FormTitle>基本信息</FormTitle>
+            <FormItem label="编号" name="serial_num" required>
+              <Input />
+            </FormItem>
+            <FormItem label="中文姓名" name="cn_name">
+              <Input />
+            </FormItem>
+            <FormItem label="性别" name="sex" dictKey="sex">
+              <Radio.Group />
+            </FormItem>
+            <FormItem label="英文姓名" name="en_name">
+              <Input />
+            </FormItem>
+            <FormItem label="出生日期" name="birthday" isDate={true}>
+              <DatePicker />
+            </FormItem>
+            <FormItem label="电话" name="phone">
+              <Input />
+            </FormItem>
+            <FormItem label="邮箱" name="email" rules={[{ type: 'email', message: '请输入正确的邮箱地址' }]}>
+              <Input />
+            </FormItem>
+            <FormItem label="国籍" name="nationality">
+              <Input />
+            </FormItem>
+            <FormItem label="城市" name="city">
+              <CitySelect />
+            </FormItem>
+            <FormItem label="地址" name="address">
+              <Input />
+            </FormItem>
+          </>
+        )
+      }
       <FormTitle>中文和教育程度</FormTitle>
       <FormItem label="中文程度" name="chinese_level" dictKey="chineseLevel">
         <Select />
@@ -102,8 +110,8 @@ const InfoForm = (props: any) => {
       <FormItem label="上课星期几" name="tech_week_day" dictKey="week">
         <Select />
       </FormItem>
-      <FormItem label="上课时间段" name="class_time_range">
-        <Input />
+      <FormItem label="上课时间段" name="class_time_range" dictKey="classTimeRange">
+        <ClassTimeRangeSelect />
       </FormItem>
       <FormItem label="分校" name="branch" dictKey="school">
         <Select />
