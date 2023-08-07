@@ -1,4 +1,10 @@
 export const localDict = {
+  city: {
+    1: '广州',
+    12: '北京',
+    13: '上海',
+    14: '深圳',
+  },
   sex: {
     1: '男',
     2: '女',
@@ -12,6 +18,11 @@ export const localDict = {
   chineseLevel: {
     1: '初级',
     2: '高级',
+  },
+  // 教师水平
+  teacherLevel: {
+    1: '初级教师',
+    2: '高级教师',
   },
   // 教师状态
   teacherStatus: {
@@ -31,6 +42,12 @@ export const localDict = {
     szdx: '深圳大学',
     bjdx: '北京大学',
     shdx: '上海大学',
+  },
+  // 学校
+  schoolLevel: {
+    gzdx: '一年级',
+    szdx: '二年级',
+    bjdx: '三年级',
   },
   // 教室
   schoolClass: {
@@ -58,6 +75,33 @@ export const localDict = {
     '08：00-09：00': '08：00-09：00',
     '10：00-11：00': '10：00-11：00',
     '17：00-18：00': '17：00-18：00',
+  },
+  // 国籍
+  nationality: {
+    chin: '中国',
+    eus: '美国',
+  },
+  // 语言
+  language: {
+    chin2: '汉语',
+    eus2: '法语',
+  },
+  // 学历
+  degree: {
+    dz: '大专',
+    bk: '本科',
+    yjs: '研究生',
+    bs: '博士',
+  },
+  // 专业
+  major: {
+    dz: '计算机科学',
+    bk: '园艺与艺术',
+  },
+  // 从何得知
+  getFrom: {
+    dz: '网络宣传',
+    bk: '销售推荐',
   },
 };
 

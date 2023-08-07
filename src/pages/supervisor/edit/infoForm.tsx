@@ -44,7 +44,7 @@ const InfoForm = (props: any) => {
             <FormItem label="邮箱" name="email" rules={[{ type: 'email', message: '请输入正确的邮箱地址' }]}>
               <Input />
             </FormItem>
-            <FormItem label="国籍" name="nationality">
+            <FormItem label="国籍" name="nationality" dictKey="nationality">
               <Input />
             </FormItem>
             <FormItem label="城市" name="city">
@@ -66,14 +66,14 @@ const InfoForm = (props: any) => {
       <FormItem label="高中" name="high_school">
         <Input />
       </FormItem>
-      <FormItem label="大学" name="university">
-        <Input />
+      <FormItem label="大学" name="university" dictKey="school">
+        <Select />
       </FormItem>
-      <FormItem label="学历" name="school_record">
-        <Input />
+      <FormItem label="学历" name="school_record" dictKey="degree">
+        <Select />
       </FormItem>
-      <FormItem label="专业" name="major">
-        <Input />
+      <FormItem label="专业" name="major" dictKey="major">
+        <Select />
       </FormItem>
       <FormItem label="TAR/IB成绩" name="tar_result">
         <Input />
@@ -95,8 +95,8 @@ const InfoForm = (props: any) => {
       <FormItem label="入职时间" name="work_time" isDate={true}>
         <DatePicker />
       </FormItem>
-      <FormItem label="水平" name="tech_level">
-        <Input />
+      <FormItem label="水平" name="tech_level" dictKey="teacherLevel">
+        <Select />
       </FormItem>
       <FormItem label="收费单价" name="price">
         <Input />

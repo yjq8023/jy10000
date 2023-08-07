@@ -41,17 +41,17 @@ const InfoForm = (props: any) => {
             <FormItem label="住址" name="address">
               <Input />
             </FormItem>
-            <FormItem label="国籍" name="nationality">
-              <Input />
+            <FormItem label="国籍" name="nationality" dictKey="nationality">
+              <Select />
             </FormItem>
-            <FormItem label="城市" name="city">
-              <Input />
+            <FormItem label="城市" name="city" dictKey="city">
+              <Select />
             </FormItem>
             <FormItem label="登记日期" name="record_date" isDate={true}>
               <DatePicker />
             </FormItem>
-            <FormItem label="Branch分校" name="branch">
-              <Input />
+            <FormItem label="Branch分校" name="branch" dictKey="school">
+              <Select />
             </FormItem>
             <FormItem label="跟进员工" name="staff_id">
               <UserSelect />
@@ -66,14 +66,14 @@ const InfoForm = (props: any) => {
       <FormItem label="就读学校" name="school">
         <Input />
       </FormItem>
-      <FormItem label="年级" name="grade">
-        <Input />
+      <FormItem label="年级" name="grade" dictKey="schoolLevel">
+        <Select />
       </FormItem>
       <FormItem label="就读班级" name="class">
         <Input />
       </FormItem>
-      <FormItem label="修读科目" name="majors">
-        <Input />
+      <FormItem label="修读科目" name="majors" dictKey="schoolSubject">
+        <Select mode="multiple" />
       </FormItem>
       <FormTitle>紧急联系人</FormTitle>
       <FormItem label="姓名" name="emergency_contact">
@@ -86,8 +86,8 @@ const InfoForm = (props: any) => {
         <Input />
       </FormItem>
       <FormTitle>获知渠道</FormTitle>
-      <FormItem label="从何得知" name="get_information_from">
-        <Input />
+      <FormItem label="从何得知" name="get_information_from" dictKey="getFrom">
+        <Select />
       </FormItem>
       <FormItem label="推荐人姓名" name="recommend_name">
         <Input />

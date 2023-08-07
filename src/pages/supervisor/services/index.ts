@@ -3,7 +3,7 @@ import { prefix } from '@/services';
 
 export const getListData = (params: any) => {
   const url = `${prefix}/teacher/list`;
-  return request.get(url, params);
+  return request.post(url, params);
 };
 export const addData = (params: any) => {
   const url = `${prefix}/teacher/add`;

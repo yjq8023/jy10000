@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/common/components/BaseList';
 import SearchForm from './components/SearchForm';
-import { getColumns } from './config';
+import { getColumns, searchColumns } from './config';
 import Services from '../services';
 import styles from './index.less';
 import { transformColumns, transformFetchApi } from '@/common/components/BaseList/util';
@@ -45,7 +45,7 @@ function SupervisorList() {
       ListTitle="学生列表"
       columns={transformColumns(columns)}
       fetchApi={transformFetchApi(Services.getListData)}
-      SearchForm={SearchForm}
+      searchColumns={searchColumns}
       Toolbar={Toolbar}
     />
   );

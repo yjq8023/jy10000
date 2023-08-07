@@ -2,8 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import BaseList, { useList } from '@/common/components/BaseList';
-import SearchForm from './components/SearchForm';
-import { getColumns } from './config';
+import { getColumns, searchColumns } from './config';
 import Services from '../services';
 import styles from './index.less';
 import { transformColumns, transformFetchApi } from '@/common/components/BaseList/util';
@@ -44,8 +43,8 @@ function SupervisorList() {
       list={list}
       ListTitle="导师列表"
       columns={transformColumns(columns)}
+      searchColumns={searchColumns}
       fetchApi={transformFetchApi(Services.getListData)}
-      SearchForm={SearchForm}
       Toolbar={Toolbar}
     />
   );

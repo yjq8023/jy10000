@@ -47,7 +47,7 @@ const menuConfig = [
     // ]
   },
   {
-    label: '设置',
+    label: '设置todo',
     key: 'setting',
     icon: <SettingOutlined />
     // type: 'group',

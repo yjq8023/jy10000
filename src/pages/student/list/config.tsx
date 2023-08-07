@@ -26,6 +26,21 @@ export const getColumns = (params: any) => {
   ];
 };
 
+export const searchColumns = [
+  { title: '学生姓名', key: 'cn_name' },
+  { title: '学生编号', key: 'serial_num' },
+  { title: '性别', key: 'sex', dictKey: 'sex' },
+  { title: '国籍', key: 'nationality', dictKey: 'nationality' },
+  { title: '城市', key: 'city', dictKey: 'city' },
+  { title: '分校', key: 'branch', dictKey: 'school' },
+  { title: '状态', key: 'status', dictKey: 'teacherStatus' },
+  { title: '年级', key: 'grade', dictKey: 'schoolLevel' },
+  { title: '修读科目', key: 'majors', dictKey: 'schoolSubject' },
+  { title: '从何得知', key: 'get_information_from', dictKey: 'getFrom' },
+  { title: '标签信息', key: 'labels', dictKey: 'teacherStatus' },
+];
+
 export default {
   getColumns,
+  searchColumns,
 };
