@@ -7,8 +7,10 @@ import Services from '../services';
 import styles from './index.less';
 import { transformColumns, transformFetchApi } from '@/common/components/BaseList/util';
 import { Link } from 'react-router-dom';
+import { useDict } from '@/common/hooks';
 
 function SupervisorList() {
+  const dict = useDict();
   // 列表实例
   const list = useList();
   // 渲染列表项操作栏
@@ -42,7 +44,7 @@ function SupervisorList() {
     <BaseList
       list={list}
       ListTitle="导师列表"
-      columns={transformColumns(columns)}
+      columns={transformColumns(columns, dict)}
       searchColumns={searchColumns}
       fetchApi={transformFetchApi(Services.getListData)}
       Toolbar={Toolbar}

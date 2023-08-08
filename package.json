@@ -17,6 +17,7 @@
     "@fullcalendar/daygrid": "^6.1.8",
     "@fullcalendar/react": "^6.1.8",
     "@fullcalendar/resource": "^6.1.8",
+    "@fullcalendar/resource-timeline": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.8",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
@@ -92,7 +93,7 @@
     "workbox-webpack-plugin": "^6.4.1"
   },
   "scripts": {
-    "start": "PORT=8001 node scripts/start.js",
+    "start": "PORT=8002 node scripts/start.js",
     "win": "set PORT=8001 && node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",

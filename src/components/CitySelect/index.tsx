@@ -11,8 +11,6 @@ const CitySelect = (props: any) => {
   useEffect(() => {
     getCityList()
       .then((res: any) => {
-        console.log('res');
-        console.log(res);
         setOptions(res);
       });
   }, []);

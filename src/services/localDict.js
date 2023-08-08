@@ -1,10 +1,12 @@
 export const localDict = {
+  // 城市
   city: {
     1: '广州',
     12: '北京',
     13: '上海',
     14: '深圳',
   },
+  // 性别
   sex: {
     1: '男',
     2: '女',
@@ -43,7 +45,7 @@ export const localDict = {
     bjdx: '北京大学',
     shdx: '上海大学',
   },
-  // 学校
+  // 年级
   schoolLevel: {
     gzdx: '一年级',
     szdx: '二年级',
