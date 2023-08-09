@@ -14,11 +14,11 @@ export const getCityList = () => {
 };
 // 学历
 export const getSemesterList = () => {
-  const url = `${prefix}/semester/query`;
+  const url = `${prefix}/specialty/query`;
   return request.get(url).then((res: any) => {
     const obj: any = {};
     res.forEach((item: any) => {
-      obj[item.semester_id] = item.semester_name;
+      obj[item.id] = item.specialty_name;
     });
     return obj;
   });
@@ -26,6 +26,28 @@ export const getSemesterList = () => {
 // 科目
 export const getSubjectList = () => {
   const url = `${prefix}/subject/query`;
+  return request.get(url).then((res: any) => {
+    const obj: any = {};
+    res.forEach((item: any) => {
+      obj[item.subject_id] = item.subject_name;
+    });
+    return obj;
+  });
+};
+// 学校
+export const getSchoolList = () => {
+  const url = `${prefix}/university/query`;
+  return request.get(url).then((res: any) => {
+    const obj: any = {};
+    res.forEach((item: any) => {
+      obj[item.subject_id] = item.subject_name;
+    });
+    return obj;
+  });
+};
+// 国籍
+export const getNationalityList = () => {
+  const url = `${prefix}/nationality/query`;
   return request.get(url).then((res: any) => {
     const obj: any = {};
     res.forEach((item: any) => {
