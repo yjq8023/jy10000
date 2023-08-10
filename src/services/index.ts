@@ -29,7 +29,7 @@ export const getSubjectList = () => {
   return request.get(url).then((res: any) => {
     const obj: any = {};
     res.forEach((item: any) => {
-      obj[item.subject_id] = item.subject_name;
+      obj[item.id] = item.subject_name;
     });
     return obj;
   });
@@ -40,7 +40,7 @@ export const getSchoolList = () => {
   return request.get(url).then((res: any) => {
     const obj: any = {};
     res.forEach((item: any) => {
-      obj[item.subject_id] = item.subject_name;
+      obj[item.id] = item.university_name;
     });
     return obj;
   });
@@ -51,7 +51,7 @@ export const getNationalityList = () => {
   return request.get(url).then((res: any) => {
     const obj: any = {};
     res.forEach((item: any) => {
-      obj[item.subject_id] = item.subject_name;
+      obj[item.id] = item.nationality_name;
     });
     return obj;
   });

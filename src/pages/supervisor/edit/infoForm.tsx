@@ -45,7 +45,7 @@ const InfoForm = (props: any) => {
               <Input />
             </FormItem>
             <FormItem label="国籍" name="nationality" dictKey="nationality">
-              <Input />
+              <Select />
             </FormItem>
             <FormItem label="城市" name="city" dictKey="city">
               <Select />
